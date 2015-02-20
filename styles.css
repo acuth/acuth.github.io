@@ -1,11 +1,13 @@
 body {
-  background: #e2e2e2;
+  background: #c2d2e2;
+  font-family: sans-serif;
 }
 
 div#content {
-  border: solid 1px black;
+  padding: 20px;
+  border: solid 1px gray;
   background: white;
-  color: gray;
+  color: #444;
   width: 640px;
   height: 640px;
   margin-top: 100px;

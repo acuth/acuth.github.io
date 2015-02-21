@@ -464,8 +464,8 @@ function displayAppmarks(timestamp,gotoTop) {
 		}
 		_hasMore = has_more;
 		displayAppmarksPage(offset,timestamp);
+		notifyPageLoaded();
 		if (gotoTop) getContent().scrollTop(0);
-		//pageChange();
 	});
 }
 
@@ -519,11 +519,13 @@ function signout() {
   });
 }
 
-function addHTML() {
-  displayAppmarks();
-  var div = $(document.createElement('div'));
-  div.html('<a href="javascript:signout();">Sign Out</a>');
-  div.appendTo(getContent());
+var _pageLoaded = false;
+
+function notifyPageLoaded() {
+  if (!_pageLoaded) {
+    _app.pageLoaded();
+    _pageLoaded = true;
+  }
 }
 
 function init() {
@@ -531,10 +533,11 @@ function init() {
 	_content = $('#page');
 	_mam = new mamClient('http://www.myappmarks.com/',_app,true);
 	_mam.initFromAppState();
-	_mam.token = 'fAtlxbz6y6xhScczBM2TCHN066';
-	_mam.signedin = true;
-	addHTML();
-  _app.pageLoaded();
+	if (!_mam.signedin) {
+	  _mam.token = 'fAtlxbz6y6xhScczBM2TCHN066';
+	  _mam.signedin = true;
+	}
+	displayAppmarks();
 }
 
 $(document).ready(function() {

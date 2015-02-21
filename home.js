@@ -72,6 +72,7 @@ function doSignIn(event) {
 	var username = _usernameInput.val();
 	var password = _passwordInput.val();
 	_mam.signin(username,password,_token,function(obj) {
+	  console.log('doSignIn() cb');
 		if (!_mam.signedin)
 			displayFormMessage(_mam.msg);
 		else
@@ -156,7 +157,12 @@ function displayRegister() {
 	$('#goto-signin').click(function(event) { displaySignIn(); });
 }
 
+function doAlert(msg) {
+  alert(msg);
+}
+
 function displayContent() {
+  console.log('displayContent()');
 	loading();
 	_app.newPage('content');
 }
@@ -166,7 +172,34 @@ function displayNotSignedIn() {
 	displaySignIn();
 }
 
+
+function MockApp() {
+  console.log('new MockApp()');
+}
+
+MockApp.prototype.set = function(name,value) {
+  console.log('mockapp.set('+name+','+value+')');
+}
+
+MockApp.prototype.get = function(name) {
+  console.log('mockapp.get('+name+')');
+  return null;
+}
+
+MockApp.prototype.pageLoaded = function() {
+  console.log('mockapp.pageLoaded()');
+}
+
+MockApp.prototype.newPage = function(name) {
+  console.log('mockapp.newPage('+name+')');
+}
+
+function initApp() {
+  if (_app) console.log('_app already initialised'); else _app = new MockApp();
+}
+
 function init() {
+  initApp();
 	_content = $('#page');
 	loadFromStorage('token', function(token) {
 		log('token from local storage = '+token);

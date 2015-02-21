@@ -198,7 +198,6 @@ mamClient.prototype.doAjax=function(op, params, callback) {
 			} else {
 				callback(obj);
 			}
-
 		} catch (ex) {
 			log('/ajax?op=' + op + ' - ex=' + ex);
 			doAlert('Unexpected error - '+ex);
@@ -266,6 +265,7 @@ mamClient.prototype.register=function(name,password,password2,token,callback) {
 };
 
 mamClient.prototype.returnMessage=function(msg,callback) {
+  console.log('returnMessage('+msg+')');
 	this.msg = msg;
 	log(msg);
 	if (callback) callback(this);
@@ -278,8 +278,6 @@ mamClient.prototype.signin=function(name,password,token,callback) {
 		this.returnMessage('One or more fields are missing',callback);
 		return;
 	}
-	var cookieToken = token == null;
-	if (cookieToken) token = mamClient.generateToken();
 	var client = this;
 	this.doAjax('signin','&name='+encodeURIComponent(name)+'&pwd='+encodeURIComponent(password)+'&tkn='+encodeURIComponent(token),
 		function(obj) {
@@ -298,20 +296,11 @@ mamClient.prototype.signin=function(name,password,token,callback) {
 			client.signedin = true;
 			client.token = token;
 			client.name = name;
-			if (cookieToken) {
-				client.setToken('mam_token',token);
-				client.setToken('mam_name',name);
-			}
 			if (callback) callback(client);
 		} );
 };
 
 mamClient.prototype.signout=function(token,callback) {
-	//var cookieToken = token == null;
-	//if (cookieToken) {
-	//	token = this.getToken('mam_token');
-	//	if (!token) return false;
-	//}
 	var client = this;
 	this.doAjax('signout','&tkn='+encodeURIComponent(token),
 		function(obj) {
@@ -319,11 +308,7 @@ mamClient.prototype.signout=function(token,callback) {
 			client.signedin = false;
 			client.token = null;
 			client.name = null;
-			//if (cookieToken) {
-			//	client.removeToken('mam_token');
-			//	client.removeToken('mam_name');
-			//	client.removeToken('mam_timestamp');
-			//}
+			client.app.set('token',null);
 			if (callback) callback(client);
 		} );
 };

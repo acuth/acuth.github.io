@@ -254,8 +254,8 @@ mamClient.prototype.register=function(name,password,password2,token,callback) {
 			client.signedin = true;
 			client.token = token;
 			client.name = name;
+			client.app.store('mam_token',token);
 			client.app.set('mam_signed_in','true');
-			client.app.set('mam_token',token);
 			client.app.set('mam_name',name);
 			if (callback) callback(client);
 		} );
@@ -293,16 +293,16 @@ mamClient.prototype.signin=function(name,password,token,callback) {
 			client.signedin = true;
 			client.token = token;
 			client.name = name;
+			client.app.store('mam_token',token);
       client.app.set('mam_signed_in','true');
-			client.app.set('mam_token',token);
 			client.app.set('mam_name',name);
 			if (callback) callback(client);
 		} );
 };
 
 mamClient.prototype.initFromAppState=function() {
+  this.token = this.app.load('mam_token');
   this.signedin =  this.app.get('mam_signed_in') == 'true';
-  this.token = this.app.get('mam_token');
   this.name = this.app.get('mam_name');
 };
 
@@ -315,15 +315,15 @@ mamClient.prototype.signout=function(callback) {
 			client.signedin = false;
 			client.token = null;
 			client.name = null;
+			client.app.store('mam_token',null);
 			client.app.set('mam_signed_in','false');
-			client.app.set('mam_token',null);
 			client.app.set('mam_name',null);
 			if (callback) callback(client);
 		} );
 };
 
 mamClient.prototype.optimistic_signin=function() {
-	var token = this.app.get('mam_token');
+	var token = this.app.load('mam_token');
 	if (token) {
 	  this.signedin = true;
 		this.token = token;
@@ -334,7 +334,7 @@ mamClient.prototype.optimistic_signin=function() {
 mamClient.prototype.testsignedin=function(token,callback) {
 	//alert('test signed in');
 	if (!token) {
-		token = this.app.get('mam_token');
+		token = this.app.load('mam_token');
 		if (!token) {
 			this.signedin = false;
 			if (callback) callback(this);
@@ -369,15 +369,15 @@ mamClient.prototype.doSignOut=function() {
 	this.signedin = false;
 	this.token = null;
 	this.name = null;
+	this.app.store('mam_token',null);
 	this.app.set('mam_signed_in','false');
-	this.app.set('mam_token',null);
 	this.app.set('mam_name',null);
 	this.app.set('mam_timestamp',null);
 };
 
 mamClient.prototype.signInFail=function(key,callback) {
 	if (this.signedin) return false;
-	var token = this.app.get('mam_token');
+	var token = this.app.load('mam_token');
 	if (token) return false;
 	// the user is not signed in
 	if (this.notSignedInCallback)

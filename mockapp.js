@@ -19,6 +19,17 @@ MockApp.prototype.get = function(name) {
   return value;
 }
 
+MockApp.prototype.store = function(name,value) {
+  console.log(this.varName+'.store('+name+','+value+')');
+  if (this.framework) this.framework.store(name,value);
+}
+
+MockApp.prototype.load = function(name) {
+  var value = this.framework ? this.framework.load(name) : null;
+  console.log(this.varName+'.load('+name+')='+value);
+  return value;
+}
+
 MockApp.prototype.pageLoaded = function() {
   console.log(this.varName+'.pageLoaded()');
   if (!this.loaded) {

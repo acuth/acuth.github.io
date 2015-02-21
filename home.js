@@ -166,7 +166,7 @@ function displayNotSignedIn() {
 }
 
 function init() {
-  app = new MockApp(_app);
+  app = new MockApp('app',_app);
 	_content = $('#page');
 	var token = app.get('_token');
 		log('token from session storage = '+token);

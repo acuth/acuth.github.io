@@ -1,7 +1,8 @@
-function MockApp(framework) {
-  console.log('new MockApp('+framework+')');
+function MockApp(varName,framework) {
+  console.log('new MockApp('+varName+','+framework+')');
   this.framework = framework;
-  this.onRefresh = null;
+  this.framework.setVarName(varName);
+  this.refreshCB = null;
 }
 
 MockApp.prototype.set = function(name,value) {
@@ -28,4 +29,14 @@ MockApp.prototype.newPage = function(name) {
 MockApp.prototype.finishPage = function() {
   console.log('mockapp.finishPage()');
   if (this.framework) this.framework.finishPage();
+}
+
+MockApp.prototype.onRefresh = function() {
+  console.log('mockapp.onRefresh()');
+  if (refreshCB) refreshCB();
+}
+
+MockApp.prototype.finishRefresh = function() {
+  console.log('mockapp.finishRefresh()');
+  if (this.framework) this.framework.finishRefresh();
 }

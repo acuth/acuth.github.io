@@ -493,8 +493,15 @@ function signout() {
 
 var _pageLoaded = false;
 
+function myrefreshcb() {
+  console.log('myrefreshcb()');
+  app.finishRefresh();
+}
+
 function init() {
-  app = new MockApp(_app);
+  app = new MockApp('app',_app);
+  app.refreshCB = myrefreshcb;
+
 	_content = $('#page');
 	_mam = new mamClient('http://www.myappmarks.com/',app,true);
 	_mam.initFromAppState();

@@ -1,7 +1,7 @@
 function MockApp(varName,framework) {
   console.log('new MockApp('+varName+','+framework+')');
   this.framework = framework;
-  this.framework.setVarName(varName);
+  if (this.framework) this.framework.setVarName(varName);
   this.refreshCB = null;
 }
 

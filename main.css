@@ -1,0 +1,436 @@
+div#header {
+	height: 42px;
+	top: 0px;
+	right: 0px;
+	left: 0px;
+	background: #CFDED9;
+	border-bottom: solid 1px #2E5649;
+	color: black;
+	z-index: 999;
+}
+
+div#header div {
+	height: 42px;
+	line-height: 42px;
+}
+
+div#header-left {
+	float:left;
+	padding-left:10px;
+}
+
+div#header-right {
+	float:right;
+	padding-right: 0px;
+	margin-right: 0px;
+}
+
+div#header-right div {
+	float: right;
+	height: 42px;
+}
+
+div#header-right div span.hdr-name {
+	font-size: 18px;
+	color2: #2E5649;
+	color: #295b4c;
+}
+
+div#header-right div img.loading-img {
+	height: 25px;
+	width: 25px;
+	margin: 7px;
+}
+
+div#header-right span.label-img {
+	/*background: rgba(255,0,0,0.1);*/
+	padding-right: 10px;
+}
+
+div.appmark-type:hover {
+	background: #e5e5e5;
+}
+
+img.hdr-img {
+	vertical-align: middle;
+	width: 32px;
+	height: 32px;
+}
+
+img.hdr-box {
+	background: rgba(255,255,255,0.6);
+	border: solid 1px gray;
+}
+
+img.hdr-logo {
+	vertical-align: middle;
+	width: 42px;
+	height: 42px;
+}
+
+img.loading-gif {
+	width: 24px;
+	height: 24px;
+	padding: 4px;
+}
+
+div#loading-text {
+	position: absolute;
+	top: 42px;
+	right: 0px;
+	background: rgba(255,196,0,0.5);
+	color: #444;
+	text-align: right;
+	padding-left: 10px;
+	padding-right: 10px;
+	display: none;
+	z-index: 3000;
+}
+
+div#page {
+	position: absolute;
+	left: 0px;
+	top: 43px; /* start below header */
+	right: 1px; /* right + bottom margins for scroll bar */
+	overflow-x: hidden;
+}
+
+
+div#title {
+	height: 42px;
+	font-family: verdana;
+	color: #295b4c;
+	line-height: 42px;
+	font-size: 20px;
+	font-weight: normal;
+	text-align: right;
+}
+
+div#container {
+	background: #e2e2e2;
+}
+
+div.card, div.full-width-btn {
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 14px;
+	margin-top: 14px;
+	width: 90%;
+	max-width: 512px;
+	border-left: solid 1px #c5c5c5;
+	border-right: solid 1px #c5c5c5;
+	background: #c5c5c5;
+	text-align: center;
+}
+
+div.full-width-btn {
+	cursor: pointer;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+div.card {
+	background: white;
+}
+
+div.blurb {
+	padding: 10px;
+}
+
+div.blurb p {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+div.appmark-touched {
+	border-left: solid 1px #2E5649;
+	border-right: solid 1px #2E5649;
+}
+
+div.appmark-title, div.appmark-comment {
+	position: relative;
+	margin-left: 10px;
+	margin-right: 10px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+div.appmark-title {
+	font-family: Verdanna, Arial;
+	line-height: 18px;
+	font-size: 16px;
+	color: #295b4c;
+}
+
+div.appmark-comment {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	line-height: 18px;
+	font-size: 14px;
+	color: gray;
+	overflow: hidden;
+}
+
+div.appmark-action {
+	cursor: pointer;
+}
+
+div.appmark-action, div.appmark-type {
+	padding: 2px;
+	padding-left: 10px;
+	border-top: solid 1px #d5d5d5;
+	overflow: hidden;
+}
+
+div.appmark-action img, div.appmark-type img {
+	width: 32px;
+	height: 32px;
+	vertical-align: middle;
+}
+
+div.appmark-action span, div.appmark-type span  {
+	color: #444;
+	padding-left: 4px;
+}
+
+div.appmark-controls {
+	position: relative;
+	padding: 0px;
+	border-top: solid 1px #d5d5d5;
+}
+
+div.appmark-blurb {
+	border-top: solid 1px #d5d5d5;
+}
+
+
+
+div.appmark-control-float {
+	margin: 5px;
+	float: right;
+}
+
+div.appmark-star-control2 {
+	margin-right: 10px;
+}
+
+div.appmark-control-tr {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+
+div.post-details {
+	position: absolute;
+	bottom: 4px;
+	left: 10px;
+	color: gray;
+	font-size: 80%;
+	float: left;
+}
+
+div.appmark-control {
+	width: 24px;
+	height: 24px;
+	background: white;
+	border: solid 1px rgba(255,255,255,0.0);
+	background-size: 24px 24px;
+	-webkit-filter: grayscale(100%);
+	opacity: 0.5;
+}
+
+div.appmark:hover div.appmark-control, div.appmark-touched div.appmark-control {
+	border: solid 1px #888;
+}
+
+div.appmark div.appmark-control:hover {
+	opacity: 1.0;
+	-webkit-filter: none;
+	border: solid 1px rgba(255,255,255,0.0);
+}
+
+div.appmark div.appmark-un-star-control {
+	background-image: url('../images/star-color-64.png');
+	-webkit-filter: none;
+	opacity: 1.0;
+}
+
+div.appmark:hover div.appmark-edit-title-control, div.appmark-touched div.appmark-edit-title-control,
+div.appmark:hover div.appmark-edit-comment-control, div.appmark-touched div.appmark-edit-comment-control,
+div.appmark:hover div.appmark-delete-control, div.appmark-touched div.appmark-delete-control,
+div.appmark:hover div.appmark-un-star-control, div.appmark-touched div.appmark-un-star-control,
+div.appmark:hover div.appmark-star-control, div.appmark-touched div.appmark-star-control {
+	border: solid 1px #888;
+}
+
+div.appmark:hover div.appmark-edit-title-control, div.appmark-touched div.appmark-edit-title-control {
+	background-image: url('../images/edit-64.png');
+}
+
+div.appmark:hover div.appmark-edit-comment-control, div.appmark-touched div.appmark-edit-comment-control {
+	background-image: url('../images/edit-64.png');
+}
+
+div.appmark:hover div.appmark-delete-control, div.appmark-touched div.appmark-delete-control {
+	background-image: url('../images/delete-64.png');
+}
+
+div.appmark:hover div.appmark-un-star-control, div.appmark-touched div.appmark-un-star-control {
+	background-image: url('../images/star-color-64.png');
+}
+
+div.appmark:hover div.appmark-star-control, div.appmark-touched div.appmark-star-control {
+	background-image: url('../images/star-off-24-bg.png');
+}
+
+div.appmark:hover div.appmark-email-control, div.appmark-touched div.appmark-email-control {
+	background-image: url('../images/email-75-col.png');
+}
+
+div.appmark:hover div.appmark-facebook-control, div.appmark-touched div.appmark-facebook-control {
+	background-image: url('../images/facebook-75-col.png');
+}
+
+div.appmark:hover div.appmark-tweet-control, div.appmark-touched div.appmark-tweet-control {
+	background-image: url('../images/twitter-75-col.png');
+}
+
+div.appmark:hover div.appmark-gplus-control, div.appmark-touched div.appmark-gplus-control {
+	background-image: url('../images/gplus-75-col.png');
+}
+
+div.appmark div.appmark-action span {
+	padding: 4px 8px;
+	margin-left: 10px;
+	border-bottom: solid 1px transparent;
+}
+
+div.appmark:hover div.appmark-action span {
+	background: #CFDED9;
+	color2: #295b4c;
+	text-shadow2: 1px 1px 2px black;
+	-webkit-border-radius2: 4px;
+	border-radius2: 4px;
+	border-bottom: solid 1px #2E5649;
+}
+
+
+div.mam-message {
+	color: #800;
+	font-weight: bold;
+	text-align: center;
+}
+
+div[contenteditable='true'] {
+	background: #ffffdd;
+}
+
+div#hdr-controls span {
+	float: right;
+}
+
+div.confirm-popup {
+  position: relative;
+  background: #FFF;
+  width: auto;
+  max-width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div.confirm-popup div.confirm-text {
+  padding: 20px;
+}
+
+div.confirm-popup div.confirm-controls {
+	width: 100%;
+	border-top: solid 1px gray;
+	position: relative;
+}
+
+div.confirm-popup div.confirm-ok, div.confirm-popup div.confirm-cancel {
+	padding: 10px 20px;
+	cursor: pointer;
+	color2: #aaaaFF;
+	font-weight: bold;
+}
+
+div.confirm-popup div.confirm-cancel {
+	float: left;
+}
+
+div.confirm-popup div.confirm-ok {
+	float: right;
+}
+
+div.login-register-form {
+	width: 200px;
+	padding-top: 24px;
+	margin-left: auto;
+	margin-right: auto;
+	border2: solid 2px red;
+	text-align: center;
+}
+
+input[type=submit].hidden-submit {
+	width: 1px;
+	height: 1px;
+	background: white;
+	border: solid 0px white;
+}
+
+input[type=text], input[type=password], div.fake-btn {
+	width: 95%;
+	font-size: 18px;
+	line-height: 24px;
+	padding: 4px 8px;
+	border: solid 1px gray;
+}
+
+div.fake-btn {
+	margin-top: 10px;
+	background: #CFDED9;
+	color: black;
+	border: solid 1px #CFDED9;
+	border-bottom: solid 1px #2E5649;
+}
+
+
+div.login-register-form div {
+	text-align: center;
+}
+
+
+
+div.form-blurb {
+	font-style: italic;
+	text-align: left;
+	margin-top: 24px;
+	width: 300px;
+	margin-left: auto;
+	margin-right: auto;
+
+}
+
+div.form-message {
+	margin-top: 14px;
+	height: 48px;
+	color: #800;
+	font-weight: bold;
+	text-align: center;
+}
+
+
+input[type=submit] {
+	font-size: 14px;
+	line-height: 18px;
+	padding: 2px 5px;
+	border2: solid 1px gray;
+	width: 200px;
+}
+
+a {
+	padding: 2px 5px;
+	border: solid 1px gray;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}

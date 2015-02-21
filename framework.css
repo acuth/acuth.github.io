@@ -1,0 +1,178 @@
+body {
+	 font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	 font-size: 0.85em;
+	 line-height: 1.5em;
+	 background: #e2e2e2;
+	 color: #444;
+}
+
+body.debug div.pink {
+	background:#faa;
+}
+
+body.debug div.gray {
+	background:#e5e5e5; 
+}
+
+h1 {
+	font-weight: bold;
+	font-size: 140%;
+	color: black;
+}
+
+h2 {
+  font-weight: bold;
+  color: black;
+  margin-bottom: 0.6em;
+}
+
+b {
+	font-weight: bold;
+}
+
+i {
+	font-style: italic;
+}
+
+a {
+	text-decoration: none;
+}
+
+img { 
+	width: 100%;
+}
+
+img.iconImg, img.iconImgOverlay {
+	display: block; /* by default this is display:inline and adds room for descenders etc */
+	margin: 5px;
+	padding: 5px;
+	width: 38px;
+	height: 38px;
+}
+
+img.iconImgOverlay {
+	border: solid 1px gray;
+	background: rgba(128,255,128,0.7);
+}
+
+#page::-webkit-scrollbar {
+    height: 8px;
+	width: 8px;
+	background: #e2e2e2;
+	padding: 10px;
+}
+
+#page::-webkit-scrollbar-thumb {
+    background: #c2c2c2;
+    border: solid 1px #aaa;
+}
+
+#page::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}
+
+#fader {
+	display: none;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	z-index:1008;
+}
+
+#superlog {
+	display: none;
+	top: 42px;
+	left: 0px;
+	right: 0px;
+	padding: 10px;
+	background: rgba(0,0,0,0.7);
+	color: #ff0;
+	font-family: courier;
+	z-index: 2001;
+	font-size: 80%;
+}
+
+#message {
+	display: none;
+	width: 60%;
+	bottom: 48px;
+	left: 20%;
+	padding: 10px;
+	text-align: center;
+	opacity: 0;
+	border: solid 1px black;
+	z-index: 1009;
+}
+
+#menu {
+	top: 0px;
+  	width: 312px;
+  	bottom: 0px;
+  	z-index: 1010;
+}
+
+#message {
+	-webkit-transition:all 0.2s ease;
+}
+
+#message.show {
+	opacity: 1;
+	-webkit-transition:all 0.2s ease;
+}
+
+#message.hide {
+	opacity: 0;
+	-webkit-transition:all 0.2s ease;
+}
+
+#menu, #message {
+  background: #333;
+  color2: #b3b3b3;
+  color: white;
+}
+
+body #menu {
+	left: -312px;
+}
+
+#menu, #page, #header  {
+	 -webkit-transition: all 0.2s ease;
+}
+
+body.menu_open #menu {
+	-webkit-transform: translate3d(100%,0,0);
+}
+
+body.menu_open #page, body.menu_open #header {
+	-webkit-transform: translate3d(312px,0,0);
+}
+
+div.menu-entry {
+	border-bottom: solid 1px black;
+}
+
+div.menu-entry-label {
+	padding: 10px;
+	float: left;
+}
+
+div.menu-entry-icon {
+	padding: 10px;
+	float: right;
+}
+
+div.menu-entry-icon img {
+	width: 20px;
+	height: 20px;
+	display: block;
+}
+
+div.menu-entry {
+	opacity: 0.7;
+}
+
+div.menu-entry:hover {
+	opacity: 1.0;
+}
+

@@ -98,7 +98,7 @@ function openMenu() {
 }
 
 function closeMenu() {
-  console.log('closeMenu()'); 
+  console.log('closeMenu()');
   $(document.body).removeClass('menu_open');
   setTimeout(function() { $('#fader').css('display','none'); },300);
 }
@@ -171,7 +171,7 @@ function myTouchListener(event,e) {
 	_lastTouched = e;
 	var touchClass = _lastTouched.attr('touch-class');
 	_lastTouched.addClass(touchClass+'-touched');
-	
+
 }
 
 function addTouchListener(e) {
@@ -185,7 +185,7 @@ function addTouchListener(e) {
 }
 
 function enableTouch() {
-	if (_touchEnabled) { 
+	if (_touchEnabled) {
 		superLog('add bespoke touch listeners');
 		var ea = document.getElementsByClassName('enable-touch');
 		for (var i=0;i<ea.length;i++) addTouchListener($(ea[i]));
@@ -204,7 +204,7 @@ function disableTouch() {
 function pageChange() {
 	console.log('pageChange()');
 	enableTouch();
-} 
+}
 
 function getContent() {
 	if (!_content) console.log('_content not set');
@@ -221,7 +221,7 @@ function addHeaderControl(imgName,label,imgClass) {
 					break;
 			}
 		}
-		console.log('Got appmark type '+appmarkType.type); 
+		console.log('Got appmark type '+appmarkType.type);
 	}
 	var span = $(document.createElement('span')).addClass('label-img');
 	if (label) $(document.createElement('span')).html(label+'&nbsp;').appendTo(span);
@@ -261,7 +261,7 @@ function placeCaretAtEnd(el) {
 function doEdit(n) {
 	console.log('doEdit('+n+')');
 	var card = _cards[n];
-	_mam.updateappmark(card.a.key,card.getTitle(),card.getComment(),function(updatedAppmark){ 
+	_mam.updateappmark(card.a.key,card.getTitle(),card.getComment(),function(updatedAppmark){
 		console.log('updated');
 		card.update(updatedAppmark);
 		unsetHeaderControls();
@@ -317,12 +317,12 @@ AppmarkCard.prototype.drawContents=function() {
 	var blurb = this.getBlurbDiv(this.shared);
 	if (blurb) blurb.appendTo(this.div);
 	this.getControls(this.shared).appendTo(this.div);
-	
+
 }
 
 AppmarkCard.prototype.update=function(a) {
-	a.invoke_str = this.a.invoke_str; 
-	a.invoke_url = this.a.invoke_url; 
+	a.invoke_str = this.a.invoke_str;
+	a.invoke_url = this.a.invoke_url;
 	this.a = a;
 	this.div.html('');
 	this.drawContents();
@@ -348,7 +348,7 @@ AppmarkCard.prototype.startEdit=function(selector) {
 	this.div.addClass('appmark-being-edited');
 	var div = this.div.find(selector);
 	div.find('.appmark-control').detach();
-	div.attr('contenteditable','true'); 
+	div.attr('contenteditable','true');
 	placeCaretAtEnd(div.get(0));
 	if (_deviceInfo.doFocus) {
 		var page = $('#page');
@@ -365,14 +365,14 @@ AppmarkCard.prototype.cancelEdit=function() {
 		div.attr('contenteditable','false');
 		this.fillTitleDiv(div);
 		this.addControlEventHandler('edit-title');
-	} 
+	}
 
 	div = this.div.find('.appmark-comment');
 	if (div.attr('contenteditable') == 'true') {
 		div.attr('contenteditable','false');
 		this.fillCommentDiv(div);
 		this.addControlEventHandler('edit-comment');
-	} 
+	}
 }
 
 AppmarkCard.prototype.makeEditable=function(selector) {
@@ -402,7 +402,7 @@ AppmarkCard.prototype.confirmDelete=function() {
 
 AppmarkCard.prototype.star=function(starred) {
 	var card = this;
-	_mam.updateappmark2(this.a.key,this.getTitle(),this.getComment(),starred,function(updatedAppmark){ 
+	_mam.updateappmark2(this.a.key,this.getTitle(),this.getComment(),starred,function(updatedAppmark){
 		console.log('[un-]starred');
 		card.updateStar(updatedAppmark);
 		var msg = starred ? 'Added to favorites...' : 'Removed from favorites...';
@@ -511,7 +511,7 @@ AppmarkCard.prototype.getActionDiv=function() {
 AppmarkCard.prototype.getControls=function(shared) {
 	var verb = (this.a.modify_date.getTime() == this.a.create_date.getTime()) ? 'posted' : 'updated';
 	if (this.a.read_only) {
-		if (this.a.author_name) 
+		if (this.a.author_name)
 			verb = '<b>@'+this.a.author_name+'</b> shared';
 		else
 			verb = 'shared';
@@ -521,11 +521,11 @@ AppmarkCard.prototype.getControls=function(shared) {
 	var div = $(document.createElement('div')).addClass('appmark-controls');
 	var date = $(document.createElement('div')).addClass('post-details').html(dateStr).appendTo(div);
 
-	if (this.a.starred) 
+	if (this.a.starred)
 		this.getControl('un-star','star-color-64','Un-star appmark','starred',true).addClass('appmark-star-control2').appendTo(div);
-	else 
+	else
 		this.getControl('star','star-gray-64','Star appmark',null,true).addClass('appmark-star-control2').appendTo(div);
-	
+
 	this.getControl('email','email-64','Email appmark',null,true).appendTo(div);
 	this.getControl('tweet','twitter-64','Tweet appmark',null,true).appendTo(div);
 	this.getControl('gplus','gplus-64','G+',null,true).appendTo(div);
@@ -591,7 +591,7 @@ AppmarkCard.prototype.getControlFromAction=function(action) {
 	var cntrlArray = this.div.find('.appmark-control');
 	for (var j =0;j<cntrlArray.length;j++) {
 		var cntrl = $(cntrlArray[j]);
-		if (action == cntrl.attr('action')) return cntrl;		
+		if (action == cntrl.attr('action')) return cntrl;
 	}
 	return null;
 }
@@ -666,7 +666,7 @@ function displayAppmarksPage(offset,timestamp) {
 	_showingAppmarks = true;
 	_showingSearch = false;
 	_showingFilter = false;
-	displayHeader(); 
+	displayHeader();
 }
 
 function displayAppmarks(timestamp,gotoTop) {
@@ -720,20 +720,20 @@ function displayHeader() {
 		$(document.createElement('span')).addClass('hdr-name').html('myappmarks').appendTo(div);
 	}
 	else if (_showingFilter || _showingSearch) {
-		addHeaderControl('cancel-48.png','CANCEL').click(function(event) { 
-			displayAppmarksPage(0); 
+		addHeaderControl('cancel-48.png','CANCEL').click(function(event) {
+			displayAppmarksPage(0);
 			pageChange();
 		} );
 	}
 	else if (_showingAppmarks) {
 		if (_appTypeConstraint) {
-			addHeaderControl('appmarktype:'+_appTypeConstraint).click(function(event) { filter(); }); 
+			addHeaderControl('appmarktype:'+_appTypeConstraint).click(function(event) { filter(); });
 		}
 		if (_favConstraint) {
-			addHeaderControl('star-color-64-new.png').click(function(event) { toggleFavorites(); }); 
+			addHeaderControl('star-color-64-new.png').click(function(event) { toggleFavorites(); });
 		}
 		if (_qConstraint) {
-			addHeaderControl('search-64.png').click(function(event) { search(); }); 
+			addHeaderControl('search-64.png').click(function(event) { search(); });
 		}
 		addHeaderControl('refresh.png').click(function(event) { refresh(); });
 	}
@@ -806,7 +806,7 @@ function doSignIn(event) {
 	_mam.signin(username,password,_token,function(obj) {
 		if (!_mam.signedin)
 			displayFormMessage(_mam.msg);
-		else 
+		else
 			displayContent();
 	});
 }
@@ -833,16 +833,16 @@ function displaySignIn() {
 	var content = getContent();
 	content.empty();
 
-	var card = $(document.createElement('div')).addClass('card');	
-	var bigdiv2 = $(document.createElement('div')).addClass('login-register-form');	
+	var card = $(document.createElement('div')).addClass('card');
+	var bigdiv2 = $(document.createElement('div')).addClass('login-register-form');
 	var form = $(document.createElement('form'));
-	
+
 	_usernameInput = $(document.createElement('input')).attr('type','text').attr('placeholder','username').attr('autocapitalize','off').appendTo(form);
 	_passwordInput = $(document.createElement('input')).attr('type','password').attr('placeholder','password').appendTo(form);
 	$(document.createElement('div')).addClass('fake-btn').html('Sign In').click(function(event) { doSignIn(event); }).appendTo(form);
 	$(document.createElement('input')).attr('type','submit').addClass('hidden-submit').appendTo(form);
 	form.submit(function(event) { doSignIn(event); });
-	
+
 	form.appendTo(bigdiv2);
 	bigdiv2.appendTo(card);
 
@@ -864,10 +864,10 @@ function displayRegister() {
 	var content = getContent();
 	content.empty();
 
-	var card = $(document.createElement('div')).addClass('card');	
-	var bigdiv2 = $(document.createElement('div')).addClass('login-register-form');	
+	var card = $(document.createElement('div')).addClass('card');
+	var bigdiv2 = $(document.createElement('div')).addClass('login-register-form');
 	var form = $(document.createElement('form'));
-	
+
 	_usernameInput = $(document.createElement('input')).attr('type','text').attr('placeholder','username').attr('autocapitalize','off').appendTo(form);
 	_passwordInput = $(document.createElement('input')).attr('type','password').attr('placeholder','password').appendTo(form);
 	_passwordInput2 = $(document.createElement('input')).attr('type','password').attr('placeholder','confirm password').appendTo(form);
@@ -905,7 +905,7 @@ function displayNotSignedIn() {
 
 function doSignOut() {
 	log('doSignOut()');
-	_mam.signout(_token, function(obj) { 
+	_mam.signout(_token, function(obj) {
 		displayNotSignedIn();
 	});
 }
@@ -998,8 +998,8 @@ function getMessage() {
 
 function SideMenu(div) {
 	this.div = div;
-	this.entryIds = []; 
-	this.entries = []; 
+	this.entryIds = [];
+	this.entries = [];
 }
 
 SideMenu.prototype.getEntry=function(id) {
@@ -1013,7 +1013,7 @@ SideMenu.prototype.getEntry=function(id) {
 	if (index == -1) {
 		console.log('Unable to find menu entry with id "'+id+'"');
 		return null;
-	} 
+	}
 	return this.entries[index];
 }
 
@@ -1078,9 +1078,9 @@ var CLOSE = 'close';
 var FILTER = 'filter';
 
 function setImgElemSrc(imgElem,a) {
-	setImgElemSrcFromType(imgElem,a.type);
+  imgElem.attr('src',a);
+	//setImgElemSrcFromType(imgElem,a.type);
 }
-
 
 function setFilter(appmarkType) {
 	if (_appTypeConstraint && _appTypeConstraint == appmarkType.type) {
@@ -1129,7 +1129,7 @@ function displayFilterTypes() {
 	var card = $(document.createElement('div')).addClass('card');
 	for (var i=0;i<_all_appmark_types.length;i++) {
 		getAppmarkTypeRow(_all_appmark_types[i]).appendTo(card);
-	} 
+	}
 	card.appendTo(getContent());
 	displayHeader();
 }
@@ -1182,9 +1182,9 @@ function search() {
 		btn.appendTo(getContent());
 	}
 	var card = $(document.createElement('div')).addClass('card');
-	var bigdiv2 = $(document.createElement('div')).addClass('login-register-form');	
+	var bigdiv2 = $(document.createElement('div')).addClass('login-register-form');
 	var form = $(document.createElement('form'));
-	
+
 	_qInput = $(document.createElement('input')).attr('type','text').attr('placeholder','search').appendTo(form);
 	if (_qConstraint) _qInput.val(_qConstraint);
 	$(document.createElement('div')).addClass('fake-btn').html('Search').click(function(event) { doSearch(event); }).appendTo(form);
@@ -1250,7 +1250,7 @@ function testMatch(match,ua) {
 function initDevice() {
 	var ua = navigator.userAgent.toLowerCase();
 	superLog('user-agent='+ua);
-	
+
 	var info = null;
 	for (var i=0;i<devicesInfo.length;i++) {
 		var dinfo = devicesInfo[i];
@@ -1297,9 +1297,9 @@ function init() {
 	var i = href.indexOf('/share/');
 	var shareKey = null;
 	if (i != -1) {
-		shareKey = href.substring(i+7);		
+		shareKey = href.substring(i+7);
 		console.log('Need to display a shared appmark');
-	} 
+	}
 
 	loadFromStorage('token', function(token) {
 		log('token from local storage = '+token);
@@ -1320,7 +1320,7 @@ function init() {
 		loading('signing in...');
 		_mam.testsignedin(token,function() {
 			log('testsignedin = '+_mam.signedin);
-			if (shareKey) 
+			if (shareKey)
 				displaySharedAppmark(shareKey);
 			else {
 				if (_mam.signedin)
@@ -1333,6 +1333,6 @@ function init() {
 }
 
 
-$(document).ready(function() { 
+$(document).ready(function() {
 	init();
 });

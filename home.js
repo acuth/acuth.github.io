@@ -168,31 +168,27 @@ function displayNotSignedIn() {
 function init() {
   app = new MockApp('app',_app);
 	_content = $('#page');
-	var token = app.load('_token');
-		log('token from session storage = '+token);
-		if (!token) {
-			var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-			token = '';
-			for (var i=0;i<26;i++) {
-				var rnum = Math.floor(Math.random() * chars.length);
-				token += chars.substring(rnum,rnum+1);
-			}
-			console.log('saving token '+token+' to session storage');
-			app.store('_token',token);
+	var token = app.load('mam_token');
+	if (!token) {
+		var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+		token = '';
+		for (var i=0;i<26;i++) {
+			var rnum = Math.floor(Math.random() * chars.length);
+			token += chars.substring(rnum,rnum+1);
 		}
-		_token = token;
-		loading('loading types...');
-		_mam = new mamClient('http://www.myappmarks.com/',app,true);
-		log('testsignedin');
-		loading('signing in...');
-		_mam.testsignedin(token,function() {
-			app.pageLoaded();
-			log('testsignedin = '+_mam.signedin);
-			if (_mam.signedin)
-				displayContent();
-			else
-				displayNotSignedIn();
-		});
+		app.store('mam_token',token);
+	}
+	_token = token;
+	_mam = new mamClient('http://www.myappmarks.com/',app,true);
+	loading('signing in...');
+	_mam.testsignedin(token,function() {
+		app.pageLoaded();
+		log('testsignedin = '+_mam.signedin);
+		if (_mam.signedin)
+			displayContent();
+		else
+			displayNotSignedIn();
+	});
 }
 
 $(document).ready(function() {

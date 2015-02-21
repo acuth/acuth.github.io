@@ -510,7 +510,7 @@ function init() {
 	_mam = new mamClient('http://www.myappmarks.com/',app,true);
 	_mam.initFromAppState();
 	if (!_mam.signedin) {
-	  _mam.token = 'fAtlxbz6y6xhScczBM2TCHN066';
+	  _mam.token = '1ulBoErEXedPxoTGawHnVimki9';
 	  _mam.signedin = true;
 	}
 	displayAppmarks();

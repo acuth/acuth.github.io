@@ -33,7 +33,10 @@ MockApp.prototype.finishPage = function() {
 
 MockApp.prototype.onRefresh = function() {
   console.log('mockapp.onRefresh()');
-  if (this.refreshCB) this.refreshCB();
+  if (this.refreshCB)
+    this.refreshCB();
+  else
+    this.finishRefresh();
 }
 
 MockApp.prototype.finishRefresh = function() {

@@ -3,6 +3,7 @@ function MockApp(varName,framework) {
   this.framework = framework;
   if (this.framework) this.framework.setVarName(varName);
   this.refreshCB = null;
+  this.loaded = false;
 }
 
 MockApp.prototype.set = function(name,value) {
@@ -18,7 +19,10 @@ MockApp.prototype.get = function(name) {
 
 MockApp.prototype.pageLoaded = function() {
   console.log('mockapp.pageLoaded()');
-  if (this.framework) this.framework.pageLoaded();
+  if (!this.loaded) {
+    this.loaded = true;
+    if (this.framework) this.framework.pageLoaded();
+  }
 }
 
 MockApp.prototype.newPage = function(name) {

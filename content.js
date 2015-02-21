@@ -448,7 +448,7 @@ function displayAppmarks(timestamp,gotoTop) {
     var arg_map = [];
     console.log('displayAppmarks(timestamp='+timestamp+',gotoTop='+gotoTop+')');
     loading('loading appmarks...');
-	arg_map['device'] = 'android';//_deviceInfo.device;
+	arg_map['device'] = 'chrome';//_deviceInfo.device;
 	_mam.getappmarks22(arg_map,timestamp,true,_appTypeConstraint,_favConstraint,_sharedConstraint,_qConstraint,function(appmark_types,appmarks,has_more) {
 	  console.log('displayAppmarks cb');
 		loading();
@@ -470,7 +470,7 @@ function displayAppmarks(timestamp,gotoTop) {
 }
 
 function setImgElemSrc(imgElem,a) {
-  imgElem.setAttribute('src',a);
+  imgElem.setAttribute('src','http://www.myappmarks.com/'+a.icon_url);
 	//setImgElemSrcFromType(imgElem,a.type);
 }
 

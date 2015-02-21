@@ -4,6 +4,7 @@ function MockApp(varName,framework) {
   this.framework = framework;
   if (this.framework) this.framework.setVarName(varName);
   this.refreshCB = null;
+  this.resumeCB = null;
   this.loaded = false;
 }
 
@@ -42,6 +43,11 @@ MockApp.prototype.onRefresh = function() {
     this.refreshCB();
   else
     this.finishRefresh();
+}
+
+MockApp.prototype.onResume = function() {
+  console.log(this.varName+'.onResume()');
+  if (this.resumeCB) this.resumeCB();
 }
 
 MockApp.prototype.finishRefresh = function() {

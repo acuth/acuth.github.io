@@ -438,10 +438,14 @@ function displayAppmarksPage(offset,timestamp) {
 			_hasMoreRow = moreDiv;
 		}
 	}
+
+	var soDiv = $(document.createElement('div')).addClass('full-width-btn').html('signout');
+	soDiv.click(function(event) { _mam.signout(function() { app.finishPage(); }); });
+	soDiv.appendTo(content);
+
 	_showingAppmarks = true;
 	_showingSearch = false;
 	_showingFilter = false;
-	//displayHeader();
 }
 
 

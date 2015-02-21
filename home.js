@@ -165,8 +165,17 @@ function displayNotSignedIn() {
 	displaySignIn();
 }
 
+function doResume() {
+  _mam.initFromAppState();
+  if (_mam.signedin)
+    app.finishPage();
+  else
+    displayNotSignedIn();
+}
+
 function init() {
   app = new MockApp('app',_app);
+  app.resumeCB = doResume;
 	_content = $('#page');
 	var token = app.load('mam_token');
 	if (!token) {

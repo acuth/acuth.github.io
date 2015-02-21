@@ -236,8 +236,6 @@ mamClient.prototype.register=function(name,password,password2,token,callback) {
 		this.returnMessage('Passwords do not match',callback);
 		return;
 	}
-	var cookieToken = token == null;
-	if (cookieToken) token = mamClient.generateToken();
 	var client = this;
 	this.doAjax('register','&name='+encodeURIComponent(name)+'&pwd='+encodeURIComponent(password)+'&tkn='+encodeURIComponent(token),
 		function(obj) {
@@ -256,10 +254,9 @@ mamClient.prototype.register=function(name,password,password2,token,callback) {
 			client.signedin = true;
 			client.token = token;
 			client.name = name;
-			if (cookieToken) {
-				client.setToken('mam_token',token);
-				client.setToken('mam_name',name);
-			}
+			client.app.set('mam_signed_in','true');
+			client.app.set('mam_token',token);
+			client.app.set('mam_name',name);
 			if (callback) callback(client);
 		} );
 };
@@ -296,19 +293,31 @@ mamClient.prototype.signin=function(name,password,token,callback) {
 			client.signedin = true;
 			client.token = token;
 			client.name = name;
+      client.app.set('mam_signed_in','true');
+			client.app.set('mam_token',token);
+			client.app.set('mam_name',name);
 			if (callback) callback(client);
 		} );
 };
 
-mamClient.prototype.signout=function(token,callback) {
+mamClient.prototype.initFromAppState=function() {
+  this.signedin =  this.app.get('mam_signed_in') == 'true';
+  this.token = this.app.get('mam_token');
+  this.name = this.app.get('mam_name');
+};
+
+
+mamClient.prototype.signout=function(callback) {
 	var client = this;
-	this.doAjax('signout','&tkn='+encodeURIComponent(token),
+	this.doAjax('signout','&tkn='+encodeURIComponent(this.token),
 		function(obj) {
 			if (obj.msg) log(obj.msg);
 			client.signedin = false;
 			client.token = null;
 			client.name = null;
-			client.app.set('token',null);
+			client.app.set('mam_signed_in','false');
+			client.app.set('mam_token',null);
+			client.app.set('mam_name',null);
 			if (callback) callback(client);
 		} );
 };
@@ -325,7 +334,7 @@ mamClient.prototype.optimistic_signin=function() {
 mamClient.prototype.testsignedin=function(token,callback) {
 	//alert('test signed in');
 	if (!token) {
-		token = this.getToken('mam_token');
+		token = this.app.get('mam_token');
 		if (!token) {
 			this.signedin = false;
 			if (callback) callback(this);
@@ -360,14 +369,15 @@ mamClient.prototype.doSignOut=function() {
 	this.signedin = false;
 	this.token = null;
 	this.name = null;
-	this.removeToken('mam_token');
-	this.removeToken('mam_name');
-	this.removeToken('mam_timestamp');
+	this.app.set('mam_signed_in','false');
+	this.app.set('mam_token',null);
+	this.app.set('mam_name',null);
+	this.app.set('mam_timestamp',null);
 };
 
 mamClient.prototype.signInFail=function(key,callback) {
 	if (this.signedin) return false;
-	var token = this.getToken('mam_token');
+	var token = this.app.get('mam_token');
 	if (token) return false;
 	// the user is not signed in
 	if (this.notSignedInCallback)
@@ -482,7 +492,7 @@ mamClient.prototype.getappmarks=function(arg_map,callback) {
 	var client = this;
 	var timestamp = '';
 	if (this.incremental) {
-		var t = this.getToken('mam_timestamp');
+		var t = this.app.get('mam_timestamp');
 		if (t) {
 			timestamp = '&timestamp='+t;
 		}
@@ -506,7 +516,7 @@ mamClient.prototype.getappmarks2=function(arg_map,callback) {
 	var client = this;
 	var params = '';
 	if (this.incremental) {
-		var t = this.getToken('mam_timestamp');
+		var t = this.app.get('mam_timestamp');
 		if (t) {
 			params = '&timestamp='+t;
 		}
@@ -611,7 +621,7 @@ mamClient.prototype.getappmarks3=function(arg_map,callback) {
 	var client = this;
 	var timestamp = '';
 	if (this.incremental) {
-		var t = this.getToken('mam_timestamp');
+		var t = this.app.get('mam_timestamp');
 		if (t) {
 			timestamp = '&timestamp='+t;
 		}
@@ -652,22 +662,10 @@ mamClient.prototype.getappmarktypes=function(device,callback) {
 
 
 mamClient.prototype.recordTimestamp=function() {
-	this.setToken('mam_timestamp',this.tmp_timestamp);
+	this.app.set('mam_timestamp',this.tmp_timestamp);
 	//alert('set timestamp to '+this.getToken('mam_timestamp'));
-}
-
-mamClient.prototype.setToken=function(name,value,days) {
-	this.app.set(name,value);
 };
 
-mamClient.prototype.getToken=function(name) {
-	return this.app.get(name);
-};
-
-
-mamClient.prototype.removeToken=function(name) {
-  this.app.set(name,null);
-};
 
 mamClient.prototype.getPage=function(device,pageName,callback) {
 	this.doAjax('getpage','&device='+encodeURIComponent(device)+'&page='+encodeURIComponent(pageName),

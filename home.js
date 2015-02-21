@@ -168,7 +168,7 @@ function displayNotSignedIn() {
 function init() {
   app = new MockApp('app',_app);
 	_content = $('#page');
-	var token = app.get('_token');
+	var token = app.load('_token');
 		log('token from session storage = '+token);
 		if (!token) {
 			var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
@@ -178,7 +178,7 @@ function init() {
 				token += chars.substring(rnum,rnum+1);
 			}
 			console.log('saving token '+token+' to session storage');
-			app.set('_token',token);
+			app.store('_token',token);
 		}
 		_token = token;
 		loading('loading types...');

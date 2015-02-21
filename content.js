@@ -1,4 +1,5 @@
 var _app;
+var app = null;
 var _isloading = false;
 var _content = null;
 var _displayLink = false;
@@ -62,18 +63,18 @@ function AppmarkCard(n,a,div,shared) {
 }
 
 AppmarkCard.prototype.drawContents=function() {
-  console.log('AppmarkCard.drawContents()');
+  //console.log('AppmarkCard.drawContents()');
 	this.getTitleDiv().appendTo(this.div);
-	console.log(' - title');
+	//console.log(' - title');
 	this.getCommentDiv().appendTo(this.div);
-		console.log(' - comment');
+		//console.log(' - comment');
 	this.getActionDiv().appendTo(this.div);
-		console.log(' - action');
+		//console.log(' - action');
 	var blurb = this.getBlurbDiv(this.shared);
 	if (blurb) blurb.appendTo(this.div);
-		console.log(' - blurb');
+		//console.log(' - blurb');
 	this.getControls(this.shared).appendTo(this.div);
-		console.log(' - coneols');
+		//console.log(' - coneols');
 }
 
 AppmarkCard.prototype.update=function(a) {
@@ -374,7 +375,7 @@ function getAppmarkCard(n,a,shared) {
 	var div = $(document.createElement('div'));
 	div.addClass('appmark').addClass('card').attr('id','appmark-'+n).addClass('enable-touch').attr('touch-class','appmark');
 	var card = new AppmarkCard(n,a,div,shared);
-	console.log('got card');
+	//console.log('got card');
 	card.drawContents();
 	return card;
 }
@@ -464,7 +465,7 @@ function displayAppmarks(timestamp,gotoTop) {
 		}
 		_hasMore = has_more;
 		displayAppmarksPage(offset,timestamp);
-		notifyPageLoaded();
+		app.pageLoaded();
 		if (gotoTop) getContent().scrollTop(0);
 	});
 }
@@ -483,55 +484,19 @@ function doAlert(msg) {
   alert(msg);
 }
 
-function MockApp() {
-  console.log('new MockApp()');
-}
-
-MockApp.prototype.set = function(name,value) {
-  console.log('mockapp.set('+name+','+value+')');
-}
-
-MockApp.prototype.get = function(name) {
-  console.log('mockapp.get('+name+')');
-  return null;
-}
-
-MockApp.prototype.pageLoaded = function() {
-  console.log('mockapp.pageLoaded()');
-}
-
-MockApp.prototype.newPage = function(name) {
-  console.log('mockapp.newPage('+name+')');
-}
-
-MockApp.prototype.finishPage = function() {
-  console.log('mockapp.finishPage()');
-}
-
-function initApp() {
-  if (_app) console.log('_app already initialised'); else _app = new MockApp();
-}
-
 function signout() {
   console.log('signout()');
   _mam.signout(function() {
-    _app.finishPage();
+    app.finishPage();
   });
 }
 
 var _pageLoaded = false;
 
-function notifyPageLoaded() {
-  if (!_pageLoaded) {
-    _app.pageLoaded();
-    _pageLoaded = true;
-  }
-}
-
 function init() {
-  initApp();
+  app = new MockApp(_app);
 	_content = $('#page');
-	_mam = new mamClient('http://www.myappmarks.com/',_app,true);
+	_mam = new mamClient('http://www.myappmarks.com/',app,true);
 	_mam.initFromAppState();
 	if (!_mam.signedin) {
 	  _mam.token = 'fAtlxbz6y6xhScczBM2TCHN066';

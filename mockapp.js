@@ -1,5 +1,6 @@
 function MockApp(varName,framework) {
-  console.log('new MockApp('+varName+','+framework+')');
+  this.varName = varName;
+  console.log(this.varName+' = new MockApp('+framework+')');
   this.framework = framework;
   if (this.framework) this.framework.setVarName(varName);
   this.refreshCB = null;
@@ -7,18 +8,18 @@ function MockApp(varName,framework) {
 }
 
 MockApp.prototype.set = function(name,value) {
-  console.log('mockapp.set('+name+','+value+')');
+  console.log(this.varName+'.set('+name+','+value+')');
   if (this.framework) this.framework.set(name,value);
 }
 
 MockApp.prototype.get = function(name) {
   var value = this.framework ? this.framework.get(name) : null;
-  console.log('mockapp.get('+name+')='+value);
+  console.log(this.varName+'.get('+name+')='+value);
   return value;
 }
 
 MockApp.prototype.pageLoaded = function() {
-  console.log('mockapp.pageLoaded()');
+  console.log(this.varName+'.pageLoaded()');
   if (!this.loaded) {
     this.loaded = true;
     if (this.framework) this.framework.pageLoaded();
@@ -26,17 +27,17 @@ MockApp.prototype.pageLoaded = function() {
 }
 
 MockApp.prototype.newPage = function(name) {
-  console.log('mockapp.newPage('+name+')');
+  console.log(this.varName+'.newPage('+name+')');
     if (this.framework) this.framework.newPage(name);
 }
 
 MockApp.prototype.finishPage = function() {
-  console.log('mockapp.finishPage()');
+  console.log(this.varName+'.finishPage()');
   if (this.framework) this.framework.finishPage();
 }
 
 MockApp.prototype.onRefresh = function() {
-  console.log('mockapp.onRefresh()');
+  console.log(this.varName+'.onRefresh()');
   if (this.refreshCB)
     this.refreshCB();
   else
@@ -44,6 +45,6 @@ MockApp.prototype.onRefresh = function() {
 }
 
 MockApp.prototype.finishRefresh = function() {
-  console.log('mockapp.finishRefresh()');
+  console.log(this.varName+'.finishRefresh()');
   if (this.framework) this.framework.finishRefresh();
 }

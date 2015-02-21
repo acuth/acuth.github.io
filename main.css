@@ -90,7 +90,7 @@ div#loading-text {
 div#page {
 	position: absolute;
 	left: 0px;
-	top: 43px; /* start below header */
+	/*top: 43px; start below header */
 	right: 1px; /* right + bottom margins for scroll bar */
 	overflow-x: hidden;
 }

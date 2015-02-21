@@ -224,6 +224,25 @@ mamClient.generateToken=function() {
 	return token;
 }
 
+mamClient.prototype.recordSignIn=function(token,name) {
+	  this.token = token;
+		this.name = name;
+		this.signedin = true;
+		this.app.store('mam_token',token);
+		this.app.set('mam_name',name);
+		this.app.set('mam_signed_in','true');
+}
+
+
+mamClient.prototype.recordSignOut=function() {
+	  this.token = null;
+		this.name = null;
+		this.signedin = false;
+		this.app.store('mam_token',null);
+		this.app.set('mam_name',null);
+		this.app.set('mam_signed_in','false');
+}
+
 mamClient.prototype.register=function(name,password,password2,token,callback) {
 	if (name.length == 0) name = null;
 	if (password.length == 0) password = null;
@@ -251,12 +270,7 @@ mamClient.prototype.register=function(name,password,password2,token,callback) {
 				client.returnMessage(obj.msg,callback);
 				return;
 			}
-			client.signedin = true;
-			client.token = token;
-			client.name = name;
-			client.app.store('mam_token',token);
-			client.app.set('mam_signed_in','true');
-			client.app.set('mam_name',name);
+			client.recordSignIn(token,name);
 			if (callback) callback(client);
 		} );
 };
@@ -290,12 +304,7 @@ mamClient.prototype.signin=function(name,password,token,callback) {
 				client.returnMessage(obj.msg,callback);
 				return;
 			}
-			client.signedin = true;
-			client.token = token;
-			client.name = name;
-			client.app.store('mam_token',token);
-      client.app.set('mam_signed_in','true');
-			client.app.set('mam_name',name);
+			client.recordSignIn(token,name);
 			if (callback) callback(client);
 		} );
 };
@@ -311,13 +320,8 @@ mamClient.prototype.signout=function(callback) {
 	var client = this;
 	this.doAjax('signout','&tkn='+encodeURIComponent(this.token),
 		function(obj) {
-			if (obj.msg) log(obj.msg);
-			client.signedin = false;
-			client.token = null;
-			client.name = null;
-			client.app.store('mam_token',null);
-			client.app.set('mam_signed_in','false');
-			client.app.set('mam_name',null);
+			if (obj.msg) console.log(obj.msg);
+			client.recordSignOut();
 			if (callback) callback(client);
 		} );
 };
@@ -332,7 +336,6 @@ mamClient.prototype.optimistic_signin=function() {
 };
 
 mamClient.prototype.testsignedin=function(token,callback) {
-	//alert('test signed in');
 	if (!token) {
 		token = this.app.load('mam_token');
 		if (!token) {
@@ -342,9 +345,7 @@ mamClient.prototype.testsignedin=function(token,callback) {
 		}
 	}
 	var client = this;
-	this.doAjax('testsignedin','&tkn='+encodeURIComponent(token),
-		function(obj) {
-			log('testsignedin callback');
+	this.doAjax('testsignedin','&tkn='+encodeURIComponent(token), function(obj) {
 			if (obj.no_connection) {
 				client.returnMessage('no connection',callback);
 				return;
@@ -353,26 +354,14 @@ mamClient.prototype.testsignedin=function(token,callback) {
 				client.returnMessage('failed request',callback);
 				return;
 			}
-			if (obj.msg) log(obj.msg);
-			if (obj.signedin) {
-				log('signedin = true');
-				client.signedin = true;
-				client.token = token;
-				client.name = obj.name;
-			}
-			//log('about to invoke '+callback);
+			if (obj.msg) console.log(obj.msg);
+			if (obj.signedin) client.recordSignIn(token,obj.name);
 			if (callback) callback(client);
 		} );
 };
 
 mamClient.prototype.doSignOut=function() {
-	this.signedin = false;
-	this.token = null;
-	this.name = null;
-	this.app.store('mam_token',null);
-	this.app.set('mam_signed_in','false');
-	this.app.set('mam_name',null);
-	this.app.set('mam_timestamp',null);
+  this.recordSignOut();
 };
 
 mamClient.prototype.signInFail=function(key,callback) {

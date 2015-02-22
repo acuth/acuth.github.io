@@ -5,9 +5,12 @@ var _content = null;
 var app = null;
 
 function displayAppmark() {
-  var json = app.get('appmark-to-be-edited-json');
-  var a = JSON.parse(json);
-  $(document.createElement('div')).html(a.title).appendTo(_content);
+  var a = JSON.parse(app.get('appmark-to-be-edited-json'));
+  var div = $(document.createElement('div'));
+	div.addClass('appmark').addClass('card').attr('id','appmark-0').addClass('enable-touch').attr('touch-class','appmark');
+	var card = new AppmarkCard(0,a,div,false);
+	card.drawContents();
+	card.div.appendTo(_content);
   app.pageLoaded();
 }
 

@@ -196,7 +196,7 @@ AppmarkCard.prototype.getActionDiv=function() {
 	img.appendTo(div);
 	var link = this.a.invoke_str;
 	var url = this.a.invoke_url;
-	if (_displayLink) link += '<br/><span style="font-size:80%;">'+this.a.invoke_url+'</span>';
+	//if (_displayLink) link += '<br/><span style="font-size:80%;">'+this.a.invoke_url+'</span>';
 	var span = $(document.createElement('span'));
 	span.html(link);
 	span.appendTo(div);

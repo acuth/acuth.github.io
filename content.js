@@ -493,6 +493,4 @@ function init() {
 	displayAppmarks();
 }
 
-$(document).ready(function() {
-	init();
-}
+$(document).ready(function() { init(); });

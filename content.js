@@ -3,6 +3,16 @@ var app = null;
 var _isloading = false;
 var _content = null;
 //var _displayLink = false;
+var _appTypeConstraint = null;
+var _favConstraint = null;
+var _sharedConstraint = null;
+var _qConstraint = null;
+var _cards = [];
+var _appmark_types = null;
+var _has_more = false;
+var _showingAppmarks = true;
+var _showingSearch = false;
+var _showingFilter = false;
 
 function log(msg) {
 	console.log(msg);
@@ -23,8 +33,6 @@ function getDateStr(a) {
 	return (modifyDay != today) ? modifyDay : a.modify_date.format('HH:MM')
 }
 
-
-
 function getAppmarkCard(n,a,shared) {
 	var div = $(document.createElement('div'));
 	div.addClass('appmark').addClass('card').attr('id','appmark-'+n).addClass('enable-touch').attr('touch-class','appmark');
@@ -33,10 +41,6 @@ function getAppmarkCard(n,a,shared) {
 	card.drawContents();
 	return card;
 }
-
-
-
-
 
 function gotConstraints() {
 	return _favConstraint || _sharedConstraint || _appTypeConstraint || _qConstraint;

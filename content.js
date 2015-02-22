@@ -17,22 +17,6 @@ function displayURL(url) {
 	window.open(url);
 }
 
-function downloadURL3(url,cb) {
-	log('downloadURL3('+url+')');
-	var xhr = new XMLHttpRequest();
-	xhr.open("GET",url,true);
-	xhr.onreadystatechange = function() {
-  		if (xhr.readyState == 4) {
-    		// JSON.parse does not evaluate the attacker's scripts.
-    		//console.log('got response '+xhr.responseText);
-    		var resp = JSON.parse(xhr.responseText);
-    		log('about to call cb');
-    		cb(resp);
-  		}
-	}
-	xhr.send();
-}
-
 function getDateStr(a) {
 	var today = (new Date()).format('d mmm');
 	var modifyDay = a.modify_date.format('d mmm');

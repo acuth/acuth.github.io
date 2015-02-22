@@ -11,28 +11,10 @@ function logUrl(s,url) {
 	console.log(s+' '+url);
 }
 
-
-function downloadURL3(url,cb) {
-	log('downloadURL3('+url+')');
-	var xhr = new XMLHttpRequest();
-	xhr.open("GET",url,true);
-	xhr.onreadystatechange = function() {
-  		if (xhr.readyState == 4) {
-    		// JSON.parse does not evaluate the attacker's scripts.
-    		//console.log('got response '+xhr.responseText);
-    		var resp = JSON.parse(xhr.responseText);
-    		log('about to call cb');
-    		cb(resp);
-  		}
-	}
-	xhr.send();
-}
-
 function getContent() {
 	if (!_content) console.log('_content not set');
 	return _content;
 }
-
 
 function displayFormMessage(msg) {
 	_formMessageDiv.html(msg);

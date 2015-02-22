@@ -1,3 +1,19 @@
+function downloadURL3(url,cb) {
+	log('downloadURL3('+url+')');
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET",url,true);
+	xhr.onreadystatechange = function() {
+  		if (xhr.readyState == 4) {
+    		// JSON.parse does not evaluate the attacker's scripts.
+    		//console.log('got response '+xhr.responseText);
+    		var resp = JSON.parse(xhr.responseText);
+    		//log('about to call cb');
+    		cb(resp);
+  		}
+	}
+	xhr.send();
+}
+
 function MockApp(varName,framework) {
   this.varName = varName;
   console.log(this.varName+' = new MockApp('+framework+')');
@@ -6,7 +22,7 @@ function MockApp(varName,framework) {
   this.refreshCB = null;
   this.resumeCB = null;
   this.loaded = false;
-  this.debug = false;
+  this.debug = true;
 }
 
 MockApp.prototype.set = function(name,value) {

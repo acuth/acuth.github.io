@@ -121,11 +121,6 @@ function displayAppmarks(timestamp) {
 	});
 }
 
-function setImgElemSrc(imgElem,a) {
-  imgElem.setAttribute('src','http://www.myappmarks.com/'+a.icon_url);
-	//setImgElemSrcFromType(imgElem,a.type);
-}
-
 function getContent() {
 	if (!_content) console.log('_content not set');
 	return _content;

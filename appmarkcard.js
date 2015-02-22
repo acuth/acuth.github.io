@@ -1,3 +1,8 @@
+function setImgElemSrc(imgElem,a) {
+  imgElem.setAttribute('src','http://www.myappmarks.com/'+a.icon_url);
+	//setImgElemSrcFromType(imgElem,a.type);
+}
+
 function AppmarkCard(n,a,div,shared) {
 	this.n = n;
 	this.a = a;

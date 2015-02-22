@@ -12,6 +12,10 @@ function logUrl(s,url) {
 	console.log(s+' '+url);
 }
 
+function displayURL(url) {
+	console.log('displayURL('+url+')');
+	window.open(url);
+}
 
 function downloadURL3(url,cb) {
 	log('downloadURL3('+url+')');

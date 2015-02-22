@@ -68,7 +68,7 @@ MockApp.prototype.finishRefresh = function() {
 }
 
 MockApp.prototype.loading = function(msg) {
-  if (!msg) msg = '';
+  if (!msg) msg = ' ';
   if (this.debug) console.log(this.varName+'.loading('+msg+')');
   if (this.framework) this.framework.loading(msg);
 }

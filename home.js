@@ -150,6 +150,7 @@ function init() {
     log('testsignedin = '+_mam.signedin);
 		if (_mam.signedin) {
 		  app.loading();
+		  app.pageLoaded();
 			app.newPage('content');
 			return;
 		}

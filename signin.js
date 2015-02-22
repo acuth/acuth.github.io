@@ -1,6 +1,5 @@
 var _app;
 var app = null;
-var _isloading = false;
 var _content = null;
 
 function log(msg) {
@@ -31,10 +30,9 @@ function doSignIn(event) {
 		if (!_mam.signedin)
 			displayFormMessage(_mam.msg);
 		else
-			app.newPage('content');
+			app.finishPage();
 	});
 }
-
 
 // triggered by from submit so do not want form to cause a reload
 function doRegister(event) {
@@ -47,7 +45,7 @@ function doRegister(event) {
 		if (!_mam.signedin)
 			displayFormMessage(_mam.msg);
 		else
-			app.newPage('content');
+			app.finishPage();
 	});
 }
 
@@ -78,8 +76,6 @@ function displaySignIn() {
 	//setTimeout(nameInputFocus,100 );
 	$('#goto-register').click(function(event) { displayRegister(); });
 }
-
-
 
 function displayRegister() {
 	console.log('displayRegister()');
@@ -114,46 +110,14 @@ function doAlert(msg) {
   alert(msg);
 }
 
-function doResume() {
-  _mam.initFromAppState();
-  if (_mam.signedin)
-    app.finishPage();
-  else
-    displaySignIn();
-}
-
 function init() {
   app = new MockApp('app',_app);
-  app.resumeCB = doResume;
 	_content = $('#page');
-	_token = app.load('mam_token');
-	if (!_token) {
-		var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-		var t = '';
-		for (var i=0;i<26;i++) {
-			var rnum = Math.floor(Math.random() * chars.length);
-			t += chars.substring(rnum,rnum+1);
-		}
-		app.store('mam_token',t);
-		app.pageLoaded();
-	  app.newPage('signin');
-	}
-  else {
-  	_mam = new mamClient('http://www.myappmarks.com/',app,true);
-    app.loading('signing in...');
-	  _mam.testsignedin(_token,function() {
-      log('testsignedin = '+_mam.signedin);
-		  if (_mam.signedin) {
-		    app.loading();
-		    app.pageLoaded();
-			  app.newPage('content');
-			  return;
-		  }
-		  app.loading();
-		  app.pageLoaded();
-	    app.newPage('signin');
-	  });
-  }
+	_mam = new mamClient('http://www.myappmarks.com/',app,true);
+  _mam.initFromAppState();
+	displaySignIn();
+	app.loading();
+	app.pageLoaded();
 }
 
 $(document).ready(function() { init(); });

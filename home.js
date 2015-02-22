@@ -94,7 +94,7 @@ function displayAppmarksPage(offset,timestamp) {
 	}
 
 	var soDiv = $(document.createElement('div')).addClass('full-width-btn').html('signout');
-	soDiv.click(function(event) { _mam.signout(function() { app.newPage('sigin'); }); });
+	soDiv.click(function(event) { _mam.signout(function() { app.newPage('signin'); }); });
 	soDiv.appendTo(content);
 
 	_showingAppmarks = true;
@@ -131,7 +131,10 @@ function doResume() {
   _mam.initFromAppState();
   console.log('_mam.signedin='+_mam.signedin);
   if (_mam.signedin) {
-    app.newPage('content');
+    displayAppmarks();
+  }
+  else {
+    app.finishPage();
   }
 }
 

@@ -23,9 +23,10 @@ function displayFormMessage(msg) {
 function doSignIn(event) {
 	console.log('doSignIn()');
 	event.preventDefault();
+	var token = app.load('mam_token');
 	var username = _usernameInput.val();
 	var password = _passwordInput.val();
-	_mam.signin(username,password,_token,function(obj) {
+	_mam.signin(username,password,token,function(obj) {
 	  console.log('doSignIn() cb');
 		if (!_mam.signedin)
 			displayFormMessage(_mam.msg);
@@ -38,10 +39,11 @@ function doSignIn(event) {
 function doRegister(event) {
 	console.log('doRegister()');
 	event.preventDefault();
+	var token = app.load('mam_token');
 	var username = _usernameInput.val();
 	var password = _passwordInput.val();
 	var password2 = _passwordInput2.val();
-	_mam.register(username,password,password2,_token,function(obj) {
+	_mam.register(username,password,password2,token,function(obj) {
 		if (!_mam.signedin)
 			displayFormMessage(_mam.msg);
 		else

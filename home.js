@@ -31,7 +31,7 @@ function doSignIn(event) {
 		if (!_mam.signedin)
 			displayFormMessage(_mam.msg);
 		else
-			displayContent();
+			app.newPage('content');
 	});
 }
 
@@ -47,12 +47,12 @@ function doRegister(event) {
 		if (!_mam.signedin)
 			displayFormMessage(_mam.msg);
 		else
-			displayContent();
+			app.newPage('content');
 	});
 }
 
 function displaySignIn() {
-	app.loading();
+  console.log('displaySignIn()');
 	var content = getContent();
 	content.empty();
 
@@ -82,8 +82,7 @@ function displaySignIn() {
 
 
 function displayRegister() {
-	log('displayRegister()');
-	app.loading();
+	console.log('displayRegister()');
 	var content = getContent();
 	content.empty();
 
@@ -115,52 +114,49 @@ function doAlert(msg) {
   alert(msg);
 }
 
-function displayContent() {
-  console.log('displayContent()');
-	app.loading();
-	app.newPage('content');
-}
-
-function displayNotSignedIn() {
-	app.loading();
-	displaySignIn();
-}
-
 function doResume() {
   _mam.initFromAppState();
   if (_mam.signedin)
     app.finishPage();
   else
-    displayNotSignedIn();
+    displaySignIn();
 }
 
 function init() {
   app = new MockApp('app',_app);
   app.resumeCB = doResume;
+
 	_content = $('#page');
-	var token = app.load('mam_token');
-	if (!token) {
+	_token = app.load('mam_token');
+	if (!_token) {
 		var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-		token = '';
+		var t = '';
 		for (var i=0;i<26;i++) {
 			var rnum = Math.floor(Math.random() * chars.length);
-			token += chars.substring(rnum,rnum+1);
+			t += chars.substring(rnum,rnum+1);
 		}
-		app.store('mam_token',token);
+		app.store('mam_token',t);
+		_token = t;
+	  _mam = new mamClient('http://www.myappmarks.com/',app,true);
+	  _mam.initFromAppState();
+	  displaySignIn();
+	  app.pageLoaded();
+	  return;
 	}
-	_token = token;
+
 	_mam = new mamClient('http://www.myappmarks.com/',app,true);
-	app.loading('signing in...');
+  app.loading('signing in...');
 	_mam.testsignedin(token,function() {
+    log('testsignedin = '+_mam.signedin);
+		if (_mam.signedin) {
+		  app.loading();
+			app.newPage('content');
+			return;
+		}
+		displaySignIn();
+		app.loading();
 		app.pageLoaded();
-		log('testsignedin = '+_mam.signedin);
-		if (_mam.signedin)
-			displayContent();
-		else
-			displayNotSignedIn();
 	});
 }
 
-$(document).ready(function() {
-	init();
-});
+$(document).ready(function() { init(); });

@@ -137,15 +137,10 @@ AppmarkCard.prototype.star=function(starred) {
 
 AppmarkCard.prototype.clickOnControl=function(action) {
 	console.log('clickOnControl('+this.n+','+action+')');
-	if (_editingCard != null && _editingCard != this) {
-		getMessage().show('Another appmark already being edited');
-		return;
-	}
-	if (action=='edit-title') {
-		this.makeEditable('.appmark-title');
-	}
-	else if (action=='edit-comment') {
-		this.makeEditable('.appmark-comment');
+	if (action=='edit') {
+		app.set('appmark-to-be-edited-index',this.n);
+		app.set('appmark-to-be-edited-json',JSON.stringify(this.a));
+		app.newPage('edit');
 	}
 	else if (action=='delete') {
 		this.confirmDelete();
@@ -156,11 +151,7 @@ AppmarkCard.prototype.clickOnControl=function(action) {
 	else if (action=='un-star') {
 		this.star(false);
 	}
-	else if (action=='tweet' || action =='gplus' || action=='facebook' || action == 'email') {
-		//var cntrl = this.getControlFromAction(action);
-		//cntrl.addClass('clicked');
-		var url = 'http://www.myappmarks.com/redirect?action='+action+'&tkn='+_mam.token+'&key='+this.a.key+'&ver='+this.a.version+'&title='+encodeURIComponent(this.a.title);
-		doOpenWindowUrl(url,640,480);
+	else if (action=='share') {
 	}
 	else {
 		getMessage().show('clickOnControl( '+this.n+', '+this.a.title+', '+action+' )');
@@ -251,18 +242,10 @@ AppmarkCard.prototype.getControls=function(shared) {
 	else
 		this.getControl('star','star-gray-64','Star appmark',null,true).addClass('appmark-star-control2').appendTo(div);
 
-	this.getControl('email','email-64','Email appmark',null,true).appendTo(div);
-	this.getControl('tweet','twitter-64','Tweet appmark',null,true).appendTo(div);
-	this.getControl('gplus','gplus-64','G+',null,true).appendTo(div);
-	this.getControl('facebook','facebook-64','Facebook',null,true).appendTo(div);
+	this.getControl('share','email-64','Share appmark',null,true).appendTo(div);
+	this.getControl('edit','twitter-64','Edit appmark',null,true).appendTo(div);
 
 	if (!shared) this.getControl('delete','delete-64','Delete appmark',null,true).appendTo(div);
-
-	if (!this.a.read_only) {
-		if (!this.a.getComment()) {
-			this.getControl('edit-comment','edit-64','Edit appmark comment',null,true).appendTo(div);
-		}
-	}
 
 	$(document.createElement('div')).css('clear','both').appendTo(div);
 	return div;

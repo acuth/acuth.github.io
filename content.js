@@ -29,26 +29,6 @@ function downloadURL3(url,cb) {
 	xhr.send();
 }
 
-function loading(msg) {
-	if (msg) log('loading('+msg+')');
-	var hdr = $('#header-right');
-	var text = $('#loading-text');
-	if (msg) {
-		if (!_isloading) {
-			text.css('display','block');
-			hdr.html('');
-			_isloading = true;
-		}
-		text.html(msg);
-	}
-	else {
-		if (_isloading) {
-			text.css('display','none').html('');
-			_isloading = false;
-		}
-	}
-}
-
 function getDateStr(a) {
 	var today = (new Date()).format('d mmm');
 	var modifyDay = a.modify_date.format('d mmm');
@@ -398,9 +378,6 @@ function gotConstraints() {
 }
 
 function displayAppmarksPage(offset,timestamp) {
-	console.log('displayAppmarksPage(offset='+offset+',timestamp='+timestamp+')');
-	console.log('_hasMore='+_hasMore);
-	console.log('_cards.length='+_cards.length);
 	var content = getContent();
 	if (_cards.length == 0) {
 		var h = '<div class="card"><div class="blurb">';
@@ -452,18 +429,16 @@ function displayAppmarksPage(offset,timestamp) {
 function displayAppmarks(timestamp,gotoTop) {
     var arg_map = [];
     console.log('displayAppmarks(timestamp='+timestamp+',gotoTop='+gotoTop+')');
-    loading('loading appmarks...');
-	arg_map['device'] = 'chrome';//_deviceInfo.device;
+    app.loading('loading appmarks...');
+	arg_map['device'] = 'chrome';
 	_mam.getappmarks22(arg_map,timestamp,true,_appTypeConstraint,_favConstraint,_sharedConstraint,_qConstraint,function(appmark_types,appmarks,has_more) {
-	  console.log('displayAppmarks cb');
-		loading();
+		app.loading();
 		if (!timestamp) _cards = [];
 		var offset = _cards.length;
 		for (var i=0;i<appmarks.length;i++) {
 			var n = _cards.length;
 			_cards[n] = getAppmarkCard(n,appmarks[i]);
 		}
-		 console.log('got cards');
 		if (appmarks.length > 0) {
 			_appmark_types = appmark_types;
 		}

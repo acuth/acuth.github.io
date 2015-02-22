@@ -28,26 +28,6 @@ function downloadURL3(url,cb) {
 	xhr.send();
 }
 
-function loading(msg) {
-	if (msg) log('loading('+msg+')');
-	var hdr = $('#header-right');
-	var text = $('#loading-text');
-	if (msg) {
-		if (!_isloading) {
-			text.css('display','block');
-			hdr.html('');
-			_isloading = true;
-		}
-		text.html(msg);
-	}
-	else {
-		if (_isloading) {
-			text.css('display','none').html('');
-			_isloading = false;
-		}
-	}
-}
-
 function getContent() {
 	if (!_content) console.log('_content not set');
 	return _content;
@@ -90,8 +70,7 @@ function doRegister(event) {
 }
 
 function displaySignIn() {
-	log('displaySignIn()');
-	loading();
+	app.loading();
 	var content = getContent();
 	content.empty();
 
@@ -122,7 +101,7 @@ function displaySignIn() {
 
 function displayRegister() {
 	log('displayRegister()');
-	loading();
+	app.loading();
 	var content = getContent();
 	content.empty();
 
@@ -156,12 +135,12 @@ function doAlert(msg) {
 
 function displayContent() {
   console.log('displayContent()');
-	loading();
+	app.loading();
 	app.newPage('content');
 }
 
 function displayNotSignedIn() {
-	loading();
+	app.loading();
 	displaySignIn();
 }
 
@@ -189,7 +168,7 @@ function init() {
 	}
 	_token = token;
 	_mam = new mamClient('http://www.myappmarks.com/',app,true);
-	loading('signing in...');
+	app.loading('signing in...');
 	_mam.testsignedin(token,function() {
 		app.pageLoaded();
 		log('testsignedin = '+_mam.signedin);

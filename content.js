@@ -449,6 +449,7 @@ function displayAppmarks(timestamp,gotoTop) {
 		_hasMore = has_more;
 		displayAppmarksPage(offset,timestamp);
 		app.pageLoaded();
+		app.finishRefresh();
 		if (gotoTop) getContent().scrollTop(0);
 	});
 }
@@ -478,7 +479,7 @@ var _pageLoaded = false;
 
 function myrefreshcb() {
   console.log('myrefreshcb()');
-  app.finishRefresh();
+  displayAppmarks(0,true);
 }
 
 function init() {

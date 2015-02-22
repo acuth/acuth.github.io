@@ -2,6 +2,17 @@ var _app;
 var app = null;
 var _isloading = false;
 var _content = null;
+//var _displayLink = false;
+var _appTypeConstraint = null;
+var _favConstraint = null;
+var _sharedConstraint = null;
+var _qConstraint = null;
+var _cards = [];
+var _appmark_types = null;
+var _has_more = false;
+var _showingAppmarks = true;
+var _showingSearch = false;
+var _showingFilter = false;
 
 function log(msg) {
 	console.log(msg);
@@ -16,103 +27,103 @@ function getContent() {
 	return _content;
 }
 
-function displayFormMessage(msg) {
-	_formMessageDiv.html(msg);
+function log(msg) {
+	console.log(msg);
 }
 
-// triggered by from submit so do not want form to cause a reload
-function doSignIn(event) {
-	console.log('doSignIn()');
-	event.preventDefault();
-	var username = _usernameInput.val();
-	var password = _passwordInput.val();
-	_mam.signin(username,password,_token,function(obj) {
-	  console.log('doSignIn() cb');
-		if (!_mam.signedin)
-			displayFormMessage(_mam.msg);
-		else
-			app.newPage('content');
+function logUrl(s,url) {
+	console.log(s+' '+url);
+}
+
+function displayURL(url) {
+	console.log('displayURL('+url+')');
+	window.open(url);
+}
+
+
+function getAppmarkCard(n,a,shared) {
+	var div = $(document.createElement('div'));
+	div.addClass('appmark').addClass('card').attr('id','appmark-'+n).addClass('enable-touch').attr('touch-class','appmark');
+	var card = new AppmarkCard(n,a,div,shared);
+	//console.log('got card');
+	card.drawContents();
+	return card;
+}
+
+function gotConstraints() {
+	return _favConstraint || _sharedConstraint || _appTypeConstraint || _qConstraint;
+}
+
+function displayAppmarksPage(offset,timestamp) {
+	var content = getContent();
+	if (_cards.length == 0) {
+		var h = '<div class="card"><div class="blurb">';
+		if (gotConstraints()) {
+			h += 'Sorry, but you don\'t appear to have any '+getConstraintsStr()+'. You can see <i>all</i> your appmarks by clicking on <a id="show-all">Show all</a>';
+		}
+		else {
+			h += 'Sorry, but you don\'t appear to have any appmarks at all!';
+		}
+		h += '</div></div>';
+		content.html(h);
+		if (gotConstraints()) {
+			$('#show-all').click(function(event) { showAll(); });
+		}
+	}
+	else {
+		if (timestamp && _hasMoreRow) {
+			_hasMoreRow.remove();
+			_hasMoreRow = null;
+		}
+		if (!timestamp) {
+			content.empty();
+		}
+		for (var i=offset;i<_cards.length;i++) {
+			_cards[i].div.appendTo(content);
+			_cards[i].addControlEventHandlers();
+		}
+		if (_hasMore) {
+			var moreDiv = $(document.createElement('div')).addClass('full-width-btn').attr('id','has-more-div').html('more');
+			moreDiv.click(function(event) {
+				moreDiv.html('loading...');
+				displayAppmarks(_cards[_cards.length-1].a.modify_date.getTime());
+			});
+			moreDiv.appendTo(content);
+			_hasMoreRow = moreDiv;
+		}
+	}
+
+	var soDiv = $(document.createElement('div')).addClass('full-width-btn').html('signout');
+	soDiv.click(function(event) { _mam.signout(function() { app.finishPage(); }); });
+	soDiv.appendTo(content);
+
+	_showingAppmarks = true;
+	_showingSearch = false;
+	_showingFilter = false;
+}
+
+
+function displayAppmarks(timestamp) {
+  var arg_map = [];
+  console.log('displayAppmarks(timestamp='+timestamp+')');
+  app.loading('loading appmarks...');
+	arg_map['device'] = 'chrome';
+	_mam.getappmarks22(arg_map,timestamp,true,_appTypeConstraint,_favConstraint,_sharedConstraint,_qConstraint,function(appmark_types,appmarks,has_more) {
+		if (!timestamp) _cards = [];
+		var offset = _cards.length;
+		for (var i=0;i<appmarks.length;i++) {
+			var n = _cards.length;
+			_cards[n] = getAppmarkCard(n,appmarks[i]);
+		}
+		if (appmarks.length > 0) _appmark_types = appmark_types;
+		_hasMore = has_more;
+		displayAppmarksPage(offset,timestamp);
+		app.pageLoaded();
+		app.finishRefresh();
+		app.loading();
 	});
 }
 
-
-// triggered by from submit so do not want form to cause a reload
-function doRegister(event) {
-	console.log('doRegister()');
-	event.preventDefault();
-	var username = _usernameInput.val();
-	var password = _passwordInput.val();
-	var password2 = _passwordInput2.val();
-	_mam.register(username,password,password2,_token,function(obj) {
-		if (!_mam.signedin)
-			displayFormMessage(_mam.msg);
-		else
-			app.newPage('content');
-	});
-}
-
-function displaySignIn() {
-  console.log('displaySignIn()');
-	var content = getContent();
-	content.empty();
-
-	var card = $(document.createElement('div')).addClass('card');
-	var bigdiv2 = $(document.createElement('div')).addClass('login-register-form');
-	var form = $(document.createElement('form'));
-
-	_usernameInput = $(document.createElement('input')).attr('type','text').attr('placeholder','username').attr('autocapitalize','off').appendTo(form);
-	_passwordInput = $(document.createElement('input')).attr('type','password').attr('placeholder','password').appendTo(form);
-	$(document.createElement('div')).addClass('fake-btn').html('Sign In').click(function(event) { doSignIn(event); }).appendTo(form);
-	$(document.createElement('input')).attr('type','submit').addClass('hidden-submit').appendTo(form);
-	form.submit(function(event) { doSignIn(event); });
-
-	form.appendTo(bigdiv2);
-	bigdiv2.appendTo(card);
-
-	var blurbHtml = 'If you do not already have an account then you can <a id="goto-register">Sign&nbsp;Up</a> for an account right now';
-	$(document.createElement('div')).addClass('form-blurb').html(blurbHtml).appendTo(card);
-	_formMessageDiv = $(document.createElement('div')).addClass('form-message').appendTo(card);
-	form.submit(function(event) { doSignIn(event); });
-	card.appendTo(content);
-
-	//setTimeout(nameInputFocus,100 );
-	$('#goto-register').click(function(event) { displayRegister(); });
-}
-
-
-
-function displayRegister() {
-	console.log('displayRegister()');
-	var content = getContent();
-	content.empty();
-
-	var card = $(document.createElement('div')).addClass('card');
-	var bigdiv2 = $(document.createElement('div')).addClass('login-register-form');
-	var form = $(document.createElement('form'));
-
-	_usernameInput = $(document.createElement('input')).attr('type','text').attr('placeholder','username').attr('autocapitalize','off').appendTo(form);
-	_passwordInput = $(document.createElement('input')).attr('type','password').attr('placeholder','password').appendTo(form);
-	_passwordInput2 = $(document.createElement('input')).attr('type','password').attr('placeholder','confirm password').appendTo(form);
-	$(document.createElement('div')).addClass('fake-btn').html('Sign Up').click(function(event) { doRegister(event); }).appendTo(form);
-	$(document.createElement('input')).attr('type','submit').addClass('hidden-submit').appendTo(form);
-	form.submit(function(event) { doRegister(event); });
-
-	form.appendTo(bigdiv2);
-	bigdiv2.appendTo(card);
-
-	var blurbHtml = 'If you already have an account then you can <a id="goto-signin">Sign&nbsp;In</a> right now';
-	$(document.createElement('div')).addClass('form-blurb').html(blurbHtml).appendTo(card);
-	_formMessageDiv = $(document.createElement('div')).addClass('form-message').appendTo(card);
-
-	card.appendTo(content);
-
-	//setTimeout(nameInputFocus,100 );
-	$('#goto-signin').click(function(event) { displaySignIn(); });
-}
-
-function doAlert(msg) {
-  alert(msg);
-}
 
 function doResume() {
   console.log('doResume()');
@@ -145,15 +156,13 @@ function init() {
     app.loading('signing in...');
 	  _mam.testsignedin(_token,function() {
       log('testsignedin = '+_mam.signedin);
-		  if (_mam.signedin) {
+		  if (!_mam.signedin) {
 		    app.loading();
 		    app.pageLoaded();
-			  app.newPage('content');
-			  return;
+	      app.newPage('signin');
+	      return;
 		  }
-		  app.loading();
-		  app.pageLoaded();
-	    app.newPage('signin');
+			displayAppmarks();
 	  });
   }
 }

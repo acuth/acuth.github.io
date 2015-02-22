@@ -94,7 +94,7 @@ function displayAppmarksPage(offset,timestamp) {
 	}
 
 	var soDiv = $(document.createElement('div')).addClass('full-width-btn').html('signout');
-	soDiv.click(function(event) { _mam.signout(function() { app.finishPage(); }); });
+	soDiv.click(function(event) { _mam.signout(function() { app.newPage('sigin'); }); });
 	soDiv.appendTo(content);
 
 	_showingAppmarks = true;

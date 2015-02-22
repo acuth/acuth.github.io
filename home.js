@@ -146,7 +146,7 @@ function init() {
 
 	_mam = new mamClient('http://www.myappmarks.com/',app,true);
   app.loading('signing in...');
-	_mam.testsignedin(token,function() {
+	_mam.testsignedin(_token,function() {
     log('testsignedin = '+_mam.signedin);
 		if (_mam.signedin) {
 		  app.loading();

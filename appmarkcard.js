@@ -114,7 +114,7 @@ AppmarkCard.prototype.clickOnControl=function(action) {
 	console.log('clickOnControl('+this.n+','+action+')');
 	if (action=='edit') {
 		app.set('appmark-to-be-edited-index',this.n);
-		app.set('appmark-to-be-edited-json',JSON.stringify(this.a));
+		app.set('appmark-to-be-edited-json',this.a.json);
 		app.newPage('edit');
 	}
 	else if (action=='delete') {

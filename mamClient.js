@@ -41,7 +41,7 @@ function mamAppMark(args) {
 	this.read_only = mamAppMark.getBoolean(args.read_only);
 	this.shared = mamAppMark.getBoolean(args.shared);
 	this.starred = mamAppMark.getBoolean(args.starred);
-	//log('title='+args.title+'  invoke_url='+args.invoke_url);
+	this.json = JSON.stringify(args);
 }
 
 mamAppMark.getBoolean=function(p) {

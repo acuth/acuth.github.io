@@ -5,7 +5,8 @@ var _content = null;
 var app = null;
 
 function displayAppmark() {
-  var a = JSON.parse(app.get('appmark-to-be-edited-json'));
+  var json = JSON.parse(app.get('appmark-to-be-edited-json'));
+  var a = new mamAppmark(json);
   var div = $(document.createElement('div'));
 	div.addClass('appmark').addClass('card').attr('id','appmark-0').addClass('enable-touch').attr('touch-class','appmark');
 	var card = new AppmarkCard(0,a,div,false);

@@ -115,11 +115,13 @@ function doAlert(msg) {
 }
 
 function doResume() {
+  console.log('doResume()');
+  _mam = new mamClient('http://www.myappmarks.com/',app,true);
   _mam.initFromAppState();
-  if (_mam.signedin)
-    app.finishPage();
-  else
-    displaySignIn();
+  console.log('_mam.signedin='+_mam.signedin);
+  if (_mam.signedin) {
+    app.newPage('content');
+  }
 }
 
 function init() {

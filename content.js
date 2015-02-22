@@ -430,27 +430,24 @@ function displayAppmarksPage(offset,timestamp) {
 }
 
 
-function displayAppmarks(timestamp,gotoTop) {
-    var arg_map = [];
-    console.log('displayAppmarks(timestamp='+timestamp+',gotoTop='+gotoTop+')');
-    app.loading('loading appmarks...');
+function displayAppmarks(timestamp) {
+  var arg_map = [];
+  console.log('displayAppmarks(timestamp='+timestamp+')');
+  app.loading('loading appmarks...');
 	arg_map['device'] = 'chrome';
 	_mam.getappmarks22(arg_map,timestamp,true,_appTypeConstraint,_favConstraint,_sharedConstraint,_qConstraint,function(appmark_types,appmarks,has_more) {
-		app.loading();
 		if (!timestamp) _cards = [];
 		var offset = _cards.length;
 		for (var i=0;i<appmarks.length;i++) {
 			var n = _cards.length;
 			_cards[n] = getAppmarkCard(n,appmarks[i]);
 		}
-		if (appmarks.length > 0) {
-			_appmark_types = appmark_types;
-		}
+		if (appmarks.length > 0) _appmark_types = appmark_types;
 		_hasMore = has_more;
 		displayAppmarksPage(offset,timestamp);
 		app.pageLoaded();
 		app.finishRefresh();
-		if (gotoTop) getContent().scrollTop(0);
+		app.loading();
 	});
 }
 
@@ -479,7 +476,7 @@ var _pageLoaded = false;
 
 function myrefreshcb() {
   console.log('myrefreshcb()');
-  displayAppmarks(0,true);
+  displayAppmarks();
 }
 
 function init() {
@@ -498,4 +495,4 @@ function init() {
 
 $(document).ready(function() {
 	init();
-});
+}   

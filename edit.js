@@ -8,6 +8,7 @@ function displayAppmark() {
   var json = app.get('appmark-to-be-edited-json');
   var a = JSON.parse(json);
   $(document.createElement('div')).html(a.title).appendTo(_content);
+  app.pageLoaded();
 }
 
 function init() {

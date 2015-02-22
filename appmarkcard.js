@@ -3,6 +3,12 @@ function setImgElemSrc(imgElem,a) {
 	//setImgElemSrcFromType(imgElem,a.type);
 }
 
+function getDateStr(a) {
+	var today = (new Date()).format('d mmm');
+	var modifyDay = a.modify_date.format('d mmm');
+	return (modifyDay != today) ? modifyDay : a.modify_date.format('HH:MM')
+}
+
 function AppmarkCard(n,a,div,shared) {
 	this.n = n;
 	this.a = a;

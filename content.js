@@ -27,11 +27,6 @@ function displayURL(url) {
 	window.open(url);
 }
 
-function getDateStr(a) {
-	var today = (new Date()).format('d mmm');
-	var modifyDay = a.modify_date.format('d mmm');
-	return (modifyDay != today) ? modifyDay : a.modify_date.format('HH:MM')
-}
 
 function getAppmarkCard(n,a,shared) {
 	var div = $(document.createElement('div'));

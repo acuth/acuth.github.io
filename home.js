@@ -144,7 +144,7 @@ function testcall() {
 }
 
 function onResult(ok) {
-  console.log('onResult(ok='+ok+')');
+  //console.log('onResult('+ok+')');
   _mam = new mamClient('http://www.myappmarks.com/',app,true);
   _mam.initFromAppState();
   console.log('_mam.signedin='+_mam.signedin);

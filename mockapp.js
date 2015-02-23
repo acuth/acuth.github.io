@@ -84,7 +84,7 @@ MockApp.prototype.doResume = function() {
 }
 
 MockApp.prototype.doResult = function(ok) {
-  if (this.debug) console.log(this.varName+'.doResult(ok='+ok+')');
+  if (this.debug) console.log(this.varName+'.doResult('+ok+')');
   if (this.onresult) this.onresult(ok);
 }
 

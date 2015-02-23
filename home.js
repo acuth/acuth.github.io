@@ -138,6 +138,10 @@ function onResume() {
   //}
 }
 
+function testcall() {
+  console.log('testcall() was called');
+  console.log('app='+app);
+}
 
 function onResult(ok) {
   console.log('onResult(ok='+ok+')');

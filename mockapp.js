@@ -26,6 +26,10 @@ function MockApp(varName,framework) {
   this.debug = true;
 }
 
+MockApp.prototype.toString = function() {
+  return "{MockApp var:"+this.varName+" loaded:"+this.loaded+" onresult:"+this.onresult+"}";
+}
+
 MockApp.prototype.set = function(name,value) {
   if (this.debug) console.log(this.varName+'.set('+name+','+value+')');
   if (this.framework) this.framework.set(name,value);

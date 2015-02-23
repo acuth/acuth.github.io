@@ -19,8 +19,9 @@ function MockApp(varName,framework) {
   console.log(this.varName+' = new MockApp('+framework+')');
   this.framework = framework;
   if (this.framework) this.framework.setVarName(varName);
-  this.refreshCB = null;
-  this.resumeCB = null;
+  this.onrefresh = null;
+  this.onresult = null;
+  this.onresume = null;
   this.loaded = false;
   this.debug = true;
 }
@@ -65,17 +66,22 @@ MockApp.prototype.finishPage = function() {
   if (this.framework) this.framework.finishPage();
 }
 
-MockApp.prototype.onRefresh = function() {
-  if (this.debug) console.log(this.varName+'.onRefresh()');
-  if (this.refreshCB)
-    this.refreshCB();
+MockApp.prototype.doRefresh = function() {
+  if (this.debug) console.log(this.varName+'.doRefresh()');
+  if (this.onrefresh)
+    this.onrefresh();
   else
     this.finishRefresh();
 }
 
-MockApp.prototype.onResume = function() {
-  if (this.debug) console.log(this.varName+'.onResume()');
-  if (this.resumeCB) this.resumeCB();
+MockApp.prototype.doResume = function() {
+  if (this.debug) console.log(this.varName+'.doResume()');
+  if (this.onresume) this.onresume();
+}
+
+MockApp.prototype.doResult = function(ok) {
+  if (this.debug) console.log(this.varName+'.doResult(ok='+ok+')');
+  if (this.onresult) this.onresult(ok);
 }
 
 MockApp.prototype.finishRefresh = function() {

@@ -125,26 +125,11 @@ function displayAppmarks(timestamp) {
 }
 
 
-function onResume() {
-  console.log('onResume()');
-  //_mam = new mamClient('http://www.myappmarks.com/',app,true);
-  //_mam.initFromAppState();
-  //console.log('_mam.signedin='+_mam.signedin);
-  //if (_mam.signedin) {
-  //  displayAppmarks();
-  //}
-  //else {
-  //app.finishPage();
-  //}
-}
-
-function testcall() {
-  console.log('testcall() was called');
-  console.log('app='+app);
+function onRefresh() {
+  displayAppmarks();
 }
 
 function onResult(ok) {
-  //console.log('onResult('+ok+')');
   _mam = new mamClient('http://www.myappmarks.com/',app,true);
   _mam.initFromAppState();
   console.log('_mam.signedin='+_mam.signedin);
@@ -156,8 +141,8 @@ function onResult(ok) {
 
 function init() {
   app = new MockApp('app',_app);
-  app.onresume = onResume;
   app.onresult = onResult;
+  app.onrefresh = onRefresh;
 	_content = $('#page');
 	_token = app.load('mam_token');
 	if (!_token) {

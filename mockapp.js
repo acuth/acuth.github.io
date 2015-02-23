@@ -21,7 +21,6 @@ function MockApp(varName,framework) {
   if (this.framework) this.framework.setVarName(varName);
   this.onrefresh = null;
   this.onresult = null;
-  this.onresume = null;
   this.loaded = false;
   this.debug = true;
 }
@@ -76,11 +75,6 @@ MockApp.prototype.doRefresh = function() {
     this.onrefresh();
   else
     this.finishRefresh();
-}
-
-MockApp.prototype.doResume = function() {
-  if (this.debug) console.log(this.varName+'.doResume()');
-  if (this.onresume) this.onresume();
 }
 
 MockApp.prototype.doResult = function(ok) {

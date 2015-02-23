@@ -126,6 +126,7 @@ function displayAppmarks(timestamp) {
 
 
 function onRefresh() {
+  console.log('calling onRefresh() in home.js');
   displayAppmarks();
 }
 

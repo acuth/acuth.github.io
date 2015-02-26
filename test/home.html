@@ -9,13 +9,25 @@ body {
   background: #e2e2e2;
 }
 
-div#content, div.btn {
+h1 {
+  font-weight: bold;
+  text-align: center;
+}
+
+div#log, div.btn {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 20px;
   padding: 20px;
-  background: white;
+
+}
+
+div#log {
+  background: #888;
+  color: yellow;
+  font-size: 80%;
+  font-family: monospace;
 }
 
 div.btn {
@@ -49,26 +61,28 @@ div.btn:active {
 		<script type="text/javascript">
 var awac = null;
 
-function log(msg) {
-  $('#content').append('<br/>'+msg+' @ '+(new Date()).format('HH:MM:ss [d mmm]'));
+function log(msg,addDate) {
+  msg = '<br/>'+msg;
+  if (addDate) msg += ' @ '+(new Date()).format('HH:MM:ss');
+  $('#log').append(msg);
 }
 
 function onResult(ok) {
-  log('result from page:'+ok);
+  log('result from page:'+ok,true);
 }
 
 function onRefresh() {
-  log('page refreshed');
+  log('page refreshed',true);
   awac.finishRefresh();
 }
 
 function newPage() {
-  log('new page');
+  log('new page',true);
   awac.newPage('home');
 }
 
 function finishPage() {
-  log('finish page');
+  log('finish page',true);
   awac.finishPage();
 }
 
@@ -77,18 +91,18 @@ function init() {
   awac.onrefresh = onRefresh;
   awac.onresult = onResult;
   var hasRoot = awac.get('has-root');
-  $('#content').html('Welcome');
-  $('#content').append('<br/>has-root='+hasRoot);
+  $('#log').html('Welcome');
+  log('has-root='+hasRoot);
   if (!hasRoot) {
     awac.set('has-root','true');
   }
   else {
      $('#finish-page').show();
   }
-  $('#content').append('<br/>last session started @ '+awac.load('last-sess'));
-  var thisSess = (new Date()).format('HH:MM:ss [d mmm]');
+  log('last session started @ '+awac.load('last-sess'));
+  var thisSess = (new Date()).format('HH:MM:ss');
   awac.store('last-sess',thisSess);
-	$('#content').append('<br/>this session started @ '+thisSess);
+	log('this session started @ '+thisSess);
 	awac.showPage();
 }
 
@@ -98,7 +112,7 @@ $(document).ready(function() { init(); });
 	<body>
 	  <h1>Android WebApp Container Test Page</h1>
     <div onclick="newPage();" class="btn">New Page</div>
-    <div id="finish-page" style="display:none;" class="btn" onclick="finishPage();">Finish Page</div>
-		<div id="content"></div>
+		<div id="log"></div>
+		<div id="finish-page" style="display:none;" class="btn" onclick="finishPage();">Finish Page</div>
 	</body>
 </html>

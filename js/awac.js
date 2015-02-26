@@ -77,8 +77,8 @@ Awac.prototype.setOnBackPressed = function(cb) {
   this.onbackpressed = cb;
 }
 
-Awac.prototype.doOnBackPressed = function() {
-  if (this.debug) console.log(this.varName+'.doOnBackPressed()');
+Awac.prototype.doBackPressed = function() {
+  if (this.debug) console.log(this.varName+'.doBackPressed()');
   if (this.onbackpressed) this.onbackpressed();
 }
 

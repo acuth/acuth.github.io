@@ -19,6 +19,7 @@ div#content {
 }
 		</style>
 		<script src="../js/jquery.min.js" type="text/javascript"></script>
+		<script src="../js/dateformat.js" type="text/javascript"></script>
 		<script src="../js/awac.js" type="text/javascript"></script>
 		<script type="text/javascript">
 var awac = null;
@@ -32,7 +33,7 @@ function init() {
   awac = new Awac('awac');
   awac.onrefresh = onRefresh;
   $('#content').html('last session started @ '+awac.load('last-sess'));
-  var thisSess = (new Date()).toString();
+  var thisSess = (new Date()).format('HH:MM:ss [d mmm]');
   awac.store('last-sess',thisSess);
 	$('#content').append('<br/>this session started @ '+thisSess);
 	awac.showPage();

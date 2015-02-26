@@ -92,3 +92,8 @@ Awac.prototype.loading = function(msg) {
   if (!msg) msg = ' ';
   if (this.container) this.container.loading(msg);
 }
+
+Awac.prototype.toast = function(msg) {
+  if (this.debug) console.log(this.varName+'.toast('+msg+')');
+  if (this.container) this.container.showToast(msg);
+}

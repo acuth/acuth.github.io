@@ -57,7 +57,7 @@ div.btn:active {
 		</style>
 		<script src="../js/jquery.min.js" type="text/javascript"></script>
 		<script src="../js/dateformat.js" type="text/javascript"></script>
-		<script src="../js/awac.js?v=6" type="text/javascript"></script>
+		<script src="../js/awac.js?v=7" type="text/javascript"></script>
 		<script type="text/javascript">
 var awac = null;
 
@@ -72,12 +72,13 @@ function onResult(ok) {
 }
 
 function onRefresh() {
-  log('page refreshed',true);
+  log('on refresh',true);
   awac.finishRefresh();
 }
 
 function onBackPressed() {
   log('on back pressed',true);
+  awac.toast("You can never go back");
 }
 
 function newPage() {

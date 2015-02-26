@@ -25,7 +25,7 @@ div#content {
 var awac = null;
 
 function onRefresh() {
-  $('#content').append('<br/>page refreshed @ '+(new Date()));
+  $('#content').append('<br/>page refreshed @ '+(new Date()).format('HH:MM:ss [d mmm]'));
   awac.finishRefresh();
 }
 

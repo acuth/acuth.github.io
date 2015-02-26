@@ -24,7 +24,7 @@ div#content {
 var awac = null;
 
 function onRefresh() {
-  alert('Refresh invoked');
+  $('#content').html('page refreshed @ '+(new Date()));
   awac.finishRefresh();
 }
 

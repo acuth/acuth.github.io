@@ -32,6 +32,7 @@ function init() {
   awac = new Awac('awac');
   awac.onrefresh = onRefresh;
 	$('#content').html('page loaded @ '+(new Date()));
+	awac.showPage();
 }
 
 $(document).ready(function() { init(); });

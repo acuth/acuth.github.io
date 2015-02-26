@@ -40,8 +40,8 @@ Awac.prototype.load = function(name) {
   return value;
 }
 
-Awac.prototype.pageLoaded = function() {
-  if (this.debug) console.log(this.varName+'.pageLoaded()');
+Awac.prototype.showPage = function() {
+  if (this.debug) console.log(this.varName+'.showPage()');
   if (!this.loaded) {
     this.loaded = true;
     if (this.container) this.container.pageLoaded();

@@ -18,8 +18,27 @@ div#content {
   background: white;
 }
 
-button {
-  width: 100%;
+.myButton {
+	background-color:#44c767;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	border:1px solid #18ab29;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:arial;
+	font-size:17px;
+	padding:8px 15px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f6627;
+}
+.myButton:hover {
+	background-color:#5cbf2a;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
 }
 
 		</style>
@@ -51,7 +70,13 @@ function init() {
   awac = new Awac('awac');
   awac.onrefresh = onRefresh;
   awac.onresult = onResult;
-  $('#content').html('last session started @ '+awac.load('last-sess'));
+  var hasRoot = awac.get('has-root');
+  $('#content').html('Welcome');
+  $('#content').append('<br/>has-root='+hasRoot);
+  if (!hasRoot) {
+    awac.set('has-root','true');
+  }
+  $('#content').append('<br/>last session started @ '+awac.load('last-sess'));
   var thisSess = (new Date()).format('HH:MM:ss [d mmm]');
   awac.store('last-sess',thisSess);
 	$('#content').append('<br/>this session started @ '+thisSess);
@@ -63,7 +88,7 @@ $(document).ready(function() { init(); });
 	</head>
 	<body>
 	  <h1>Android WebApp Container Test Page</h1>
-	  <button onclick="newPage();">New Page</button>
+    <div><a href="javascript:newPage();" class="myButton">New Page</a></div>
 		<div id="content"></div>
 	</body>
 </html>

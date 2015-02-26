@@ -24,14 +24,17 @@ div#content {
 var awac = null;
 
 function onRefresh() {
-  $('#content').html('page refreshed @ '+(new Date()));
+  $('#content').html().append('<br/>page refreshed @ '+(new Date()));
   awac.finishRefresh();
 }
 
 function init() {
   awac = new Awac('awac');
   awac.onrefresh = onRefresh;
-	$('#content').html('page loaded @ '+(new Date()));
+  var lastSess = awac.load('last-sess');
+  var thisSess = (new Date()).toString();
+  awac.store('last-sess');
+	$('#content').html('last session started @ '+lastSess+'<br/>this session started @ '+thisSess);
 	awac.showPage();
 }
 

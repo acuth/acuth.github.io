@@ -17,6 +17,11 @@ div#content {
   padding: 20px;
   background: white;
 }
+
+button {
+  width: 100%;
+}
+
 		</style>
 		<script src="../js/jquery.min.js" type="text/javascript"></script>
 		<script src="../js/dateformat.js" type="text/javascript"></script>
@@ -24,14 +29,28 @@ div#content {
 		<script type="text/javascript">
 var awac = null;
 
+function log(msg) {
+  $('#content').append('<br/>'+msg+' @ '+(new Date()).format('HH:MM:ss [d mmm]'));
+}
+
+function onResult(ok) {
+  log('result from page:'+ok);
+}
+
 function onRefresh() {
-  $('#content').append('<br/>page refreshed @ '+(new Date()).format('HH:MM:ss [d mmm]'));
+  log('page refreshed');
   awac.finishRefresh();
+}
+
+function newPage() {
+  log('new page');
+  awac.newPage('home');
 }
 
 function init() {
   awac = new Awac('awac');
   awac.onrefresh = onRefresh;
+  awac.onresult = onResult;
   $('#content').html('last session started @ '+awac.load('last-sess'));
   var thisSess = (new Date()).format('HH:MM:ss [d mmm]');
   awac.store('last-sess',thisSess);
@@ -44,7 +63,7 @@ $(document).ready(function() { init(); });
 	</head>
 	<body>
 	  <h1>Android WebApp Container Test Page</h1>
-	  <div onclick="awac.newPage('home');">Show Child</div>
+	  <button onclick="newPage();">New Page</button>
 		<div id="content"></div>
 	</body>
 </html>

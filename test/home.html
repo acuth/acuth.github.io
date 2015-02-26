@@ -76,6 +76,10 @@ function onRefresh() {
   awac.finishRefresh();
 }
 
+function onBackPressed() {
+  log('on back pressed',true);
+}
+
 function newPage() {
   log('new page',true);
   awac.newPage('home');
@@ -95,6 +99,7 @@ function init() {
   log('has-root='+hasRoot);
   if (!hasRoot) {
     awac.set('has-root','true');
+    awac.setOnBackPressed(onBackPressed);
   }
   else {
      $('#finish-page').show();

@@ -60,6 +60,7 @@ div.btn:active {
 		<script src="../js/awac.js?v=7" type="text/javascript"></script>
 		<script type="text/javascript">
 var awac = null;
+var isRoot = false;
 
 function log(msg,addDate) {
   msg = '<br/>'+msg;
@@ -69,6 +70,7 @@ function log(msg,addDate) {
 
 function onResult(ok) {
   log('result from page:'+ok,true);
+  if (isRoot) $('#finish-page').hide();
 }
 
 function onRefresh() {
@@ -101,6 +103,7 @@ function init() {
   $('#log').html('Welcome');
   log('has-root='+hasRoot);
   if (!hasRoot) {
+    isRoot = true;
     awac.set('has-root','true');
     awac.setOnBackPressed(onBackPressed);
   }

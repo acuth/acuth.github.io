@@ -19,22 +19,22 @@ div#content {
 }
 		</style>
 		<script src="../js/jquery.min.js" type="text/javascript"></script>
-		<script src="../js/awac.js?r=2" type="text/javascript"></script>
+		<script src="../js/awac.js" type="text/javascript"></script>
 		<script type="text/javascript">
 var awac = null;
 
 function onRefresh() {
-  $('#content').html().append('<br/>page refreshed @ '+(new Date()));
+  $('#content').append('<br/>page refreshed @ '+(new Date()));
   awac.finishRefresh();
 }
 
 function init() {
   awac = new Awac('awac');
   awac.onrefresh = onRefresh;
-  var lastSess = awac.load('last-sess');
+  $('#content').html('last session started @ '+awac.load('last-sess'));
   var thisSess = (new Date()).toString();
-  awac.store('last-sess');
-	$('#content').html('last session started @ '+lastSess+'<br/>this session started @ '+thisSess);
+  awac.store('last-sess',thisSess);
+	$('#content').append('<br/>this session started @ '+thisSess);
 	awac.showPage();
 }
 

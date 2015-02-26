@@ -71,6 +71,17 @@ Awac.prototype.doResult = function(ok) {
   if (this.onresult) this.onresult(ok);
 }
 
+Awac.prototype.setOnBackPressed = function(cb) {
+  if (this.debug) console.log(this.varName+'.setOnBackPressed()');
+  if (this.container) this.container.gotOnBackPressedCB();
+  this.onbackpressed = cb;
+}
+
+Awac.prototype.doOnBackPressed = function() {
+  if (this.debug) console.log(this.varName+'.doOnBackPressed()');
+  if (this.onbackpressed) this.onbackpressed();
+}
+
 Awac.prototype.finishRefresh = function() {
   if (this.debug) console.log(this.varName+'.finishRefresh()');
   if (this.container) this.container.finishRefresh();

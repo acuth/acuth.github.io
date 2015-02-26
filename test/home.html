@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<link type="text/css" rel="stylesheet" href="../css/reset.css" />
+		<style type="text/css">
+body {
+  background: #e2e2e2;
+}
+
+div#content {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  padding: 20px;
+  background: white;
+}
+		</style>
+		<script src="../js/jquery.min.js" type="text/javascript"></script>
+		<script src="../js/awac.js" type="text/javascript"></script>
+		<script type="text/javascript">
+var awac = null;
+
+function onRefresh() {
+  alert('Refresh invoked');
+  awac.finishRefresh();
+}
+
+function init() {
+  awac = new Awac('awac');
+  awac.onrefresh = onRefresh;
+	$('#content').html('page loaded @ '+(new Date()));
+}
+
+$(document).ready(function() { init(); });
+		</script>
+	</head>
+	<body>
+	  <h1>Android WebApp Container Test Page</h1>
+		<div id="content"></div>
+	</body>
+</html>

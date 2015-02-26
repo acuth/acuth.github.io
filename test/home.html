@@ -92,6 +92,7 @@ function finishPage() {
 
 function init() {
   awac = new Awac('awac');
+  awac.debug = true;
   awac.onrefresh = onRefresh;
   awac.onresult = onResult;
   var hasRoot = awac.get('has-root');

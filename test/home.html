@@ -6,7 +6,7 @@
 		<link type="text/css" rel="stylesheet" href="../css/reset.css" />
 		<style type="text/css">
 body {
-  background: #e2e2e2;
+  background: white;
 }
 
 h1 {
@@ -28,7 +28,7 @@ div#log {
   color: yellow;
   font-size: 80%;
   font-family: monospace;
-  height: 320px;
+  height: 240px;
   overflow: auto;
 }
 
@@ -75,7 +75,7 @@ function onBackPressed() {
 function newPage(name) {
   awac.loading();
   if (isRoot) $('#finish-page').hide();
-  log('new page',true);
+  log('new page - '+name,true);
   awac.newPage(name);
 }
 
@@ -90,7 +90,7 @@ function init() {
   awac.setOnRefresh(onRefresh);
   awac.setOnResult(onResult);
   var hasRoot = awac.get('has-root');
-  $('#log').html('Welcome');
+  $('#log').html('Welcome to the Android WebApp Container');
   log('has-root='+hasRoot);
   if (!hasRoot) {
     isRoot = true;
@@ -111,9 +111,8 @@ $(document).ready(function() { init(); });
 		</script>
 	</head>
 	<body>
-	  <h1>Android WebApp Container Test Page</h1>
-    <div onclick="newPage('home');" class="btn">New Page</div>
 		<div id="log"></div>
+		<div onclick="newPage('home');" class="btn">New Page</div>
 		<div onclick="newPage('highline');" class="btn">High Line Park</div>
 		<div id="finish-page" style="display:none;" class="btn" onclick="finishPage();">Finish Page</div>
 	</body>

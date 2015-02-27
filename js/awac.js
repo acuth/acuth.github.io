@@ -58,12 +58,21 @@ Awac.prototype.finishPage = function() {
   if (this.container) this.container.finishPage();
 }
 
+Awac.prototype.setOnRefresh = function(cb) {
+  if (this.debug) console.log(this.varName+'.setOnRefresh()');
+  if (this.container) this.container.gotOnRefreshCB();
+  this.onrefresh = cb;
+}
+
 Awac.prototype.doRefresh = function() {
   if (this.debug) console.log(this.varName+'.doRefresh()');
-  if (this.onrefresh)
-    this.onrefresh();
-  else
-    this.finishRefresh();
+  if (this.onrefresh) this.onrefresh();
+}
+
+Awac.prototype.setOnResult = function(cb) {
+  if (this.debug) console.log(this.varName+'.setOnResult()');
+  if (this.container) this.container.gotOnResultCB();
+  this.onresult = cb;
 }
 
 Awac.prototype.doResult = function(ok) {

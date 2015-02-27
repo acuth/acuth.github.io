@@ -70,7 +70,6 @@ function log(msg,addDate) {
 
 function onResult(ok) {
   log('result from page:'+ok,true);
-  if (isRoot) $('#finish-page').hide();
 }
 
 function onRefresh() {
@@ -87,6 +86,7 @@ function onBackPressed() {
 
 function newPage() {
   awac.loading();
+  if (isRoot) $('#finish-page').hide();
   log('new page',true);
   awac.newPage('home');
 }
@@ -99,8 +99,8 @@ function finishPage() {
 function init() {
   awac = new Awac('awac');
   awac.debug = true;
-  awac.onrefresh = onRefresh;
-  awac.onresult = onResult;
+  awac.setOnRefresh(onRefresh);
+  awac.setOnResult(onResult);
   var hasRoot = awac.get('has-root');
   $('#log').html('Welcome');
   log('has-root='+hasRoot);

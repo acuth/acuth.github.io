@@ -84,11 +84,11 @@ function onBackPressed() {
   awac.loading("time to exit");
 }
 
-function newPage() {
+function newPage(name) {
   awac.loading();
   if (isRoot) $('#finish-page').hide();
   log('new page',true);
-  awac.newPage('home');
+  awac.newPage(name);
 }
 
 function finishPage() {
@@ -124,8 +124,9 @@ $(document).ready(function() { init(); });
 	</head>
 	<body>
 	  <h1>Android WebApp Container Test Page</h1>
-    <div onclick="newPage();" class="btn">New Page</div>
+    <div onclick="newPage('home');" class="btn">New Page</div>
 		<div id="log"></div>
 		<div id="finish-page" style="display:none;" class="btn" onclick="finishPage();">Finish Page</div>
+		<div onclick="newPage('highline');" class="btn">High Line Park</div>
 	</body>
 </html>

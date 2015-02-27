@@ -19,39 +19,28 @@ div#log, div.btn {
   margin-left: auto;
   margin-right: auto;
   margin-top: 20px;
-  padding: 20px;
+  padding: 10px;
 
 }
 
 div#log {
-  background: #888;
+  background: #444;
   color: yellow;
   font-size: 80%;
   font-family: monospace;
+  height: 320px;
+  overflow: auto;
 }
 
 div.btn {
   text-align: center;
-	background-color:#44c767;
-	-moz-border-radius:8px;
-	-webkit-border-radius:8px;
-	border-radius:8px;
-	border:1px solid #18ab29;
+	background: #CFDED9;
+	border-bottom: solid 1px #2E5649;
 	cursor:pointer;
-	color:#ffffff;
+	color:black;
 	font-family:arial;
 	font-size:17px;
 	text-decoration:none;
-	text-shadow:0px 1px 0px #2f6627;
-}
-
-div.btn:hover {
-	background-color:#5cbf2a;
-}
-
-div.btn:active {
-	position:relative;
-	top:1px;
 }
 
 		</style>
@@ -62,9 +51,8 @@ div.btn:active {
 var awac = null;
 var isRoot = false;
 
-function log(msg,addDate) {
-  msg = '<br/>'+msg;
-  if (addDate) msg += ' @ '+(new Date()).format('HH:MM:ss');
+function log(msg) {
+  msg = '<br/>'+(new Date()).format('HH:MM:ss')+' - '+msg;
   $('#log').append(msg);
 }
 

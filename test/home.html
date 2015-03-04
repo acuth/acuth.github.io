@@ -91,15 +91,12 @@ function finishPage() {
 
 function init() {
   awac = new Awac('awac');
-  awac.debug = true;
+  //awac.debug = true;
   awac.setOnRefresh(onRefresh);
   awac.setOnResult(onResult);
-  var hasRoot = awac.get('has-root');
+  isRoot = awac.isRootPage();
   $('#log').html('Welcome to the Android WebApp Container');
-  log('has-root='+hasRoot);
   if (!hasRoot) {
-    isRoot = true;
-    awac.set('has-root','true');
     awac.setOnBackPressed(onBackPressed);
   }
   else {

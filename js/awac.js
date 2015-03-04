@@ -1,9 +1,9 @@
-var _app;
+var _awac_;
 
 function Awac(varName) {
   this.varName = varName;
-  console.log(this.varName+' = new Awac('+_app+')');
-  this.container = _app;
+  console.log(this.varName+' = new Awac('+_awac_+')');
+  this.container = _awac_;
   this.debug = true;
   if (this.container) {
     this.container.setVarName(varName);
@@ -16,6 +16,12 @@ function Awac(varName) {
 
 Awac.prototype.toString = function() {
   return "{Awac var:"+this.varName+" loaded:"+this.loaded+" onresult:"+this.onresult+"}";
+}
+
+Awac.prototype.isRootPage = function() {
+  var root = this.container ? this.container.isRootPage() : false;
+  if (this.debug) console.log(this.varName+'.isRootPage()='+root);
+  return root;
 }
 
 Awac.prototype.set = function(name,value) {

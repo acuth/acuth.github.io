@@ -29,6 +29,11 @@ Awac.prototype.setTitle = function(title) {
   if (this.container) this.container.setTitle(title);
 }
 
+Awac.prototype.unlockNavDrawer = function() {
+  if (this.debug) console.log(this.varName+'.unlockNavDrawer()');
+  if (this.container) this.container.unlockNavDrawer();
+}
+
 Awac.prototype.set = function(name,value) {
   if (this.debug) console.log(this.varName+'.set('+name+','+value+')');
   if (this.container) this.container.set(name,value);

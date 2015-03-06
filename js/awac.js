@@ -24,6 +24,11 @@ Awac.prototype.isRootPage = function() {
   return root;
 }
 
+Awac.prototype.setTitle = function(title) {
+  if (this.debug) console.log(this.varName+'.setTitle('+title+')');
+  if (this.container) this.container.setTitle(title);
+}
+
 Awac.prototype.set = function(name,value) {
   if (this.debug) console.log(this.varName+'.set('+name+','+value+')');
   if (this.container) this.container.set(name,value);

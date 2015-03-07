@@ -18,7 +18,7 @@ MockContainer.prototype.toString = function() {
 
 MockContainer.prototype.setTitle = function(title) {
   if (this.debug) console.log(this.varName+'.setTitle('+title+')');
-  document.title = title;
+  if (!document.title) document.title = title;
 }
 
 MockContainer.prototype.startPage = function() {

@@ -6,44 +6,69 @@
 		<title>Lorem Ipsum</title>
 		<style type="text/css">
 body {
-  padding: 0px;
-  margin: 0px;
-  background: #e2e2e2;
-}
-
-div.content {
-  padding: 20px;
+  border: 0;
+  padding: 0;
+  margin: 0;
   background: #FCFCF1;
   color: rgb(119, 85, 23);
 }
 
 div#details {
-  width: 100%;
   background: #444;
   color: #D8C5B8;
   font-size: 80%;
   font-family: sans-serif;
 }
 
-div#details p {
-  padding: 8px;
+div#details div {
+  padding: 10px;
+  padding-bottom: 0px;
 }
 
-div#details p.code {
+div#details div.code {
   color: #51D2F9;
   font-size: 120%;
   font-family: monospace;
 }
+
+div#footer {
+  margin-top: 5px;
+  border-top: solid 1px #D8C5B8;
+  padding-top: 5px;
+  font-style: italic;
+}
+
+div#footer a {
+  text-decoration: none;
+  color: #FFF1E7;
+}
+
+div#content p {
+  padding: 10px;
+}
 		</style>
 		<script src="../js/awac.js?v=10" type="text/javascript"></script>
+		<script type="text/javascript">
+function loadFooter() {
+  var href = window.location.href;
+  var i = href.indexOf('?rnd=');
+  if (i != -1) href = href.substring(0,i);
+  var html = 'Window loaded from <a target="_blank" href="'+href+'">'+href+'</a>';
+  document.getElementById('footer').innerHTML = html;
+}
+		</script>
 	</head>
-	<body onload="(new Awac('awac')).startPage();">
-<div id="details">
-  <p>This is just a simple HTML page which includes the standard awac.js file and invokes the</p>
-  <p class="code">(new Awac('awac')).startPage();</p>
-  <p>in the onload event.</p>
-</div>
-<div class="content">
+	<body onload="(new Awac('awac')).startPage();loadFooter();">
+	   <div id="details">&nbsp;
+	     <div>This is just a simple HTML page. The only Javascript it has is an onload event which tells AWAC to start displaying the page. It also includes some code to display a link to this page so it can be viewed in a conventional browser.  which includes the standard awac.js file and invokes the</div>
+       <div class="code">(new Awac('awac')).startPage();</div>
+       <div>in the onload event. The title of the page is taken from the title element of the page.</div>
+       <div>Note there is no pull-to-refresh and no navigation drawer from the side.</div>
+       <div>Navigation away from the page is via the back button.</div>
+       <div id="footer">Navigation away from the page is via the back button.</div>
+       &nbsp;</div>
+     <div id="content">&nbsp;
+
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis cursus dapibus orci, quis tincidunt nunc tempus et. Phasellus aliquet ipsum justo. Quisque varius nisl quis efficitur semper. Nam vulputate pellentesque neque, nec mollis diam. Praesent eu bibendum orci, convallis dictum enim. Sed aliquam fermentum dolor, nec vestibulum arcu porttitor at. Praesent gravida orci a diam ullamcorper, eget imperdiet leo scelerisque. Sed id molestie nisl, non dapibus metus. Etiam ultricies dignissim erat a volutpat.</p>
 
 <p>Nulla ac ex elementum, dapibus enim ut, posuere sem. Cras a euismod turpis. Nunc tempor ex nec neque ornare, ut faucibus tortor gravida. Aliquam mi augue, blandit vitae ante a, molestie faucibus ex. Aliquam non metus efficitur, volutpat augue ut, congue sem. Nunc maximus hendrerit odio pretium iaculis. Sed aliquet mi est, non pellentesque metus molestie non. Quisque dictum vitae mi et ullamcorper. Nulla nisi ipsum, efficitur a scelerisque vitae, rhoncus nec lorem. Nulla sagittis vitae nulla aliquet lobortis. Integer eget nunc at tortor molestie ultricies. Morbi efficitur dapibus lacus, eu tempor sem cursus vitae. Duis ut dictum tortor.</p>
@@ -53,6 +78,7 @@ div#details p.code {
 <p>Curabitur mollis turpis at cursus feugiat. Curabitur in varius nibh, nec posuere nisi. Curabitur commodo, lacus vitae posuere pulvinar, sapien eros congue ligula, ac pellentesque lorem tortor ultricies erat. Duis quis ultrices est. Nam a enim elit. Integer eget tincidunt turpis. Nunc auctor dignissim odio, ac tincidunt diam accumsan at. Suspendisse porttitor dui at eleifend accumsan. Vestibulum pulvinar nisl cursus, aliquam velit eget, scelerisque ante. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pulvinar elit non magna tincidunt, nec ultrices est suscipit.</p>
 
 <p>Duis nibh sem, dictum non tortor tristique, tristique tempor quam. Cras pharetra, augue dignissim porttitor tincidunt, ipsum mauris commodo lacus, eget malesuada nunc ex nec justo. Vivamus volutpat finibus ex quis tincidunt. Vivamus non nulla sollicitudin, porta felis in, sollicitudin metus. Nulla facilisi. Nunc convallis imperdiet odio vitae condimentum. Pellentesque dui magna, venenatis ac nisl et, auctor aliquam erat. Etiam a auctor purus. Aenean rutrum lorem in magna hendrerit luctus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce nisl ligula, ultricies interdum sollicitudin ut, posuere id arcu. Ut semper sapien vitae nisi congue, at congue lorem ullamcorper. Proin sit amet lacus pulvinar, convallis lorem ut, vulputate ipsum.</p>
+</div>
 </div>
 	</body>
 </html>

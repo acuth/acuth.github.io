@@ -197,8 +197,8 @@ Awac.prototype.doResult = function(ok) {
   if (this.onresult) this.onresult(ok);
 }
 
-Awac.prototype.doBackPressed = function() {
-  if (this.debug) console.log('Awac.doBackPressed()');
+Awac.prototype.fireBackPressed = function() {
+  if (this.debug) console.log('Awac.fireBackPressed()');
   if (this.onbackpressed) this.onbackpressed();
 }
 

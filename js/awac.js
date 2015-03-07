@@ -84,8 +84,8 @@ MockContainer.prototype.gotOnBackPressedCB = function() {
   if (this.debug) console.log(this.varName+'.gotOnBackPressedCB()');
 }
 
-MockContainer.prototype.finishRefresh = function() {
-  if (this.debug) console.log(this.varName+'.finishRefresh()');
+MockContainer.prototype.stopRefresh = function() {
+  if (this.debug) console.log(this.varName+'.stopRefresh()');
 }
 
 MockContainer.prototype.getStackDepth = function() {
@@ -185,11 +185,6 @@ Awac.prototype.setOnBackPressed = function(cb) {
   this.onbackpressed = cb;
 }
 
-Awac.prototype.doRefresh = function() {
-  if (this.debug) console.log('Awac.doRefresh()');
-  if (this.onrefresh) this.onrefresh();
-}
-
 // fire callbacks
 
 Awac.prototype.fireDialogResult = function(ok) {
@@ -211,8 +206,8 @@ Awac.prototype.fireRefresh = function() {
 //
 
 
-Awac.prototype.finishRefresh = function() {
-  if (this.debug) console.log('Awac.finishRefresh()');
-  if (this.container) this.container.finishRefresh();
+Awac.prototype.stopRefresh = function() {
+  if (this.debug) console.log('Awac.stopRefresh()');
+  if (this.container) this.container.stopRefresh();
 }
 

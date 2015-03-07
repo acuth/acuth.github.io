@@ -93,8 +93,8 @@ function Awac(varName) {
   this.varName = varName;
   console.log(this.varName+' = new Awac('+_awac_+')');
   this.container = _awac_ ? _awac_ : new MockContainer(this);
-  System.out.println(' - this.container='+this.container;
   this.container.setVarName(varName);
+  console.log(' - this.container='+this.container);
   this.ondialog = null;
   this.onrefresh = null;
   this.onresult = null;

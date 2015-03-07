@@ -73,7 +73,7 @@ MockContainer.prototype.endPage = function() {
 MockContainer.prototype.showDialog = function(msg,ok,cancel) {
   if (this.debug) console.log(this.varName+'.showDialog('+msg+','+ok+','+cancel+')');
   var yes = confirm(msg);
-  this.awac.doDialog(yes);
+  this.awac.fireDialogResult(yes);
 }
 
 MockContainer.prototype.gotOnRefreshCB = function() {
@@ -176,8 +176,8 @@ Awac.prototype.doRefresh = function() {
 
 // fire callbacks
 
-Awac.prototype.doDialog = function(ok) {
-  if (this.debug) console.log('Awac.doDialog('+ok+')');
+Awac.prototype.fireDialogResult = function(ok) {
+  if (this.debug) console.log('Awac.fireDialogResult('+ok+')');
   if (this.ondialog) this.ondialog(ok);
   this.ondialog = null;
 }

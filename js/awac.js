@@ -67,7 +67,7 @@ MockContainer.prototype.startPage = function() {
 
 MockContainer.prototype.endPage = function() {
   if (this.debug) console.log(this.varName+'.endPage()');
-  //window.close();
+  window.close();
 }
 
 MockContainer.prototype.showDialog = function(msg,ok,cancel) {
@@ -198,15 +198,18 @@ Awac.prototype.fireDialogResult = function(ok) {
   this.ondialog = null;
 }
 
-Awac.prototype.doResult = function(ok) {
-  if (this.debug) console.log('Awac.doResult('+ok+')');
-  if (this.onresult) this.onresult(ok);
-}
-
 Awac.prototype.fireBackPressed = function() {
   if (this.debug) console.log('Awac.fireBackPressed()');
   if (this.onbackpressed) this.onbackpressed();
 }
+
+Awac.prototype.fireRefresh = function() {
+  if (this.debug) console.log('Awac.fireRefresh()');
+  if (this.onrefresh) this.onrefresh();
+}
+
+//
+
 
 Awac.prototype.finishRefresh = function() {
   if (this.debug) console.log('Awac.finishRefresh()');

@@ -14,12 +14,18 @@ function loadFooter() {
   document.getElementById('footer').innerHTML = html;
 }
 
+
+
 var _awac = null;
+
+function onRefresh() {
+  setTimeout(function() { _awac.stopRefresh(); }, 5000);
+}
 
 function doOnLoad() {
   _awac = new Awac('_awac');
   _awac.setTitle('Load @ '+(new Date()));
-  _awac.unlockNavDrawer();
+  _awac.setOnRefresh(onRefresh);
   _awac.startPage();
   loadFooter();
 }
@@ -29,7 +35,7 @@ function doOnLoad() {
 	   <div id="details">&nbsp;
 	     <div>In this example we creates a global variable to represent Awac called _awac.</div>
        <div class="code">_awac = new Awac('_awac');</div>
-       <div>We can then tell Awac the title for the page and enable the navigation drawer and pull-to-refresh.</div>
+       <div>By setting an on-refresh handler, we enable the pull-to-refresh behaviour.</div>
        <div>We can also provide a button to explicitly end displaying the page.</div>
        <div id="footer"></div>
        &nbsp;</div> <!-- end of details -->

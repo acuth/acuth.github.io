@@ -104,6 +104,7 @@ function Awac(varName) {
   this.onrefresh = null;
   this.onresult = null;
   this.started = false;
+  this.gottitle = false;
   this.debug = true;
 }
 
@@ -113,6 +114,7 @@ Awac.prototype.toString = function() {
 
 Awac.prototype.setTitle = function(title) {
   this.container.setTitle(title);
+  this.gottitle = true;
 }
 
 Awac.prototype.getStackDepth = function() {
@@ -143,6 +145,10 @@ Awac.prototype.load = function(name) {
 Awac.prototype.startPage = function() {
   if (!this.started) {
     this.started = true;
+    if (!this.gottitle) {
+      var t = document.title;
+      if (t) this.setTitle(t);
+    }
     this.container.startPage();
   }
 }

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<link type="text/css" rel="stylesheet" href="test.css" />
+		<script src="../js/awac.js?v=10" type="text/javascript"></script>
+		<script type="text/javascript">
+function loadFooter() {
+  var href = window.location.href;
+  var i = href.indexOf('?rnd=');
+  if (i != -1) href = href.substring(0,i);
+  var html = 'Window loaded from <a target="_blank" href="'+href+'">'+href+'</a>';
+  document.getElementById('footer').innerHTML = html;
+}
+
+var _awac = null;
+
+function doOnLoad() {
+  _awac = new Awac('_awac');
+  _awac.setTitle('Load @ '+(new Date()));
+  _awac.unlockNavDrawer();
+  _awac.startPage();
+  loadFooter();
+}
+		</script>
+	</head>
+	<body onload="doOnLoad();">
+	   <div id="details">&nbsp;
+	     <div>In this example we creates a global variable to represent Awac called _awac.</div>
+       <div class="code">_awac = new Awac('_awac');</div>
+       <div>We can then tell Awac the title for the page and enable the navigation drawer and pull-to-refresh.</div>
+       <div>We can also provide a button to explicitly end displaying the page.</div>
+       <div id="footer"></div>
+       &nbsp;</div> <!-- end of details -->
+     <div id="content">&nbsp;
+        <p>Stuff goes here</p>
+        <div class="btn" onclick="_awac.endPage();">Close Page</div>
+     </div>
+  </body>
+</html>

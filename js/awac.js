@@ -95,10 +95,10 @@ MockContainer.prototype.getStackDepth = function() {
 
 
 function Awac(varName) {
-  this.varName = varName;
+  this.varName = varName ? varName : 'x';
   console.log(this.varName+' = new Awac('+_awac_+')');
   this.container = _awac_ ? _awac_ : new MockContainer(this);
-  this.container.setVarName(varName);
+  this.container.setVarName(this.varName);
   console.log(' - this.container='+this.container);
   this.ondialog = null;
   this.onrefresh = null;

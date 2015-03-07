@@ -17,9 +17,11 @@ div.content {
   color: rgb(119, 85, 23);
 }
 
-div.details {
+div#details {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  padding: 10px;
   background: #444;
   color: #D8C5B8;
   font-size: 80%;
@@ -35,8 +37,10 @@ span.code {
 		<script src="../js/awac.js?v=10" type="text/javascript"></script>
 	</head>
 	<body onload="(new Awac('awac')).startPage();">
-<div class="details">
-  This is just a simple HTML page which includes the standard awac.js file and invokes the <span class="code">(new Awac('awac')).startPage();</span> in the onload event.
+<div id="details">
+  <p>This is just a simple HTML page which includes the standard awac.js file and invokes the</p>
+  <p class="code">(new Awac('awac')).startPage();</p>
+  <p>in the onload event.</p>
 </div>
 <div class="content">
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis cursus dapibus orci, quis tincidunt nunc tempus et. Phasellus aliquet ipsum justo. Quisque varius nisl quis efficitur semper. Nam vulputate pellentesque neque, nec mollis diam. Praesent eu bibendum orci, convallis dictum enim. Sed aliquam fermentum dolor, nec vestibulum arcu porttitor at. Praesent gravida orci a diam ullamcorper, eget imperdiet leo scelerisque. Sed id molestie nisl, non dapibus metus. Etiam ultricies dignissim erat a volutpat.</p>

@@ -88,6 +88,11 @@ MockContainer.prototype.finishRefresh = function() {
   if (this.debug) console.log(this.varName+'.finishRefresh()');
 }
 
+MockContainer.prototype.getStackDepth = function() {
+  if (this.debug) console.log(this.varName+'.getStackDepth()=0');
+  return 0;
+}
+
 
 function Awac(varName) {
   this.varName = varName;
@@ -108,6 +113,10 @@ Awac.prototype.toString = function() {
 
 Awac.prototype.setTitle = function(title) {
   this.container.setTitle(title);
+}
+
+Awac.prototype.getStackDepth = function() {
+  return this.container.getStackDepth();
 }
 
 Awac.prototype.unlockNavDrawer = function() {

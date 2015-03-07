@@ -64,8 +64,11 @@ div#footer {
 		<script type="text/javascript">
 var _awac = null;
 
-function leaveApp() {
-  _awac.dialog('Do you want to exit the app?','Yes','No',function(ok) { if (ok) _awac.endPage(); });
+function exit() {
+  if (_awac.getStackDepth() == 0)
+    _awac.dialog('Do you want to exit the app?','Yes','No',function(ok) { if (ok) _awac.endPage(); });
+  else
+    _awac.endPage();
 }
 
 $(document).ready(function() {
@@ -73,6 +76,8 @@ $(document).ready(function() {
   _awac = new Awac('_awac');
   _awac.setTitle("Welcome");
   _awac.unlockNavDrawer();
+  _awac.setOnBackPressed(exit);
+  $('#details').html('stack-depth: '+_awac.getStackDepth());
   _awac.startPage();
 });
 		</script>
@@ -82,7 +87,11 @@ $(document).ready(function() {
 
 	  <div class="btn" onclick="_awac.openPage('highline','highline.html');">HighLine</div>
 
-	  <div class="btn" onclick="leaveApp();">Leave App</div>
+	  <div class="btn" onclick="_awac.openPage('index-2','index.html');">Index</div>
+
+	  <div class="btn" onclick="exit();">Leave App</div>
+
+	  <div id="details"></div>
 
 	  <div id="footer"></div>
 	</body>

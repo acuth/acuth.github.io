@@ -84,6 +84,10 @@ MockContainer.prototype.gotOnBackPressedCB = function() {
   if (this.debug) console.log(this.varName+'.gotOnBackPressedCB()');
 }
 
+MockContainer.prototype.gotOnActionCB = function() {
+  if (this.debug) console.log(this.varName+'.gotOnActionCB()');
+}
+
 MockContainer.prototype.stopRefresh = function() {
   if (this.debug) console.log(this.varName+'.stopRefresh()');
 }
@@ -103,6 +107,7 @@ function Awac(varName) {
   this.ondialog = null;
   this.onrefresh = null;
   this.onresult = null;
+  this.onaction = null;
   this.started = false;
   this.gottitle = false;
   this.debug = true;
@@ -185,6 +190,11 @@ Awac.prototype.setOnBackPressed = function(cb) {
   this.onbackpressed = cb;
 }
 
+Awac.prototype.setOnAction = function(cb) {
+  this.container.gotOnActionCB();
+  this.onaction = cb;
+}
+
 // fire callbacks
 
 Awac.prototype.fireDialogResult = function(ok) {
@@ -201,6 +211,11 @@ Awac.prototype.fireBackPressed = function() {
 Awac.prototype.fireRefresh = function() {
   if (this.debug) console.log('Awac.fireRefresh()');
   if (this.onrefresh) this.onrefresh();
+}
+
+Awac.prototype.fireAction = function(action) {
+  if (this.debug) console.log('Awac.fireAction('+action+')');
+  if (this.onaction) this.onaction(action);
 }
 
 //

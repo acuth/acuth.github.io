@@ -17,6 +17,10 @@ function exit() {
     _awac.endPage();
 }
 
+function logAction(action) {
+  document.getElementById('actions').innerHTML += '<br/>'+action;
+}
+
 function loadFooter() {
   var href = window.location.href;
   var i = href.indexOf('?rnd=');
@@ -30,6 +34,7 @@ $(document).ready(function() {
   _awac = new Awac('_awac');
   _awac.unlockNavDrawer();
   _awac.setOnBackPressed(exit);
+  _awac.setOnAction(logAction);
   _awac.startPage();
 });
 		</script>
@@ -49,6 +54,8 @@ $(document).ready(function() {
 	  <div class="btn" onclick="_awac.openPage('refresh','refresh.html');">Refresh</div>
 
 	  <div class="btn" onclick="_awac.openPage('index-2','index.html');">Index</div>
+
+	  <div id="actions"></div>
 
 	  <div class="btn" onclick="exit();">Leave App</div>
 

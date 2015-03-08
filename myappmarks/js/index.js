@@ -155,7 +155,7 @@ function init() {
 		}
 		app.store('mam_token',t);
 		app.startPage();
-	  app.openPage('signin.html');
+	  app.openPage('account','signin.html');
 	}
   else {
   	_mam = new mamClient('http://www.myappmarks.com/',app,true);

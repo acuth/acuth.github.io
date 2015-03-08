@@ -61,6 +61,11 @@ MockContainer.prototype.openPage = function(tag,url) {
   window.open(url,tag);
 }
 
+MockContainer.prototype.newApp = function(url) {
+  if (this.debug) console.log(this.varName+'.newApp('+url+')');
+  window.location.href = url;
+}
+
 MockContainer.prototype.startPage = function() {
   if (this.debug) console.log(this.varName+'.startPage()');
 }
@@ -166,6 +171,10 @@ Awac.prototype.endPage = function() {
 /* Pop a new page onto the stack */
 Awac.prototype.openPage = function(tag,url) {
   this.container.openPage(tag,url);
+}
+
+Awac.prototype.newApp = function(url) {
+  this.container.newApp(url);
 }
 
 Awac.prototype.dialog = function(msg,ok,cancel,cb) {

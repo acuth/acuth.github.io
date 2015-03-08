@@ -20,15 +20,18 @@ function loadFooter() {
 var _awac = null;
 
 function onRefresh() {
-  setTimeout(function() { _awac.stopRefresh(); }, 5000);
+  document.getElementById('status').innerHTML = 'on-refresh handler has been called, waiting for 5s';
+  setTimeout(function() {
+    _awac.stopRefresh();
+    document.getElementById('status').innerHTML = 'on-refresh handler exiting';
+    _awac.setTitle('Load @ '+(new Date()).format('HH:mm'));
+  }, 5000);
 }
 
 function doOnLoad() {
   _awac = new Awac('_awac');
   _awac.setTitle('Load @ '+(new Date()).format('HH:mm'));
-  _awac.setOnRefresh(function() {
-    setTimeout(function() { _awac.stopRefresh(); }, 5000);
-  });
+  _awac.setOnRefresh(onRefresh);
   _awac.startPage();
   loadFooter();
 }
@@ -47,7 +50,8 @@ function doOnLoad() {
        <div id="footer"></div>
        &nbsp;</div> <!-- end of details -->
      <div id="content">&nbsp;
-        <p>THis page displays pull-to-refresh behaviour.</p>
+        <p>This page is designed to display pull-to-refresh behaviour. Once refresh has been started, the page sleeps for 5s before updating the title of the page.</p>
+        <p id="status"></p>
      </div>
   </body>
 </html>

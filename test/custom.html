@@ -25,6 +25,7 @@ function startApp() {
   if (url) {
     console.log('found '+url);
     _awac.store('test_custom_url',url);
+    _awac.setTitle('Loading web-app...');
     _awac.newApp(url);
   }
 }

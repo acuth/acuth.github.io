@@ -24,13 +24,13 @@ function onRefresh() {
   setTimeout(function() {
     _awac.stopRefresh();
     document.getElementById('status').innerHTML = 'on-refresh handler exiting';
-    _awac.setTitle('Load @ '+(new Date()).format('HH:mm'));
+    _awac.setTitle('Loaded @ '+(new Date()).format('HH:mm:ss'));
   }, 5000);
 }
 
 function doOnLoad() {
   _awac = new Awac('_awac');
-  _awac.setTitle('Load @ '+(new Date()).format('HH:mm'));
+  _awac.setTitle('Loaded @ '+(new Date()).format('HH:mm:ss'));
   _awac.setOnRefresh(onRefresh);
   _awac.startPage();
   loadFooter();

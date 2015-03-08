@@ -126,7 +126,7 @@ AppmarkCard.prototype.clickOnControl=function(action) {
 	if (action=='edit') {
 		app.set('appmark-to-be-edited-index',this.n);
 		app.set('appmark-to-be-edited-json',this.a.json);
-		app.startPage('edit','edit.html');
+		app.openPage('edit','edit.html');
 	}
 	else if (action=='delete') {
 		this.confirmDelete();

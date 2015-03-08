@@ -22,7 +22,7 @@ var _awac = null;
 function onRefresh() {
   document.getElementById('status').innerHTML = 'on-refresh handler has been called, waiting for 5s';
   setTimeout(function() {
-    _awac.stopRefresh();
+    _awac.endRefresh();
     document.getElementById('status').innerHTML = 'on-refresh handler exiting';
     _awac.setTitle('Loaded @ '+(new Date()).format('HH:MM:ss'));
   }, 5000);
@@ -44,13 +44,15 @@ function doOnLoad() {
        _awac = new Awac('_awac');
        _awac.setOnRefresh(function(){
          ...
-         _awac.stopRefresh();
+         _awac.endRefresh();
        });</pre></div>
        <div>Setting an on-refresh handler enables pull-to-refresh behaviour for the page.</div>
        <div id="footer"></div>
        &nbsp;</div> <!-- end of details -->
      <div id="content">&nbsp;
         <p>This page is designed to display pull-to-refresh behaviour. Once refresh has been started, the page sleeps for 5s before updating the title of the page.</p>
+        <div class="btn" onclick="_awac.startRefresh();">Start Refresh</div>
+        <div class="btn" onclick="_awac.endRefresh();">End Refresh</div>
         <p id="status"></p>
      </div>
   </body>

@@ -93,8 +93,12 @@ MockContainer.prototype.gotOnActionCB = function() {
   if (this.debug) console.log(this.varName+'.gotOnActionCB()');
 }
 
-MockContainer.prototype.stopRefresh = function() {
-  if (this.debug) console.log(this.varName+'.stopRefresh()');
+MockContainer.prototype.startRefresh = function() {
+  if (this.debug) console.log(this.varName+'.startRefresh()');
+}
+
+MockContainer.prototype.endRefresh = function() {
+  if (this.debug) console.log(this.varName+'.endRefresh()');
 }
 
 MockContainer.prototype.getStackDepth = function() {
@@ -229,9 +233,11 @@ Awac.prototype.fireAction = function(action) {
 
 //
 
+Awac.prototype.startRefresh = function() {
+  this.container.startRefresh();
+}
 
-Awac.prototype.stopRefresh = function() {
-  if (this.debug) console.log('Awac.stopRefresh()');
-  if (this.container) this.container.stopRefresh();
+Awac.prototype.endRefresh = function() {
+  this.container.endRefresh();
 }
 

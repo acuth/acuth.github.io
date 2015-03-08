@@ -1,4 +1,4 @@
-var _app;
+
 var app = null;
 var _isloading = false;
 var _content = null;
@@ -106,7 +106,7 @@ function displayAppmarksPage(offset,timestamp) {
 function displayAppmarks(timestamp) {
   var arg_map = [];
   console.log('displayAppmarks(timestamp='+timestamp+')');
-  app.loading('loading appmarks...');
+  //app.loading('loading appmarks...');
 	arg_map['device'] = 'chrome';
 	_mam.getappmarks22(arg_map,timestamp,true,_appTypeConstraint,_favConstraint,_sharedConstraint,_qConstraint,function(appmark_types,appmarks,has_more) {
 		if (!timestamp) _cards = [];
@@ -118,9 +118,9 @@ function displayAppmarks(timestamp) {
 		if (appmarks.length > 0) _appmark_types = appmark_types;
 		_hasMore = has_more;
 		displayAppmarksPage(offset,timestamp);
-		app.pageLoaded();
-		app.finishRefresh();
-		app.loading();
+		app.startPage();
+		app.endRefresh();
+		//app.loading();
 	});
 }
 
@@ -141,9 +141,9 @@ function onResult(ok) {
 }
 
 function init() {
-  app = new MockApp('app',_app);
-  app.onresult = onResult;
-  app.onrefresh = onRefresh;
+  app = new Awac('app');
+  //app.setOnResult(onResult);
+  app.setOnRefresh(onRefresh);
 	_content = $('#page');
 	_token = app.load('mam_token');
 	if (!_token) {
@@ -154,18 +154,18 @@ function init() {
 			t += chars.substring(rnum,rnum+1);
 		}
 		app.store('mam_token',t);
-		app.pageLoaded();
-	  app.newPage('signin');
+		app.startPage();
+	  app.openPage('signin.html');
 	}
   else {
   	_mam = new mamClient('http://www.myappmarks.com/',app,true);
-    app.loading('signing in...');
+    //app.loading('signing in...');
 	  _mam.testsignedin(_token,function() {
       log('testsignedin = '+_mam.signedin);
 		  if (!_mam.signedin) {
-		    app.loading();
-		    app.pageLoaded();
-	      app.newPage('signin');
+		    //app.loading();
+		    app.startPage();
+	      app.openPage('account','signin.html');
 	      return;
 		  }
 			displayAppmarks();

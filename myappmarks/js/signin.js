@@ -1,4 +1,3 @@
-var _app;
 var app = null;
 var _content = null;
 
@@ -31,7 +30,7 @@ function doSignIn(event) {
 		if (!_mam.signedin)
 			displayFormMessage(_mam.msg);
 		else
-			app.finishPage();
+			app.endPage();
 	});
 }
 
@@ -47,7 +46,7 @@ function doRegister(event) {
 		if (!_mam.signedin)
 			displayFormMessage(_mam.msg);
 		else
-			app.finishPage();
+			app.endPage();
 	});
 }
 
@@ -113,13 +112,13 @@ function doAlert(msg) {
 }
 
 function init() {
-  app = new MockApp('app',_app);
+  app = new Awac('app');
 	_content = $('#page');
 	_mam = new mamClient('http://www.myappmarks.com/',app,true);
   _mam.initFromAppState();
 	displaySignIn();
-	app.loading();
-	app.pageLoaded();
+	//app.loading();
+	app.startPage();
 }
 
 $(document).ready(function() { init(); });

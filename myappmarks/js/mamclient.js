@@ -1,3 +1,19 @@
+function downloadURL3(url,cb) {
+	console.log('downloadURL3('+url+')');
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET",url,true);
+	xhr.onreadystatechange = function() {
+  		if (xhr.readyState == 4) {
+    		// JSON.parse does not evaluate the attacker's scripts.
+    		//console.log('got response '+xhr.responseText);
+    		var resp = JSON.parse(xhr.responseText);
+    		//log('about to call cb');
+    		cb(resp);
+  		}
+	}
+	xhr.send();
+}
+
 function mamAppMarkType(args) {
 	this.type = args.type;
 	this.appstore_name = args.appstore_name;

@@ -243,7 +243,7 @@ Awac.prototype.fireAction = function(action) {
 
 Awac.prototype.firePageClose = function(tag,ok,json) {
   if (this.debug) console.log('Awac.firePageClose('+tag+','+ok+','+json+')');
-  if (this.onaction) this.onpageclose(tag,ok,JSON.parse(json));
+  if (this.onpageclose) this.onpageclose(tag,ok,JSON.parse(json));
 }
 
 //

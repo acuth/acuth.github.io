@@ -25,6 +25,19 @@ function pageLog(msg) {
 
 var _awac = null;
 
+function q1() {
+  _awac.dialog('Which is better?','Star Trek','Star Wars',function(ok) {
+    pageLog('You choose '+(ok?'Star Trek':'Star Wars'));
+  });
+}
+
+function q2() {
+  _awac.dialog('Which pill are you going to take?','red','blue',function(ok) {
+    var s = ok ? 'red' : 'blue';
+    _awac.endPage(s);
+  });
+}
+
 function doOnLoad() {
   _awac = new Awac('_awac');
   _awac.startPage();

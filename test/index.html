@@ -25,11 +25,16 @@ function loadFooter() {
   document.getElementById('footer').innerHTML = html;
 }
 
+function onPageClose(tag,ok,obj) {
+    document.getElementById('log').innerHTML += '<br/>onPageClose('+tag+','+ok+','+obj+')';
+}
+
 $(document).ready(function() {
   loadFooter();
   _awac = new Awac('_awac');
   _awac.unlockNavDrawer();
   _awac.setOnBackPressed(exit);
+  _awac.setOnPageClose(onPageClose);
   _awac.startPage();
 });
 		</script>
@@ -55,6 +60,8 @@ $(document).ready(function() {
 	  <div class="btn" onclick="_awac.openPage('index-2','custom.html');">Custom</div>
 
 	  <div class="btn" onclick="exit();">Leave App</div>
+
+	  <div id="log">-log goes here-</div>
 
 	  </div>
 	</body>

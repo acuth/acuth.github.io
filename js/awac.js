@@ -93,6 +93,10 @@ MockContainer.prototype.gotOnActionCB = function() {
   if (this.debug) console.log(this.varName+'.gotOnActionCB()');
 }
 
+MockContainer.prototype.gotOnPageCloseCB = function() {
+  if (this.debug) console.log(this.varName+'.gotOnPageCloseCB()');
+}
+
 MockContainer.prototype.startRefresh = function() {
   if (this.debug) console.log(this.varName+'.startRefresh()');
 }
@@ -117,6 +121,7 @@ function Awac(varName) {
   this.onrefresh = null;
   this.onresult = null;
   this.onaction = null;
+  this.onpageclose = null;
   this.started = false;
   this.gottitle = false;
   this.debug = true;
@@ -168,8 +173,8 @@ Awac.prototype.startPage = function() {
 }
 
 /* End displaying the page and pop it off the stack */
-Awac.prototype.endPage = function() {
-  this.container.endPage();
+Awac.prototype.endPage = function(obj) {
+  this.container.endPage(JSON.stringify(obj));
 }
 
 /* Pop a new page onto the stack */
@@ -208,6 +213,11 @@ Awac.prototype.setOnAction = function(cb) {
   this.onaction = cb;
 }
 
+Awac.prototype.setOnPageClose = function(cb) {
+  this.container.gotOnPageCloseCB();
+  this.onpageclose = cb;
+}
+
 // fire callbacks
 
 Awac.prototype.fireDialogResult = function(ok) {
@@ -229,6 +239,11 @@ Awac.prototype.fireRefresh = function() {
 Awac.prototype.fireAction = function(action) {
   if (this.debug) console.log('Awac.fireAction('+action+')');
   if (this.onaction) this.onaction(action);
+}
+
+Awac.prototype.firePageClose = function(tag,ok,json) {
+  if (this.debug) console.log('Awac.firePageClose('+tag+','+ok+','+json+')');
+  if (this.onaction) this.onpageclose(tag,ok,JSON.parse(json));
 }
 
 //

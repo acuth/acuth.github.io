@@ -61,7 +61,7 @@ div.btn {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 10px;
   text-align: center;
 	background: #CFDED9;
@@ -72,5 +72,17 @@ div.btn {
 	font-family: arial;
 	font-size: 17px;
 	text-decoration: none;
+}
+
+div#log {
+  width: 80%;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+  background: #444;
+  color: yellow;
+  font-family: monospace;
+  font-size: 80%;
 }
 

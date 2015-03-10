@@ -139,7 +139,7 @@ function onPageClose(tag,ok,obj) {
     if (_mam.signedin)
       displayAppmarks();
     else
-      app.closePage();
+      app.endPage();
   }
 }
 

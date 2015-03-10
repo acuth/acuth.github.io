@@ -130,20 +130,28 @@ function onRefresh() {
   displayAppmarks();
 }
 
-function onResult(ok) {
-  _mam = new mamClient('http://www.myappmarks.com/',app,true);
-  _mam.initFromAppState();
-  console.log('_mam.signedin='+_mam.signedin);
-  if (_mam.signedin)
-    displayAppmarks();
-  else
-    app.finishPage();
+function onPageClose(tag,ok,obj) {
+  if (tag == 'account') {
+    _mam = new mamClient('http://www.myappmarks.com/',app,true);
+    _mam.initFromAppState();
+    console.log('_mam.signedin='+_mam.signedin);
+    if (_mam.signedin)
+      displayAppmarks();
+    else
+      app.closePage();
+  }
+}
+
+function onBackPressed() {
+  app.dialog('Do you want to leave myappmarks?','Yes','No',function(ok) { if (ok) app.endPage(); });
 }
 
 function init() {
   app = new Awac('app');
   //app.setOnResult(onResult);
   app.setOnRefresh(onRefresh);
+  app.setOnPageClose(onPageClose);
+  app.setOnBackPressed(onBackPressed);
 	_content = $('#page');
 	_token = app.load('mam_token');
 	if (!_token) {

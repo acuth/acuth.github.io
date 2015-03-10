@@ -30,7 +30,7 @@ function doSignIn(event) {
 		if (!_mam.signedin)
 			displayFormMessage(_mam.msg);
 		else
-			app.endPage();
+			app.endPage(1);
 	});
 }
 
@@ -46,7 +46,7 @@ function doRegister(event) {
 		if (!_mam.signedin)
 			displayFormMessage(_mam.msg);
 		else
-			app.endPage();
+			app.endPage(1);
 	});
 }
 

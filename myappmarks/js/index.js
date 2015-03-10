@@ -131,6 +131,7 @@ function onRefresh() {
 }
 
 function onPageClose(tag,ok,obj) {
+  console.log('index.onPageClose('+tag+','+ok+','+obj+')');
   if (tag == 'account') {
     _mam = new mamClient('http://www.myappmarks.com/',app,true);
     _mam.initFromAppState();

@@ -26,7 +26,7 @@ function loadFooter() {
   document.getElementById('footer').innerHTML = html;
 }
 
-function pageLog(msg) {
+function pLog(msg) {
    var e = document.getElementById('log');
    var html = e.innerHTML;
    html = (new Date()).format('HH:MM:ss')+' '+msg + '<br/>' + html;
@@ -34,11 +34,16 @@ function pageLog(msg) {
 }
 
 function onPageClose(tag,ok,obj) {
-    pageLog('onPageClose('+tag+','+ok+','+obj+')');
+    pLog('onPageClose('+tag+','+ok+','+obj+')');
 }
 
+function onAction(action) {
+    pLog('onAction('+action+')');
+}
+
+
 function logTest() {
-  pageLog('This is a test');
+    pLog('This is a test');
 }
 
 $(document).ready(function() {
@@ -48,6 +53,7 @@ $(document).ready(function() {
   _awac.addNavDrawerItem({'label':'Questions, questions','action':'show_questions'});
   _awac.unlockNavDrawer();
   _awac.setOnBackPressed(exit);
+  _awac.setOnAction(onAction);
   _awac.setOnPageClose(onPageClose);
   _awac.startPage();
 });

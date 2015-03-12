@@ -38,24 +38,23 @@ function onPageClose(tag,ok,obj) {
 }
 
 function onAction(action) {
-    pLog('onAction('+action+')');
     if (action == 'show_lorem') _awac.openPage('lorem','lorem.html');
+    else if (action == 'show_refresh') _awac.openPage('refresh','refresh.html');
     else if (action == 'show_questions') _awac.openPage('questions','questions.html');
     else if (action == 'show_actions') _awac.openPage('actions','actions.html');
+    else if (action == 'show_index') _awac.openPage('index','index.html');
     else if (action == 'show_custom') _awac.openPage('custom','custom.html');
 }
 
-
-function logTest() {
-    pLog('This is a test');
-}
 
 $(document).ready(function() {
   loadFooter();
   _awac = new Awac('_awac');
   _awac.addNavDrawerItem({'label':'Lorem Ipsum','action':'show_lorem'});
+  _awac.addNavDrawerItem({'label':'Refresh','action':'show_refresh'});
   _awac.addNavDrawerItem({'label':'Questions, questions','action':'show_questions'});
   _awac.addNavDrawerItem({'label':'Actions','action':'show_actions'});
+  _awac.addNavDrawerItem({'label':'Index (again)','action':'show_index'});
   _awac.addNavDrawerItem({'label':'Custom','action':'show_custom'});
   _awac.unlockNavDrawer();
   _awac.setOnBackPressed(exit);
@@ -74,12 +73,6 @@ $(document).ready(function() {
 	  <p>Welcome to Awac - the Android Web App Container. Awac is a simple Android app that can be used to display suitably modified webpages for prototyping purposes.</p>
 
 	  <p>The navigation drawer provides access to a number of pages designed to illustrate how to use Awac.</p>
-
-	  <div class="btn" onclick="_awac.openPage('refresh','refresh.html');">Refresh</div>
-
-	  <div class="btn" onclick="_awac.openPage('recursive','index.html');">Index</div>
-
-	  <div class="btn" onclick="logTest();">Log Test</div>
 
 	  <div id="log">-log goes here-</div>
 

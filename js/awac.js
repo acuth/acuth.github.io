@@ -21,6 +21,18 @@ MockContainer.prototype.setTitle = function(title) {
   if (!document.title) document.title = title;
 }
 
+MockContainer.prototype.addNavDrawerItem = function(json) {
+  if (this.debug) console.log(this.varName+'.addNavDrawerItem('+json+')');
+}
+
+MockContainer.prototype.addOptionsMenuItem = function(json) {
+  if (this.debug) console.log(this.varName+'.addOptionsMenuItem('+json+')');
+}
+
+MockContainer.prototype.addActionBarItem = function(json) {
+  if (this.debug) console.log(this.varName+'.addActionBarItem('+json+')');
+}
+
 MockContainer.prototype.startPage = function() {
   if (this.debug) console.log(this.varName+'.startPage()');
 }
@@ -134,6 +146,18 @@ Awac.prototype.toString = function() {
 Awac.prototype.setTitle = function(title) {
   this.container.setTitle(title);
   this.gottitle = true;
+}
+
+Awac.prototype.addNavDrawerItem = function(obj) {
+  this.container.addNavDrawerItem(JSON.stringify(obj));
+}
+
+Awac.prototype.addOptionsMenuItem = function(obj) {
+  this.container.addOptionsMenuItem(JSON.stringify(obj));
+}
+
+Awac.prototype.addActionBarItem = function(obj) {
+  this.container.addActionBarItem(JSON.stringify(obj));
 }
 
 Awac.prototype.getStackDepth = function() {

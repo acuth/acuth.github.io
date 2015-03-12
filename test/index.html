@@ -44,6 +44,8 @@ function logTest() {
 $(document).ready(function() {
   loadFooter();
   _awac = new Awac('_awac');
+  _awac.addNavDrawerItem({'label':'Lorem Ipsum','action':'show_lorem'});
+  _awac.addNavDrawerItem({'label':'Questions, questions','action':'show_questions'});
   _awac.unlockNavDrawer();
   _awac.setOnBackPressed(exit);
   _awac.setOnPageClose(onPageClose);

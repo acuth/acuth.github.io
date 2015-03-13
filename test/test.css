@@ -74,6 +74,25 @@ div.btn {
 	text-decoration: none;
 }
 
+div.card {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  padding: 0px;
+	border: solid 1px #aaa;
+	background: white;
+}
+
+div.card div.header {
+  padding: 10px;
+  border-bottom: solid 1px gray;
+}
+
+div.card div.blurb {
+  padding: 10px;
+}
+
 div#log {
   width: 80%;
   margin-top: 10px;

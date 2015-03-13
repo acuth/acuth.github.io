@@ -72,8 +72,20 @@ $(document).ready(function() {
      <div id="content">&nbsp;
 	  <p>Welcome to Awac - the Android Web App Container. Awac is a simple Android app that can be used to display suitably modified webpages for prototyping purposes.</p>
 
-	  <p>The navigation drawer provides access to a number of pages designed to illustrate how to use Awac.</p>
+	  <div class="card">
+	    <div class="header">Lorem Ipsum</div>
+	    <div class="blurb" onclick="onAction('show_lorem');">Example of the minimum required to turn a simple web page into an Awac enabled web page!</div>
+	  </div>
 
+	  <div class="card">
+	    <div class="header">Refreshing</div>
+	    <div class="blurb" onclick="onAction('show_refresh');">Pages in Awac can easily enable a native pull-to-refresh behaviour.</div>
+	  </div>
+
+    <div class="card">
+	    <div class="header">Questions, questions</div>
+	    <div class="blurb" onclick="onAction('show_questions');">Awac pages also can call upon a native dialogue for answering questions.</div>
+	  </div>
 	  <div id="log">-log goes here-</div>
 
 	  </div>

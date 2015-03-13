@@ -74,18 +74,40 @@ $(document).ready(function() {
 
 	  <div class="card">
 	    <div class="header">Lorem Ipsum</div>
-	    <div class="blurb" onclick="onAction('show_lorem');">Example of the minimum required to turn a simple web page into an Awac enabled web page!</div>
+	    <div class="cbody">
+	       <div class="blurb">Example of the minimum required to turn a simple web page into an Awac enabled web page!</div>
+	       <div class="nav" onclick="onAction('show_lorem');"><div class="circle">go</div></div>
+	       <div style="clear:both;"></div>
+	     </div>
 	  </div>
 
 	  <div class="card">
 	    <div class="header">Refreshing</div>
-	    <div class="blurb" onclick="onAction('show_refresh');">Pages in Awac can easily enable a native pull-to-refresh behaviour.</div>
+	       <div class="cbody">
+	    <div class="blurb">Pages in Awac can easily enable a native pull-to-refresh behaviour.</div>
+	     <div class="nav" onclick="onAction('show_refresh');"><div class="circle">go</div></div>
+	       <div style="clear:both;"></div>
+	     </div>
 	  </div>
 
     <div class="card">
 	    <div class="header">Questions, questions</div>
-	    <div class="blurb" onclick="onAction('show_questions');">Awac pages also can call upon a native dialogue for answering questions.</div>
+	       <div class="cbody">
+	    <div class="blurb">Awac pages also can call upon a native dialogue for answering questions.</div>
+	     <div class="nav" onclick="onAction('show_questions');"><div class="circle">go</div></div>
+	       <div style="clear:both;"></div>
+	     </div>
 	  </div>
+
+	   <div class="card">
+	    <div class="header">Roll your own</div>
+	       <div class="cbody">
+	    <div class="blurb">You can make this Awac app point to your own web-app right here, right now!</div>
+	     <div class="nav" onclick="onAction('show_custom');"><div class="circle">go</div></div>
+	       <div style="clear:both;"></div>
+	     </div>
+	  </div>
+
 	  <div id="log">-log goes here-</div>
 
 	  </div>

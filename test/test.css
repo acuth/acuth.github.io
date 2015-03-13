@@ -75,23 +75,51 @@ div.btn {
 }
 
 div.card {
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 10px;
+  margin: 10px;
   padding: 0px;
-	border: solid 1px #aaa;
+	border: solid 1px #d5d5d5;
 	background: white;
 }
 
 div.card div.header {
-  padding: 10px;
-  border-bottom: solid 1px gray;
+  padding: 4px;
+  border-bottom: solid 1px #d5d5d5;
+  font-size: 14px;
+  line-height: 18px;
+  color: black;
 }
 
-div.card div.blurb {
-  padding: 10px;
+div.card div.cbody {
+  position: relative;
 }
+
+.circle{
+  width:30px;
+  height:30px;
+  border-radius:15px;
+  font-size:10px;
+  color:white;
+  line-height:30px;
+  text-align:center;
+  background:red;
+}
+
+div.card div.cbody div.blurb {
+  padding: 4px;
+  font-size: 14px;
+  line-height: 18px;
+  float: left;
+  width: 80%;
+}
+
+div.card div.cbody div.nav {
+  padding: 4px;
+  font-size: 14px;
+  line-height: 18px;
+  float: right;
+  width: 10%;
+}
+
 
 div#log {
   width: 80%;

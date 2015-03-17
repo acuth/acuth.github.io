@@ -143,6 +143,27 @@ Awac.prototype.toString = function() {
   return "{Awac var:"+this.varName+" loaded:"+this.loaded+" onresult:"+this.onresult+"}";
 }
 
+Awac.prototype.stringify = function(x) {
+  if (!x) return 'null';
+  var t = typeof(x);
+  if (t === 'undefined') return 'null';
+  if (t == 'string') return 'string:'+encodeURIComponent(x);
+  if (t == 'number') return 'number:'+x;
+  if (t == 'object') return 'object:'+encodeURIComponent(JSON.stringify(x));
+  return 'null';
+}
+
+Awac.prototype.parse = function(s) {
+  if (s == 'null') return null;
+  var i = s.indexOf(':');
+  var t = s.substring(0,i);
+  s = s.substring(i+1);
+  if (t == 'string') return decodeURIComponent(s);
+  if (t == 'number') return parseFloat(s);
+  if (t == 'object') return JSON.parse(decodeURIComponent(s));
+  return null;
+}
+
 Awac.prototype.setTitle = function(title) {
   this.container.setTitle(title);
   this.gottitle = true;
@@ -169,11 +190,13 @@ Awac.prototype.unlockNavDrawer = function() {
 }
 
 Awac.prototype.set = function(name,value) {
-  this.container.set(name,value);
+  var v = this.stringify(value);
+  this.container.set(name,v);
 }
 
 Awac.prototype.get = function(name) {
-  return this.container.get(name);
+  var s = this.container.get(name);
+  return this.parse(s);
 }
 
 Awac.prototype.store = function(name,value) {

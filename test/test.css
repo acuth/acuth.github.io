@@ -13,27 +13,25 @@ div#details {
   font-family: sans-serif;
 }
 
-div#details div {
-  padding: 10px;
-  padding-bottom: 0px;
-}
-
 div#details div.code {
   color: #51D2F9;
   font-size: 120%;
   font-family: monospace;
 }
 
-div#footer {
-  margin-top: 5px;
-  border-top: solid 1px #D8C5B8;
-  padding-top: 5px;
+div#details-footer {
+  padding: 5px;
   font-style: italic;
 }
 
-div#footer a {
+div#details-footer a {
   text-decoration: none;
   color: #FFF1E7;
+}
+
+div#details-blurb {
+  display: none;
+  border-top: solid 1px #D8C5B8;
 }
 
 div#content p {

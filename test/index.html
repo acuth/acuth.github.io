@@ -22,8 +22,8 @@ function loadFooter() {
   var href = window.location.href;
   var i = href.indexOf('?rnd=');
   if (i != -1) href = href.substring(0,i);
-  var html = 'Page loaded from <a target="_blank" href="'+href+'">'+href+'</a>';
-  document.getElementById('footer').innerHTML = html;
+  var html = 'Page loaded from <a target="_blank" href="'+href+'">'+href+'</a> <a id="details-more" href="javascript:openDetails();">more...</a>';
+  document.getElementById('details-footer').innerHTML = html;
 }
 
 function pLog(msg) {
@@ -44,6 +44,7 @@ function onAction(action) {
     else if (action == 'show_actions') _awac.openPage('actions','actions.html');
     else if (action == 'show_index') _awac.openPage('index','index.html');
     else if (action == 'show_custom') _awac.openPage('custom','custom.html');
+    else if (action == 'show_storage') _awac.openPage('storage','storage.html');
 }
 
 
@@ -64,11 +65,7 @@ $(document).ready(function() {
 });
 		</script>
 	</head>
-	<body>
-	     <div id="details">&nbsp;
-	     <div>These pages provide some examples of how to use Awac. Each page includes a link to view the page outside of the app.</div>
-       <div id="footer"></div>
-       &nbsp;</div> <!-- end of details -->
+	<body
      <div id="content">&nbsp;
 	  <p>Welcome to Awac - the Android Web App Container. Awac is a simple Android app that can be used to display suitably modified webpages for prototyping purposes.</p>
 
@@ -100,6 +97,18 @@ $(document).ready(function() {
 	  </div>
 
 	   <div class="card">
+	    <div class="header">Storage</div>
+	       <div class="cbody">
+	    <div class="blurb">Awac pages also can call upon a native dialogue for answering questions.</div>
+	     <div class="nav" onclick="onAction('show_storage');"><div class="circle">go</div></div>
+	       <div style="clear:both;"></div>
+	     </div>
+	  </div>
+
+
+
+
+	   <div class="card">
 	    <div class="header">Roll your own</div>
 	       <div class="cbody">
 	    <div class="blurb">You can make this Awac app point to your own web-app right here, right now!</div>
@@ -108,8 +117,9 @@ $(document).ready(function() {
 	     </div>
 	  </div>
 
-	  <div id="log">-log goes here-</div>
-
-	  </div>
+	  </div> <!-- content -->
+	  <div id="details"><div id="details-footer"></div>
+	     <div id="details-blurb">These pages provide some examples of how to use Awac. Each page includes a link to view the page outside of the app.</div
+       &nbsp;</div> <!-- end of details -->
 	</body>
 </html>

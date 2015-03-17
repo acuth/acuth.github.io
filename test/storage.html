@@ -13,13 +13,14 @@ var _awac = null;
 
 
 function testStore(x) {
+  var useJson = typeof(x) == 'object' || typeof(x) == 'array';
   var s = x;
-  if (typeof(s) == 'object') s = JSON.stringify(s);
+  if (useJson) s = JSON.stringify(s);
   pLog('testStore('+s+')');
   _awac.set('test_x',x);
   x = _awac.get('test_x');
   s = x;
-  if (typeof(s) == 'object') s = JSON.stringify(s);
+  if (useJson) s = JSON.stringify(s);
   pLog(' - after '+s);
 }
 
@@ -32,6 +33,13 @@ function onAction(action) {
     obj.first = 'Joe "The Hut"';
     obj.last ='Blogg\'s';
     testStore(obj);
+  }
+  else if (action == 'store_arr') {
+    var arr = [];
+    arr[0] = 'Red';
+    arr[1] = 'Green';
+    arr[2] = 'Blue';
+    testStore(arr);
   }
 }
 
@@ -57,6 +65,7 @@ $(document).ready(function() {
   _awac.addOptionsMenuItem({'label':'Store int','action':'store_int'});
   _awac.addOptionsMenuItem({'label':'Store string','action':'store_string'});
   _awac.addOptionsMenuItem({'label':'Store object','action':'store_obj'});
+  _awac.addOptionsMenuItem({'label':'Store array','action':'store_arr'});
   _awac.setOnAction(onAction);
   _awac.startPage();
 });
@@ -74,7 +83,8 @@ $(document).ready(function() {
     <a href="javascript:onAction('store_null');">null</a>
     <a href="javascript:onAction('store_int');">int</a>
     <a href="javascript:onAction('store_string');">string</a>
-    <a href="javascript:onAction('store_obj');">obj</a>
+    <a href="javascript:onAction('store_obj');">object</a>
+    <a href="javascript:onAction('store_arr');">array</a>
 	  </div>
 	</body>
 </html>

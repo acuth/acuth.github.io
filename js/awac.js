@@ -149,7 +149,7 @@ Awac.prototype.stringify = function(x) {
   if (t === 'undefined') return 'null';
   if (t == 'string') return 'string:'+encodeURIComponent(x);
   if (t == 'number') return 'number:'+x;
-  if (t == 'object') return 'object:'+encodeURIComponent(JSON.stringify(x));
+  if (t == 'object' || t == 'array') return 'json:'+encodeURIComponent(JSON.stringify(x));
   return 'null';
 }
 
@@ -160,7 +160,7 @@ Awac.prototype.parse = function(s) {
   s = s.substring(i+1);
   if (t == 'string') return decodeURIComponent(s);
   if (t == 'number') return parseFloat(s);
-  if (t == 'object') return JSON.parse(decodeURIComponent(s));
+  if (t == 'json') return JSON.parse(decodeURIComponent(s));
   return null;
 }
 
@@ -200,11 +200,13 @@ Awac.prototype.get = function(name) {
 }
 
 Awac.prototype.store = function(name,value) {
-  this.container.store(name,value);
+  var v = this.stringify(value);
+  this.container.store(name,v);
 }
 
 Awac.prototype.load = function(name) {
-  return this.container.load(name);
+  var s = this.container.load(name);
+  return this.parse(s);
 }
 
 /* Call this to make the web page visible */

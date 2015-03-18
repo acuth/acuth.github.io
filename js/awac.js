@@ -154,6 +154,8 @@ Awac.prototype.stringify = function(x) {
 }
 
 Awac.prototype.parse = function(s) {
+  if (!s) return null;
+  if (typeof(s) === 'undefined') return null;
   if (s == 'null') return null;
   var i = s.indexOf(':');
   var t = s.substring(0,i);

@@ -73,6 +73,11 @@ MockContainer.prototype.openPage = function(tag,url) {
   window.open(url,tag);
 }
 
+MockContainer.prototype.replacePage = function(url,next) {
+  if (this.debug) console.log(this.varName+'.replacePage('+url+','+next+')');
+  window.open(url,'replace');
+}
+
 MockContainer.prototype.newApp = function(url) {
   if (this.debug) console.log(this.varName+'.newApp('+url+')');
   window.location.href = url;
@@ -231,6 +236,11 @@ Awac.prototype.endPage = function(obj) {
 /* Pop a new page onto the stack */
 Awac.prototype.openPage = function(tag,url) {
   this.container.openPage(tag,url);
+}
+
+/* Replace page on top of the stack */
+Awac.prototype.replacePage = function(url,next) {
+  this.container.replacePage(url,next);
 }
 
 Awac.prototype.newApp = function(url) {

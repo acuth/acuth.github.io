@@ -22,6 +22,7 @@ function openDetails() {
   console.log('openDetails()');
   $('#details-blurb').show(400);
    $('#details-more').hide();
+   $(window).scrollTop($(document).height());
 }
 
 function loadFooter() {

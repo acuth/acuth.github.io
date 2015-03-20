@@ -21,9 +21,12 @@ function exit() {
 function openDetails() {
   console.log('openDetails()');
   $('#details-blurb').show(400);
-   $('#details-more').hide();
+  $('#details-more').hide();
   setTimeout(function() {
-    console.log('scroll'); $(window).scrollTop($(document).height()); },400);
+    var h = $(document).height();
+    console.log('scroll to '+h);
+    $('html, body').animate({scrollTop:h}, 'slow');
+  },400);
 }
 
 function loadFooter() {

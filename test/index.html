@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-		<link type="text/css" rel="stylesheet" href="test.css?v=3" />
+		<link type="text/css" rel="stylesheet" href="test.css?v=4" />
 		<title>An Introduction to Awac</title>
 		<script src="../js/jquery.min.js" type="text/javascript"></script>
 		<script src="../js/dateformat.js" type="text/javascript"></script>
@@ -22,7 +22,7 @@ function openDetails() {
   console.log('openDetails()');
   $('#details-blurb').show(400);
    $('#details-more').hide();
-   $(window).scrollTop($(document).height());
+  setTimeout(400,function() { $(window).scrollTop($(document).height()); });
 }
 
 function loadFooter() {

@@ -31,6 +31,7 @@ div#details-footer a {
 
 div#details-footer div.link {
   float: left;
+  padding-left: 10px;
 }
 
 div#details-footer div.more {

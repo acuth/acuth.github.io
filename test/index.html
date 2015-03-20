@@ -8,6 +8,7 @@
 		<script src="../js/jquery.min.js" type="text/javascript"></script>
 		<script src="../js/dateformat.js" type="text/javascript"></script>
 		<script src="../js/awac.js?v=13" type="text/javascript"></script>
+		<script src="test.js?v=13" type="text/javascript"></script>
 		<script type="text/javascript">
 var _awac = null;
 
@@ -16,38 +17,6 @@ function exit() {
     _awac.dialog('Do you want to exit the app?','Yes','No',function(ok) { if (ok) _awac.endPage(); });
   else
     _awac.endPage();
-}
-
-function openDetails() {
-  console.log('openDetails()');
-  $('#details-blurb').show(400);
-  $('#details-more').hide();
-  setTimeout(function() {
-    var h = $(document).height();
-    console.log('scroll to '+h);
-    $('html, body').animate({scrollTop:h}, 'slow');
-  },400);
-}
-
-function loadFooter() {
-  var href = window.location.href;
-  var i = href.indexOf('?rnd=');
-  if (i != -1) href = href.substring(0,i);
-  var html = '<div class="link">Loaded from <a target="_blank" href="'+href+'">'+href+'</a></div>'+
-            '<div class="more"><a id="details-more" href="javascript:openDetails();">more...</a></div>'+
-            '<div style="clear:both;"></div>';
-  document.getElementById('details-footer').innerHTML = html;
-}
-
-function pLog(msg) {
-   var e = document.getElementById('log');
-   var html = e.innerHTML;
-   html = (new Date()).format('HH:MM:ss')+' '+msg + '<br/>' + html;
-   e.innerHTML = html;
-}
-
-function onPageClose(tag,ok,obj) {
-    pLog('onPageClose('+tag+','+ok+','+obj+')');
 }
 
 function onAction(action) {
@@ -74,7 +43,6 @@ $(document).ready(function() {
   _awac.unlockNavDrawer();
   _awac.setOnBackPressed(exit);
   _awac.setOnAction(onAction);
-  _awac.setOnPageClose(onPageClose);
   _awac.startPage();
 });
 		</script>
@@ -128,9 +96,6 @@ $(document).ready(function() {
 	     </div>
 	  </div>
 
-
-
-
 	   <div class="card">
 	    <div class="header">Roll your own</div>
 	       <div class="cbody">
@@ -141,8 +106,9 @@ $(document).ready(function() {
 	  </div>
 
 	  </div> <!-- content -->
+
 	  <div id="details"><div id="details-footer"></div>
-	     <div id="details-blurb">These pages provide some examples of how to use Awac. Each page includes a link to view the page outside of the app.</div
+	     <div id="details-blurb">These pages provide some examples of how to use Awac. Most pages includes a link to view the page outside of the app.</div>
        &nbsp;</div> <!-- end of details -->
 	</body>
 </html>

@@ -18,11 +18,19 @@ function exit() {
     _awac.endPage();
 }
 
+function openDetails() {
+  console.log('openDetails()');
+  $('#details-blurb').show(400);
+   $('#details-more').hide();
+}
+
 function loadFooter() {
   var href = window.location.href;
   var i = href.indexOf('?rnd=');
   if (i != -1) href = href.substring(0,i);
-  var html = 'Page loaded from <a target="_blank" href="'+href+'">'+href+'</a> <a id="details-more" href="javascript:openDetails();">more...</a>';
+  var html = '<div class="link">Page loaded from <a target="_blank" href="'+href+'">'+href+'</a></div>'+
+            '<div class="more"><a id="details-more" href="javascript:openDetails();">more...</a></div>'+
+            '<div style="clear:both;"></div>';
   document.getElementById('details-footer').innerHTML = html;
 }
 

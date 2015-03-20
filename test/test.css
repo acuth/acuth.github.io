@@ -29,9 +29,18 @@ div#details-footer a {
   color: #FFF1E7;
 }
 
+div#details-footer div.link {
+  float: left;
+}
+
+div#details-footer div.more {
+  float: right;
+}
+
 div#details-blurb {
   display: none;
   border-top: solid 1px #D8C5B8;
+  padding: 10px;
 }
 
 div#content p {

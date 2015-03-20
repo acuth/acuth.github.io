@@ -38,8 +38,9 @@ function doOnLoad() {
         <p id="status"></p>
      </div>
 
-     <div id="details"><div id="details-footer"></div>
-	     <div id="details-blurb"><div>In this example we create a global variable to represent Awac called _awac. The variable name must be supplied to the constructor to receive events.</div>
+     <div id="details"><div id="details-footer"></div><div id="details-blurb">
+
+       <div>In this example we create a global variable to represent Awac called _awac. The variable name must be supplied to the constructor to receive events.</div>
        <div class="code"><pre>
        _awac = new Awac('_awac');
        _awac.setOnRefresh(function(){
@@ -47,6 +48,6 @@ function doOnLoad() {
          _awac.endRefresh();
        });</pre></div>
        <div>Setting an on-refresh handler enables pull-to-refresh behaviour for the page.</div>
-       &nbsp;</div> <!-- end of details -->
+    </div><!-- end of details-blurb --></div> <!-- end of details -->
   </body>
 </html>

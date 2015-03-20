@@ -5,17 +5,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<link type="text/css" rel="stylesheet" href="test.css" />
 		<title>Roll Your Own</title>
+		<script src="../js/jquery.min.js" type="text/javascript"></script>
 		<script src="../js/dateformat.js" type="text/javascript"></script>
 		<script src="../js/awac.js?v=11" type="text/javascript"></script>
+		<script src="test.js?v=10" type="text/javascript"></script>
 		<script type="text/javascript">
-function loadFooter() {
-  var href = window.location.href;
-  var i = href.indexOf('?rnd=');
-  if (i != -1) href = href.substring(0,i);
-  var html = 'Page loaded from <a target="_blank" href="'+href+'">'+href+'</a>';
-  document.getElementById('footer').innerHTML = html;
-}
-
 
 
 var _awac = null;
@@ -42,17 +36,23 @@ function doOnLoad() {
 		</script>
 	</head>
 	<body onload="doOnLoad();">
-	   <div id="details">&nbsp;
-	     <div>In this example we tell Awac to load up a web-app from a specified URL.</div>
-       <div class="code"><pre>
-       _awac.newApp(url);
-       </pre></div>
-       <div id="footer"></div>
-       &nbsp;</div> <!-- end of details -->
+
+
+
+
      <div id="content">&nbsp;
         <p>This page is designed to let you supply the URL of a web-app of your own.</p>
         <div class="txt"><input id="url" type="text" placeholder="web-app url" /></div>
         <div class="btn" onclick="startApp();">Start App</div>
      </div>
+
+
+
+     <div id="details"><div id="details-footer"></div><div id="details-blurb">
+	     <div>In this example we tell Awac to load up a web-app from a specified URL.</div>
+       <div class="code"><pre>
+       _awac.newApp(url);
+       </pre></div>
+    </div><!-- end of details-blurb --></div> <!-- end of details -->
   </body>
 </html>

@@ -8,6 +8,8 @@ function loadFooter() {
   var href = window.location.href;
   var i = href.indexOf('?rnd=');
   if (i != -1) href = href.substring(0,i);
+  i = href.indexOf('&rnd=');
+  if (i != -1) href = href.substring(0,i);
   var html = '<div class="link">Loaded from <a target="_blank" href="'+href+'">'+href+'</a></div>'+
             '<div class="more"><a id="details-more" href="javascript:openFooterBlurb();">more...</a></div>'+
             '<div style="clear:both;"></div>';

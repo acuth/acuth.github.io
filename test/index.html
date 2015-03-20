@@ -22,7 +22,8 @@ function openDetails() {
   console.log('openDetails()');
   $('#details-blurb').show(400);
    $('#details-more').hide();
-  setTimeout(400,function() { $(window).scrollTop($(document).height()); });
+  setTimeout(function() {
+    console.log('scroll'); $(window).scrollTop($(document).height()); },400);
 }
 
 function loadFooter() {

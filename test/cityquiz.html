@@ -14,7 +14,8 @@
 			  _awac = new Awac('_awac');
 			  var initp = _awac.getInitParam();
 			  _awac.setTitle(initp.city+' Quiz');
-			  $('#welcome').html('Hi '+initp.user+',<br/><br/>Welcome to a very short quiz about '+initp.city+'.');
+			  $('#user').html(initp.user);
+			  $('#city').html(initp.city);
 			  _awac.setOnBackPressed(function() { _awac.alert('Please answer the question'); });
 			  _awac.startPage();
 			  loadFooter();
@@ -30,8 +31,8 @@
     </div><!-- end of details-blurb --></div><!-- end of details -->
 
     <div id="content">
-      <p id="welcome"></p>
-      <p>There is only one question and that is: have you ever been there?</p>
+      <p>Hi <span id="user"></span>,<br/><br/>Welcome to a very short quiz
+      about <span id="city"></span>. There is only one question and that is: have you ever been there?</p>
       <div class="btnpair">
         <div class="leftbtn" onclick="_awac.endPage('YES');">YES</div>
         <div class="rightbtn" onclick="_awac.endPage('NO');">NO</div>

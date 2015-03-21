@@ -13,7 +13,7 @@
 var _awac = null;
 
 function pageClosed(tag,ok,value) {
-  pLog('page '+tag+'closed');
+  pLog('page '+tag+' closed ok='+ok+' value='+value);
 }
 
 function selectACity() {
@@ -43,6 +43,8 @@ $(document).ready(function() {
        });
 
        _awac.openPage('cities','cities.html');
+       ...
+       _awac.openPage('quiz','cityquiz.html','Paris');
        </pre></div>
     </div><!-- end of details-blurb --></div><!-- end of details -->
 

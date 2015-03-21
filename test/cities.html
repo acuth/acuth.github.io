@@ -11,12 +11,16 @@
 		<script type="text/javascript">
 			var _awac = null;
 
-			function select(name) {
-			  _awac.endPage(name);
+			function createOption(name) {
+			  return $(document.createElement('div')).addClass('btn').html(name).click(function() { _awac.endPage(name);});
 			}
 
 			$(document).ready(function() {
-			  _awac = new Awac()
+			  _awac = new Awac();
+			  var d = $('#options');
+			  var views = ['London\'s "Gerkin"','Paris: Centre Pompidou','\'High Line Park\' in New York'];
+			  for (var i=0;i<views.length;i++)
+			    createOption(views[i]).appendTo(d);
 			  _awac.startPage();
 			  loadFooter();
 			});
@@ -31,10 +35,8 @@
     </div><!-- end of details-blurb --></div><!-- end of details -->
 
     <div id="content">
-      <div class="btn" onclick="select('London')">London</div>
-      <div class="btn" onclick="select('Paris')">Paris</div>
-      <div class="btn" onclick="select('Rome')">Rome</div>
-      <div class="btn" onclick="select('New York')">New York</div>
+      <p>Select a favourite city view:</p>
+      <div id="options"></div>
     </div>
 	</body>
 </html>

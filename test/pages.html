@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Pages and more pages</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<link type="text/css" rel="stylesheet" href="test.css" />
+		<script src="../js/jquery.min.js" type="text/javascript"></script>
+		<script src="../js/dateformat.js" type="text/javascript"></script>
+		<script src="../js/awac.js?v=11" type="text/javascript"></script>
+		<script src="test.js?v=10" type="text/javascript"></script>
+		<script type="text/javascript">
+var _awac = null;
+
+function pageClosed(tag,ok,value) {
+  pLog('page '+tag+'closed');
+}
+
+function selectACity() {
+  _awac.openPage('cities','cities.html');
+}
+
+function takeAQuiz(name) {
+  _awac.openPage('quiz','cityquiz.html',name);
+}
+
+$(document).ready(function() {
+  _awac = new Awac('_awac');
+  _awac.setOnPageClose(pageClosed);
+  _awac.startPage();
+
+  loadFooter();
+});
+		</script>
+	</head>
+	<body>
+	  <div id="details"><div id="details-footer"></div><div id="details-blurb">
+	     <div>This page demonstrates opening a page  In this example we create a global variable to represent Awac called _awac. The variable name must be supplied to the constructor to receive events.</div>
+       <div class="code"><pre>
+       _awac = new Awac('_awac');
+       _awac.setOnPageClose(function(tag,ok,value){
+         ...
+       });
+
+       _awac.openPage('cities','cities.html');
+       </pre></div>
+    </div><!-- end of details-blurb --></div><!-- end of details -->
+
+     <div id="content">&nbsp;
+        <p>Awac makes it easy to open new pages from an existing page. The new page is added to a stack of pages.
+        Each page has a tag name on the stack. The page to load is represented by a URL. This may be relative to the current page.
+        It is possible to pass parameters to the page that is being opened using a Javascript value. The new page can retrieve
+        this input parameter from Awac using _awac.getInitParam();</p>
+
+        <p>A page that opens another page can register an on-page-close handler. This receives the tag of the opened page, an indicator of whether the page
+        was actively closed or not and [optionally] a return value.</p>
+
+        <div class="btn" onclick="selectACity();">Select a City</div>
+        <div class="btn" onclick="takeAQuiz('Paris');">Paris Quiz</div>
+        <div class="btn" onclick="takeAQuiz('Rome');">Rome Quiz</div>
+
+        <div id="log">-log goes here-</div>
+     </div>
+
+
+
+  </body>
+</html>

@@ -1,7 +1,7 @@
 function openFooterBlurb() {
   $('#details-blurb').show(400);
   $('#details-more').hide();
-  setTimeout(function() { $('html, body').animate({scrollTop:$(document).height()}, 'slow'); },400);
+  //setTimeout(function() { $('html, body').animate({scrollTop:$(document).height()}, 'slow'); },400);
 }
 
 function loadFooter() {

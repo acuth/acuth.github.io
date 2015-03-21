@@ -24,7 +24,7 @@ function startApp() {
   }
 }
 
-function doOnLoad() {
+$(document).ready(function() {
   _awac = new Awac('_awac');
   _awac.startPage();
   loadFooter();
@@ -35,7 +35,12 @@ function doOnLoad() {
 }
 		</script>
 	</head>
-	<body onload="doOnLoad();">
+	<body onload="doOnLoad();"><div id="details"><div id="details-footer"/><div id="details-blurb">
+	     <div>In this example we tell Awac to load up a web-app from a specified URL.</div>
+       <div class="code"><pre>
+       _awac.newApp(url);
+       </pre></div>
+    </div><!-- end of details-blurb --></div><!-- end of details -->
 
 
 
@@ -48,11 +53,6 @@ function doOnLoad() {
 
 
 
-     <div id="details"><div id="details-footer"></div><div id="details-blurb">
-	     <div>In this example we tell Awac to load up a web-app from a specified URL.</div>
-       <div class="code"><pre>
-       _awac.newApp(url);
-       </pre></div>
-    </div><!-- end of details-blurb --></div> <!-- end of details -->
+
   </body>
 </html>

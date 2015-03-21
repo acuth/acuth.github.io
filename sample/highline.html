@@ -3,10 +3,33 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-		<title>HighLine</title>
+		<title>High Line Park</title>
 		<style type="text/css">
 body {
   background: #e2e2e2;
+  margin: 0;
+  padding: 0;
+}
+
+#picture {
+  width: 100%;
+  position: relative;
+}
+
+#picture img {
+  width: 100%;
+}
+
+#picture div {
+  width: 100%;
+  background-color: black;
+  opacity:0.6;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  color: white;
+  padding: 10px 20px;
+  font-size: 36px;
 }
 
 .footer {
@@ -24,9 +47,10 @@ body {
 		<script src="http://acuth.github.io/js/awac.js" type="text/javascript"></script>
 	</head>
 	<body onload="(new Awac('awac')).startPage();">
-	  <img src="highline.jpg" style="width:100%;" />
-
-	  <h1>High Line Park</h1>
+	  <div id="picture">
+	    <img src="highline.jpg" />
+	    <div>High Line Park</div>
+    </div>
 
 	  <p>The High Line (also known as the High Line Park) is a 1.45-mile-long (2.33 km) New York City linear park built in Manhattan on an elevated section of a
 	  disused New York Central Railroad spur called the West Side Line. Inspired by the 3-mile (4.8-kilometer) Promenade plantée, a similar project in Paris completed
@@ -40,6 +64,6 @@ body {
 
     <p>Data from <a href="http://en.wikipedia.org/wiki/High_Line_%28New_York_City%29">Wikipedia</a></p>
 
-    <p class="footer">Loaded from <a target="_blank" href="http://acuth.github.io/sample/highline.html">http://acuth.github.io/sample/highline.html</a></p>
+    <p class="footer"><a target="_blank" href="http://acuth.github.io/sample/highline.html">http://acuth.github.io/sample/highline.html</a></p>
 	</body>
 </html>

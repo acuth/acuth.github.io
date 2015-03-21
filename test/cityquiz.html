@@ -11,7 +11,7 @@
 			var _awac = null;
 
 			$(document).ready(function() {
-			  _awac = new Awac();
+			  _awac = new Awac('_awac');
 			  var initp = _awac.getInitParam();
 			  _awac.setTitle(initp.city+' Quiz');
 			  $('#welcome').html('Hi '+initp.user+',<br/><br/>Welcome to a very short quiz about '+initp.city+'.');

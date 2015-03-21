@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<title>Select A City</title>
+		<link type="text/css" rel="stylesheet" href="test.css" />
+		<script src="../js/jquery.min.js" type="text/javascript"></script>
+		<script src="../js/awac.js?v=10" type="text/javascript"></script>
+		<script src="test.js?v=10" type="text/javascript"></script>
+		<script type="text/javascript">
+			var _awac = null;
+
+			function select(name) {
+			  _awac.endPage(name);
+			}
+
+			$(document).ready(function() {
+			  _awac = new Awac()
+			  _awac.startPage();
+			  loadFooter();
+			});
+			</script>
+	</head>
+
+	<body>
+	  <div id="details"><div id="details-footer"></div><div id="details-blurb">
+	     <div>This example represents a page used to select an option and return a result to the page that opened it.</div>
+       <div class="code">_awac.closePage(value);</div>
+       <div>The user can still navigate away from the page is via the back button without making a selection.</div>
+    </div><!-- end of details-blurb --></div><!-- end of details -->
+
+     <div id="content">&nbsp;
+
+   <div class="btn" onclick="select('London')">London</div>
+   <div class="btn" onclick="select('Paris')">Paris</div>
+   <div class="btn" onclick="select('Rome')">Rome</div>
+    <div class="btn" onclick="select('New York')">New York</div>
+    </div>
+	</body>
+</html>

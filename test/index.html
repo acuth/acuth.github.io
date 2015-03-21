@@ -27,6 +27,7 @@ function onAction(action) {
     else if (action == 'show_index') _awac.openPage('index','index.html');
     else if (action == 'show_custom') _awac.openPage('custom','custom.html');
     else if (action == 'show_storage') _awac.openPage('storage','storage.html');
+    else if (action == 'show_pages') _awac.openPage('pages','pages.html');
     else if (action == 'show_sideways') _awac.openPage('storage','sideways.html?n=0');
 }
 
@@ -78,6 +79,15 @@ $(document).ready(function() {
 	       <div class="cbody">
 	    <div class="blurb">Awac pages also can call upon a native dialogue for answering questions.</div>
 	     <div class="nav" onclick="onAction('show_questions');"><div class="circle">go</div></div>
+	       <div style="clear:both;"></div>
+	     </div>
+	  </div>
+
+	    <div class="card">
+	    <div class="header">Page Navigation</div>
+	       <div class="cbody">
+	    <div class="blurb">Awac pages also can call upon a native dialogue for answering questions.</div>
+	     <div class="nav" onclick="onAction('show_pages');"><div class="circle">go</div></div>
 	       <div style="clear:both;"></div>
 	     </div>
 	  </div>

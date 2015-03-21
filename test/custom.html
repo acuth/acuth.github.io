@@ -32,10 +32,11 @@ $(document).ready(function() {
   if (url) {
      document.getElementById('url').value = url;
   }
-}
+});
 		</script>
 	</head>
-	<body onload="doOnLoad();"><div id="details"><div id="details-footer"/><div id="details-blurb">
+	<body>
+	  <div id="details"><div id="details-footer"></div><div id="details-blurb">
 	     <div>In this example we tell Awac to load up a web-app from a specified URL.</div>
        <div class="code"><pre>
        _awac.newApp(url);

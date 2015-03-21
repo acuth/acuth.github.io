@@ -29,10 +29,11 @@ $(document).ready(function() {
   _awac = new Awac('_awac');
   _awac.startPage();
   loadFooter();
-}
+});
 		</script>
 	</head>
-	<body><div id="details"><div id="details-footer"/><div id="details-blurb">
+	<body>
+	  <div id="details"><div id="details-footer"></div><div id="details-blurb">
 	     <div>In this example we create a global variable to represent Awac called _awac. The variable name must be supplied to the constructor to receive events.</div>
        <div class="code"><pre>
        _awac = new Awac('_awac');
@@ -41,7 +42,7 @@ $(document).ready(function() {
          _awac.endRefresh();
        });</pre></div>
        <div>Setting an on-refresh handler enables pull-to-refresh behaviour for the page.</div>
-      </div><!-- end of details-blurb --></div><!-- end of details -->
+    </div><!-- end of details-blurb --></div><!-- end of details -->
 
      <div id="content">&nbsp;
         <p>This page is designed to display pull-to-refresh behaviour. Once refresh has been started, the page sleeps for 5s before updating the title of the page.</p>

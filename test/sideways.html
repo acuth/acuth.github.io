@@ -10,6 +10,7 @@
 		<script src="test.js?v=10" type="text/javascript"></script>
 		<script type="text/javascript">
 var _awac = null;
+var _n = 999;
 
 function getN() {
   try {
@@ -28,17 +29,17 @@ function getN() {
 }
 
 function next() {
-  _awac.replacePage('sideways.html?n='+(getN()+1),true);
+  _awac.replacePage('sideways.html',(_n+1),true);
 }
 
 function prev() {
-  _awac.replacePage('sideways.html?n='+(getN()-1),false);
+  _awac.replacePage('sideways.html',(_n-1),false);
 }
 
 $(document).ready(function() {
   loadFooter();
   _awac = new Awac('_awac');
-  var n = getN();
+  _n = _awac.getInitParam();
   _awac.setTitle('Page ['+n+']');
   _awac.startPage();
 });

@@ -73,9 +73,9 @@ MockContainer.prototype.openPage = function(tag,url,value) {
   window.open(url+'?initparam='+value,tag);
 }
 
-MockContainer.prototype.replacePage = function(url,next) {
-  if (this.debug) console.log(this.varName+'.replacePage('+url+','+next+')');
-  window.open(url,'replace');
+MockContainer.prototype.replacePage = function(url,value,next) {
+  if (this.debug) console.log(this.varName+'.replacePage('+url+','+value+','+next+')');
+  window.open(url+'?initparam='+value,'replace');
 }
 
 MockContainer.prototype.newApp = function(url) {
@@ -279,8 +279,9 @@ Awac.prototype.openPage = function(tag,url,value) {
 }
 
 /* Replace page on top of the stack */
-Awac.prototype.replacePage = function(url,next) {
-  this.container.replacePage(url,next);
+Awac.prototype.replacePage = function(url,value,next) {
+   var v = this.stringify(value);
+  this.container.replacePage(url,v,next);
 }
 
 Awac.prototype.newApp = function(url) {

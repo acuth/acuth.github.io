@@ -13,9 +13,9 @@
 			$(document).ready(function() {
 			  _awac = new Awac();
 			  var initp = _awac.getInitParam();
-			  console.log('initp='+initp);
 			  _awac.setTitle(initp.city+' Quiz');
 			  $('#welcome').html('Hi '+initp.user+',<br/><br/>Welcome to a very short quiz about '+initp.city+'.');
+			  _awac.setOnBackPressed(function() { _awac.alert('Please answer the question'); });
 			  _awac.startPage();
 			  loadFooter();
 			});

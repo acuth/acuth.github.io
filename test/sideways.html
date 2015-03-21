@@ -10,13 +10,14 @@
 		<script src="test.js?v=10" type="text/javascript"></script>
 		<script type="text/javascript">
 var _awac = null;
-var _n = 999;
+var n = 0;
 
 $(document).ready(function() {
   loadFooter();
   _awac = new Awac('_awac');
-  _n = _awac.getInitParam();
-  _awac.setTitle('Page ['+_n+']');
+  n = _awac.getInitParam();
+  if (typeof(n) != 'number') n = 0;
+  _awac.setTitle('Page ['+n+']');
   _awac.startPage();
 });
 		</script>
@@ -31,8 +32,8 @@ $(document).ready(function() {
 	    <p>Actions have a display lable and associated 'action' string. When one of these menu items is selected the registered on-action handler is called.</p>
 
       <div class="btnpair">
-        <div class="leftbtn" onclick="_awac.replacePage('sideways.html',(_n-1),false);">PREV</div>
-        <div class="rightbtn" onclick="_awac.replacePage('sideways.html',(_n+1),true);">NEXT</div>
+        <div class="leftbtn" onclick="_awac.replacePage('sideways.html',(n-1),false);">PREV</div>
+        <div class="rightbtn" onclick="_awac.replacePage('sideways.html',(n+1),true);">NEXT</div>
         <div style="clear:both;"></div>
       </div>
 

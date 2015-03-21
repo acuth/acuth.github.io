@@ -53,6 +53,12 @@ div.txt {
   margin-right: auto;
 }
 
+div.btnpair {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 div.txt input {
   margin: 0px;
   padding: 0px;
@@ -81,6 +87,30 @@ div.btn {
 	text-decoration: none;
 }
 
+div.leftbtn, div.rightbtn {
+  width: 30%;
+  margin-top: 10px;
+  padding: 10px;
+  text-align: center;
+	background: #CFDED9;
+	border: solid 1px white;
+	border-bottom: solid 1px #2E5649;
+	cursor: pointer;
+	color: black;
+	font-family: arial;
+	font-size: 17px;
+	text-decoration: none;
+}
+
+div.leftbtn {
+  float: left;
+}
+
+div.rightbtn {
+  float: right;
+}
+
+}
 div.card {
   margin: 10px;
   padding: 0px;

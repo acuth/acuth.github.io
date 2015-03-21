@@ -68,9 +68,9 @@ MockContainer.prototype.load = function(name) {
   return value;
 }
 
-MockContainer.prototype.openPage = function(tag,url) {
-  if (this.debug) console.log(this.varName+'.openPage('+tag+','+url+')');
-  window.open(url,tag);
+MockContainer.prototype.openPage = function(tag,url,value) {
+  if (this.debug) console.log(this.varName+'.openPage('+tag+','+url+','+value+')');
+  window.open(url+'?initparam='+value,tag);
 }
 
 MockContainer.prototype.replacePage = function(url,next) {
@@ -87,15 +87,20 @@ MockContainer.prototype.startPage = function() {
   if (this.debug) console.log(this.varName+'.startPage()');
 }
 
-MockContainer.prototype.endPage = function() {
-  if (this.debug) console.log(this.varName+'.endPage()');
-  window.close();
+MockContainer.prototype.endPage = function(value) {
+  if (this.debug) console.log(this.varName+'.endPage('+value+')');
+  //window.close();
 }
 
 MockContainer.prototype.showDialog = function(msg,ok,cancel) {
   if (this.debug) console.log(this.varName+'.showDialog('+msg+','+ok+','+cancel+')');
   var yes = confirm(msg);
   this.awac.fireDialogResult(yes);
+}
+
+MockContainer.prototype.alert = function(msg) {
+  if (this.debug) console.log(this.varName+'.alert('+msg+')');
+  alert(msg);
 }
 
 MockContainer.prototype.gotOnRefreshCB = function() {
@@ -127,6 +132,30 @@ MockContainer.prototype.getStackDepth = function() {
   return 0;
 }
 
+MockContainer.prototype.getParam=function(name) {
+  var href = window.location.href;
+  var i = href.indexOf('?');
+  if (i == -1) return null;
+  href = '&'+href.substring(i+1);
+  var p = '&'+name+'=';
+  i = href.indexOf(p);
+  if (i == -1) return null;
+  href = href.substring(i+p.length);
+  i = href.indexOf('&');
+  if (i != -1) href = href.substring(0,i);
+  return href;
+}
+
+MockContainer.prototype.getInitParam = function() {
+  var value = this.getParam('initparam');
+  if (this.debug) console.log(this.varName+'.getInitParam()='+value);
+  return value;
+}
+
+MockContainer.prototype.getPageTag = function() {
+  if (this.debug) console.log(this.varName+'.getPageTag()=default');
+  return 'default';
+}
 
 function Awac(varName) {
   this.varName = varName ? varName : 'x';
@@ -216,6 +245,15 @@ Awac.prototype.load = function(name) {
   return this.parse(s);
 }
 
+Awac.prototype.getInitParam = function() {
+  var s = this.container.getInitParam();
+  return this.parse(s);
+}
+
+Awac.prototype.getPageTag = function() {
+  return this.container.getPageTag();
+}
+
 /* Call this to make the web page visible */
 Awac.prototype.startPage = function() {
   if (!this.started) {
@@ -229,13 +267,15 @@ Awac.prototype.startPage = function() {
 }
 
 /* End displaying the page and pop it off the stack */
-Awac.prototype.endPage = function(obj) {
-  this.container.endPage(JSON.stringify(obj));
+Awac.prototype.endPage = function(value) {
+  var v = this.stringify(value);
+  this.container.endPage(v);
 }
 
 /* Pop a new page onto the stack */
-Awac.prototype.openPage = function(tag,url) {
-  this.container.openPage(tag,url);
+Awac.prototype.openPage = function(tag,url,value) {
+  var v = this.stringify(value);
+  this.container.openPage(tag,url,v);
 }
 
 /* Replace page on top of the stack */
@@ -245,6 +285,10 @@ Awac.prototype.replacePage = function(url,next) {
 
 Awac.prototype.newApp = function(url) {
   this.container.newApp(url);
+}
+
+Awac.prototype.alert = function(msg) {
+  this.container.alert(msg);
 }
 
 Awac.prototype.dialog = function(msg,ok,cancel,cb) {
@@ -302,9 +346,9 @@ Awac.prototype.fireAction = function(action) {
   if (this.onaction) this.onaction(action);
 }
 
-Awac.prototype.firePageClose = function(tag,ok,json) {
-  if (this.debug) console.log('Awac.firePageClose('+tag+','+ok+','+json+')');
-  if (this.onpageclose) this.onpageclose(tag,ok,JSON.parse(json));
+Awac.prototype.firePageClose = function(tag,ok,value) {
+  if (this.debug) console.log('Awac.firePageClose('+tag+','+ok+','+value+')');
+  if (this.onpageclose) this.onpageclose(tag,ok,this.parse(value));
 }
 
 //

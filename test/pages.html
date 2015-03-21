@@ -20,8 +20,13 @@ function selectACity() {
   _awac.openPage('cities','cities.html');
 }
 
-function takeAQuiz(name) {
-  _awac.openPage('quiz','cityquiz.html',name);
+function takeAQuiz(cityname) {
+  var username = $('#name-input').val();
+  if (!username) username = 'There';
+  var p = new Object();
+  p.user = username;
+  p.city = cityname;
+  _awac.openPage('quiz','cityquiz.html',p);
 }
 
 $(document).ready(function() {
@@ -44,7 +49,7 @@ $(document).ready(function() {
 
        _awac.openPage('cities','cities.html');
        ...
-       _awac.openPage('quiz','cityquiz.html','Paris');
+       _awac.openPage('quiz','cityquiz.html',{'user':'John','city':'Paris'});
        </pre></div>
     </div><!-- end of details-blurb --></div><!-- end of details -->
 
@@ -57,6 +62,7 @@ $(document).ready(function() {
         <p>A page that opens another page can register an on-page-close handler. This receives the tag of the opened page, an indicator of whether the page
         was actively closed or not and [optionally] a return value.</p>
 
+        <div class="txt"><input id="name-input" type="text" placeholder="Your name" /></div>
         <div class="btn" onclick="selectACity();">Select a City</div>
         <div class="btn" onclick="takeAQuiz('Paris');">Paris Quiz</div>
         <div class="btn" onclick="takeAQuiz('Rome');">Rome Quiz</div>

@@ -11,16 +11,16 @@ body {
   padding: 0;
 }
 
-#picture {
+.header_pic {
   width: 100%;
   position: relative;
 }
 
-#picture img {
+.header_pic img {
   width: 100%;
 }
 
-#picture div {
+.header_pic div.overlay {
   width: 100%;
   background-color: black;
   opacity:0.6;
@@ -28,6 +28,9 @@ body {
   bottom: 0px;
   left: 0px;
   color: white;
+}
+
+.header_pic div.overlay div {
   padding: 10px 20px;
   font-size: 36px;
 }
@@ -47,9 +50,11 @@ body {
 		<script src="http://acuth.github.io/js/awac.js" type="text/javascript"></script>
 	</head>
 	<body onload="(new Awac('awac')).startPage();">
-	  <div id="picture">
+	  <div class="header_pic">
 	    <img src="highline.jpg" />
-	    <div>High Line Park</div>
+	    <div class="overlay">
+	      <div>High Line Park</div>
+	    </div>
     </div>
 
 	  <p>The High Line (also known as the High Line Park) is a 1.45-mile-long (2.33 km) New York City linear park built in Manhattan on an elevated section of a

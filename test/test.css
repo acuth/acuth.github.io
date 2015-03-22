@@ -94,6 +94,14 @@ div.lite {
 	border: solid 1px #2E5649;
 }
 
+div.grid {
+  float: left;
+  width: 20%;
+  margin-right: 2%;
+  margin-left: 2%;
+  margin-bottom: 4%;
+}
+
 div.left {
   float: left;
 }

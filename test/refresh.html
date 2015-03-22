@@ -24,6 +24,8 @@ function onRefresh() {
 $(document).ready(function() {
   _awac = new Awac('_awac');
   _awac.setTitle('Loaded @ '+(new Date()).format('HH:MM:ss'));
+  _awac.setOnAction(showPage);
+	_awac.unlockNavDrawer();
   _awac.setOnRefresh(onRefresh);
   _awac.startPage();
   loadFooter();
@@ -49,6 +51,13 @@ $(document).ready(function() {
         <div class="btn" onclick="_awac.endRefresh();">End Refresh</div>
         <p id="status"></p>
      </div>
+
+     <div class="btnpair">
+        <div class="leftbtn" onclick="showPrevPage();">PREV</div>
+        <div class="rightbtn" onclick="showNextPage();">NEXT</div>
+        <div style="clear:both;"></div>
+      </div>
+
 
 
   </body>

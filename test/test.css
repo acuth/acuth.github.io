@@ -53,8 +53,9 @@ div.txt {
   margin-right: auto;
 }
 
-div.btnpair {
+div.holder {
   width: 80%;
+  margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -71,11 +72,6 @@ div.txt input {
 }
 
 div.btn {
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 10px;
-  padding: 10px;
   text-align: center;
 	background: #CFDED9;
 	border: solid 1px white;
@@ -84,33 +80,29 @@ div.btn {
 	color: black;
 	font-family: arial;
 	font-size: 17px;
+	padding-top: 10px;
+  padding-bottom: 10px;
 	text-decoration: none;
 }
 
-div.leftbtn, div.rightbtn {
+div.small {
   width: 30%;
-  margin-top: 10px;
-  padding: 10px;
-  text-align: center;
-	background: #CFDED9;
-	border: solid 1px white;
-	border-bottom: solid 1px #2E5649;
-	cursor: pointer;
-	color: black;
-	font-family: arial;
-	font-size: 17px;
-	text-decoration: none;
 }
 
-div.leftbtn {
+div.lite {
+	background: transparent;
+	border: solid 1px #2E5649;
+}
+
+div.left {
   float: left;
 }
 
-div.rightbtn {
+div.right {
   float: right;
 }
 
-}
+
 div.card {
   margin: 10px;
   padding: 0px;

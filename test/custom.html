@@ -25,12 +25,14 @@ function startApp() {
 }
 
 $(document).ready(function() {
-  _awac = new Awac('_awac');
-  _awac.startPage();
   loadFooter();
+  _awac = new Awac('_awac')
+  _awac.setOnAction(showPage);
+  _awac.unlockNavDrawer();
+  _awac.startPage();
   var url = _awac.load('test_custom_url');
   if (url) {
-     document.getElementById('url').value = url;
+     $('#url').val(url);
   }
 });
 		</script>
@@ -49,7 +51,11 @@ $(document).ready(function() {
      <div id="content">&nbsp;
         <p>This page is designed to let you supply the URL of a web-app of your own.</p>
         <div class="txt"><input id="url" type="text" placeholder="web-app url" /></div>
-        <div class="btn" onclick="startApp();">Start App</div>
+        <div class="holder"><div class="btn" onclick="startApp();">Start App</div></div>
+        <div class="holder">
+          <div class="left small btn lite" onclick="showPrevPage();">PREV</div>
+          <div style="clear:both;"></div>
+        </div>
      </div>
 
 

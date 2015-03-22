@@ -20,27 +20,16 @@ function exit() {
 }
 
 function onAction(action) {
-    if (action == 'show_lorem') _awac.openPage('lorem','lorem.html');
-    else if (action == 'show_refresh') _awac.openPage('refresh','refresh.html');
-    else if (action == 'show_questions') _awac.openPage('questions','questions.html');
-    else if (action == 'show_actions') _awac.openPage('actions','actions.html');
-    else if (action == 'show_index') _awac.openPage('index','index.html');
-    else if (action == 'show_custom') _awac.openPage('custom','custom.html');
-    else if (action == 'show_storage') _awac.openPage('storage','storage.html');
-    else if (action == 'show_pages') _awac.openPage('pages','pages.html');
-    else if (action == 'show_sideways') _awac.openPage('storage','sideways.html');
+  showPage(action);
 }
-
 
 $(document).ready(function() {
   loadFooter();
   _awac = new Awac('_awac');
-  _awac.addNavDrawerItem({'label':'Lorem Ipsum','action':'show_lorem'});
-  _awac.addNavDrawerItem({'label':'Refresh','action':'show_refresh'});
-  _awac.addNavDrawerItem({'label':'Questions, questions','action':'show_questions'});
-  _awac.addNavDrawerItem({'label':'Actions','action':'show_actions'});
-  _awac.addNavDrawerItem({'label':'Index (again)','action':'show_index'});
-  _awac.addNavDrawerItem({'label':'Custom','action':'show_custom'});
+  for (var i=0;i<pageNames.length;i++) {
+    var name = pageNames[i];
+    _awac.addNavDrawerItem({'label':name,'action':'show_'+name});
+  }
   _awac.unlockNavDrawer();
   _awac.setOnBackPressed(exit);
   _awac.setOnAction(onAction);

@@ -1,3 +1,7 @@
+
+var pageNames = ['lorem','refresh','questions'];
+
+
 function openFooterBlurb() {
   $('#details-blurb').show(400);
   $('#details-more').hide();
@@ -21,4 +25,41 @@ function pLog(msg) {
    var html = e.innerHTML;
    html = (new Date()).format('HH:MM:ss')+' '+msg + '<br/>' + html;
    e.innerHTML = html;
+}
+
+function getPageIndex(name) {
+  for (var i=0;i<pageNames.length;i++) {
+    if (name == pageNames[i]) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+function showPage(action) {
+  if (action.indexOf('show_') == -1) return false;
+  action = action.substring(5);
+  var depth = _awac.getStackDepth();
+  var pageIndex = getPageIndex(_awac.getPageTag());
+  var actionIndex = getPageIndex(action);
+  if (depth == 0)
+    _awac.openPage(action,action+'.html');
+  else
+    _awac.replacePage(action,action+'.html',null,actionIndex < pageIndex?false:true);
+  return true;
+}
+
+
+function showNextPage() {
+  var pageIndex = getPageIndex(_awac.getPageTag());
+  if (pageIndex == pageNames.length-1) return;
+  var name = pageNames[pageIndex+1];
+  _awac.replacePage(name,name+'.html',null,true);
+}
+
+function showPrevPage() {
+  var pageIndex = getPageIndex(_awac.getPageTag());
+  if (pageIndex == 0) return;
+  var name = pageNames[pageIndex-1];
+  _awac.replacePage(name,name+'.html',null,false);
 }

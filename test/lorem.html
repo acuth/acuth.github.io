@@ -11,7 +11,8 @@
 		<script type="text/javascript">
 			var _awac = null;
 			$(document).ready(function() {
-			  _awac = new Awac()
+			  _awac = new Awac();
+			  _awac.unlockNavDrawer();
 			  _awac.startPage();
 			  loadFooter();
 			});
@@ -33,6 +34,13 @@
        in a browser.</p>
 
        <div class="btn" onclick="_awac.openPage('sample','http://acuth.github.io/sample/highline.html');">Sample Page</div>
+
+
+      <div class="btnpair">
+        <div class="leftbtn" onclick="showPrevPage();">PREV</div>
+        <div class="rightbtn" onclick="showNextPage();">NEXT</div>
+        <div style="clear:both;"></div>
+      </div>
 
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis cursus dapibus orci, quis tincidunt nunc tempus et. Phasellus aliquet ipsum justo. Quisque varius nisl quis efficitur semper. Nam vulputate pellentesque neque, nec mollis diam. Praesent eu bibendum orci, convallis dictum enim. Sed aliquam fermentum dolor, nec vestibulum arcu porttitor at. Praesent gravida orci a diam ullamcorper, eget imperdiet leo scelerisque. Sed id molestie nisl, non dapibus metus. Etiam ultricies dignissim erat a volutpat.</p>
 

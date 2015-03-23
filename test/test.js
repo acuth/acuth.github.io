@@ -1,5 +1,5 @@
 
-var pageNames = ['lorem','refresh','questions','storage','actions','pages','custom'];
+var pageNames = ['lorem','refresh','questions','storage','actions','pages','sideways','custom'];
 
 
 function openFooterBlurb() {
@@ -58,7 +58,7 @@ function showPage(action) {
   var depth = _awac.getStackDepth();
   var pageIndex = getPageIndex(_awac.getPageTag());
   var actionIndex = getPageIndex(action);
-  if (depth == 0)
+  if (depth === 0)
     _awac.openPage(action,action+'.html');
   else
     _awac.replacePage(action,action+'.html',null,actionIndex < pageIndex?false:true);
@@ -75,7 +75,7 @@ function showNextPage() {
 
 function showPrevPage() {
   var pageIndex = getPageIndex(_awac.getPageTag());
-  if (pageIndex == 0) return;
+  if (pageIndex === 0) return;
   var name = pageNames[pageIndex-1];
   _awac.replacePage(name,name+'.html',null,false);
 }

@@ -33,6 +33,7 @@ $(document).ready(function() {
   _awac = new Awac('_awac');
   _awac.setOnAction(showPage);
   _awac.setOnPageClose(pageClosed);
+  _awac.unlockNavDrawer();
   loadFooter();
   _awac.startPage();
 });

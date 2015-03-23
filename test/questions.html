@@ -12,16 +12,9 @@
 		<script type="text/javascript">
 var _awac = null;
 
-function q1() {
-  _awac.dialog('Which is better?','Star Trek','Star Wars',function(ok) {
-    pLog('You choose '+(ok?'Star Trek':'Star Wars'));
-  });
-}
-
-function q2() {
-  _awac.dialog('Which pill are you going to take?','red','blue',function(ok) {
-    var s = ok ? 123 : 321;
-    _awac.endPage(s);
+function question() {
+  _awac.dialog('Which pill are you going to take?','red','blue',function(yes) {
+    pLog('You chose the '+(yes?'Red':'Blue')+ 'pill');
   });
 }
 
@@ -49,10 +42,10 @@ $(document).ready(function() {
     <div id="navigation"></div>
     
     <div id="content">
-        <p>This page is designed to display pull-to-refresh behaviour. Once refresh has been started, the page sleeps for 5s before updating the title of the page.</p>
+        <p>This page hows how Awac makes use of native controls for alerts and dialogs.</p>
 
-        <div class="holder"><div class="btn" onclick="q1();">Question 1</div></div>
-        <div class="holder"><div class="btn" onclick="q2();">Question 2</div></div>
+        <div class="holder"><div class="btn" onclick="question();">Dialog</div></div>
+        <div class="holder"><div class="btn" onclick="_awac.alert('This is an alert');">Alert</div></div>
 
         <div id="log">-log goes here-</div>
      </div>

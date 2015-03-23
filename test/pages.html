@@ -31,6 +31,7 @@ function takeAQuiz(cityname) {
 
 $(document).ready(function() {
   _awac = new Awac('_awac');
+  _awac.setOnAction(showPage);
   _awac.setOnPageClose(pageClosed);
   _awac.startPage();
 
@@ -49,7 +50,8 @@ $(document).ready(function() {
 
        _awac.openPage('cities','cities.html');
        ...
-       _awac.openPage('quiz','cityquiz.html',{'user':'John','city':'Paris'});
+       _awac.openPage('quiz','cityquiz.html',
+              {'user':'John','city':'Paris'});
        </pre></div>
     </div><!-- end of details-blurb --></div><!-- end of details -->
 
@@ -62,12 +64,22 @@ $(document).ready(function() {
         <p>A page that opens another page can register an on-page-close handler. This receives the tag of the opened page, an indicator of whether the page
         was actively closed or not and [optionally] a return value.</p>
 
-        <div class="txt"><input id="name-input" type="text" placeholder="Your name" /></div>
-        <div class="btn" onclick="selectACity();">Select a City</div>
-        <div class="btn" onclick="takeAQuiz('Paris');">Paris Quiz</div>
-        <div class="btn" onclick="takeAQuiz('Rome');">Rome Quiz</div>
+        
+        <div class="holder"><div class="btn" onclick="selectACity();">Select a City</div></div>
+        
+        <hr/>
+        
+        <div class="txt"><input id="name-input" type="text" placeholder="Your name" /></div></div>
+        <div class="holder"><div class="btn" onclick="takeAQuiz('Paris');">Paris Quiz</div></div>
+        <div class="holder"><div class="btn" onclick="takeAQuiz('Rome');">Rome Quiz</div></div>
 
         <div id="log">-log goes here-</div>
+        
+        <div class="holder">
+          <div class="left small btn lite" onclick="showPrevPage();">PREV</div>
+          <div class="right small btn lite" onclick="showNextPage();">NEXT</div>
+          <div style="clear:both;"></div>
+      </div>
      </div>
 
 

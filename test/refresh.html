@@ -27,8 +27,8 @@ $(document).ready(function() {
   _awac.setOnAction(showPage);
 	_awac.unlockNavDrawer();
   _awac.setOnRefresh(onRefresh);
-  _awac.startPage();
   loadFooter();
+  _awac.startPage();
 });
 		</script>
 	</head>
@@ -44,8 +44,9 @@ $(document).ready(function() {
        <div>Setting an on-refresh handler enables pull-to-refresh behaviour for the page.</div>
     </div><!-- end of details-blurb --></div><!-- end of details -->
 
-
-     <div id="content">&nbsp;
+    <div id="navigation"></div>
+    
+    <div id="content">
         <p>This page is designed to display pull-to-refresh behaviour. Once refresh has been started, the page sleeps for 5s before updating the title of the page.</p>
 
         <div class="holder"><div class="btn" onclick="_awac.startRefresh();">Start Refresh</div></div>
@@ -53,13 +54,6 @@ $(document).ready(function() {
         <div class="holder"><div class="btn" onclick="_awac.endRefresh();">End Refresh</div></div>
 
         <p id="status"></p>
-
-        <div class="holder">
-          <div class="left small btn lite" onclick="showPrevPage();">PREV</div>
-          <div class="right small btn lite" onclick="showNextPage();">NEXT</div>
-          <div style="clear:both;"></div>
-        </div>
-
     </div>
   </body>
 </html>

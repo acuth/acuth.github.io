@@ -33,9 +33,8 @@ $(document).ready(function() {
   _awac = new Awac('_awac');
   _awac.setOnAction(showPage);
   _awac.setOnPageClose(pageClosed);
-  _awac.startPage();
-
   loadFooter();
+  _awac.startPage();
 });
 		</script>
 	</head>
@@ -55,6 +54,8 @@ $(document).ready(function() {
        </pre></div>
     </div><!-- end of details-blurb --></div><!-- end of details -->
 
+    <div id="navigation"></div>
+    
      <div id="content">&nbsp;
         <p>Awac makes it easy to open new pages from an existing page. The new page is added to a stack of pages.
         Each page has a tag name on the stack. The page to load is represented by a URL. This may be relative to the current page.
@@ -74,12 +75,6 @@ $(document).ready(function() {
         <div class="holder"><div class="btn" onclick="takeAQuiz('Rome');">Rome Quiz</div></div>
 
         <div id="log">-log goes here-</div>
-        
-        <div class="holder">
-          <div class="left small btn lite" onclick="showPrevPage();">PREV</div>
-          <div class="right small btn lite" onclick="showNextPage();">NEXT</div>
-          <div style="clear:both;"></div>
-      </div>
      </div>
 
 

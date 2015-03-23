@@ -89,6 +89,14 @@ div.small {
   width: 30%;
 }
 
+div#navigation div.btn {
+  width: 20%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  background: #e2e2e2;
+  border: solid 1px #d4d4d4;
+}
+
 div.lite {
 	background: transparent;
 	border: solid 1px #2E5649;

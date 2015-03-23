@@ -8,6 +8,20 @@ function openFooterBlurb() {
   //setTimeout(function() { $('html, body').animate({scrollTop:$(document).height()}, 'slow'); },400);
 }
 
+function loadNavigation() {
+  if (!_awac) return;
+  var e = document.getElementById("navigation");
+  if (!e) return;
+  e = $(e);
+  e.addClass('holder');
+  var i = getPageIndex(_awac.getPageTag());
+  if (i > 0)
+    $(document.createElement('div')).addClass('left small btn lite').html('PREV').click(showPrevPage).appendTo(e);
+  if (i < pageNames.length-1)  
+    $(document.createElement('div')).addClass('right small btn lite').html('NEXT').click(showNextPage).appendTo(e);
+   $(document.createElement('div')).css('clear','both').appendTo(e);
+}
+
 function loadFooter() {
   var href = window.location.href;
   var i = href.indexOf('?rnd=');
@@ -18,6 +32,8 @@ function loadFooter() {
             '<div class="more"><a id="details-more" href="javascript:openFooterBlurb();">more...</a></div>'+
             '<div style="clear:both;"></div>';
   document.getElementById('details-footer').innerHTML = html;
+  
+  loadNavigation();
 }
 
 function pLog(msg) {

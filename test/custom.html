@@ -19,16 +19,16 @@ function startApp() {
   if (url) {
     console.log('found '+url);
     _awac.store('test_custom_url',url);
-    _awac.setTitle('Loading web-app...');
+    _awac.setTitle('Loading...');
     _awac.newApp(url);
   }
 }
 
 $(document).ready(function() {
-  loadFooter();
   _awac = new Awac('_awac')
   _awac.setOnAction(showPage);
   _awac.unlockNavDrawer();
+  loadFooter();
   _awac.startPage();
   var url = _awac.load('test_custom_url');
   if (url) {
@@ -45,21 +45,12 @@ $(document).ready(function() {
        </pre></div>
     </div><!-- end of details-blurb --></div><!-- end of details -->
 
+    <div id="navigation"></div>
 
-
-
-     <div id="content">&nbsp;
-        <p>This page is designed to let you supply the URL of a web-app of your own.</p>
-        <div class="txt"><input id="url" type="text" placeholder="web-app url" /></div>
-        <div class="holder"><div class="btn" onclick="startApp();">Start App</div></div>
-        <div class="holder">
-          <div class="left small btn lite" onclick="showPrevPage();">PREV</div>
-          <div style="clear:both;"></div>
-        </div>
-     </div>
-
-
-
-
+    <div id="content">
+      <p>This page is designed to let you supply the URL of a web-app of your own.</p>
+      <div class="txt"><input id="url" type="text" placeholder="web-app url" /></div>
+      <div class="holder"><div class="btn" onclick="startApp();">Start App</div></div>
+    </div>
   </body>
 </html>

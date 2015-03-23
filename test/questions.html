@@ -13,8 +13,8 @@
 var _awac = null;
 
 function question() {
-  _awac.dialog('Which pill are you going to take?','red','blue',function(yes) {
-    pLog('You chose the '+(yes?'Red':'Blue')+ 'pill');
+  _awac.dialog('Which pill are you going to choose?','red','blue',function(yes) {
+    pLog('You choose the '+(yes?'Red':'Blue')+ ' pill');
   });
 }
 
@@ -45,9 +45,10 @@ $(document).ready(function() {
         <p>This page hows how Awac makes use of native controls for alerts and dialogs.</p>
 
         <div class="holder"><div class="btn" onclick="question();">Dialog</div></div>
-        <div class="holder"><div class="btn" onclick="_awac.alert('This is an alert');">Alert</div></div>
-
+         
         <div id="log">-log goes here-</div>
+         
+        <div class="holder"><div class="btn" onclick="_awac.alert('This is an alert');">Alert</div></div>
      </div>
   </body>
 </html>

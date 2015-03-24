@@ -12,13 +12,20 @@
 
 var _awac = null;
 
+function startRefresh() {
+  pLog('"Start Refresh" called - waiting for "End Refresh"');
+  _awac.startRefresh();
+}
+
+function endRefresh() {
+  pLog('"End Refresh" called');
+  _awac.endRefresh();
+  _awac.setTitle('Loaded @ '+(new Date()).format('HH:MM:ss'));
+}
+
 function onRefresh() {
-  document.getElementById('status').innerHTML = 'on-refresh handler has been called, waiting for 5s';
-  setTimeout(function() {
-    _awac.endRefresh();
-    document.getElementById('status').innerHTML = 'on-refresh handler exiting';
-    _awac.setTitle('Loaded @ '+(new Date()).format('HH:MM:ss'));
-  }, 5000);
+  pLog('onRefresh() called - waiting for 5s to call "End Refresh"');
+  setTimeout(endRefresh, 5000);
 }
 
 $(document).ready(function() {
@@ -49,11 +56,13 @@ $(document).ready(function() {
     <div id="content">
         <p>This page is designed to display pull-to-refresh behaviour. Once refresh has been started, the page sleeps for 5s before updating the title of the page.</p>
 
-        <div class="holder"><div class="btn" onclick="_awac.startRefresh();">Start Refresh</div></div>
-
-        <div class="holder"><div class="btn" onclick="_awac.endRefresh();">End Refresh</div></div>
-
-        <p id="status"></p>
+        <div class="holder">
+          <div class="small btn left" onclick="startRefresh();">Start Refresh</div>
+          <div class="small btn right" onclick="endRefresh();">End Refresh</div>
+          <div style="clear:both;"></div>
+        </div>
+        
+        <div id="log">-log-goes-here-</div>
     </div>
   </body>
 </html>

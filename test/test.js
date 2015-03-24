@@ -60,7 +60,7 @@ function showPage(action) {
   var actionIndex = getPageIndex(action);
   if (depth === 0)
     _awac.openPage(action,action+'.html');
-  else
+  else if (actionIndex != pageIndex) 
     _awac.replacePage(action,action+'.html',null,actionIndex < pageIndex?false:true);
   return true;
 }

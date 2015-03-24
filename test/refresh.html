@@ -13,18 +13,18 @@
 var _awac = null;
 
 function startRefresh() {
-  pLog('"Start Refresh" called - waiting for "End Refresh"');
+  pLog('"Start" called - waiting for "End"');
   _awac.startRefresh();
 }
 
 function endRefresh() {
-  pLog('"End Refresh" called');
+  pLog('"End" called');
   _awac.endRefresh();
   _awac.setTitle('Loaded @ '+(new Date()).format('HH:MM:ss'));
 }
 
 function onRefresh() {
-  pLog('onRefresh() called - waiting for 5s to call "End Refresh"');
+  pLog('onRefresh() called - waiting for 5s to call "End"');
   setTimeout(endRefresh, 5000);
 }
 
@@ -57,8 +57,8 @@ $(document).ready(function() {
         <p>This page is designed to display pull-to-refresh behaviour. Once refresh has been started, the page sleeps for 5s before updating the title of the page.</p>
 
         <div class="holder">
-          <div class="small btn left" onclick="startRefresh();">Start Refresh</div>
-          <div class="small btn right" onclick="endRefresh();">End Refresh</div>
+          <div class="small btn left" onclick="startRefresh();">Start</div>
+          <div class="small btn right" onclick="endRefresh();">End</div>
           <div style="clear:both;"></div>
         </div>
         

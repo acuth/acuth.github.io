@@ -71,9 +71,13 @@ div.txt input {
 	line-height: 37px;
 }
 
+div.topb {
+  	border-top: solid 1px #2E5649;
+}
+
 div.btn {
   text-align: center;
-	background: #CFDED9;
+	background2: #CFDED9;
 	border: solid 1px white;
 	border-bottom: solid 1px #2E5649;
 	cursor: pointer;

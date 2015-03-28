@@ -14,8 +14,13 @@
 
 var _awac = null;
 
+
+function setApp(url) {
+  if (url) $('#url').val(url);
+}
+
 function startApp() {
-  var url = document.getElementById('url').value;
+  var url = $('#url').val();
   if (url) {
     console.log('found '+url);
     _awac.store('test_custom_url',url);
@@ -30,10 +35,7 @@ $(document).ready(function() {
   _awac.unlockNavDrawer();
   loadFooter();
   _awac.startPage();
-  var url = _awac.load('test_custom_url');
-  if (url) {
-     $('#url').val(url);
-  }
+  setApp(_awac.load('test_custom_url'));
 });
 		</script>
 	</head>
@@ -51,6 +53,13 @@ $(document).ready(function() {
       <p>This page is designed to let you supply the URL of a web-app of your own.</p>
       <div class="txt"><input id="url" type="text" placeholder="web-app url" /></div>
       <div class="holder"><div class="btn" onclick="startApp();">Start App</div></div>
+      
+      <hr/>
+      <div class="holder">
+        <div class="btn" onclick="setApp('http://acuth.github.io/test/index.html');">acuth.github.io</div>
+        <div class="btn" onclick="setApp('file:///adroid_asset/www/test/index.html');">Local</div>
+        <div class="btn" onclick="setApp('http://acuth.github.io/myappmarks/html/index.html');">myappmarks</div>
+      </div>
     </div>
   </body>
 </html>

@@ -93,10 +93,6 @@ function displayAppmarksPage(offset,timestamp) {
 		}
 	}
 
-	var soDiv = $(document.createElement('div')).addClass('full-width-btn').html('signout');
-	soDiv.click(function(event) { _mam.signout(function() { app.newPage('signin'); }); });
-	soDiv.appendTo(content);
-
 	_showingAppmarks = true;
 	_showingSearch = false;
 	_showingFilter = false;
@@ -143,16 +139,24 @@ function onPageClose(tag,ok,obj) {
   }
 }
 
+function onAction(action) {
+  if (action == 'do_signout') {
+    app.dialog('Do you really want to signout?','Yes','No',function(yes) { app.alert('signout NYI'); });
+  }  
+}
+
 function onBackPressed() {
-  app.dialog('Do you want to leave myappmarks?','Yes','No',function(ok) { if (ok) app.endPage(); });
+  app.dialog('Do you want to leave myappmarks?','Yes','No',function(yes) { if (yes) app.endPage(); });
 }
 
 function init() {
   app = new Awac('app');
-  //app.setOnResult(onResult);
   app.setOnRefresh(onRefresh);
   app.setOnPageClose(onPageClose);
   app.setOnBackPressed(onBackPressed);
+  app.addNavDrawerItem({'label':'signout','action':'do_signout'});
+  app.setOnAction(onAction);
+  app.unlockNavDrawer();
 	_content = $('#page');
 	_token = app.load('mam_token');
 	if (!_token) {

@@ -1,6 +1,6 @@
 
 var pageNames = ['simple','refresh','dialogs','storage','actions','pages','sideways','custom'];
-
+var pageTitles = ['Adding Web Pages','Supporting Refresh','Dialogues and Alerts','Storage','Actions','Opening Pages','Swapping Pages','Try Yourself'];
 
 function openFooterBlurb() {
   $('#details-blurb').show(400);
@@ -34,6 +34,7 @@ function loadFooter() {
   document.getElementById('details-footer').innerHTML = html;
   
   loadNavigation();
+  
 }
 
 function pLog(msg) {

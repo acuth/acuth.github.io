@@ -54,15 +54,15 @@ $(document).ready(function() {
     <div id="navigation"></div>
     
     <div id="content">
-        <p>This page is designed to display pull-to-refresh behaviour. Once refresh has been started, the page sleeps for 5s before updating the title of the page.</p>
+        <p>Awac provides native pull-to-refresh behaviour. In this example, once refresh has been started, the page sleeps for 5s before updating the title of the page.
+        Alternatively the refresh spinner can be activated under application control.</p>
 
         <div class="holder">
-          <div class="small btn left" onclick="startRefresh();">Start</div>
-          <div class="small btn right" onclick="endRefresh();">End</div>
-          <div style="clear:both;"></div>
+          <div class="btn" onclick="startRefresh();">Start Refresh</div>
+          <div class="btn" onclick="endRefresh();">End Refresh</div>
         </div>
         
-        <div id="log">-log-goes-here-</div>
+        <div class="holder logstyle"><div id="log">-log-goes-here-</div></div>
     </div>
   </body>
 </html>

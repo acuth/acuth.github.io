@@ -1,5 +1,5 @@
 
-var pageNames = ['lorem','refresh','questions','storage','actions','pages','sideways','custom'];
+var pageNames = ['simple','refresh','dialogs','storage','actions','pages','sideways','custom'];
 
 
 function openFooterBlurb() {

@@ -35,6 +35,8 @@ function loadFooter() {
   
   loadNavigation();
   
+  var index = getPageIndex(_awac.getPageTag());
+  if (index != -1) _awac.setTitle(pageTitles[index]);
 }
 
 function pLog(msg) {
@@ -86,7 +88,7 @@ function setButton(btn,cb) {
 	var span = btn.find('span').first();
 	span.click(function(event) {
 		var e = $(this);
-		if(e.find(".circle").length == 0) {
+		if(e.find(".circle").length === 0) {
 			e.prepend("<span class='circle'></span>");
 		}
 		var circle = e.find(".circle");

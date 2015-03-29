@@ -51,9 +51,7 @@ function addPLogging() {
 
 function pLog(msg) {
    var e = $('#log');
-   var html = e.html();
-   html = (new Date()).format('HH:MM:ss')+' '+ msg + '<br/>' + html;
-   e.html(html);
+   if (e.length > 0) e.html((new Date()).format('HH:MM:ss')+' '+ msg + '<br/>' + e.html());
 }
 
 function getPageIndex(name) {

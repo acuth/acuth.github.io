@@ -34,12 +34,12 @@ function addPageDetails(i) {
 }
 
 $(document).ready(function() {
-  loadFooter();
   _awac = new Awac('_awac');
   for (var i=0;i<pageNames.length;i++) addPageDetails(i);
   _awac.unlockNavDrawer();
   _awac.setOnBackPressed(exit);
   _awac.setOnAction(onAction);
+  loadFooter();
   _awac.startPage();
 });
 		</script>

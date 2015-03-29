@@ -61,12 +61,11 @@ div.holder {
   margin-right: auto;
 }
 
-div.txt input {
+div.holder input[type=text] {
   margin: 0px;
   padding: 0px;
   border: solid 1px black;
-  width: 95%;
-  padding-left: 10px;
+  width: 100%;
   font-family: arial;
 	font-size: 17px;
 	line-height: 37px;

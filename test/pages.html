@@ -12,28 +12,12 @@
 		<script type="text/javascript">
 var _awac = null;
 
-function pageClosed(tag,ok,value) {
-  pLog('page '+tag+' closed ok='+ok+' value='+value);
-}
-
-function selectACity() {
-  _awac.openPage('cities','cities.html');
-}
-
-function takeAQuiz(cityname) {
-  var username = $('#name-input').val();
-  if (!username) username = 'There';
-  var p = new Object();
-  p.user = username;
-  p.city = cityname;
-  _awac.openPage('quiz','cityquiz.html',p);
-}
-
 $(document).ready(function() {
   _awac = new Awac('_awac');
   _awac.setOnAction(showPage);
-  _awac.setOnPageClose(pageClosed);
+  _awac.setOnPageClose(function(tag,ok,value) { pLog('page '+tag+' closed ok='+ok+' value='+value); } );
   _awac.unlockNavDrawer();
+  setButton($('#select-city-view'),function() {  _awac.openPage('cities','cities.html',{'name':$('#name-input').val()}); });
   loadFooter();
   _awac.startPage();
 });
@@ -48,37 +32,19 @@ $(document).ready(function() {
          ...
        });
 
-       _awac.openPage('cities','cities.html');
-       ...
-       _awac.openPage('quiz','cityquiz.html',
-              {'user':'John','city':'Paris'});
+       _awac.openPage('cities','cities.html',{'name':'Jabba'});
        </pre></div>
     </div><!-- end of details-blurb --></div><!-- end of details -->
 
     <div id="navigation"></div>
     
      <div id="content">&nbsp;
-        <p>Awac makes it easy to open new pages from an existing page. The new page is added to a stack of pages.
-        Each page has a tag name on the stack. The page to load is represented by a URL. This may be relative to the current page.
-        It is possible to pass parameters to the page that is being opened using a Javascript value. The new page can retrieve
-        this input parameter from Awac using _awac.getInitParam();</p>
+        <p>Awac makes it easy for one page to open another and send arguments to it and receive results from it.</p>
 
-        <p>A page that opens another page can register an on-page-close handler. This receives the tag of the opened page, an indicator of whether the page
-        was actively closed or not and [optionally] a return value.</p>
+        <div class="holder"><input id="name-input" type="text" placeholder="Your name" /></div></div>
+        <div class="holder"><button id="select-city-view" class="topb"><span>Select a City View</span></button></div>
 
-        
-        <div class="holder"><div class="btn" onclick="selectACity();">Select a City</div></div>
-        
-        <hr/>
-        
-        <div class="txt"><input id="name-input" type="text" placeholder="Your name" /></div></div>
-        <div class="holder"><div class="btn" onclick="takeAQuiz('Paris');">Paris Quiz</div></div>
-        <div class="holder"><div class="btn" onclick="takeAQuiz('Rome');">Rome Quiz</div></div>
-
-        <div id="log">-log goes here-</div>
+        <div class="holder logstyle"><div id="log">-log goes here-</div></div>
      </div>
-
-
-
   </body>
 </html>

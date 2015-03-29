@@ -4,6 +4,7 @@ body {
   margin: 0;
   background: #FCFCF1;
   color: rgb(119, 85, 23);
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 div#details {

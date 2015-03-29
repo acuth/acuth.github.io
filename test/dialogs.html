@@ -27,7 +27,7 @@ $(document).ready(function() {
   setButton($('#show-alert'),function() { 
     _awac.alert('This is what an alert looks like');
   });
-	loadFooter();
+	loadFooter(true);
   _awac.startPage();
 });
 		</script>
@@ -53,8 +53,6 @@ $(document).ready(function() {
           <button class="topb" id="show-dialog"><span>Show Dialog</span></button>
           <button id="show-alert"><span>Show Alert</span></button>
         </div>
-        
-        <div class="holder logstyle"><div id="log">-log goes here-</div></div>
      </div>
   </body>
 </html>

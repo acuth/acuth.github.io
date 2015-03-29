@@ -48,7 +48,7 @@ $(document).ready(function() {
   _awac = new Awac('_awac');
   _awac.setOnAction(onAction);
   _awac.unlockNavDrawer();
-  loadFooter();
+  loadFooter(true);
   _awac.startPage();
 });
 		</script>
@@ -71,8 +71,6 @@ $(document).ready(function() {
         <div class="grid btn lite" onclick="onAction('store_arr');">ARRAY</div>
         <div style="clear:both;"></div>
       </div>
-      
-      <div class="holder logstyle"><div id="log">-log goes here-</div></div>
 	  </div>
 
 	</body>

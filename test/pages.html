@@ -22,7 +22,7 @@ $(document).ready(function() {
     if (_verbose) pLog('_awac.OpenPage('+JSON.stringify(p)+');'); 
     _awac.openPage('cities','cities.html',p); 
   });
-  loadFooter();
+  loadFooter(true);
   _awac.startPage();
 });
 		</script>
@@ -50,8 +50,6 @@ $(document).ready(function() {
           <button id="select-city-view"><span>Select a City View</span></button>
         </div>
       
-        <div class="holder logstyle"><div id="log">-log goes here-</div></div>
-        
         <a href="javascript:verboseDebug();">verbose</a>
      </div>
   </body>

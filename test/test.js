@@ -22,7 +22,7 @@ function loadNavigation() {
   $(document.createElement('div')).css('clear','both').appendTo(e);
 }
 
-function loadFooter() {
+function loadFooter(logging) {
   var href = window.location.href;
   var i = href.indexOf('?rnd=');
   if (i != -1) href = href.substring(0,i);
@@ -37,6 +37,8 @@ function loadFooter() {
   
   var index = _awac ? getPageIndex(_awac.getPageTag()) : -1;
   if (index != -1) _awac.setTitle(pageTitles[index]);
+  
+  if (logging) addPLogging();
 }
 
 

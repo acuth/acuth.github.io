@@ -184,3 +184,72 @@ div.logstyle {
   font-size: 80%;
 }
 
+
+button {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    outline: none;
+    border: solid 1px transparent;
+    border-bottom: solid 1px #2E5649;
+    background: transparent;
+}
+
+button.topb {
+  border-top: solid 1px #2E5649;
+}
+
+button span {
+  	margin: 0;
+    display: block;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    position: relative;
+    overflow: hidden;
+    padding: 10px;
+  	font-family: arial;
+	  font-size: 17px;
+    cursor: pointer;
+    background: transparent;
+}
+
+button:hover, button:active, button:focus {
+    background: transparent;
+}
+
+button:hover span, button:active span, button:focus span {
+    background: transparent;
+}
+
+button span:focus, button span:hover, button span:active {
+    background: transparent;
+}
+
+button span.circle {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  display: block;
+  position: absolute;
+  border-radius: 50%;
+}
+
+button span.animate {
+	-webkit-animation: ripple-effect 0.33s linear;
+}
+
+@-webkit-keyframes ripple-effect {
+    from {
+    	background: rgba(0,0,0,0.5);
+    	transform: scale(0);
+    }
+    to {
+    	background: rgba(0,0,0,0);
+    	transform: scale(10.0);
+    }
+}
+
+
+

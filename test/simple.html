@@ -14,6 +14,10 @@
 			  _awac = new Awac('_awac');
 			  _awac.setOnAction(showPage);
 			  _awac.unlockNavDrawer();
+			  setButton('#samplebtn',function() { 
+			    console.log('open sample page');
+			    _awac.openPage('sample','http://acuth.github.io/sample/highline.html');
+			  });
 			  loadFooter();
 			  _awac.startPage();
 			});
@@ -36,8 +40,8 @@
        includes a Awac JS file and calls an Awac function when the page loads. 
        Navigation out of the page is by using the back button. 
        Links in the page open in a browser.</p>
-
-       <div class="holder topb"><div class="btn" onclick="_awac.openPage('sample','http://acuth.github.io/sample/highline.html');">Sample Page</div></div>
+       
+       <div class="holder"><button class="topb" id="samplebtn"><span>Sample Page</span></button></div>
     </div>
 	</body>
 </html>

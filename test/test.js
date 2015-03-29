@@ -80,3 +80,27 @@ function showPrevPage() {
   var name = pageNames[pageIndex-1];
   _awac.replacePage(name,name+'.html',null,false);
 }
+
+
+function setButton(id,cb) {
+	var btn = $(id);
+	var span = btn.find('span').first();
+	span.click(function(event) {
+		var e = $(this);
+		if(e.find(".circle").length == 0) {
+			e.prepend("<span class='circle'></span>");
+		}
+		var circle = e.find(".circle");
+		circle.removeClass("animate");
+		if(!circle.height() && !circle.width()) {
+			var d = Math.max(e.outerWidth(), e.outerHeight());
+			circle.css({height: d, width: d});
+		}
+		var x = event.pageX - e.offset().left - circle.width()/2;
+		var y = event.pageY - e.offset().top - circle.height()/2;
+		circle.css({top: y+'px', left: x+'px'}).addClass("animate");
+	});
+	btn.click(function(event) {
+		setTimeout(function() { cb(event); },300); 
+	});
+}

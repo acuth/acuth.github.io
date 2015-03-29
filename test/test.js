@@ -99,7 +99,5 @@ function setButton(btn,cb) {
 		var y = event.pageY - e.offset().top - circle.height()/2;
 		circle.css({top: y+'px', left: x+'px'}).addClass("animate");
 	});
-	btn.click(function(event) {
-		setTimeout(function() { cb(event); },300); 
-	});
+	btn.click(function(event) { cb(event); });
 }

@@ -186,13 +186,16 @@ div.logstyle {
 
 
 button {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     margin: 0;
     padding: 0;
     width: 100%;
     outline: none;
     border: solid 1px transparent;
     border-bottom: solid 1px #2E5649;
-    background: transparent;
 }
 
 button.topb {
@@ -215,15 +218,11 @@ button span {
     background: transparent;
 }
 
-button:hover, button:active, button:focus {
-    background: transparent;
+button, button:hover, button:active, button:focus {
+    background: white;
 }
 
-button:hover span, button:active span, button:focus span {
-    background: transparent;
-}
-
-button span:focus, button span:hover, button span:active {
+button:hover span, button:active span, button:focus span, button span:focus, button span:hover, button span:active {
     background: transparent;
 }
 

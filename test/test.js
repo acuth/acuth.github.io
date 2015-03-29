@@ -39,11 +39,19 @@ function loadFooter() {
   if (index != -1) _awac.setTitle(pageTitles[index]);
 }
 
-function pLog(msg) {
+
+function addPLogging() {
    var e = document.getElementById('log');
-   var html = e.innerHTML;
-   html = (new Date()).format('HH:MM:ss')+' '+msg + '<br/>' + html;
-   e.innerHTML = html;
+   if (e) return;
+   var div = $(document.createElement('div')).addClass('holder logstyle').appendTo($('#content'));
+   $(document.createElement('div')).attr('id','log').html('-log-goes-here-').appendTo(div);
+}
+
+function pLog(msg) {
+   var e = $('#log');
+   var html = e.html();
+   html = (new Date()).format('HH:MM:ss')+' '+ msg + '<br/>' + html;
+   e.html(html);
 }
 
 function getPageIndex(name) {
@@ -55,7 +63,17 @@ function getPageIndex(name) {
   return -1;
 }
 
+var _verbose = false;
+function verboseDebug() {
+  _verbose = true;
+  addPLogging();
+}
+
 function showPage(action) {
+  if (action == 'verbose_debug') {
+    verboseDebug();
+    return;
+  }
   if (action.indexOf('show_') == -1) return false;
   action = action.substring(5);
   var depth = _awac.getStackDepth();

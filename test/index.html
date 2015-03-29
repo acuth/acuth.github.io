@@ -35,6 +35,7 @@ function addPageDetails(i) {
 
 $(document).ready(function() {
   _awac = new Awac('_awac');
+  _awac.addNavDrawerItem({'label':'Verbose Debug','action':'verbose_debug'});
   for (var i=0;i<pageNames.length;i++) addPageDetails(i);
   _awac.unlockNavDrawer();
   _awac.setOnBackPressed(exit);

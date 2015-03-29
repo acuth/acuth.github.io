@@ -18,9 +18,14 @@ $(document).ready(function() {
   _awac.setOnPageClose(function(tag,ok,value) { pLog('page '+tag+' closed ok='+ok+' value='+value); } );
   _awac.unlockNavDrawer();
   setButton($('#select-city-view'),function() { 
-    var p = {'name':$('#name-input').val(),'verbose':(_verbose?'t':'f')};
-    if (_verbose) pLog('_awac.OpenPage('+JSON.stringify(p)+');'); 
-    _awac.openPage('cities','cities.html',p); 
+    var name = $('#name-input').val();
+    if (!name)
+      _awac.alert('Please supply your name');
+    else {
+      var p = {'name':$('#name-input').val(),'verbose':(_verbose?'t':'f')};
+      if (_verbose) pLog('_awac.OpenPage('+JSON.stringify(p)+');'); 
+      _awac.openPage('cities','cities.html',p); 
+    }
   });
   loadFooter(true);
   _awac.startPage();
@@ -49,8 +54,6 @@ $(document).ready(function() {
           <input id="name-input" type="text" placeholder="Your name" />
           <button id="select-city-view"><span>Select a City View</span></button>
         </div>
-      
-        <a href="javascript:verboseDebug();">verbose</a>
      </div>
   </body>
 </html>

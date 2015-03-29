@@ -176,20 +176,17 @@ div#log {
 
 div.logstyle {
   height: 200px;
-  overflow: scroll;
+  overflow: auto;
   margin-top: 10px;
   background: rgba(152, 122, 68, 0.23);
   color: rgb(17, 95, 123);
   font-family: monospace;
+  font-weight: bold;
   font-size: 80%;
 }
 
 
 button {
-    /*user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;*/
     margin: 0;
     padding: 0;
     width: 100%;
@@ -205,10 +202,6 @@ button.topb {
 button span {
   	margin: 0;
     display: block;
-    /*user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;*/
     position: relative;
     overflow: hidden;
     padding: 10px;

@@ -56,7 +56,7 @@ function gotConstraints() {
 
 function displayAppmarksPage(offset,timestamp) {
 	var content = getContent();
-	if (_cards.length == 0) {
+	if (_cards.length === 0) {
 		var h = '<div class="card"><div class="blurb">';
 		if (gotConstraints()) {
 			h += 'Sorry, but you don\'t appear to have any '+getConstraintsStr()+'. You can see <i>all</i> your appmarks by clicking on <a id="show-all">Show all</a>';

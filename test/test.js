@@ -19,7 +19,7 @@ function loadNavigation() {
     $(document.createElement('div')).addClass('left small btn lite').html('PREV').click(showPrevPage).appendTo(e);
   if (i < pageNames.length-1)  
     $(document.createElement('div')).addClass('right small btn lite').html('NEXT').click(showNextPage).appendTo(e);
-   $(document.createElement('div')).css('clear','both').appendTo(e);
+  $(document.createElement('div')).css('clear','both').appendTo(e);
 }
 
 function loadFooter() {
@@ -35,7 +35,7 @@ function loadFooter() {
   
   loadNavigation();
   
-  var index = getPageIndex(_awac.getPageTag());
+  var index = _awac ? getPageIndex(_awac.getPageTag()) : -1;
   if (index != -1) _awac.setTitle(pageTitles[index]);
 }
 

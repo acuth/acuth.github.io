@@ -82,8 +82,7 @@ function showPrevPage() {
 }
 
 
-function setButton(id,cb) {
-	var btn = $(id);
+function setButton(btn,cb) {
 	var span = btn.find('span').first();
 	span.click(function(event) {
 		var e = $(this);

@@ -13,15 +13,21 @@
 var _awac = null;
 
 function question() {
-  _awac.dialog('Which pill are you going to take?','red','blue',function(yes) {
-    pLog('You took the '+(yes?'Red':'Blue')+ ' pill');
-  });
+
 }
 
 $(document).ready(function() {
   _awac = new Awac('_awac');
   _awac.setOnAction(showPage);
 	_awac.unlockNavDrawer();
+	setButton($('#show-dialog'),function() {   
+	  _awac.dialog('Which pill are you going to take?','red','blue',function(yes) {
+      pLog('You took the '+(yes?'Red':'Blue')+ ' pill');
+    });
+  });
+  setButton($('#show-alert'),function() { 
+    _awac.alert('This is what an alert looks like');
+  });
 	loadFooter();
   _awac.startPage();
 });
@@ -44,9 +50,9 @@ $(document).ready(function() {
     <div id="content">
         <p>Awac provides access to native dialogues and alerts.</p>
 
-        <div class="holder topb">
-          <div class="btn" onclick="question();">Show Dialog</div>
-          <div class="btn" onclick="_awac.alert('This is what an alert looks like');">Show Alert</div>
+        <div class="holder">
+          <button class="topb" id="show-dialog"><span>Show Dialog</span></button>
+          <button id="show-alert"><span>Show Alert</span></button>
         </div>
         
         <div class="holder logstyle"><div id="log">-log goes here-</div></div>

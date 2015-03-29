@@ -25,7 +25,10 @@ function onAction(action) {
 
 function addPageDetails(e,i) {
   _awac.addNavDrawerItem({'label':pageTitles[i],'action':'show_'+pageNames[i]});
-  $(document.createElement('div')).addClass('btn').html(pageTitles[i]).click(function() { showPage('show_'+pageNames[i]); }).appendTo(e);
+  var btn = $(document.createElement('button'));
+  $(document.createElement('span')).html(pageTitles[i]).appendTo(btn);
+  btn.appendTo(e);
+  setButton(btn,function(event) { showPage('show_'+pageNames[i]); });
 }
 
 $(document).ready(function() {

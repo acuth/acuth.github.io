@@ -187,10 +187,10 @@ div.logstyle {
 
 
 button {
-    user-select: none;
+    /*user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
-    -ms-user-select: none;
+    -ms-user-select: none;*/
     margin: 0;
     padding: 0;
     width: 100%;
@@ -206,21 +206,22 @@ button.topb {
 button span {
   	margin: 0;
     display: block;
-    user-select: none;
+    /*user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
-    -ms-user-select: none;
+    -ms-user-select: none;*/
     position: relative;
     overflow: hidden;
     padding: 10px;
   	font-family: arial;
 	  font-size: 17px;
+	  color:  rgb(119, 85, 23);
     cursor: pointer;
     background: transparent;
 }
 
 button, button:hover, button:active, button:focus {
-    background: white;
+    background: transparent;
 }
 
 button:hover span, button:active span, button:focus span, button span:focus, button span:hover, button span:active {
@@ -247,7 +248,7 @@ button span.animate {
     }
     to {
     	background: rgba(0,0,0,0);
-    	transform: scale(10.0);
+    	transform: scale(2.5);
     }
 }
 

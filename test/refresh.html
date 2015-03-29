@@ -34,6 +34,11 @@ $(document).ready(function() {
   _awac.setOnAction(showPage);
 	_awac.unlockNavDrawer();
   _awac.setOnRefresh(onRefresh);
+  
+  setButton($('#start-refresh'),startRefresh );
+  setButton($('#end-refresh'),endRefresh );
+  
+  
   loadFooter();
   _awac.startPage();
 });
@@ -57,9 +62,9 @@ $(document).ready(function() {
         <p>Awac provides native pull-to-refresh behaviour. In this example, once refresh has been started, the page sleeps for 5s before updating the title of the page.
         Alternatively the refresh spinner can be activated under application control.</p>
 
-        <div class="holder topb">
-          <div class="btn" onclick="startRefresh();">Start Refresh</div>
-          <div class="btn" onclick="endRefresh();">End Refresh</div>
+        <div class="holder">
+          <button class="topb" id="start-refresh"><span>Start Refresh</span></button>
+          <button id="end-refresh"><span>End Refresh</span></button>
         </div>
         
         <div class="holder logstyle"><div id="log">-log-goes-here-</div></div>

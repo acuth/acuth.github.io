@@ -53,8 +53,13 @@ p {
 }
 		</style>
 		<script src="http://acuth.github.io/js/awac.js" type="text/javascript"></script>
+		<script type="text/javascript">
+		  var app;
+		  function doOnLoad() { app = new Awac('app'); app.startPage(); }
+		</script>
 	</head>
-	<body onload="(new Awac('awac')).startPage();">
+	<!--body onload="(new Awac('awac')).startPage();"-->
+	<body onload="doOnLoad();">
 	  <div class="header_pic">
 	    <img src="highline.jpg" />
 	    <div class="overlay">
@@ -62,6 +67,8 @@ p {
 	    </div>
     </div>
 
+    <div onclick="app.replacePage('sample','highline.html',null,true);">NEXT</div>
+    
 	  <p>The High Line (also known as the High Line Park) is a 1.45-mile-long (2.33 km) New York City linear park built in Manhattan on an elevated section of a
 	  disused New York Central Railroad spur called the West Side Line. Inspired by the 3-mile (4.8-kilometer) Promenade plantée, a similar project in Paris completed
 	  in 1993, the High Line has been redesigned and planted as an aerial greenway and rails-to-trails park.</p>

@@ -131,6 +131,11 @@ MockContainer.prototype.getStackDepth = function() {
   return 0;
 };
 
+MockContainer.prototype.getDims = function() {
+  if (this.debug) console.log(this.varName+'.getDims()=768x1024');
+  return '{"width":768,"height":1024}';
+};
+
 MockContainer.prototype.getParam=function(name) {
   var href = window.location.href;
   var i = href.indexOf('?');
@@ -218,6 +223,10 @@ Awac.prototype.addActionBarItem = function(obj) {
 
 Awac.prototype.getStackDepth = function() {
   return this.container.getStackDepth();
+};
+
+Awac.prototype.getDims = function() {
+  return JSON.parse(this.container.getDims());
 };
 
 Awac.prototype.unlockNavDrawer = function() {

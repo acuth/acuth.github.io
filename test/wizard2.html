@@ -55,7 +55,7 @@ body {
 			  _awac.replacePage('wizard','wizard1.html',null,false);
 			}
 			function revealCallToAction() {
-			  console.log('reveal call to action');
+			  console.log('reveal call to action '+JSON.stringify(_awac.getDims()));
 			 
 			  var p = $('#calltoaction').slideDown().position();
 			  console.log('window.innerHeight:'+$('window').innerHeight());

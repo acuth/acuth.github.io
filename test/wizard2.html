@@ -56,14 +56,8 @@ body {
 			  _awac.replacePage('wizard','wizard1.html',null,false);
 			}
 			function revealCallToAction() {
-			  var dims = _awac.getDims();
-			  var msg = 'jquery dims:'+$(window).width()+'x'+$(window).height();
-			  msg += '<br/>awac dims:'+dims.width+'x'+dims.height;
-			  var h = $('#calltoaction').height();
-			  msg += '<br/>call to action height:'+h;
-			  console.log(msg);
-			  //$('#log').html(msg);
-			  $('#calltoaction').show().css('top',(dims.height-h)+'px');
+			  var cta = $('#calltoaction');
+			  cta.show().css('top',(_awac.getDims().height-cta.height())+'px');
 			}
 			$(document).ready(function() {
 			  _awac = new Awac('_awac');
@@ -71,7 +65,6 @@ body {
 			  _awac.setOnBackPressed(onBackPressed);
 			  _awac.addActionBarItem({'label':'SKIP','action':'skip'});
 			  $('#calltoaction').on('click',function(){_awac.alert('Sorry, but this call to action has not yet been implemented');});
-			  	  console.log('before start page '+JSON.stringify(_awac.getDims()));
 			  _awac.startPage();
 			  setTimeout(revealCallToAction,60);
 			});
@@ -80,8 +73,7 @@ body {
 	<body>
 	  <div id="container">
      <div id="content">Awac can be used to do all sorts of things</div>
-     <div id="log"></div>
-     <div id="calltoaction" style="display:none"><div>DO SOMETHING</div></div>
+     <div id="calltoaction" style="display:none"><div>DO SOMETHING FOOLISH</div></div>
      </div>
 	</body>
 </html>

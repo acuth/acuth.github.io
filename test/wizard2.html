@@ -52,6 +52,8 @@ body {
 			  _awac.setOnBackPressed(onBackPressed);
 			  _awac.addActionBarItem({'label':'SKIP','action':'skip'});
 			  $('#calltoaction').on('click',function(){_awac.alert('NYI');});
+			  var p = $('#calltoaction').position();
+			  console.log('call to action left:'+p.left+' top:'+p.top);
 			  _awac.startPage();
 			});
 			</script>

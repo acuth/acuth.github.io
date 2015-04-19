@@ -15,7 +15,7 @@ body {
   top: 0px;
   left: 0px;
   right: 0px;
-  height: 100%;
+  height: 200px;
   border: solid 1px red;
 }
 
@@ -56,7 +56,7 @@ body {
 			}
 			function revealCallToAction() {
 			  console.log('reveal call to action');
-			  $('#calltoaction').on('click',function(){_awac.alert('NYI');});
+			 
 			  var p = $('#calltoaction').slideDown().position();
 			  console.log('#container.dims:'+$('#container').width()+'x'+$('#container').height());
 			  console.log('call to action left:'+p.left+' top:'+p.top);
@@ -66,6 +66,7 @@ body {
 			  _awac.setOnAction(onAction);
 			  _awac.setOnBackPressed(onBackPressed);
 			  _awac.addActionBarItem({'label':'SKIP','action':'skip'});
+			  $('#calltoaction').on('click',function(){_awac.alert('Sorry, but this call to action has not yet been implemented');});
 			  _awac.startPage();
 			  //setTimeout(revealCallToAction,1000);
 			});

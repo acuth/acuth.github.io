@@ -24,6 +24,7 @@ body {
 }
 
 #calltoaction {
+  display: none;
   position: absolute;
   bottom: 0px;
   width: 100%;
@@ -49,16 +50,19 @@ body {
 			function onBackPressed() {
 			  _awac.replacePage('wizard','wizard1.html',null,false);
 			}
+			function revealCallToAction() {
+			  $('#calltoaction').on('click',function(){_awac.alert('NYI');});
+			  var p = $('#calltoaction').slideDown().position();
+			  console.log('body.dims:'+$('body').width()+'x'+$('body').height());
+			  console.log('call to action left:'+p.left+' top:'+p.top);
+			}
 			$(document).ready(function() {
 			  _awac = new Awac('_awac');
 			  _awac.setOnAction(onAction);
 			  _awac.setOnBackPressed(onBackPressed);
 			  _awac.addActionBarItem({'label':'SKIP','action':'skip'});
-			  $('#calltoaction').on('click',function(){_awac.alert('NYI');});
-			  var p = $('#calltoaction').position();
-			  console.log('body.dims:'+$('body').width()+'x'+$('body').height());
-			  console.log('call to action left:'+p.left+' top:'+p.top);
 			  _awac.startPage();
+			  setTimeout(revealCallToAction,1000);
 			});
 			</script>
 	</head>

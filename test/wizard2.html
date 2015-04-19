@@ -15,8 +15,6 @@ body {
   top: 0px;
   left: 0px;
   right: 0px;
-  height: 200px;
-  border: solid 1px red;
 }
 
 #content {
@@ -31,7 +29,10 @@ body {
 }
 
 #calltoaction {
+  position: absolute;
   width: 100%;
+  left: 0px;
+  top: 0px;
 }
 
 #calltoaction div {
@@ -55,12 +56,8 @@ body {
 			  _awac.replacePage('wizard','wizard1.html',null,false);
 			}
 			function revealCallToAction() {
-			  console.log('reveal call to action '+JSON.stringify(_awac.getDims()));
-			 
-			  var p = $('#calltoaction').slideDown().position();
-			  console.log('window.innerHeight:'+$('window').innerHeight());
-			  console.log('#container.dims:'+$('#container').width()+'x'+$('#container').height());
-			  console.log('call to action left:'+p.left+' top:'+p.top);
+			  var dims = _awac.getDims();
+			  $('#calltoaction').slideDown().css('top',(dims.height-100)+'px');
 			}
 			$(document).ready(function() {
 			  _awac = new Awac('_awac');
@@ -70,7 +67,7 @@ body {
 			  $('#calltoaction').on('click',function(){_awac.alert('Sorry, but this call to action has not yet been implemented');});
 			  	  console.log('before start page '+JSON.stringify(_awac.getDims()));
 			  _awac.startPage();
-			  setTimeout(revealCallToAction,1000);
+			  setTimeout(revealCallToAction,10);
 			});
 			</script>
 	</head>

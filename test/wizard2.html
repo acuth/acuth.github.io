@@ -56,6 +56,8 @@ body {
 			  _awac.replacePage('wizard','wizard1.html',null,false);
 			}
 			function revealCallToAction() {
+			  var msg = 'window dims:'+$(window).width()+'x'+$(window).height();
+			  $('#log').html(msg);
 			  var dims = _awac.getDims();
 			  $('#calltoaction').slideDown().css('top',(dims.height-100)+'px');
 			}
@@ -74,6 +76,7 @@ body {
 	<body>
 	  <div id="container">
      <div id="content">Awac can be used to do all sorts of things</div>
+     <div id="log"></div>
      <div id="calltoaction"><div>DO SOMETHING</div></div>
      </div>
 	</body>

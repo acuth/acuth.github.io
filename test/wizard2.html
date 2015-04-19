@@ -59,8 +59,10 @@ body {
 			  var dims = _awac.getDims();
 			  var msg = 'jquery dims:'+$(window).width()+'x'+$(window).height();
 			  msg += '<br/>awac dims:'+dims.width+'x'+dims.height;
+			  var h = $('#calltoaction').height();
+			  msg += '<br/>call to action height:'+h;
 			  $('#log').html(msg);
-			  $('#calltoaction').slideDown().css('top',(dims.height-100)+'px');
+			  $('#calltoaction').slideDown().css('top',(dims.height-h)+'px');
 			}
 			$(document).ready(function() {
 			  _awac = new Awac('_awac');

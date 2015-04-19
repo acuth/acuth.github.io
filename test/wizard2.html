@@ -61,7 +61,8 @@ body {
 			  msg += '<br/>awac dims:'+dims.width+'x'+dims.height;
 			  var h = $('#calltoaction').height();
 			  msg += '<br/>call to action height:'+h;
-			  $('#log').html(msg);
+			  console.log(msg);
+			  //$('#log').html(msg);
 			  $('#calltoaction').slideDown().css('top',(dims.height-h)+'px');
 			}
 			$(document).ready(function() {
@@ -72,7 +73,7 @@ body {
 			  $('#calltoaction').on('click',function(){_awac.alert('Sorry, but this call to action has not yet been implemented');});
 			  	  console.log('before start page '+JSON.stringify(_awac.getDims()));
 			  _awac.startPage();
-			  setTimeout(revealCallToAction,1000);
+			  setTimeout(revealCallToAction,10);
 			});
 			</script>
 	</head>
@@ -80,7 +81,7 @@ body {
 	  <div id="container">
      <div id="content">Awac can be used to do all sorts of things</div>
      <div id="log"></div>
-     <div id="calltoaction"><div>DO SOMETHING</div></div>
+     <div id="calltoaction" style="display:none"><div>DO SOMETHING</div></div>
      </div>
 	</body>
 </html>

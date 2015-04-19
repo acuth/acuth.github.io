@@ -8,6 +8,9 @@ body {
   background: #678;
   margin: 0;
   padding: 0;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
 }
 
 #content {
@@ -22,7 +25,7 @@ body {
 
 #calltoaction {
   position: absolute;
-  bottom: 120px;
+  bottom: 0px;
   width: 100%;
 }
 
@@ -53,6 +56,7 @@ body {
 			  _awac.addActionBarItem({'label':'SKIP','action':'skip'});
 			  $('#calltoaction').on('click',function(){_awac.alert('NYI');});
 			  var p = $('#calltoaction').position();
+			  console.log('body.dims:'+$('body').width()+'x'+$('body').height());
 			  console.log('call to action left:'+p.left+' top:'+p.top);
 			  _awac.startPage();
 			});

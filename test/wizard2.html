@@ -46,7 +46,7 @@ body {
 
 		</style>
 		<script src="../js/jquery.min.js" type="text/javascript"></script>
-		<script src="../js/awac.js?v=10" type="text/javascript"></script>
+		<script src="../js/awac.js?v=11" type="text/javascript"></script>
 		<script type="text/javascript">
 			var _awac = null;
 			function onAction(action) {
@@ -56,9 +56,10 @@ body {
 			  _awac.replacePage('wizard','wizard1.html',null,false);
 			}
 			function revealCallToAction() {
-			  var msg = 'window dims:'+$(window).width()+'x'+$(window).height();
-			  $('#log').html(msg);
 			  var dims = _awac.getDims();
+			  var msg = 'jquery dims:'+$(window).width()+'x'+$(window).height();
+			  msg += '<br/>awac dims:'+dims.width+'x'+dims.height;
+			  $('#log').html(msg);
 			  $('#calltoaction').slideDown().css('top',(dims.height-100)+'px');
 			}
 			$(document).ready(function() {

@@ -226,7 +226,11 @@ Awac.prototype.getStackDepth = function() {
 };
 
 Awac.prototype.getDims = function() {
-  return JSON.parse(this.container.getDims());
+  var result = JSON.parse(this.container.getDims());
+  var w = $(window).width();
+  result.height = result.height*w/result.width;
+  result.width = w;
+  return result;
 };
 
 Awac.prototype.unlockNavDrawer = function() {

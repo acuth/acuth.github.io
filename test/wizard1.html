@@ -25,26 +25,33 @@ body {
 		<script type="text/javascript">
 			var _awac = null;
 			var _backPressedOnce = false;
+			
 			function onAction(action) {
-			  if ('skip' == action) _awac.replacePage('wizard','wizard2.html',null,true);
+			  if ('skip' == action) 
+			    _awac.replacePage('wizard','wizard2.html',null,true);
 			}
+			
 			function onBackPressed() {
-			  if (_backPressedOnce) _awac.endPage();
+			  if (_backPressedOnce) 
+			    _awac.endPage();
 			  else {
 			    _awac.alert('Press back again to exit');
 			    _backPressedOnce = true;
 			  }
 			}
+			
 			$(document).ready(function() {
 			  _awac = new Awac('_awac');
 			  _awac.setOnAction(onAction);
 			  _awac.setOnBackPressed(onBackPressed);
 			  _awac.addActionBarItem({'label':'SKIP','action':'skip'});
+			  console.log('about to start page');
 			  _awac.startPage();
 			});
 			</script>
 	</head>
 	<body>
      <div id="content">Awac can be used to implement all sorts of interfaces</div>
+     <a href="javascript:onAction('skip');">skip</a>
 	</body>
 </html>

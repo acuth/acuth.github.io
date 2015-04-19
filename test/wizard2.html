@@ -26,7 +26,7 @@ body {
 #calltoaction {
   display: none;
   position: absolute;
-  bottom: 0px;
+  top: 600px;
   width: 100%;
 }
 
@@ -51,6 +51,7 @@ body {
 			  _awac.replacePage('wizard','wizard1.html',null,false);
 			}
 			function revealCallToAction() {
+			  console.log('reveal call to action');
 			  $('#calltoaction').on('click',function(){_awac.alert('NYI');});
 			  var p = $('#calltoaction').slideDown().position();
 			  console.log('body.dims:'+$('body').width()+'x'+$('body').height());

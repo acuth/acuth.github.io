@@ -37,7 +37,7 @@ body {
 
 #calltoaction div {
   -webkit-border-radius: 4px;
-  margin: 20px;
+  margin: 40px;
   padding: 10px;
   background: white;
   color: #303840;
@@ -63,7 +63,7 @@ body {
 			  msg += '<br/>call to action height:'+h;
 			  console.log(msg);
 			  //$('#log').html(msg);
-			  $('#calltoaction').slideDown().css('top',(dims.height-h)+'px');
+			  $('#calltoaction').show().css('top',(dims.height-h)+'px');
 			}
 			$(document).ready(function() {
 			  _awac = new Awac('_awac');

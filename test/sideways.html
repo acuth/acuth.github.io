@@ -10,15 +10,12 @@
 		<script src="test.js?v=10" type="text/javascript"></script>
 		<script type="text/javascript">
 var _awac = null;
-var n = 0;
-
 $(document).ready(function() {
- 
   _awac = new Awac('_awac');
-  n = _awac.getInitParam();
-  if (typeof(n) != 'number') n = 0;
-  _awac.setTitle('Page ['+n+']');
   _awac.unlockNavDrawer();
+  setButton($('#samplebtn'),function() { 
+		_awac.openPage('wizard','http://acuth.github.io/sample/wizard1.html');
+	});
   loadFooter();
   _awac.startPage();
 });
@@ -32,14 +29,14 @@ $(document).ready(function() {
     <div id="navigation"></div>
 
     <div id="content">
-	    <p>Awac allows you to replace the page on the top of the stack with another. Here we replace this page with another of the same 
-	    type but a different 'number'.</p>
+	    <p>As well as pushing and poppingpages on the stack, Awac allows you to replace the page on the top of the stack with a 'next' or 'previous' page. 
+	    The sample page (see below) uses this approach to present a wizard like interface to the user.</p>
 
-      <div class="holder">
-        <div class="left btn small lite" onclick="_awac.replacePage('sideways','sideways.html',(n-1),false);">Page -1</div>
+      <div class="holder"><button class="topb" id="samplebtn"><span>Sample Page</span></button></div>
+        <!--div class="left btn small lite" onclick="_awac.replacePage('sideways','sideways.html',(n-1),false);">Page -1</div>
         <div class="right btn small lite" onclick="_awac.replacePage('sideways','sideways.html',(n+1),true);">Page +1</div>
         <div style="clear:both;"></div>
-      </div>
+      </div-->
 
     </div>
 	</body>

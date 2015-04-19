@@ -58,6 +58,7 @@ body {
 			  console.log('reveal call to action');
 			 
 			  var p = $('#calltoaction').slideDown().position();
+			  console.log('window.innerHeight:'+$('window').innerHeight());
 			  console.log('#container.dims:'+$('#container').width()+'x'+$('#container').height());
 			  console.log('call to action left:'+p.left+' top:'+p.top);
 			}
@@ -68,7 +69,7 @@ body {
 			  _awac.addActionBarItem({'label':'SKIP','action':'skip'});
 			  $('#calltoaction').on('click',function(){_awac.alert('Sorry, but this call to action has not yet been implemented');});
 			  _awac.startPage();
-			  //setTimeout(revealCallToAction,1000);
+			  setTimeout(revealCallToAction,1000);
 			});
 			</script>
 	</head>

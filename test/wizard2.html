@@ -8,9 +8,14 @@ body {
   background: #678;
   margin: 0;
   padding: 0;
+}
+
+#container {
   position: absolute;
   top: 0px;
-  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  height: 100%;
 }
 
 #content {
@@ -54,7 +59,7 @@ body {
 			  console.log('reveal call to action');
 			  $('#calltoaction').on('click',function(){_awac.alert('NYI');});
 			  var p = $('#calltoaction').slideDown().position();
-			  console.log('body.dims:'+$('body').width()+'x'+$('body').height());
+			  console.log('#container.dims:'+$('#container').width()+'x'+$('#container').height());
 			  console.log('call to action left:'+p.left+' top:'+p.top);
 			}
 			$(document).ready(function() {
@@ -68,7 +73,9 @@ body {
 			</script>
 	</head>
 	<body>
+	  <div id="container">
      <div id="content">Awac can be used to do all sorts of things</div>
      <div id="calltoaction"><div>DO SOMETHING</div></div>
+     </div>
 	</body>
 </html>

@@ -45,7 +45,6 @@ function getAppmarkCard(n,a,shared) {
 	var div = $(document.createElement('div'));
 	div.addClass('appmark').addClass('card').attr('id','appmark-'+n).addClass('enable-touch').attr('touch-class','appmark');
 	var card = new AppmarkCard(n,a,div,shared);
-	//console.log('got card');
 	card.drawContents();
 	return card;
 }
@@ -90,6 +89,11 @@ function displayAppmarksPage(offset,timestamp) {
 			});
 			moreDiv.appendTo(content);
 			_hasMoreRow = moreDiv;
+			
+			
+			var tmpDiv = $(document.createElement('div')).addClass('full-width-btn').html('signout');
+			tmpDiv.click(function(event) { onAction('do_signout'); });
+			tmpDiv.appendTo(content);
 		}
 	}
 
@@ -102,7 +106,6 @@ function displayAppmarksPage(offset,timestamp) {
 function displayAppmarks(timestamp) {
   var arg_map = [];
   console.log('displayAppmarks(timestamp='+timestamp+')');
-  //app.loading('loading appmarks...');
 	arg_map['device'] = 'chrome';
 	_mam.getappmarks22(arg_map,timestamp,true,_appTypeConstraint,_favConstraint,_sharedConstraint,_qConstraint,function(appmark_types,appmarks,has_more) {
 		if (!timestamp) _cards = [];
@@ -116,7 +119,6 @@ function displayAppmarks(timestamp) {
 		displayAppmarksPage(offset,timestamp);
 		app.startPage();
 		app.endRefresh();
-		//app.loading();
 	});
 }
 
@@ -129,19 +131,26 @@ function onRefresh() {
 function onPageClose(tag,ok,obj) {
   console.log('index.onPageClose('+tag+','+ok+','+obj+')');
   if (tag == 'account') {
+    if (!ok || obj != 1) {
+      app.endPage();
+    }
     _mam = new mamClient('http://www.myappmarks.com/',app,true);
     _mam.initFromAppState();
     console.log('_mam.signedin='+_mam.signedin);
-    if (_mam.signedin)
-      displayAppmarks();
-    else
-      app.endPage();
+    displayAppmarks();
   }
+}
+
+function doSignout() {
+  _mam.signout(function() { 
+      app.store('mam_token',null);
+      app.openPage('account','signin.html');
+  });
 }
 
 function onAction(action) {
   if (action == 'do_signout') {
-    app.dialog('Do you really want to signout?','Yes','No',function(yes) { app.alert('signout NYI'); });
+    app.dialog('Do you really want to signout?','Yes','No',function(yes) { if (yes) doSignout(); });
   }  
 }
 
@@ -172,11 +181,9 @@ function init() {
 	}
   else {
   	_mam = new mamClient('http://www.myappmarks.com/',app,true);
-    //app.loading('signing in...');
 	  _mam.testsignedin(_token,function() {
       log('testsignedin = '+_mam.signedin);
 		  if (!_mam.signedin) {
-		    //app.loading();
 		    app.startPage();
 	      app.openPage('account','signin.html');
 	      return;

@@ -143,6 +143,7 @@ function onPageClose(tag,ok,obj) {
 
 function doSignout() {
   _mam.signout(function() { 
+      getContent().empty();
       app.store('mam_token',null);
       app.openPage('account','signin.html');
   });

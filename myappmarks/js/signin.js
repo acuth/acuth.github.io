@@ -51,6 +51,7 @@ function doRegister(event) {
 }
 
 function displaySignIn() {
+  app.setTitle('Sign In to your account');
   console.log('displaySignIn()');
 	var content = getContent();
 	content.empty();
@@ -79,6 +80,7 @@ function displaySignIn() {
 }
 
 function displayRegister() {
+  app.setTitle('Sign Up for your account');
 	console.log('displayRegister()');
 	var content = getContent();
 	content.empty();

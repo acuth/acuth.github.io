@@ -13,9 +13,13 @@ function getContent() {
 
 function displayCard() {
   	var n = app.get('appmark-to-be-edited-index');
-		var appmark = app.get('appmark-to-be-edited-json');
-	  var html = 'displaying appmark '+n;
-	  getContent().html(html);
+  	if (n === null) n = 0;
+		var a = app.get('appmark-to-be-edited-json');
+	  var div = $(document.createElement('div'));
+	  div.addClass('appmark').addClass('card').attr('id','appmark-'+n).addClass('enable-touch').attr('touch-class','appmark');
+	  var card = new AppmarkCard(n,a,div,false);
+	  card.drawContents();
+	  card.div.appendTo(getContent());
 }
 
 function doSignout() {

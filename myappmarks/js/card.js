@@ -1,3 +1,11 @@
+function log(msg) {
+	console.log(msg);
+}
+
+function logUrl(s,url) {
+	console.log(s+' '+url);
+}
+
 function getContent() {
 	if (!_content) console.log('_content not set');
 	return _content;

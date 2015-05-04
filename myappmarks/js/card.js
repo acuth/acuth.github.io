@@ -1,3 +1,8 @@
+function getContent() {
+	if (!_content) console.log('_content not set');
+	return _content;
+}
+
 function displayCard() {
   	var n = app.get('appmark-to-be-edited-index');
 		var appmark = app.get('appmark-to-be-edited-json');

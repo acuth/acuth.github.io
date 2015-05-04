@@ -14,7 +14,7 @@ function getContent() {
 function displayCard() {
   	var n = app.get('appmark-to-be-edited-index');
   	if (n === null) n = 0;
-		var a = app.get('appmark-to-be-edited-json');
+		var a = new mamAppMark(app.get('appmark-to-be-edited-json'));
 	  var div = $(document.createElement('div'));
 	  div.addClass('appmark').addClass('card').attr('id','appmark-'+n).addClass('enable-touch').attr('touch-class','appmark');
 	  var card = new AppmarkCard(n,a,div,false);

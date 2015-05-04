@@ -6,7 +6,7 @@ function setImgElemSrc(imgElem,a) {
 function getDateStr(a) {
 	var today = (new Date()).format('d mmm');
 	var modifyDay = a.modify_date.format('d mmm');
-	return (modifyDay != today) ? modifyDay : a.modify_date.format('HH:MM')
+	return (modifyDay != today) ? modifyDay : a.modify_date.format('HH:MM');
 }
 
 function AppmarkCard(n,a,div,shared) {
@@ -176,21 +176,21 @@ AppmarkCard.prototype.fillCommentDiv=function(div) {
 	comment = mamClient.convertToHTML(comment);
 	div.html(comment);
 	if (!this.a.read_only && gotComment) this.getControl('edit-comment','edit-64','Edit appmark comment').appendTo(div);
-}
+};
 
 AppmarkCard.prototype.getTitleDiv=function() {
 	var div = $(document.createElement('div'));
 	div.addClass('appmark-title');
 	this.fillTitleDiv(div);
 	return div;
-}
+};
 
 AppmarkCard.prototype.getCommentDiv=function() {
 	var div = $(document.createElement('div'));
 	div.addClass('appmark-comment');
 	this.fillCommentDiv(div);
 	return div;
-}
+};
 
 AppmarkCard.prototype.getActionDiv=function() {
 	var div = $(document.createElement('div'));
@@ -208,7 +208,7 @@ AppmarkCard.prototype.getActionDiv=function() {
 	span.appendTo(div);
 	div.click(function(event) { displayURL(url); });
 	return div;
-}
+};
 
 AppmarkCard.prototype.getControls=function(shared) {
 	var verb = (this.a.modify_date.getTime() == this.a.create_date.getTime()) ? 'posted' : 'updated';
@@ -235,7 +235,7 @@ AppmarkCard.prototype.getControls=function(shared) {
 
 	$(document.createElement('div')).css('clear','both').appendTo(div);
 	return div;
-}
+};
 
 AppmarkCard.prototype.getBlurbDiv=function(shared) {
 	if (!shared) return null;
@@ -259,12 +259,12 @@ AppmarkCard.prototype.getBlurbDiv=function(shared) {
 	}
 	blurb.appendTo(div);
 	return div;
-}
+};
 
 AppmarkCard.prototype.getTitle=function() {
 	var div = this.div.find('.appmark-title');
 	return (div.attr('contenteditable') == 'true') ? div.text() : this.a.title;
-}
+};
 
 AppmarkCard.prototype.getComment=function() {
 	var div = this.div.find('.appmark-comment');
@@ -273,7 +273,7 @@ AppmarkCard.prototype.getComment=function() {
     var s = mamClient.convertFromHTML(div.get(0));
 	console.log('returned "'+s+'"');
 	return s;
-}
+};
 
 
 AppmarkCard.prototype.addControlEventHandlerImpl=function(cntrl,action) {

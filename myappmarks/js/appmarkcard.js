@@ -28,8 +28,8 @@ AppmarkCard.prototype.drawContents=function() {
 	if (blurb) blurb.appendTo(this.div);
 		//console.log(' - blurb');
 	this.getControls(this.shared).appendTo(this.div);
-		//console.log(' - coneols');
-}
+		//console.log(' - controls');
+};
 
 AppmarkCard.prototype.update=function(a) {
 	a.invoke_str = this.a.invoke_str;
@@ -38,7 +38,7 @@ AppmarkCard.prototype.update=function(a) {
 	this.div.html('');
 	this.drawContents();
 	this.addControlEventHandlers();
-}
+};
 
 AppmarkCard.prototype.updateStar=function(a) {
 	this.a = a;
@@ -53,7 +53,7 @@ AppmarkCard.prototype.updateStar=function(a) {
 		cntrl.removeClass('appmark-un-star-control').addClass('appmark-star-control');
 		cntrl.click(function(event) { card.clickOnControl('star'); });
 	}
-}
+};
 
 AppmarkCard.prototype.startEdit=function(selector) {
 	this.div.addClass('appmark-being-edited');
@@ -66,7 +66,7 @@ AppmarkCard.prototype.startEdit=function(selector) {
 		var top = page.scrollTop()+div.offset().top-$('#header').height();
 		page.animate({scrollTop:top},'slow');
 	}
-}
+};
 
 AppmarkCard.prototype.cancelEdit=function() {
 	this.div.removeClass('appmark-being-edited');
@@ -84,14 +84,14 @@ AppmarkCard.prototype.cancelEdit=function() {
 		this.fillCommentDiv(div);
 		this.addControlEventHandler('edit-comment');
 	}
-}
+};
 
 AppmarkCard.prototype.makeEditable=function(selector) {
 	console.log('makeEditable('+this.n+')');
 	this.startEdit(selector);
 	setHeaderControls(this.n);
 	_editingCard = this;
-}
+};
 
 AppmarkCard.prototype.doDelete=function() {
 	superLog('delete card '+this.a.title);
@@ -100,7 +100,7 @@ AppmarkCard.prototype.doDelete=function() {
 		superLog('appmark deleted');
 		card.div.detach();
 	});
-}
+};
 
 AppmarkCard.prototype.confirmDelete=function() {
 	var msg = 'Do you really wish to delete \''+this.a.title+'\'?';
@@ -109,7 +109,7 @@ AppmarkCard.prototype.confirmDelete=function() {
 		superLog('delete card ok='+ok);
 		if (ok) card.doDelete();
 	});
-}
+};
 
 AppmarkCard.prototype.star=function(starred) {
 	var card = this;
@@ -119,11 +119,11 @@ AppmarkCard.prototype.star=function(starred) {
 		var msg = starred ? 'Added to favorites...' : 'Removed from favorites...';
 		getMessage().show(msg);
 	});
-}
+};
 
 AppmarkCard.prototype.clickOnControl=function(action) {
 	console.log('clickOnControl('+this.n+','+action+')');
-	if (action=='edit') {
+	if (action=='edit-title') {
 		app.set('appmark-to-be-edited-index',this.n);
 		app.set('appmark-to-be-edited-json',this.a.json);
 		app.openPage('card','card.html');
@@ -140,9 +140,9 @@ AppmarkCard.prototype.clickOnControl=function(action) {
 	else if (action=='share') {
 	}
 	else {
-		getMessage().show('clickOnControl( '+this.n+', '+this.a.title+', '+action+' )');
+		console.log('clickOnControl( '+this.n+', '+this.a.title+', '+action+' )');
 	}
-}
+};
 
 AppmarkCard.prototype.getControl=function(action,imgName,title,imgClass,float) {
 	//console.log('getControl('+this.n+','+action+')');
@@ -159,12 +159,12 @@ AppmarkCard.prototype.getControl=function(action,imgName,title,imgClass,float) {
 	//	cntrl.addClass('new-appmark-control');
 	//}
 	return cntrl;
-}
+};
 
 AppmarkCard.prototype.fillTitleDiv=function(div) {
 	div.html(this.a.title);
 	if (!this.a.read_only) this.getControl('edit-title','edit-64','Edit appmark title').appendTo(div);
-}
+};
 
 AppmarkCard.prototype.fillCommentDiv=function(div) {
 	var comment = this.a.getComment();

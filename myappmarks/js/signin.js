@@ -51,7 +51,7 @@ function doRegister(event) {
 }
 
 function displaySignIn() {
-  app.setTitle('Sign In to your account');
+  app.setTitle('myappmarks - sign in');
   console.log('displaySignIn()');
 	var content = getContent();
 	content.empty();
@@ -80,7 +80,7 @@ function displaySignIn() {
 }
 
 function displayRegister() {
-  app.setTitle('Sign Up for your account');
+  app.setTitle('myappmarks - sign up');
 	console.log('displayRegister()');
 	var content = getContent();
 	content.empty();

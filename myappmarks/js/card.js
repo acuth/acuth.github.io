@@ -10,8 +10,24 @@ function displayCard() {
 	  getContent().html(html);
 }
 
+function doSignout() {
+  _mam.signout(function() { 
+      getContent().empty();
+      app.store('mam_token',null);
+      app.endPage('signout');
+  });
+}
+
+function onAction(action) {
+  if (action == 'do_signout') {
+    app.dialog('Do you really want to signout?','Yes','No',function(yes) { if (yes) doSignout(); });
+  }  
+}
+
 function init() {
   app = new Awac('app');
+  app.setOnAction(onAction);
+  app.unlockNavDrawer();
 	_content = $('#page');
 	_mam = new mamClient('http://www.myappmarks.com/',app,true);
   _mam.initFromAppState();

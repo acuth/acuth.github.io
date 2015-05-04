@@ -139,6 +139,12 @@ function onPageClose(tag,ok,obj) {
     console.log('_mam.signedin='+_mam.signedin);
     displayAppmarks();
   }
+  else if (tag == 'card') {
+    if (ok && obj == 'signout') {
+      getContent().empty();
+      app.openPage('account','signin.html');
+    }
+  }
 }
 
 function doSignout() {

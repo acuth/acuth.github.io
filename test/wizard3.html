@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<style type="text/css">
 body {
-  background: #678;
+  background: #786;
   margin: 0;
   padding: 0;
 }
@@ -49,10 +49,7 @@ body {
 			$(document).ready(function() {
 			  _awac = new Awac('_awac');
 			  _awac.setOnBackPressed(onBackPressed);
-			  $('#calltoaction').on('click',function(){
-			    _awac.alert('You have reached the end - the page will close');
-			    _awac.endPage();
-			  });
+			  $('#calltoaction').on('click',function(){_awac.endPage();});
 			  _awac.startPage();
 			  setTimeout(revealCallToAction,60);
 			});

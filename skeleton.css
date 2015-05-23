@@ -35,6 +35,16 @@
   margin: 0 auto;
   padding: 0 20px;
   box-sizing: border-box; }
+.container2 {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 0px;
+  box-sizing: border-box; }
+.container2-inner {
+  padding: 0 20px;
+  box-sizing: border-box; }
 .column,
 .columns {
   width: 100%;
@@ -46,12 +56,21 @@
   .container {
     width: 85%;
     padding: 0; }
+  .container2 {
+    width: 85%;
+    padding: 0; }
+  .container2-inner {
+    padding: 0; }
 }
 
 /* For devices larger than 550px */
 @media (min-width: 550px) {
   .container {
     width: 80%; }
+  .container2 {
+    width: 80%; }
+  .container2-inner {
+    padding: 0; }
   .column,
   .columns {
     margin-left: 4%; }

@@ -1,1 +1,72 @@
-<p>Testing</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Awac: launcher</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="../normalize.css">
+  <link rel="stylesheet" href="../skeleton.css">
+  <link rel="stylesheet" href="../custom.css">
+ 
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="favicon.png">
+  <script type="text/javascript">
+  function doOnLoad() {
+    var href = window.location.href;
+    console.log('href='+href);
+    var i = href.indexOf('?url=');
+    if (i != -1) {
+      var url = href.substring(i+5);
+      console.log('url='+url);
+      var e = document.getElementById('web-app-url');
+      console.log('e='+e);
+      var html = '<a href="'+url+'">'+url+'</a>';
+      e.innerHTML=html;
+    }
+  }
+  </script>
+</head>
+<body onload="doOnLoad();">
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <section class="header">
+      <h3 class="title">AWAC: Android Web App Container</h3>
+    </section>
+    
+    <div class="docs-section">
+      <h4 class="docs-header">AWAC Launcher</h4>
+      <p>You have tried to launch AWAC pointing to the web-app at <span id="web-app-url"></span>. You have most likely got to this page because you have not
+      yet installed AWAC on your Android device. You can download the latest build of AWAC from <a href="../apks/awac.apk">awac.apk</a>.</p>
+    </div>
+    
+    
+    <ul class="navbar-list" style="border-top:solid 1px gray;">
+      <li class="navbar-item">
+        <a class="navbar-link" href="../index.html">Home</a>
+      </li>
+    </ul>
+  
+  </div>  
+  
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>

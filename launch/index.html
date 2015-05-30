@@ -29,16 +29,16 @@
   <script type="text/javascript">
   function doOnLoad() {
     var href = window.location.href;
-    console.log('href='+href);
     var i = href.indexOf('?url=');
+    var html;
     if (i != -1) {
       var url = href.substring(i+5);
-      console.log('url='+url);
-      var e = document.getElementById('web-app-url');
-      console.log('e='+e);
-      var html = '<a href="'+url+'">'+url+'</a>';
-      e.innerHTML=html;
+      html = ', in this case the one at <a target="_blank" href="'+url+'">'+url+'</a>';
     }
+    else {
+      html = ' although, in this case, the location of the web-app does not appear to have been specified'
+    }
+    document.getElementById('web-app-url').innerHTML = html;
   }
   </script>
 </head>
@@ -53,8 +53,9 @@
     
     <div class="docs-section">
       <h4 class="docs-header">AWAC Launcher</h4>
-      <p>You have tried to launch AWAC pointing to the web-app at <span id="web-app-url"></span>. You have most likely got to this page because you have not
-      yet installed AWAC on your Android device. You can download the latest build of AWAC from <a href="../apks/awac.apk">awac.apk</a>.</p>
+      <p>You have followed a link which tries to launch AWAC pointing to a web-app<span id="web-app-url"></span>.</p> 
+      <p>You have most likely got to this page because either you are not on 
+      an Android device or you have not yet installed AWAC. You can download the latest build of AWAC <a href="../apks/awac.apk">here</a>.</p>
     </div>
     
     

@@ -52,14 +52,12 @@ p {
   padding: 10px;
 }
 		</style>
+		
+		<!-- include js file that defines Awac class -->
 		<script src="http://acuth.github.io/js/awac.js" type="text/javascript"></script>
-		<script type="text/javascript">
-		  var app;
-		  function doOnLoad() { app = new Awac('app'); app.startPage(); }
-		</script>
 	</head>
-	<!--body onload="(new Awac('awac')).startPage();"-->
-	<body onload="doOnLoad();">
+	<!-- when page has loaded, tell Awac to 'start' showing the page -->
+	<body onload="(new Awac()).startPage();">
 	  <div class="header_pic">
 	    <img src="highline.jpg" />
 	    <div class="overlay">

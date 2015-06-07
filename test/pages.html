@@ -35,7 +35,7 @@ $(document).ready(function() {
 	<body>
 	  <div id="details"><div id="details-footer"></div><div id="details-blurb">
 	     <div>This page demonstrates one page opening another page and receiving a result from it when it is closed.</div>
-       <div class="code">
+       <div class="code"><pre>
        _awac = new Awac('_awac');
        _awac.setOnPageClose(function(tag,ok,value){
       
@@ -43,7 +43,7 @@ $(document).ready(function() {
 
        _awac.openPage('cities','cities.html',
                 {'name':'Jabba'});
-       </div>
+       </pre></div>
     </div><!-- end of details-blurb --></div><!-- end of details -->
 
     <div id="navigation"></div>

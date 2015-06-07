@@ -34,17 +34,16 @@ $(document).ready(function() {
 	</head>
 	<body>
 	  <div id="details"><div id="details-footer"></div><div id="details-blurb">
-	     <div>This page demonstrates opening a page  In this example we create a global variable to represent Awac called _awac. 
-	     The variable name must be supplied to the constructor to receive events.</div>
-       <div class="code"><pre>
+	     <div>This page demonstrates one page opening another page and receiving a result from it when it is closed.</div>
+       <div class="code">
        _awac = new Awac('_awac');
        _awac.setOnPageClose(function(tag,ok,value){
-         ...
+      
        });
 
        _awac.openPage('cities','cities.html',
                 {'name':'Jabba'});
-       </pre></div>
+       </div>
     </div><!-- end of details-blurb --></div><!-- end of details -->
 
     <div id="navigation"></div>

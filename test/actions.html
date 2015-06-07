@@ -34,11 +34,14 @@ $(document).ready(function() {
       <div class="code"><pre>
        _awac = new Awac('_awac');
        _awac.setOnAction(function(action) {...});
-       ...
-       _awac.addActionBarItem({'label':'OK','action':'ok'});
-       _awac.addOptionsMenuItem({'label':'Settings','action':'settings'});
-       ...
-       _awac.addNavDrawerItem({'label':'Close','action':'exit'});
+       
+       _awac.addActionBarItem(
+          {'label':'OK','action':'ok'});
+       _awac.addOptionsMenuItem(
+          {'label':'Settings','action':'settings'});
+       
+       _awac.addNavDrawerItem(
+          {'label':'Close','action':'exit'});
        _awac.unlockNavDrawer();
        </pre></div>
        <div> The nav drawer is only populated once for the app and, by default, is locked close for a page.</div>

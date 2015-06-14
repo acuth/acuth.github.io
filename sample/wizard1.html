@@ -42,14 +42,19 @@ body {
 			var _backPressedOnce = false;
 			
 			function onAction(action) {
-			  if ('skip' == action) 
+			  if ('skip' == action) {
+			    console.log('skipping to next page');
 			    _awac.replacePage('wizard','wizard2.html',null,true);
+			  }
 			}
 			
 			function onBackPressed() {
-			  if (_backPressedOnce) 
+			  if (_backPressedOnce) {
+			    console.log('back pressed once already - ending page');
 			    _awac.endPage();
+			  }
 			  else {
+			    console.log('back pressed - put up alert');
 			    _awac.alert('Press back again to exit');
 			    _backPressedOnce = true;
 			  }

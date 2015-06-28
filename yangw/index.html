@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <title>YANGW</title>
+    	<script src="../js/jquery.min.js" type="text/javascript"></script>
+    		<script src="yangw.js" type="text/javascript"></script>
+    		<script type="text/javascript">
+function log(msg) {
+   $('#log').append('<br/>'+msg);
+}
+
+function ajax(url,cb) {
+  var xhr = new XMLHttpRequest();
+	xhr.open("GET",url,true);
+	xhr.onreadystatechange = function() {
+  		if (xhr.readyState == 4) {
+    		cb(JSON.parse(xhr.responseText));
+  		}
+	};
+	xhr.send();
+}
+
+var _yangw = new YANGW();
+
+$(document).ready(function() {
+  log('welcome to the machine @ '+(new Date()));
+  ajax('items.json',function(json) {
+    log('got '+json.items.length+' items');
+    for (var i=0;i<json.items.length;i++) {
+      _yangw.add(json.items[i]);
+    }
+    _yangw.debug();
+  });
+});
+		</script>
+  </head>
+  <body>
+    <h1>YANGW</h1>
+    <div id="log"></div>
+  </body>
+</html>

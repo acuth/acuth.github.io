@@ -1,1 +1,28 @@
-{"items":[]}
+{"items":[
+  {"type":"AttributeType","name":"coordinate","primType":"lat-long-pair","number":"required"},
+  {"type":"AttributeType","name":"homeTown","primType":"item-ref","primSubType":"Place","number":"required"},
+
+{"type":"AttributeType","name":"journeyStatus","primType":"item-ref","primSubType":"JourneyStatus","number":"required"},
+
+{"type":"AttributeType","name":"enum","primType":"unique-string","number":"required"},
+{"type":"ItemType","name":"Place","attributeTypes":["name","coordinate","body"]},
+
+{"type":"ItemType","name":"Artist","attributeTypes":["name","homeTown"]},
+
+{"type":"ItemType","name":"JourneyStatus","attributeTypes":["enum"]},
+
+{"type":"ItemType","name":"Journey","attributeTypes":["start","end","journeyStatus"]},
+
+{"type":"JourneyStatus","enum":"PREPARING"},
+
+{"type":"JourneyStatus","enum":"UNDERWAY"},
+
+{"type":"JourneyStatus","enum":"COMPLETED"},
+
+{"type":"Place","name":"Rome","coordinate":{"lat":32.3,"lng":-2.3},"body":"The city that never sleeps"},
+
+{"type":"Artist","name":"Da Vinci","homeTown":"Rome"},
+
+{"type":"Journey","start":{"lat":51.0,"lng":0.0},"end":{"lat":52.0,"lng":1.0},"journeyStatus":"UNDERWAY"}
+  
+  ]}

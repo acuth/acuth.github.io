@@ -1,28 +1,56 @@
 {"items":[
-  {"type":"AttributeType","name":"coordinate","primType":"lat-long-pair","number":"required"},
-  {"type":"AttributeType","name":"homeTown","primType":"item-ref","primSubType":"Place","number":"required"},
+  
+{"type":"AttributeType","name":"name","primType":"string","number":"required"},
 
-{"type":"AttributeType","name":"journeyStatus","primType":"item-ref","primSubType":"JourneyStatus","number":"required"},
+{"type":"AttributeType","name":"body","primType":"string","number":"optional"},  
+  
+  
 
-{"type":"AttributeType","name":"enum","primType":"unique-string","number":"required"},
-{"type":"ItemType","name":"Place","attributeTypes":["name","coordinate","body"]},
 
-{"type":"ItemType","name":"Artist","attributeTypes":["name","homeTown"]},
+{"type":"AttributeType","name":"jStatusEnum","primType":"item-key","primSubType":"JStatusEnum","number":"required"},
 
-{"type":"ItemType","name":"JourneyStatus","attributeTypes":["enum"]},
+{"type":"ItemType","name":"JStatusEnum","attributeTypes":["jStatusEnum"],"key":"jStatusEnum"},
 
-{"type":"ItemType","name":"Journey","attributeTypes":["start","end","journeyStatus"]},
+{"type":"JStatusEnum","jStatusEnum":"PREPARING"},
 
-{"type":"JourneyStatus","enum":"PREPARING"},
+{"type":"JStatusEnum","jStatusEnum":"UNDERWAY"},
 
-{"type":"JourneyStatus","enum":"UNDERWAY"},
+{"type":"JStatusEnum","jStatusEnum":"UNDERWAY"},
 
-{"type":"JourneyStatus","enum":"COMPLETED"},
+{"type":"JStatusEnum","jStatusEnum":"COMPLETED","body":"The journey has been completed."},
+
+{"type":"AttributeType","name":"jStatus","primType":"item-ref","primSubType":"JStatusEnum","number":"required"},
+
+
+
+{"type":"AttributeType","name":"coordinate","primType":"lat-long-pair","number":"required"},
+
+{"type":"AttributeType","name":"jStart","primType":"lat-long-pair","number":"required"},
+
+{"type":"AttributeType","name":"jEnd","primType":"lat-long-pair","number":"required"},
+
+{"type":"AttributeType","name":"homeTown","primType":"item-ref","primSubType":"Place","number":"required"},
+
+
+
+
+
+{"type":"ItemType","name":"Place","attributeTypes":["name","coordinate","body"],"key":"name"},
+
+{"type":"ItemType","name":"Artist","attributeTypes":["name","homeTown"],"key":"name"},
+
+
+
+{"type":"ItemType","name":"Journey","attributeTypes":["jStart","jEnd","jStatus"]},
+
+
 
 {"type":"Place","name":"Rome","coordinate":{"lat":32.3,"lng":-2.3},"body":"The city that never sleeps"},
 
-{"type":"Artist","name":"Da Vinci","homeTown":"Rome"},
+{"type":"Artist","name":"Caravaggio","homeTown":"Rome"},
 
-{"type":"Journey","start":{"lat":51.0,"lng":0.0},"end":{"lat":52.0,"lng":1.0},"journeyStatus":"UNDERWAY"}
+{"type":"Artist","name":"Da Vinci","homeTown":"Florence"},
+
+{"type":"Journey","jStart":{"lat":51.0,"lng":0.0},"jEnd":{"lat":52.0,"lng":1.0},"jStatus":"UNDERWAY"}
   
   ]}

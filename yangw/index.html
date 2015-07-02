@@ -1,11 +1,24 @@
 <html>
   <head>
     <title>YANGW</title>
+    	<style type="text/css">
+div.item, div.itype {
+  padding: 10px;
+  border: solid 1px gray;
+  width: 320px;
+  margin-top: 10px;
+}    	  
+    	  
+    	</style>
     	<script src="../js/jquery.min.js" type="text/javascript"></script>
-    		<script src="yangw.js" type="text/javascript"></script>
-    		<script type="text/javascript">
+    	<script src="attrtype.js" type="text/javascript"></script>
+    	<script src="itemtype.js" type="text/javascript"></script>
+    	<script src="item.js" type="text/javascript"></script>
+    	<script src="yangw.js" type="text/javascript"></script>
+    	<script type="text/javascript">
 function log(msg) {
-   $('#log').append('<br/>'+msg);
+   //$('#log').append('<br/>'+msg);
+   console.log(msg);
 }
 
 function ajax(url,cb) {
@@ -21,6 +34,14 @@ function ajax(url,cb) {
 
 var _yangw = new YANGW();
 
+function showSchema() {
+  $('#content').html(_yangw.getSchemaHTML());
+}
+
+function showItems() {
+  $('#content').html(_yangw.getItemsHTML());
+}
+
 $(document).ready(function() {
   log('welcome to the machine @ '+(new Date()));
   ajax('items.json',function(json) {
@@ -35,6 +56,9 @@ $(document).ready(function() {
   </head>
   <body>
     <h1>YANGW</h1>
+    <div><a href="javascript:showSchema();">Schema</a> | <a href="javascript:showItems();">Items</a></div>
+    <div id="content">content-goes-here</div>
+    
     <div id="log"></div>
   </body>
 </html>

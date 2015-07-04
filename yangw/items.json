@@ -25,6 +25,8 @@
 
 {"type":"AttributeType","name":"coordinate","primType":"lat-long-pair","number":"required"},
 
+{"type":"AttributeType","name":"tag","primType":"string","number":"list"},
+
 {"type":"AttributeType","name":"jStart","primType":"lat-long-pair","number":"required"},
 
 {"type":"AttributeType","name":"jEnd","primType":"lat-long-pair","number":"required"},
@@ -35,7 +37,7 @@
 
 
 
-{"type":"ItemType","name":"Place","attributeTypes":["name","coordinate","body"],"key":"name"},
+{"type":"ItemType","name":"Place","attributeTypes":["name","coordinate","body","tag"],"key":"name"},
 
 {"type":"ItemType","name":"Artist","attributeTypes":["name","homeTown"],"key":"name"},
 
@@ -43,14 +45,19 @@
 
 {"type":"ItemType","name":"Journey","attributeTypes":["jStart","jEnd","jStatus"]},
 
+{"type":"Place","name":"New York","coordinate":{"lat":40.712474,"lng":-74.006721},"body":"The city that never sleeps","tag":["Skyscraper"]},
 
+{"type":"Place","name":"Rome","coordinate":{"lat":41.902438,"lng":12.496559},"body":"Italy has changed. But Rome is Rome.","tag":["Italy","Art","Eternal City"]},
 
-{"type":"Place","name":"Rome","coordinate":{"lat":32.3,"lng":-2.3},"body":"The city that never sleeps"},
+{"type":"Place","name":"Florence","coordinate":{"lat":43.769484,"lng":11.255302},"body":"The capital city of the Italian region of Tuscany"},
 
 {"type":"Artist","name":"Caravaggio","homeTown":"Rome"},
 
 {"type":"Artist","name":"Da Vinci","homeTown":"Florence"},
 
-{"type":"Journey","jStart":{"lat":51.0,"lng":0.0},"jEnd":{"lat":52.0,"lng":1.0},"jStatus":"UNDERWAY"}
+{"type":"Journey","jStart":{"lat":51.0,"lng":0.0},"jEnd":{"lat":52.0,"lng":1.0},"jStatus":"COMPLETED"}
   
-  ]}
+  ],
+  
+  "tricky":{"str":"this is a string","numb":123,"str":"This is another string","numb":456}
+}

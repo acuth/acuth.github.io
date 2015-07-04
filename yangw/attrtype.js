@@ -14,13 +14,36 @@ AttrType.prototype.toString=function() {
   return s;
 };
 
-AttrType.prototype.toHTML=function() {
+AttrType.prototype.toHTMLRow=function() {
   var h = '<tr>';
   h += '<td>'+this.id+'</td>';
   h += '<td>'+this.name+'</td>';
   h += '<td>'+this.primType+'</td>';
   h += '<td>'+this.number+'</td>';
   h += '</tr>';
+  return h;
+};
+
+AttrType.prototype.toHTML=function(hideMeta) {
+  var h = '<div class="atype">';
+  h += '<b>attr-type</b>: ';
+  if (hideMeta) h += '<a href="javascript:showAttrType(\''+this.name+'\');">'+this.name+'</a>'; else h += this.name;
+  h += '<br/>';
+  h += 'prim-type: '+this.primType+'<br/>';
+  if (this.subPrimType) {
+    if (this.subPrimType == hideMeta)
+      h += 'sub-prim-type: <b style="color:green;">'+this.subPrimType+'</b><br/>';
+    else
+      h += 'sub-prim-type: <a href="javascript:showItemType(\''+this.subPrimType+'\');">'+this.subPrimType+'</a><br/>';
+  }
+  h += 'number: '+this.number;
+  h += '</div>';
+  if (!hideMeta) {
+    h += '<div class="metadata">';
+     h += 'This is an attr-type definition<br/>';
+    h += 'attr-type-id: '+this.id;
+    h += '</div>';
+  }
   return h;
 };
 

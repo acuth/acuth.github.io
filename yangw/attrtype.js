@@ -14,6 +14,16 @@ AttrType.prototype.toString=function() {
   return s;
 };
 
+AttrType.prototype.export=function() {
+  var json = {};
+  json.type = 'AttributeType';
+  json.name = this.name;
+  json.primType = this.primType;
+  if (this.subPrimType) json.primSubType = this.subPrimType;
+  json.number = this.number;
+  return json;
+};
+
 AttrType.prototype.toHTMLRow=function() {
   var h = '<tr>';
   h += '<td>'+this.id+'</td>';
@@ -57,7 +67,7 @@ AttrType.validatePrimitiveType=function(s) {
 };
 
 AttrType.prototype.getPrimitiveTypeStr=function() {
-  var s = this.primType;
+  var s = this.number +' '+this.primType;
   if (this.subPrimType) s += ' ['+this.subPrimType+']';
   return s;
 };

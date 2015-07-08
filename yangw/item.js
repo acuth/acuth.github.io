@@ -10,6 +10,29 @@ Item.prototype.toString=function() {
   return '{Item id:'+this.id+' item-type:"'+this.itemType.name+'"}';
 };
 
+Item.prototype.getDumpValue=function(p,v) {
+  //var atype = this.yangw.getAttrType(p);
+  return v;
+};
+  
+Item.prototype.export=function() {
+  var json = {};
+  json.type = this.itemType.name;
+  for (var p in this.props) {
+    var arr = this.props[p];
+    if (arr.length == 1) {
+      json[p] = this.getDumpValue(p,arr[0]);  
+    }
+    else {
+      json[p] = [];
+      for (var i=0;i<arr.length;i++) {
+        json[p][i] = this.getDumpValue(p,arr[i]);
+      }
+    }
+  }
+  return json;
+};
+
 Item.prototype.includesItemType=function(itype) {
   return this.itemType == itype;
 };
@@ -17,6 +40,22 @@ Item.prototype.includesItemType=function(itype) {
 Item.prototype.includesAttrType=function(atype) {
   var arr = this.props[atype.name];
   return arr && arr.length > 0;
+};
+
+Item.prototype.referencesItem=function(that) {
+  for (var p in this.props) {
+    var atype = this.yangw.getAttrType(p);
+    if (atype.primType === 'item-ref') {
+      var arr = this.props[p];
+      var thatKeyValue = that.keyValue();
+      for (var i=0;i<arr.length;i++) {
+        var thisKeyValue = atype.subPrimType+':'+JSON.stringify(arr[i]);
+        console.log('comparng '+thisKeyValue+' vs '+thatKeyValue);
+        if (thatKeyValue == thisKeyValue) return true;
+      }
+    }
+  }
+  return false;
 };
 
 
@@ -31,7 +70,7 @@ Item.prototype.getAttrHTML=function(hideMeta,atype,v) {
     
   var href = 'javascript:showAttrType(\''+atype.name+'\');';
   return '<a href="'+href+'">'+atype.name+'</a>: '+JSON.stringify(v);
-}
+};
 
 Item.prototype.toHTML=function(hideMeta) {
   var h = '<div class="item">';

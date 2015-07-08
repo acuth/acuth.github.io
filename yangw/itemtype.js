@@ -17,6 +17,18 @@ ItemType.prototype.toString=function() {
   return '{ItemType id:'+this.id+' name:"'+this.name+'"}';
 };
 
+ItemType.prototype.export=function() {
+  var json = {};
+  json.type = 'ItemType';
+  json.name = this.name;
+  json.attributeTypes = [];
+  for (var i=0;i<this.attrTypes.length;i++) {
+    json.attributeTypes[i] = this.attrTypes[i].name;
+  }
+  if (this.key) json.key = this.key;
+  return json;
+};
+
 ItemType.prototype.toHTML=function(hideMeta) {
   var h = '<div class="itype">';
   h += '<b>item-type</b>: ';

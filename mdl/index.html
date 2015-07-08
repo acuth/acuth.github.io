@@ -161,9 +161,12 @@
       <script src="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js"></script>
       <script type="text/javascript">
       componentHandler.upgradeDom();
-      console.log('DOM upgraded');
-      (new Awac()).startPage();
-      console.log('started page');
+      console.log('DOM upgraded);
+      setTimeout(function() { 
+        console.log('about to start page');
+        (new Awac()).startPage();
+        console.log('started page');
+      },10000);
       </script>
    
  

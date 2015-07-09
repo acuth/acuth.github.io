@@ -12,6 +12,7 @@
     height: 176px;
     background: url('background.jpg') center / cover;
   }
+  
   .mdl-card__menu {
     color: #fff;
   }
@@ -56,6 +57,42 @@ function appendCssLink(href) {
   document.getElementsByTagName( 'head' )[0].appendChild( link );
 }
 
+function onAction(action) {
+  console.log('onAction('+action+')');
+  _awac.alert(action);
+}
+
+function addCardAction(card,label,action) {
+  var div = $(document.createElement('div')).addClass('mdl-card__actions mdl-card--border').appendTo(card);
+  $(document.createElement('a')).addClass('mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect').appendTo(div).html(label).on('click',function(e) { onAction(action); });
+}
+
+function addMenuItem(menu,label,action) {
+  $(document.createElement('li')).addClass('mdl-menu__item').html(label).appendTo(menu).on('click',function(e) { onAction(action); });
+}
+
+function addCardMenu(card) {
+  var id = card.attr('id')+'-menu';
+  var div = $(document.createElement('div')).addClass('mdl-card__menu').appendTo(card);
+  var btn = $(document.createElement('button')).addClass('mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect').appendTo(div).attr('id',id);
+  var icon =  $(document.createElement('i')).addClass('material-icons').html('more_vert').appendTo(btn);
+  return $(document.createElement('ul')).addClass('mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect').attr('for',id).appendTo(card);
+}
+
+function addEvents() {
+  var menu = addCardMenu($('#welcome-card'));
+  addMenuItem(menu,'More on Africa','more_on_africa');
+  addMenuItem(menu,'Get Started','africa_get_started');
+  
+  menu = addCardMenu($('#image-card'));
+  addMenuItem(menu,'Download Image','download_kilimanjaro_image');
+  addMenuItem(menu,'Show on Map','show_kilimanjaro_on_map');
+  
+  addCardAction($('#welcome-card'),'Get Started','africa_get_started');
+  addCardAction($('#skytower-card'),'Go There','go_to_skytower');
+  addCardAction($('#event-card'),'Add to Calendar','add_to_cal');
+}
+
 function setCss() {
   var dims = _awac.getDims();
   console.log('setCss() dims='+dims.width+'x'+dims.height);
@@ -68,6 +105,7 @@ function setCss() {
   e.style.width = dims.width+'px';
   e.style.height = dims.height+'px';
   appendCssLink('https://storage.googleapis.com/code.getmdl.io/1.0.0/material.teal-pink.min.css');
+  addEvents();
   componentHandler.upgradeDom();
 }
   
@@ -75,9 +113,12 @@ function doOnLoad() {
   _awac = new Awac('_awac');
   _awac.setTitle('Material Design Lite');
   _awac.unlockNavDrawer();
-  _awac.addNavDrawerItem({'label':'link 1','action':'link1'});
-  _awac.addNavDrawerItem({'label':'link 2','action':'link2'});
-  _awac.addNavDrawerItem({'label':'link 3','action':'link3'});
+  _awac.addNavDrawerItem({'label':'More on Africa','action':'more_on_africa'});
+  _awac.addNavDrawerItem({'label':'Get Started','action':'africa_get_started'});
+  _awac.addNavDrawerItem({'label':'Download Image','action':'download_kilimanjaro_image'});
+  _awac.addNavDrawerItem({'label':'Show on Map','action':'show_kilimanjaro_on_map'});
+  _awac.addNavDrawerItem({'label':'Go There','action':'go_to_skytower'});
+  _awac.addNavDrawerItem({'label':'Add to Calendar','action':'add_to_cal'});
   _awac.startPage();
   setTimeout(setCss,50);
 }
@@ -93,7 +134,7 @@ function doOnLoad() {
     <div class="page-content">
       <div class="mdl-grid">
 
-<div class="mdl-cell mdl-cell--8-col mdl-card mdl-shadow--4dp demo-card-wide">
+<div id="welcome-card" class="mdl-cell mdl-cell--8-col mdl-card mdl-shadow--4dp demo-card-wide">
   <div class="mdl-card__title">
     <h2 class="mdl-card__title-text">Welcome to Africa</h2>
   </div>
@@ -101,47 +142,16 @@ function doOnLoad() {
     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     Mauris sagittis pellentesque lacus eleifend lacinia...
   </div>
-  <div class="mdl-card__actions mdl-card--border">
-    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-      Get Started
-    </a>
-  </div>
-  <div class="mdl-card__menu">
-    <button id="welcome-menu" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-      <i class="material-icons">more_vert</i>
-    </button>
-    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="welcome-menu">
-      <li class="mdl-menu__item">Some Action</li>
-      <li class="mdl-menu__item">Another Action</li>
-      <li disabled class="mdl-menu__item">Disabled Action</li>
-      <li class="mdl-menu__item">Yet Another Action</li>
-    </ul>
-  </div>
 </div>
 
-
-
-<div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--4dp demo-card-image">
+<div id="image-card" class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--4dp demo-card-image">
   <div class="mdl-card__title mdl-card--expand"></div>
   <div class="mdl-card__actions">
     <span class="demo-card-image__filename">kilimanjaro.jpg</span>
   </div>
-   <div class="mdl-card__menu">
-    <button id="image-menu" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-      <i class="material-icons">more_vert</i>
-    </button>
-    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="image-menu">
-      <li class="mdl-menu__item">Download Image</li>
-      <li class="mdl-menu__item">Show on Map</li>
-    </ul>
-  </div>
 </div>
 
-    
-  
-
-
-<div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--4dp demo-card-event">
+<div id="event-card" class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--4dp demo-card-event">
   <div class="mdl-card__title mdl-card--expand">
     <h4>
       Featured event:<br>
@@ -149,20 +159,10 @@ function doOnLoad() {
       7-11pm
     </h4>
   </div>
-  <div class="mdl-card__actions mdl-card--border">
-    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-      Add to Calendar
-    </a>
-  </div>
-   <div class="mdl-card__menu">
-    <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-      <i class="material-icons">more_vert</i>
-    </button>
-  </div>
 </div>
 
-  <div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--4dp demo-card-info">
-  <div class="mdl-card__media"><img src="skytower.jpg" width="50%" border="0" alt="" style="padding:10px;"></div>
+<div id="skytower-card" class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--4dp demo-card-info">
+  <div class="mdl-card__image"><img src="skytower.jpg" width="50%" border="0" alt="" style="padding:10px;"></div>
   <div class="mdl-card__supporting-text">
     Auckland Sky Tower, taken March 24th, 2014
   </div>
@@ -170,16 +170,6 @@ function doOnLoad() {
   The Sky Tower is an observation and telecommunications tower located in Auckland,
   New Zealand. It is 328 metres (1,076 ft) tall, making it the tallest man-made structure
   in the Southern Hemisphere.
-  </div>
-  <div class="mdl-card__actions mdl-card--border">
-    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-      Go There
-    </a>
-  </div>
-   <div class="mdl-card__menu">
-    <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-      <i class="material-icons">more_vert</i>
-    </button>
   </div>
 </div>
 

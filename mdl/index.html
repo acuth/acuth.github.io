@@ -112,6 +112,7 @@ function setCss() {
 function doOnLoad() {
   _awac = new Awac('_awac');
   _awac.setTitle('Material Design Lite');
+  _awac.setOnAction(onAction);
   _awac.unlockNavDrawer();
   _awac.addNavDrawerItem({'label':'More on Africa','action':'more_on_africa'});
   _awac.addNavDrawerItem({'label':'Get Started','action':'africa_get_started'});
@@ -180,8 +181,8 @@ function doOnLoad() {
       <footer class="mdl-mini-footer">
         <div class="mdl-mini-footer--left-section">
           <ul class="mdl-mini-footer--link-list">
-            <li><a href="#">Help</a></li>
-            <li><a href="#">Privacy &amp; Terms</a></li>
+            <li><a href="javascript:onAction('help');">Help</a></li>
+            <li><a href="javascript:onAction('privacy_terms');">Privacy &amp; Terms</a></li>
           </ul>
         </div>
       </footer>

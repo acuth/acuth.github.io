@@ -15,7 +15,9 @@
     <script src="http://acuth.github.io/awac/awac.js" type="text/javascript"></script>
     <style>
     
-    
+  body {
+    background: red;
+  }
      
   .demo-card-wide.mdl-card {
     width2: 512px;
@@ -128,7 +130,7 @@ function appendCssLink(href) {
         x.startPage();
         console.log('started page');
         setTimeout(function() { 
-          appendCssLink('https://storage.googleapis.com/code.getmdl.io/1.0.0/material.indigo-pink.min.css');
+          appendCssLink('https://storage.googleapis.com/code.getmdl.io/1.0.0/material.css');
           console.log('append CSS'); 
           componentHandler.upgradeDom(); 
           console.log('upgraded'); 

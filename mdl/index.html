@@ -114,7 +114,9 @@
       //console.log('DOM upgraded');
       setTimeout(function() { 
         console.log('about to start page');
-        (new Awac()).startPage();
+        var x = new Awac('x');
+        x.setTitle('Material Design Lite');
+        x.startPage();
         console.log('started page');
       },5000);
       </script>

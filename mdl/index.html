@@ -9,6 +9,7 @@
   
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
+    <script type="text/javascript" src="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js"></script>
   
     <style>
     
@@ -108,9 +109,9 @@
 
     
 
-      <!--script src="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js"></script-->
+    
       <script type="text/javascript">
-      //componentHandler.upgradeDom();
+      //
       //console.log('DOM upgraded');
       setTimeout(function() { 
         console.log('about to start page');
@@ -118,6 +119,7 @@
         x.setTitle('Material Design Lite');
         x.startPage();
         console.log('started page');
+        setTimeout(function() { componentHandler.upgradeDom(); console.log('upgraded'); },2000);
       },5000);
       </script>
    

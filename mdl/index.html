@@ -12,7 +12,7 @@
     height: 176px;
     background: url('background.jpg') center / cover;
   }
-  .demo-card-wide > .mdl-card__menu {
+  .mdl-card__menu {
     color: #fff;
   }
   
@@ -107,9 +107,15 @@ function doOnLoad() {
     </a>
   </div>
   <div class="mdl-card__menu">
-    <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+    <button id="welcome-menu" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
       <i class="material-icons">more_vert</i>
     </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="welcome-menu">
+      <li class="mdl-menu__item">Some Action</li>
+      <li class="mdl-menu__item">Another Action</li>
+      <li disabled class="mdl-menu__item">Disabled Action</li>
+      <li class="mdl-menu__item">Yet Another Action</li>
+    </ul>
   </div>
 </div>
 
@@ -119,6 +125,15 @@ function doOnLoad() {
   <div class="mdl-card__title mdl-card--expand"></div>
   <div class="mdl-card__actions">
     <span class="demo-card-image__filename">kilimanjaro.jpg</span>
+  </div>
+   <div class="mdl-card__menu">
+    <button id="image-menu" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+      <i class="material-icons">more_vert</i>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="image-menu">
+      <li class="mdl-menu__item">Download Image</li>
+      <li class="mdl-menu__item">Show on Map</li>
+    </ul>
   </div>
 </div>
 
@@ -139,6 +154,11 @@ function doOnLoad() {
       Add to Calendar
     </a>
   </div>
+   <div class="mdl-card__menu">
+    <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+      <i class="material-icons">more_vert</i>
+    </button>
+  </div>
 </div>
 
   <div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--4dp demo-card-info">
@@ -155,6 +175,11 @@ function doOnLoad() {
     <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
       Go There
     </a>
+  </div>
+   <div class="mdl-card__menu">
+    <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+      <i class="material-icons">more_vert</i>
+    </button>
   </div>
 </div>
 

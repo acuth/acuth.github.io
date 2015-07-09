@@ -6,7 +6,7 @@
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
-    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.indigo-pink.min.css">
+    <!--link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.indigo-pink.min.css"-->
   
     
     
@@ -111,6 +111,14 @@
 
     
       <script type="text/javascript">
+function appendCssLink(href) {
+  var link = document.createElement( 'link' );
+  link.href = href;
+  link.type = 'text/css';
+  link.rel = 'stylesheet';
+  document.getElementsByTagName( 'head' )[0].appendChild( link );
+}
+
       //
       //console.log('DOM upgraded');
       setTimeout(function() { 
@@ -119,7 +127,12 @@
         x.setTitle('Material Design Lite');
         x.startPage();
         console.log('started page');
-        setTimeout(function() { componentHandler.upgradeDom(); console.log('upgraded'); },2000);
+        setTimeout(function() { 
+          appendCssLink('https://storage.googleapis.com/code.getmdl.io/1.0.0/material.indigo-pink.min.css');
+          console.log('append CSS'); 
+          componentHandler.upgradeDom(); 
+          console.log('upgraded'); 
+        },2000);
       },5000);
       </script>
    

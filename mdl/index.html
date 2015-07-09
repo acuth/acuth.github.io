@@ -62,9 +62,16 @@ function appendCssLink(href) {
 }
 
 function setCss() {
+  var dims = _awac.getDims();
+  console.log('setCss() dims='+dims.width+'x'+dims.height);
+  if (dims.width == 0 || dims.height == 0) {
+    console.log('dims not set - retry in 50ms');
+    setTimeout(setCss,50);
+    return;
+  }
   var e = document.getElementById('toplevel');
-  e.style.width = _awac.getDims().width+'px';
-  e.style.height = _awac.getDims().height+'px';
+  e.style.width = dims.width+'px';
+  e.style.height = dims.height+'px';
   appendCssLink('https://storage.googleapis.com/code.getmdl.io/1.0.0/material.teal-pink.min.css');
   componentHandler.upgradeDom();
 }
@@ -77,7 +84,7 @@ function doOnLoad() {
   _awac.addNavDrawerItem({'label':'link 2','action':'link2'});
   _awac.addNavDrawerItem({'label':'link 3','action':'link3'});
   _awac.startPage();
-  setTimeout(setCss,60);
+  setTimeout(setCss,50);
 }
       
     </script>

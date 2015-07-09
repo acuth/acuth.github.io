@@ -61,19 +61,11 @@ function appendCssLink(href) {
   document.getElementsByTagName( 'head' )[0].appendChild( link );
 }
 
-function appendJsScript(src) {
-  var script = document.createElement( 'script' );
-  script.src = src;
-  script.type = 'text/javascript';
-  document.getElementsByTagName( 'head' )[0].appendChild( script );
-}
-
 function setCss() {
   var e = document.getElementById('toplevel');
   e.style.width = _awac.getDims().width+'px';
   e.style.height = _awac.getDims().height+'px';
-  appendCssLink('https://storage.googleapis.com/code.getmdl.io/1.0.0/material.indigo-pink.min.css');
-  //appendJsScript('https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js');
+  appendCssLink('https://storage.googleapis.com/code.getmdl.io/1.0.0/material.teal-pink.min.css');
   componentHandler.upgradeDom();
 }
   
@@ -81,6 +73,9 @@ function doOnLoad() {
   _awac = new Awac('_awac');
   _awac.setTitle('Material Design Lite');
   _awac.unlockNavDrawer();
+  _awac.addNavDrawerItem({'label':'link 1','action':'link1'});
+  _awac.addNavDrawerItem({'label':'link 2','action':'link2'});
+  _awac.addNavDrawerItem({'label':'link 3','action':'link3'});
   _awac.startPage();
   setTimeout(setCss,60);
 }

@@ -13,9 +13,9 @@
  }
 
  function onMessage(msgId,val) {
-    console.log('------ background got message id: '+msgId+' value:'+val);
+    console.log('------ background got msg-id='+msgId+' value='+val);
     setTimeout(function() {
-        console.log('------ sending response to message id:'+msgId);
+        console.log('------ background sending response msg-id='+msgId);
         if (!val) val = {};
         val.reply = true;
         _awac.replyMessage(msgId,val);

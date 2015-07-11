@@ -8,6 +8,7 @@ function MockContainer(awac) {
 }
 
 MockContainer.prototype.setVarName = function(varName) {
+  if (this.debug) console.log('var '+varName+' = new Awac()');
   this.varName = varName;
 };
 

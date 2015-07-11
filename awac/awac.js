@@ -67,6 +67,10 @@ MockContainer.prototype.load = function(name) {
   return value;
 };
 
+MockContainer.prototype.sendMessage = function(msgId,value) {
+  if (this.debug) console.log(this.varName+'.sendMessage('+msgId+','+value+')');
+};
+
 MockContainer.prototype.openPage = function(tag,url,value) {
   if (this.debug) console.log(this.varName+'.openPage('+tag+','+url+','+value+')');
   window.open(url+'?initparam='+value,tag);
@@ -112,6 +116,10 @@ MockContainer.prototype.gotOnBackPressedCB = function() {
 
 MockContainer.prototype.gotOnActionCB = function() {
   if (this.debug) console.log(this.varName+'.gotOnActionCB()');
+};
+
+MockContainer.prototype.gotOnMessageCB = function() {
+  if (this.debug) console.log(this.varName+'.gotOnMessageCB()');
 };
 
 MockContainer.prototype.gotOnPageCloseCB = function() {
@@ -170,6 +178,7 @@ function Awac(varName) {
   this.ondialog = null;
   this.onrefresh = null;
   this.onresult = null;
+  this.onmessage = null;
   this.onaction = null;
   this.onpageclose = null;
   this.started = false;
@@ -257,6 +266,11 @@ Awac.prototype.load = function(name) {
   return this.parse(s);
 };
 
+Awac.prototype.replyMessage = function(msgId,value) {
+  var v = this.stringify(value);
+  this.container.replyMessage(msgId,v);
+};
+
 Awac.prototype.getInitParam = function() {
   var s = this.container.getInitParam();
   return this.parse(s);
@@ -292,7 +306,7 @@ Awac.prototype.openPage = function(tag,url,value) {
 
 /* Replace page on top of the stack */
 Awac.prototype.replacePage = function(tag,url,value,next) {
-   var v = this.stringify(value);
+  var v = this.stringify(value);
   this.container.replacePage(tag,url,v,next);
 };
 
@@ -331,6 +345,11 @@ Awac.prototype.setOnAction = function(cb) {
   this.onaction = cb;
 };
 
+Awac.prototype.setOnMessage = function(cb) {
+  this.container.gotOnMessageCB();
+  this.onmessage = cb;
+};
+
 Awac.prototype.setOnPageClose = function(cb) {
   this.container.gotOnPageCloseCB();
   this.onpageclose = cb;
@@ -357,6 +376,11 @@ Awac.prototype.fireRefresh = function() {
 Awac.prototype.fireAction = function(action) {
   if (this.debug) console.log('Awac.fireAction('+action+')');
   if (this.onaction) this.onaction(action);
+};
+
+Awac.prototype.fireMessage = function(msgId,value) {
+  if (this.debug) console.log('Awac.fireMessage('+msgId+','+value+')');
+  if (this.onmessage) this.onmessage(msgId,this.parse(value));
 };
 
 Awac.prototype.firePageClose = function(tag,ok,value) {

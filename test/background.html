@@ -16,9 +16,10 @@
     console.log('------ background got msg-id='+msgId+' value='+val);
     setTimeout(function() {
         console.log('------ background sending response msg-id='+msgId);
-        if (!val) val = {};
-        val.reply = true;
-        _awac.replyMessage(msgId,val);
+        var reply = {};
+        reply.msg = val;
+        reply.ok = true;
+        _awac.replyMessage(msgId,reply);
     },5000);
  }
       </script>

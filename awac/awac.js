@@ -439,7 +439,10 @@ Awac.prototype.getBackgroundResponse = function(value,cb) {
   this.container.makeBackgroundRequest(msgId,v);
 };
 
-
+Awac.prototype.makeBackgroundRequest = function(value) {
+  var v = this.stringify(value);
+  this.container.makeBackgroundRequest(-1,v);
+};
 
 Awac.prototype.callBackground = function() {
   this.container.callBackground();

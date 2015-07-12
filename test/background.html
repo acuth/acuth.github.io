@@ -6,6 +6,7 @@
 		<script type="text/javascript">
  var _awac = null;
  var _startDate = null;
+ var _nPage = 0;
  
  function doOnLoad() {
     _startDate = new Date();
@@ -19,17 +20,23 @@
     console.log('------ background got msg-id='+msgId+' value='+val);
     if (val == 'status') {
       var r = 'BACKGROUND STATUS<br/>';
+      r += 'n-page:'+_nPage+'<br/>';
       r += 'started:'+_startDate;
+      r += '<hr/>';
       _awac.replyMessage(msgId,r);
-      return;
     }
-    setTimeout(function() {
+    else if (val == 'new-page') {
+      _nPage++;
+    }
+    else {
+      setTimeout(function() {
         console.log('------ background sending response msg-id='+msgId);
         var reply = {};
         reply.msg = val;
         reply.ok = true;
         _awac.replyMessage(msgId,reply);
-    },5000);
+      },5000);
+    }
  }
       </script>
   </head>

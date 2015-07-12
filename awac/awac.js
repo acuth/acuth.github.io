@@ -407,6 +407,13 @@ Awac.prototype.firePageClose = function(tag,ok,value) {
   if (this.onpageclose) this.onpageclose(tag,ok,this.parse(value));
 };
 
+Awac.prototype.fireBackgroundResponse = function(msgId,value) {
+  if (this.debug) console.log('Awac.fireBackgroundResponse('+msgId+','+value+')');
+  var cb = this.onbackgroundresp[msgId];
+  this.onbackgroundresp[msgId] = null;
+  cb(this.parse(value));
+};
+
 //
 
 Awac.prototype.startRefresh = function() {

@@ -5,10 +5,10 @@
 		<script src="../awac/awac.js" type="text/javascript"></script>
 		<script type="text/javascript">
  var _awac = null;
- var _startTime = null;
+ var _startDate = null;
  
  function doOnLoad() {
-    _startTime = new Date();
+    _startDate = new Date();
     _awac = new Awac('_awac');
     _awac.setOnMessage(onMessage);
     _awac.startPage();

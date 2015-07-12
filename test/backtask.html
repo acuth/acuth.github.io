@@ -28,10 +28,9 @@ $(document).ready(function() {
   });
   setButton($('#get-background-status'),function() { 
     pLog('getting background status');
-    _awac.getBackgroundResponse('status',function(resp) {
-      pLog('background status:<hr/>'+resp);
-    });
+    _awac.getBackgroundResponse('status',function(resp) { pLog(resp); });
   });
+  _awac.makeBackgroundRequest('new-page');
   loadFooter(true);
   _awac.startPage();
 });
@@ -57,7 +56,7 @@ $(document).ready(function() {
       <div class="holder">
         <button class="topb" id="start-background"><span>Start Background</span></button>
         <button id="stop-background"><span>Stop Background</span></button>
-        <button id="new-page"><span>New Page</span></button>
+        <button id="new-page"><span>Fake New Page</span></button>
         <button id="get-background-status"><span>Show Status</span></button>
       </div>
     </div>

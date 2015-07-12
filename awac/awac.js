@@ -286,8 +286,10 @@ Awac.prototype.load = function(name) {
 };
 
 Awac.prototype.replyMessage = function(msgId,value) {
-  var v = this.stringify(value);
-  this.container.replyMessage(msgId,v);
+  if (msgId != -1) {
+    var v = this.stringify(value);
+    this.container.replyMessage(msgId,v);
+  }
 };
 
 Awac.prototype.getInitParam = function() {

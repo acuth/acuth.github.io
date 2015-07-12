@@ -19,7 +19,7 @@
  function onMessage(msgId,val) {
     console.log('------ background got msg-id='+msgId+' value='+val);
     if (val == 'status') {
-      var r = '<div style="background:blue;color:white;">BACKGROUND STATUS<br/>';
+      var r = '<div style="padding:4px;border: solid 1px gray;">BACKGROUND STATUS<hr/>';
       r += 'n-page:'+_nPage+'<br/>';
       r += 'started:'+_startDate;
       r += '</div>';

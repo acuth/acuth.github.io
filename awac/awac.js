@@ -408,6 +408,7 @@ Awac.prototype.endRefresh = function() {
 };
 
 Awac.prototype.startBackground = function(url) {
+  console.log('Awac.startBackground()');
   this.container.startBackground(url);
 };
 

@@ -14,18 +14,18 @@ $(document).ready(function() {
   _awac = new Awac('_awac');
   _awac.setOnAction(showPage);
   _awac.unlockNavDrawer();
-  setButton($('#startbtn'),function() { 
+  setButton($('#start-background'),function() { 
     _awac.startBackground('background.html');
     pLog('background task starting');
   });
-  setButton($('#stopbtn'),function() { 
+  setButton($('#stop-background'),function() { 
     _awac.stopBackground();
     pLog('background task stopping');
   });
-  setButton($('#statusbtn'),function() { 
+  setButton($('#get-background-status'),function() { 
     pLog('getting background status');
-    _awac.getBackground('status',function(result) {
-      pLog('sttaus='+result);
+    _awac.getBackgroundResponse('status',function(resp) {
+      pLog('background status:<hr/>'+resp);
     });
   });
   loadFooter(true);
@@ -41,19 +41,19 @@ $(document).ready(function() {
        ...
        _awac.startBackground('background.html');
        ...
-       _awac.getBackground('status',function(result) { });
+       _awac.getBackgroundResponse('status',function(resp) { });
        </div>
     </div><!-- end of details-blurb --> </div><!-- end of details -->
 
     <div id="navigation"></div>
 
     <div id="content">
-	    <p>Awac allows an app to define a single long-running background task that can be communicated with by the current page. The background task is defined by an html file that is never made visible.</p>
+	    <p>Awac allows an app to define a long-running background task that can be communicated with by the current page. The background task is defined by an html file that is never made visible.</p>
 
       <div class="holder">
-        <button class="topb" id="startbtn"><span>Start Background</span></button>
-        <button id="stopbtn"><span>Stop Background</span></button>
-        <button id="statusbtn"><span>Show Status</span></button>
+        <button class="topb" id="start-background"><span>Start Background</span></button>
+        <button id="stop-background"><span>Stop Background</span></button>
+        <button id="get-background-status"><span>Show Status</span></button>
       </div>
     </div>
 	</body>

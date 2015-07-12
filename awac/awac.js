@@ -139,6 +139,14 @@ MockContainer.prototype.startBackground = function(url) {
   if (this.debug) console.log(this.varName+'.startBackground('+url+')');
 };
 
+MockContainer.prototype.stopBackground = function() {
+  if (this.debug) console.log(this.varName+'.stopBackground()');
+};
+
+MockContainer.prototype.makeBackgroundRequest = function(msgId,value) {
+  if (this.debug) console.log(this.varName+'.makeBackgroundRequest('+msgId+','+value+')');
+};
+
 MockContainer.prototype.callBackground = function() {
   if (this.debug) console.log(this.varName+'.callBackground()');
 };
@@ -193,6 +201,8 @@ function Awac(varName) {
   this.started = false;
   this.gottitle = false;
   this.debug = true;
+  this.nBackgroundRequest = 0;
+  this.onbackgroundresp = [];
 }
 
 Awac.prototype.toString = function() {
@@ -408,9 +418,21 @@ Awac.prototype.endRefresh = function() {
 };
 
 Awac.prototype.startBackground = function(url) {
-  console.log('Awac.startBackground()');
   this.container.startBackground(url);
 };
+
+Awac.prototype.stopBackground = function() {
+  this.container.stopBackground();
+};
+
+Awac.prototype.getBackgroundResponse = function(value,cb) {
+  var v = this.stringify(value);
+  var msgId = this.nBackgroundRequest++;
+  this.onbackgroundresp[msgId] = cb;
+  this.container.makeBackgroundRequest(msgId,v);
+};
+
+
 
 Awac.prototype.callBackground = function() {
   this.container.callBackground();

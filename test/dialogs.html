@@ -27,6 +27,7 @@ $(document).ready(function() {
   setButton($('#show-alert'),function() { 
     _awac.alert('This is what an alert looks like');
   });
+  _awac.makeBackgroundRequest('new-page');
 	loadFooter(true);
   _awac.startPage();
 });

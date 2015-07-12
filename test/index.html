@@ -20,12 +20,7 @@ function exit() {
 }
 
 function onAction(action) {
-  if (action == 'start_background') 
-    _awac.startBackground('background.html');
-  else if (action == 'call_background')
-    _awac.callBackground('testing');
-  else
-    showPage(action);
+  showPage(action);
 }
 
 function addPageDetails(i) {
@@ -41,11 +36,10 @@ function addPageDetails(i) {
 $(document).ready(function() {
   _awac = new Awac('_awac');
   for (var i=0;i<pageNames.length;i++) addPageDetails(i);
-  _awac.addNavDrawerItem({'label':'Start Background','action':'start_background'});
-  _awac.addNavDrawerItem({'label':'Call Background','action':'call_background'});
   _awac.unlockNavDrawer();
   _awac.setOnBackPressed(exit);
   _awac.setOnAction(onAction);
+  _awac.makeBackgroundRequest('new-page');
   loadFooter();
   _awac.startPage();
 });

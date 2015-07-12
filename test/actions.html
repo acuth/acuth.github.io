@@ -24,6 +24,7 @@ $(document).ready(function() {
   _awac.addOptionsMenuItem({'label':'Language','action':'language'});
   _awac.unlockNavDrawer();
   _awac.setOnAction(logAction);
+  _awac.makeBackgroundRequest('new-page');
   loadFooter(true);
   _awac.startPage();
 });

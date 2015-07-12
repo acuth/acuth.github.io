@@ -48,6 +48,7 @@ $(document).ready(function() {
   _awac = new Awac('_awac');
   _awac.setOnAction(onAction);
   _awac.unlockNavDrawer();
+  _awac.makeBackgroundRequest('new-page');
   loadFooter(true);
   _awac.startPage();
 });

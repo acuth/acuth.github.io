@@ -135,6 +135,14 @@ MockContainer.prototype.endRefresh = function() {
   if (this.debug) console.log(this.varName+'.endRefresh()');
 };
 
+MockContainer.prototype.startBackground = function(url) {
+  if (this.debug) console.log(this.varName+'.startBackground('+url+')');
+};
+
+MockContainer.prototype.callBackground = function() {
+  if (this.debug) console.log(this.varName+'.callBackground()');
+};
+
 MockContainer.prototype.getStackDepth = function() {
   if (this.debug) console.log(this.varName+'.getStackDepth()=0');
   return 0;
@@ -397,5 +405,13 @@ Awac.prototype.startRefresh = function() {
 
 Awac.prototype.endRefresh = function() {
   this.container.endRefresh();
+};
+
+Awac.prototype.startBackground = function(url) {
+  this.container.startBackground(url);
+};
+
+Awac.prototype.callBackground = function() {
+  this.container.callBackground();
 };
 

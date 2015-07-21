@@ -42,7 +42,10 @@ body {
 			var _backPressedOnce = false;
 			
 			function onAction(action) {
-			  if ('skip' == action) {
+			  if ('back' == action) {
+			    onBackPressed();
+			  }
+			  else if ('skip' == action) {
 			    console.log('skipping to next page');
 			    _awac.replacePage('wizard','wizard2.html',null,true);
 			  }

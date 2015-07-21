@@ -35,7 +35,17 @@ AttrType.prototype.toHTMLRow=function() {
 };
 
 AttrType.prototype.toHTML=function(hideMeta) {
-  var h = '<div class="atype">';
+  
+  
+  var h = '<div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--4dp attr-type-card">';
+  
+  
+  h += '<div class="mdl-card__title">'+
+    '<h2 class="mdl-card__title-text">attr-type: '+this.name+'</h2>'+
+  '</div>';
+  
+   h += '<div class="mdl-card__supporting-text">'
+  
   h += '<b>attr-type</b>: ';
   if (hideMeta) h += '<a href="javascript:showAttrType(\''+this.name+'\');">'+this.name+'</a>'; else h += this.name;
   h += '<br/>';
@@ -46,14 +56,15 @@ AttrType.prototype.toHTML=function(hideMeta) {
     else
       h += 'sub-prim-type: <a href="javascript:showItemType(\''+this.subPrimType+'\');">'+this.subPrimType+'</a><br/>';
   }
-  h += 'number: '+this.number;
-  h += '</div>';
+  h += 'number: '+this.number+'<br/>';
   if (!hideMeta) {
     h += '<div class="metadata">';
-     h += 'This is an attr-type definition<br/>';
+    h += 'This is an attr-type definition<br/>';
     h += 'attr-type-id: '+this.id;
     h += '</div>';
   }
+  h += '</div>';
+  h += '</div>';
   return h;
 };
 

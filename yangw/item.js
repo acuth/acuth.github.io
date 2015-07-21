@@ -72,12 +72,25 @@ Item.prototype.getAttrHTML=function(hideMeta,atype,v) {
   return '<a href="'+href+'">'+atype.name+'</a>: '+JSON.stringify(v);
 };
 
+
 Item.prototype.toHTML=function(hideMeta) {
-  var h = '<div class="item">';
+  var itype = this.yangw.itemTypes[this.itemType.name];
+  
+  var h = '<div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--4dp item-card">';
+   
+  if (itype.key) {
+    var arr = this.props[itype.key];    
+    if (arr) { 
+      h += '<div class="mdl-card__title">'+
+          '<h2 class="mdl-card__title-text">'+arr[0]+'</h2>'+
+          '</div>';
+    }
+  }
+  
+   h += '<div class="mdl-card__supporting-text">'
  
   if (!hideMeta)   h += 'item-type: <a href="javascript:showItemType(\''+this.itemType.name+'\');">'+this.itemType.name+'</a><br/>';
   
-  var itype = this.yangw.itemTypes[this.itemType.name];
   for (var i=0;i<itype.attrTypes.length;i++) {
     var atype = itype.attrTypes[i];
     var arr = this.props[atype.name];
@@ -97,9 +110,13 @@ Item.prototype.toHTML=function(hideMeta) {
       }
     }
   }
+  h += '</div>';
   if (hideMeta) {
-    h += '<a href="javascript:showItemById('+this.id+');">more...</a><br/>';
+     h += '<div class="mdl-card__actions mdl-card--border">';
+     h += '<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="javascript:showItemById('+this.id+');">MORE</a>';
+     h += '</div>';
   }
+
   h += '</div>';
   
   if (!hideMeta) {

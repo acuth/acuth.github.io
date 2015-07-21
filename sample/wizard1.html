@@ -69,6 +69,7 @@ body {
 			  _awac = new Awac('_awac');
 			  _awac.setOnAction(onAction);
 			  _awac.setOnBackPressed(onBackPressed);
+			  _awac.setHomeItem({'back':'Back','icon':'arrow_back','action':'back'});
 			  _awac.addActionBarItem({'label':'SKIP','action':'skip'});
 			  $('#calltoaction').on('click',function(){_awac.alert('Sorry, but this call to action has not yet been implemented');});
 			  _awac.startPage();

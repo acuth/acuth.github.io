@@ -238,7 +238,7 @@ YANGW.prototype.import=function(json) {
 
 YANGW.prototype.getAttrTypesHTML=function() {
   var h = '';
-  h += '<h3>Attr-Types</h3>';
+  //h += '<h3>Attr-Types</h3>';
   for (var p in this.attrTypes) {
      if (this.attrTypes.hasOwnProperty(p)) {
         h += this.attrTypes[p].toHTML(true);

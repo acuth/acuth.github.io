@@ -30,7 +30,21 @@ ItemType.prototype.export=function() {
 };
 
 ItemType.prototype.toHTML=function(hideMeta) {
-  var h = '<div class="itype">';
+   var h = '<div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--4dp item-type-card">';
+  
+  
+  h += '<div class="mdl-card__title">'+
+    '<h2 class="mdl-card__title-text">item-type: '+this.name+'</h2>'+
+  '</div>';
+  
+   h += '<div class="mdl-card__supporting-text">';
+ 
+  if (this.key) {
+    h += '<b>key</b>: ';
+    if (this.key == hideMeta) h += '<span style="color:green">'+this.key+'</span>'; else h += '<a href="javascript:showAttrType(\''+this.key+'\');">'+this.key+'</a>';
+    h += '<br/>'; 
+  }
+  
   h += '<b>item-type</b>: ';
   if (hideMeta) h += '<a href="javascript:showItemType(\''+this.name+'\');">'+this.name+'</a>'; else h += this.name;
   h += '<br/>';
@@ -43,13 +57,15 @@ ItemType.prototype.toHTML=function(hideMeta) {
       h += 'attr-type: <a href="javascript:showAttrType(\''+atype.name+'\');">'+atype.name+'</a><br/>';
   }
   }
-  h += '</div>';
   if (!hideMeta) {
     h += '<div class="metadata">';
-     h += 'This is an item-type definition<br/>';
+    h += 'This is an item-type definition<br/>';
     h += 'item-type-id:'+this.id;
     h += '</div>';
   }
+  h += '</div>';
+  h += '</div>';
+  
   return h;
 };
 

@@ -34,7 +34,7 @@ button span {
 			  _awac.setOnAction(onAction);
 			  _awac.setHomeItem({'label':'Back','icon':'close','action':'back'});
 			  _awac.setPageColors(colors);
-			  setButton($('#savebtn'),function() { _awac.setAppColors(colors); });
+			  setButton($('#savebtn'),function() { _awac.setAppColors(colors); _awac.endPage(); });
 			  _awac.startPage();
 			});
 			</script>

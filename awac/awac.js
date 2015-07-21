@@ -33,8 +33,8 @@ MockContainer.prototype.addActionBarItem = function(json) {
   if (this.debug) console.log(this.varName+'.addActionBarItem('+json+')');
 };
 
-MockContainer.prototype.setActionBarColors = function(backCol,textCol) {
-  if (this.debug) console.log(this.varName+'.setActionBarColors('+backCol+','+textCol+')');
+MockContainer.prototype.setColors = function(json) {
+  if (this.debug) console.log(this.varName+'.setColors('+json+')');
 };
 
 MockContainer.prototype.setHomeItem = function(json) {
@@ -257,8 +257,8 @@ Awac.prototype.addActionBarItem = function(obj) {
   this.container.addActionBarItem(JSON.stringify(obj));
 };
 
-Awac.prototype.setActionBarColors = function(backCol,textCol) {
-  this.container.setActionBarColors(backCol,textCol);
+Awac.prototype.setColors = function(obj) {
+  this.container.setColors(JSON.stringify(obj));
 };
 
 Awac.prototype.setHomeItem = function(obj) {

@@ -33,8 +33,12 @@ MockContainer.prototype.addActionBarItem = function(json) {
   if (this.debug) console.log(this.varName+'.addActionBarItem('+json+')');
 };
 
-MockContainer.prototype.setColors = function(json) {
-  if (this.debug) console.log(this.varName+'.setColors('+json+')');
+MockContainer.prototype.setPageColors = function(json) {
+  if (this.debug) console.log(this.varName+'.setPageColors('+json+')');
+};
+
+MockContainer.prototype.setAppColors = function(json) {
+  if (this.debug) console.log(this.varName+'.setAppColors('+json+')');
 };
 
 MockContainer.prototype.setHomeItem = function(json) {
@@ -257,8 +261,12 @@ Awac.prototype.addActionBarItem = function(obj) {
   this.container.addActionBarItem(JSON.stringify(obj));
 };
 
-Awac.prototype.setColors = function(obj) {
-  this.container.setColors(JSON.stringify(obj));
+Awac.prototype.setAppColors = function(obj) {
+  this.container.setAppColors(JSON.stringify(obj));
+};
+
+Awac.prototype.setPageColors = function(obj) {
+  this.container.setPageColors(JSON.stringify(obj));
 };
 
 Awac.prototype.setHomeItem = function(obj) {

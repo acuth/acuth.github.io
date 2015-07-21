@@ -15,7 +15,11 @@ $(document).ready(function() {
   _awac.setOnAction(showPage);
   _awac.unlockNavDrawer();
   setButton($('#samplebtn'),function() { 
-		_awac.openPage('wizard','http://acuth.github.io/sample/wizard1.html');
+    var colors = {'primary':'#f5f5f5','text_primary':'#666666','primary_dark':'#222222'};
+		_awac.openPage('lorem','color_lorem.html',colors);
+	});
+	setButton($('#samplebtn2'),function() { 
+		_awac.openPage('info','http://acuth.github.io/sample/info.html');
 	});
 	_awac.makeBackgroundRequest('new-page');
   loadFooter();
@@ -25,11 +29,11 @@ $(document).ready(function() {
 	</head>
 	<body>
 	  <div id="details"><div id="details-footer"></div><div id="details-blurb">
-	     <div>In the sample pages  we create a global variable to represent Awac called _awac.</div>
+	     <div>Using the global variable _awac we can set colors for either a page or the app as a whole.</div>
        <div class="code">
        _awac = new Awac('_awac');
        ...
-       _awac.replacePage('wizard','wizard2.html',null,true);
+       _awac.setPageColors({'primary':'#f5f5f5','text_primary':'#666666','primary_dark':'#222222'});
        </div>
 	     These pages provide some examples of how to use Awac. Each page includes a link to view the page outside of the app.
     </div><!-- end of details-blurb --> </div><!-- end of details -->
@@ -42,6 +46,7 @@ $(document).ready(function() {
 
       <div class="holder">
         <button class="topb" id="samplebtn"><span>Sample Page</span></button>
+        <button id="samplebtn2"><span>Sample Page 2</span></button>
       </div>
     </div>
 	</body>

@@ -33,6 +33,10 @@ MockContainer.prototype.addActionBarItem = function(json) {
   if (this.debug) console.log(this.varName+'.addActionBarItem('+json+')');
 };
 
+MockContainer.prototype.setHomeItem = function(json) {
+  if (this.debug) console.log(this.varName+'.setHomeItem('+json+')');
+};
+
 MockContainer.prototype.startPage = function() {
   if (this.debug) console.log(this.varName+'.startPage()');
 };
@@ -247,6 +251,10 @@ Awac.prototype.addOptionsMenuItem = function(obj) {
 
 Awac.prototype.addActionBarItem = function(obj) {
   this.container.addActionBarItem(JSON.stringify(obj));
+};
+
+Awac.prototype.setHomeItem = function(obj) {
+  this.container.setHomeItem(JSON.stringify(obj));
 };
 
 Awac.prototype.getStackDepth = function() {

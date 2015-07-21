@@ -19,7 +19,7 @@ function logAction(action) {
 $(document).ready(function() {
   _awac = new Awac('_awac');
   _awac.addActionBarItem({'label':'OK','action':'ok'});
-  _awac.addActionBarItem({'label':'Cancel','action':'cancel'});
+  _awac.addActionBarItem({'label':'Cancel','icon':'close','action':'cancel'});
   _awac.addOptionsMenuItem({'label':'Settings','action':'settings'});
   _awac.addOptionsMenuItem({'label':'Language','action':'language'});
   _awac.unlockNavDrawer();

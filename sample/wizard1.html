@@ -75,6 +75,7 @@ body {
 			  _awac.setHomeItem({'label':'Back','icon':'arrow_back','action':'back'});
 			  _awac.addActionBarItem({'label':'SKIP','action':'skip'});
 			  $('#calltoaction').on('click',function(){_awac.alert('Sorry, but this call to action has not yet been implemented');});
+			  _awac.setPageColors({'primary':'#FF9800','text_primary':'#FFFFFF','primary_dark':'#F57C00'});
 			  _awac.startPage();
 			  setTimeout(revealCallToAction,60);
 			});

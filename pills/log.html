@@ -1,0 +1,95 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pill Tracker - Logs</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
+    <script src="http://acuth.github.io/awac/awac.js" type="text/javascript"></script>
+    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js" type="text/javascript"></script>
+    <style>
+  .pill-card > .mdl-card__title {
+    color: #46B6AC;
+  }
+  
+    </style>
+    <script type="text/javascript">
+    
+var _awac = null;
+  
+function appendCssLink(href) {
+  var link = document.createElement( 'link' );
+  link.href = href;
+  link.type = 'text/css';
+  link.rel = 'stylesheet';
+  document.getElementsByTagName( 'head' )[0].appendChild( link );
+}
+
+function setCss() {
+  var dims = _awac.getDims();
+  console.log('setCss() dims='+dims.width+'x'+dims.height);
+  if (dims.width == 0 || dims.height == 0) {
+    console.log('dims not set - retry in 50ms');
+    setTimeout(setCss,50);
+    return;
+  }
+  var e = document.getElementById('toplevel');
+  e.style.width = dims.width+'px';
+  e.style.height = dims.height+'px';
+  appendCssLink('https://storage.googleapis.com/code.getmdl.io/1.0.0/material.teal-pink.min.css');
+  componentHandler.upgradeDom();
+}
+
+function addCardAction(card,label,action) {
+  var div = $(document.createElement('div')).addClass('mdl-card__actions mdl-card--border').appendTo(card);
+  $(document.createElement('a')).addClass('mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect').appendTo(div).html(label).on('click',function(e) { onAction(action); });
+}
+  
+function doOnLoad() {
+  _awac = new Awac('_awac');
+  var n = _awac.load('n-record');
+  if (!n) _awac.store('n-record',0);
+   var h = '';
+    var n = _awac.load('n-record');
+    for (var i=1;i<=n;i++) {
+      var record = _awac.load('record-'+i);
+      var date = new Date(record.time);
+      h += 'date:'+date+'<br/>';
+    }
+    $('#log').html(h);
+  _awac.startPage();
+  setTimeout(setCss,50);
+}
+      
+    </script>
+	</head>
+	
+	<body onload="doOnLoad();">
+    
+    
+<div id="toplevel" class="mdl-layout mdl-js-layout">
+  <main class="mdl-layout__content">
+    <div class="page-content">
+      <div class="mdl-grid">
+
+<div id="paracetemol-card" class="mdl-cell mdl-cell--8-col mdl-card mdl-shadow--4dp pill-card">
+  <div class="mdl-card__title">
+    <h2 class="mdl-card__title-text">Paracetemol</h2>
+  </div>
+  <div class="mdl-card__supporting-text">
+    <div><span id="paracetemol-counter" class="mdl-badge" data-badge="0">Number:</span></div>
+ </div>
+</div>
+
+<div id="log"></div>
+
+
+
+      </div>
+    
+    </div>
+  </main>
+</div>
+
+  </body>
+</html>

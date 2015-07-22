@@ -61,11 +61,11 @@ function doOnLoad() {
   if (!n) _awac.store('n-record',0);
    var h = '';
     var n = _awac.load('n-record');
-    for (var i=1;i<=n;i++) {
+    for (var i=n;i>0;i--) {
       var record = _awac.load('record-'+i);
       var date = new Date(record.time);
       h += '<div class="mdl-cell mdl-cell--8-col mdl-card mdl-shadow--4dp log-card">';
-      h += '<div class="mdl-card__title"><h2 class="mdl-card__title-text">'+date+'Paracetemol</h2></div>';
+      h += '<div class="mdl-card__title"><h2 class="mdl-card__title-text">'+date.format('HH:mm')+'</h2></div>';
       h += '<div class="mdl-card__supporting-text">';
       h += 'stuff';
       h += '</div>';

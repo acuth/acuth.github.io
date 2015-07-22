@@ -65,9 +65,11 @@ function doOnLoad() {
       var record = _awac.load('record-'+i);
       var date = new Date(record.time);
       h += '<div class="mdl-cell mdl-cell--8-col mdl-card mdl-shadow--4dp log-card">';
-      h += '<div class="mdl-card__title"><h2 class="mdl-card__title-text">'+date.format('HH:mm')+'</h2></div>';
+      h += '<div class="mdl-card__title"><h2 class="mdl-card__title-text">'+date.format('HH:MM')+'</h2></div>';
       h += '<div class="mdl-card__supporting-text">';
-      h += 'stuff';
+      for (var name in record.counts) {
+        h += name+': '+record.counts[name]+'<br/>';
+      }
       h += '</div>';
       h += '</div>';
     }

@@ -66,6 +66,30 @@ function onAction(action) {
     } 
     counters = {};
   }
+  else if (action == 'add') {
+    var record = {};
+    record.time = (new Date()).getTime();
+    record.counts = {};
+    for (var name in counters) {
+      record.counts[name] = counters[name]; 
+    }
+    var n = _awac.load('n-record');
+    n++;
+    _awac.store('n-record',n);
+    _awac.store('record-'+n,record);
+    onAction('reset');
+    _awac.alert('Log saved');
+  }
+  else if (action == 'log') {
+    var h = '';
+    var n = _awac.load('n-record');
+    for (var i=1;i<=n;i++) {
+      var record = _awac.load('record-'+i);
+      var date = new Date(record.time);
+      h += 'date:'+date+'<br/>';
+    }
+    $('#log').html(h);
+  }
   else {
     _awac.alert(action);
   }
@@ -86,6 +110,8 @@ function doOnLoad() {
   _awac.addActionBarItem({'label':'Add','action':'add'});
   _awac.addActionBarItem({'label':'Reset','action':'reset'});
   _awac.addActionBarItem({'label':'Log','action':'log'});
+  var n = _awac.load('n-record');
+  if (!n) _awac.store('n-record',0);
   _awac.startPage();
   setTimeout(setCss,50);
 }
@@ -130,6 +156,11 @@ function doOnLoad() {
     <div><span id="codeine-counter" class="mdl-badge" data-badge="0">Number taken</span></div>
   </div>
 </div>
+
+<div id="log"></div>
+
+<a href="javascript:onAction('add');">add</a>
+<a href="javascript:onAction('log');">log</a>
 
 
       </div>

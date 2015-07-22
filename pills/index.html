@@ -87,6 +87,9 @@ function onAction(action) {
   else if (action == 'log') {
     _awac.openPage('log','log.html');
   }
+  else if (action == 'clear') {
+    _awac.dialog('Do you want to clear the logs?','Yes','No',function(yes) { if (yes) { _awac.store('n-record',0); }});
+  }
   else {
     _awac.alert(action);
   }
@@ -150,19 +153,14 @@ function doOnLoad() {
   </div>
 </div>
 
-<div id="log"></div>
-
-<a href="javascript:onAction('add');">add</a>
-<a href="javascript:onAction('log');">log</a>
-
-
       </div>
     
       <footer class="mdl-mini-footer">
         <div class="mdl-mini-footer--left-section">
           <ul class="mdl-mini-footer--link-list">
-            <li><a href="javascript:onAction('help');">Help</a></li>
-            <li><a href="javascript:onAction('privacy_terms');">Privacy &amp; Terms</a></li>
+            <li><a href="javascript:onAction('add');">Add</a></li>
+            <li><a href="javascript:onAction('log');">Log</a></li>
+            <li><a href="javascript:onAction('clear');">Clear</a></li>
           </ul>
         </div>
       </footer>

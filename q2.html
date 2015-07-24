@@ -41,28 +41,6 @@ div.blurb {
     </style>
   
     <script type="text/javascript">
-/*function setCss(containerId,href) {
-  console.log('setCss('+containerId+','+href+')');
-  var dims = _awac.getDims();
-  console.log(' - dims='+dims.width+'x'+dims.height);
-  if (dims.width == 0 || dims.height == 0) {
-    console.log(' - dims not set - retry in 50ms');
-    setTimeout(setCss,50);
-    return;
-  }
-  var e = document.getElementById(containerId);
-  console.log(' - container='+e);
-  e.style.width = dims.width+'px';
-  e.style.height = dims.height+'px';
- 
-  var link = document.createElement( 'link' );
-  link.href = href;
-  link.type = 'text/css';
-  link.rel = 'stylesheet';
-  document.getElementsByTagName( 'head' )[0].appendChild( link );
-  componentHandler.upgradeDom();
-}*/
-    
 function doOnLoad() {
   _awac = new Awac('_awac');
   _awac.setAppColors({'primary':'#607D8B','text_primary':'#FFFFFF','primary_dark':'#455A64'});

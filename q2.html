@@ -41,7 +41,7 @@ div.blurb {
     </style>
   
     <script type="text/javascript">
-function setCss(containerId,href) {
+/*function setCss(containerId,href) {
   console.log('setCss('+containerId+','+href+')');
   var dims = _awac.getDims();
   console.log(' - dims='+dims.width+'x'+dims.height);
@@ -61,14 +61,12 @@ function setCss(containerId,href) {
   link.rel = 'stylesheet';
   document.getElementsByTagName( 'head' )[0].appendChild( link );
   componentHandler.upgradeDom();
-}
+}*/
     
 function doOnLoad() {
   _awac = new Awac('_awac');
   _awac.setAppColors({'primary':'#607D8B','text_primary':'#FFFFFF','primary_dark':'#455A64'});
-  _awac.startPage();
-  console.log('call setCss() in 50ms');
-  setTimeout(function() { setCss( 'outer-container','https://storage.googleapis.com/code.getmdl.io/1.0.0/material.blue_grey-pink.min.css'); },50);
+  _awac.startMdlPage('outer-container','https://storage.googleapis.com/code.getmdl.io/1.0.0/material.blue_grey-pink.min.css');
 }      
     </script>
   </head>

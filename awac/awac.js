@@ -337,6 +337,37 @@ Awac.prototype.startPage = function() {
   }
 };
 
+Awac.prototype.setMdlCss = function(containerId,mdlCssUrl) {
+  console.log('setCss('+containerId+','+href+')');
+  var dims = this.getDims();
+  console.log(' - dims='+dims.width+'x'+dims.height);
+  if (dims.width === 0 || dims.height === 0) {
+    console.log(' - dims not set - retry in 50ms');
+    var awac = this;
+    setTimeout(function() { awac.setMdlCss(containerId,mdlCssUrl); },50);
+    return;
+  }
+  var e = document.getElementById(containerId);
+  console.log(' - container='+e);
+  e.style.width = dims.width+'px';
+  e.style.height = dims.height+'px';
+ 
+  var link = document.createElement( 'link' );
+  link.href = mdlCssUrl;
+  link.type = 'text/css';
+  link.rel = 'stylesheet';
+  document.getElementsByTagName( 'head' )[0].appendChild( link );
+  // tell MDL component handler to upgrade the page 
+  componentHandler.upgradeDom();
+};
+    
+/* Call this to make the web page visible which uses Material Design Lite */
+Awac.prototype.startMdlPage = function(containerId,mdlCssUrl) {
+  this.startPage();
+  var awac = this;
+  setTimeout(function() { awac.setMdlCss(containerId,mdlCssUrl); },50);
+};      
+
 /* End displaying the page and pop it off the stack */
 Awac.prototype.endPage = function(value) {
   var v = this.stringify(value);

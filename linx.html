@@ -3,7 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <link href="http://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="logo-192x192.png">
+    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Raleway:400,300,600" type="text/css">
     <title>Quick Links</title>
     <style>
 body {
@@ -35,12 +40,36 @@ a {
     </style>
   </head>
   <body>
-    <h3>Adrian's Quick Links</h3>
+    <!-- Always shows a header, even in smaller screens. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <span class="mdl-layout-title">Quick Links</span>
+    </div>
+  </header>
+   <main class="mdl-layout__content">
+    <div class="page-content">
+  
     <ul>
       <li><a target="_blank" href="http://www.myappmarks.com/v2/html/index.html">myappmarks</a></li>
       <li><a target="_blank" href="http://cast-image.appspot.com/">cast-image</a></li>
       <li><a target="_blank" href="./awac/index.html">Awac</a></li>
       <li><a target="_blank" href="./mdl/index.html">MDL</a></li>
     </ul>
+    
+     </div>
+    </div>
+  </main>
+</div>
+
+
+
+    
+
+      <script src="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js"></script>
+   
+ 
+    
+    
   </body>
 </html>

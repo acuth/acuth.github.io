@@ -338,7 +338,7 @@ Awac.prototype.startPage = function() {
 };
 
 Awac.prototype.setMdlCss = function(containerId,mdlCssUrl) {
-  console.log('setMdlCss()');
+  console.log('Awac.setMdlCss()');
   var dims = this.getDims();
   console.log(' - dims='+dims.width+'x'+dims.height);
   if (dims.width === 0 || dims.height === 0) {

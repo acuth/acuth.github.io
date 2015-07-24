@@ -48,14 +48,6 @@
     <script type="text/javascript">
     
 var _awac = null;
-  
-function appendCssLink(href) {
-  var link = document.createElement( 'link' );
-  link.href = href;
-  link.type = 'text/css';
-  link.rel = 'stylesheet';
-  document.getElementsByTagName( 'head' )[0].appendChild( link );
-}
 
 function onAction(action) {
   console.log('onAction('+action+')');
@@ -92,22 +84,6 @@ function addEvents() {
   addCardAction($('#skytower-card'),'Go There','go_to_skytower');
   addCardAction($('#event-card'),'Add to Calendar','add_to_cal');
 }
-
-function setCss() {
-  var dims = _awac.getDims();
-  console.log('setCss() dims='+dims.width+'x'+dims.height);
-  if (dims.width == 0 || dims.height == 0) {
-    console.log('dims not set - retry in 50ms');
-    setTimeout(setCss,50);
-    return;
-  }
-  var e = document.getElementById('toplevel');
-  e.style.width = dims.width+'px';
-  e.style.height = dims.height+'px';
-  appendCssLink('https://storage.googleapis.com/code.getmdl.io/1.0.0/material.teal-pink.min.css');
-  addEvents();
-  componentHandler.upgradeDom();
-}
   
 function doOnLoad() {
   _awac = new Awac('_awac');
@@ -120,10 +96,9 @@ function doOnLoad() {
   _awac.addNavDrawerItem({'label':'Show on Map','action':'show_kilimanjaro_on_map'});
   _awac.addNavDrawerItem({'label':'Go There','action':'go_to_skytower'});
   _awac.addNavDrawerItem({'label':'Add to Calendar','action':'add_to_cal'});
-  _awac.startPage();
-  setTimeout(setCss,50);
+  addEvents();
+  _awac.startMdlPage('toplevel','https://storage.googleapis.com/code.getmdl.io/1.0.0/material.teal-pink.min.css');
 }
-      
     </script>
 	</head>
 	

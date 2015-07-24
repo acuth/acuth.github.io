@@ -20,29 +20,6 @@
     <script type="text/javascript">
     
 var _awac = null;
-  
-function appendCssLink(href) {
-  var link = document.createElement( 'link' );
-  link.href = href;
-  link.type = 'text/css';
-  link.rel = 'stylesheet';
-  document.getElementsByTagName( 'head' )[0].appendChild( link );
-}
-
-function setCss() {
-  var dims = _awac.getDims();
-  console.log('setCss() dims='+dims.width+'x'+dims.height);
-  if (dims.width == 0 || dims.height == 0) {
-    console.log('dims not set - retry in 50ms');
-    setTimeout(setCss,50);
-    return;
-  }
-  var e = document.getElementById('toplevel');
-  e.style.width = dims.width+'px';
-  e.style.height = dims.height+'px';
-  appendCssLink('https://storage.googleapis.com/code.getmdl.io/1.0.0/material.teal-pink.min.css');
-  componentHandler.upgradeDom();
-}
 
 function addCardAction(card,label,action) {
   var div = $(document.createElement('div')).addClass('mdl-card__actions mdl-card--border').appendTo(card);
@@ -112,8 +89,7 @@ function doOnLoad() {
   _awac.addActionBarItem({'label':'Log','action':'log'});
   var n = _awac.load('n-record');
   if (!n) _awac.store('n-record',0);
-  _awac.startPage();
-  setTimeout(setCss,50);
+  _awac.startMdlPage('toplevel','https://storage.googleapis.com/code.getmdl.io/1.0.0/material.teal-pink.min.css');
 }
       
     </script>

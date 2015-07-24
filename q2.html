@@ -41,7 +41,7 @@ div.blurb {
     </style>
   
     <script type="text/javascript">
-function setCss(href) {
+function setCss(containerId,href) {
   var dims = _awac.getDims();
   console.log('setCss() dims='+dims.width+'x'+dims.height);
   if (dims.width == 0 || dims.height == 0) {
@@ -49,7 +49,7 @@ function setCss(href) {
     setTimeout(setCss,50);
     return;
   }
-  var e = document.getElementById('toplevel');
+  var e = document.getElementById(containerId);
   e.style.width = dims.width+'px';
   e.style.height = dims.height+'px';
  
@@ -64,13 +64,13 @@ function setCss(href) {
 function doOnLoad() {
   _awac = new Awac('_awac');
   _awac.startPage();
-  setTimeout(function() { setCss( 'https://storage.googleapis.com/code.getmdl.io/1.0.0/material.blue_grey-pink.min.css'); },50);
+  setTimeout(function() { setCss( 'outer-container','https://storage.googleapis.com/code.getmdl.io/1.0.0/material.blue_grey-pink.min.css'); },50);
 }      
     </script>
   </head>
   <body onload="doOnLoad();">
     <!-- Always shows a header, even in smaller screens. -->
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <div id="outer-container" class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
   <header class="mdl-layout__header">
     <div class="mdl-layout__header-row">
       <span class="mdl-layout-title">Quick Links</span>

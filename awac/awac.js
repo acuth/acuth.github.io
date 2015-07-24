@@ -338,7 +338,7 @@ Awac.prototype.startPage = function() {
 };
 
 Awac.prototype.setMdlCss = function(containerId,mdlCssUrl) {
-  console.log('setCss('+containerId+','+href+')');
+  console.log('setMdlCss()');
   var dims = this.getDims();
   console.log(' - dims='+dims.width+'x'+dims.height);
   if (dims.width === 0 || dims.height === 0) {
@@ -347,8 +347,8 @@ Awac.prototype.setMdlCss = function(containerId,mdlCssUrl) {
     setTimeout(function() { awac.setMdlCss(containerId,mdlCssUrl); },50);
     return;
   }
+  
   var e = document.getElementById(containerId);
-  console.log(' - container='+e);
   e.style.width = dims.width+'px';
   e.style.height = dims.height+'px';
  

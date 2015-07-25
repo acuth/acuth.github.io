@@ -14,8 +14,8 @@ $(document).ready(function() {
   _awac = new Awac('_awac');
   _awac.setOnAction(showPage);
   _awac.unlockNavDrawer();
-  setButton($('#samplebtn'),function() { 
-    var colors = {'primary':'#f5f5f5','text_primary':'#666666','primary_dark':'#222222'};
+  setButton($('#samplebtn1'),function() { 
+    var colors = {'primary':'#FCFCF1','text_primary':'#775517','primary_dark':'#FFFFFF'};
 		_awac.openPage('lorem','color_lorem.html',colors);
 	});
 	setButton($('#samplebtn2'),function() { 
@@ -50,7 +50,7 @@ $(document).ready(function() {
 	    The sample pages (see below) uses this approach to present a wizard like interface to the user.</p>
 
       <div class="holder">
-        <button class="topb" id="samplebtn"><span>Sample Page</span></button>
+        <button class="topb" id="samplebtn1"><span>Sample Page 1</span></button>
         <button id="samplebtn2"><span>Sample Page 2</span></button>
         <button id="samplebtn3"><span>Sample Page 3</span></button>
       </div>

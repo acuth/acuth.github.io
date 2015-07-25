@@ -13,7 +13,10 @@ var _awac = null;
 
 function setButtonColor(id,primary,text_primary,primary_dark) {
   var btn = $('#'+id);
-  btn.html('<span>primary:'+primary+'</span>');
+  var h = '<span style="border:solid 1px gray;margin-top:4px;display:inline-block;width:32px;height:32px;background:'+primary+'">&nbsp;</span>';
+  h += '<span style="border:solid 1px gray;margin-top:4px;display:inline-block;width:32px;height:32px;background:'+primary_dark+'">&nbsp;</span>';
+  h += '<span style="border:solid 1px gray;margin-top:4px;display:inline-block;width:32px;height:32px;background:'+text_primary+'">&nbsp;</span>';
+  btn.html(h);
   setButton(btn,function() { 
     var colors = {'primary':primary,'text_primary':text_primary,'primary_dark':primary_dark};
 	  _awac.openPage('lorem','color_lorem.html',colors);
@@ -24,9 +27,9 @@ $(document).ready(function() {
   _awac = new Awac('_awac');
   _awac.setOnAction(showPage);
   _awac.unlockNavDrawer();
-  setButtonColor('samplebtn1','#607D8B','#FFFFFF','#455A64');
-  setButtonColor('samplebtn2','#FF9800','#FFFFFF','#F57C00');
-  setButtonColor('samplebtn3','#009688','#FFFFFF','#00695c');
+  setButtonColor('btn1','#607D8B','#FFFFFF','#455A64');
+  setButtonColor('btn2','#FF9800','#FFFFFF','#F57C00');
+  setButtonColor('btn3','#009688','#FFFFFF','#00695c');
   loadFooter();
   _awac.startPage();
 });
@@ -50,9 +53,9 @@ $(document).ready(function() {
 	    The sample pages (see below) uses this approach to present a wizard like interface to the user.</p>
 
       <div class="holder">
-        <button class="topb" id="samplebtn1"><span>Sample Page 1</span></button>
-        <button id="samplebtn2"><span>Sample Page 2</span></button>
-        <button id="samplebtn3"><span>Sample Page 3</span></button>
+        <button class="topb" id="btn1"></button>
+        <button id="btn2"></button>
+        <button id="btn3"></button>
       </div>
     </div>
 	</body>

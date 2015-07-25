@@ -69,6 +69,11 @@ MockContainer.prototype.get = function(name) {
   return value;
 };
 
+MockContainer.prototype.getImplementation = function() {
+  if (this.debug) console.log(this.varName+'.getImplementation()=mock');
+  return 'mock';
+};
+
 MockContainer.prototype.store = function(name,value) {
   if (this.debug) console.log(this.varName+'.store('+name+','+value+')');
   localStorage.setItem(name,value);
@@ -297,6 +302,10 @@ Awac.prototype.set = function(name,value) {
 Awac.prototype.get = function(name) {
   var s = this.container.get(name);
   return this.parse(s);
+};
+
+Awac.prototype.getImplementation = function() {
+  return this.container.getImplementation();
 };
 
 Awac.prototype.store = function(name,value) {

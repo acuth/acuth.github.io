@@ -41,6 +41,16 @@ div.blurb {
     </style>
   
     <script type="text/javascript">
+    
+function addCardAction(cardId,href,label) {
+  var card = $('#'+cardId);
+  var h = '<div class="mdl-card__actions mdl-card--border">';
+  h += '<a target="_blank" href="'+href+'" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">';
+  h += label;
+  h += '</a></div>';
+  card.html(card.html()+h);
+}
+
 function doOnLoad() {
   _awac = new Awac('_awac');
   if (_awac.getImplementation() == 'mock') {
@@ -49,9 +59,12 @@ function doOnLoad() {
     var h = '<header class="mdl-layout__header"><div class="mdl-layout__header-row"><span class="mdl-layout-title">Adrian\'s Quick Links (webapp)</span></div></header>';
     container.addClass('mdl-layout--fixed-header');
     container.html(h+container.html());
+    addCardAction("awac-card","http://acuth.github.io/awac/launch/?url=http://acuth.github.io/q2.html","Open this in Awac");
   }
-  else
+  else {
     _awac.setTitle('Adrian\'s Quick Links (awac)');
+    addCardAction("awac-card","http://acuth.github.io/q2.html","Open this as WebApp");
+  }
   _awac.setAppColors({'primary':'#607D8B','text_primary':'#FFFFFF','primary_dark':'#455A64'});
   _awac.startMdlPage('outer-container','https://storage.googleapis.com/code.getmdl.io/1.0.0/material.blue_grey-pink.min.css');
 }      
@@ -100,7 +113,7 @@ function doOnLoad() {
 </div>
 
 
-<div class="mdl-cell mdl-cell--8-col mdl-card mdl-shadow--4dp">
+<div id="awac-card" class="mdl-cell mdl-cell--8-col mdl-card mdl-shadow--4dp">
   <div class="mdl-card__title">
     <h2 class="mdl-card__title-text">AWAC</h2>
   </div>

@@ -361,11 +361,14 @@ Awac.prototype.setMdlCss = function(containerId,mdlCssUrl) {
   e.style.width = dims.width+'px';
   e.style.height = dims.height+'px';
  
+  var urls = mdlCssUrl.split(',');
+  for (var i=0;i<urls.length;i++) {
   var link = document.createElement( 'link' );
-  link.href = mdlCssUrl;
-  link.type = 'text/css';
-  link.rel = 'stylesheet';
-  document.getElementsByTagName( 'head' )[0].appendChild( link );
+    link.href = urls[i];
+    link.type = 'text/css';
+    link.rel = 'stylesheet';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  }
   // tell MDL component handler to upgrade the page 
   componentHandler.upgradeDom();
 };

@@ -39,13 +39,13 @@ $(document).ready(function() {
 	<body>
 	  <div id="details"><div id="details-footer"></div><div id="details-blurb">
 	     <div>Awac allows a background task to be run which the current page can make requests to.</div>
-       <div class="code">
+       <div class="code"><pre>
        _awac = new Awac('_awac');
        ...
        _awac.startBackground('background.html');
        ...
        _awac.getBackgroundResponse('status',function(resp) { });
-       </div>
+       </pre></div>
     </div><!-- end of details-blurb --> </div><!-- end of details -->
 
     <div id="navigation"></div>

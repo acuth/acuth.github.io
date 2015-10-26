@@ -90,10 +90,9 @@ function displayAppmarksPage(offset,timestamp) {
 			moreDiv.appendTo(content);
 			_hasMoreRow = moreDiv;
 			
-			
-			var tmpDiv = $(document.createElement('div')).addClass('full-width-btn').html('signout');
-			tmpDiv.click(function(event) { onAction('do_signout'); });
-			tmpDiv.appendTo(content);
+			//var tmpDiv = $(document.createElement('div')).addClass('full-width-btn').html('signout');
+			//tmpDiv.click(function(event) { onAction('do_signout'); });
+			//tmpDiv.appendTo(content);
 		}
 	}
 

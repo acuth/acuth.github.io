@@ -70,7 +70,6 @@ AttrType.prototype.toHTML=function(hideMeta) {
 
 AttrType.validatePrimitiveType=function(s) {
   if (s === 'string' || 
-      s === 'item-key' ||
       s === 'lat-long-pair' || 
       s === 'item-ref') return s;
   log('do not understand primitive-type "'+s+'"');
@@ -92,21 +91,6 @@ AttrType.prototype.validatePrimitiveValue=function(v) {
     return true;
   }
   
-  else if (this.primType == 'item-key') {
-    if (typeof v !== 'string') {
-      log('!!!! value '+JSON.stringify(v)+' is not a string');
-      return false;
-    }
-    var key = this.subPrimType+':"'+v+'"';
-    //log('looking for item with key '+key);
-    var item = this.yangw.itemMap[key];
-    //log('found '+item);
-    if (item) {
-      log('!!!! Already have item with key '+key);
-      return false;
-    }
-    return true;
-  }
   else if (this.primType == 'lat-long-pair') {
     try {
       return (typeof v.lat === 'number') && (typeof v.lng === 'number');
@@ -115,6 +99,7 @@ AttrType.prototype.validatePrimitiveValue=function(v) {
       return false;
     }
   }
+  
   else if (this.primType == 'item-ref') {
     var key = this.subPrimType+':"'+v+'"';
     //log('looking for item with key '+key);
@@ -126,6 +111,7 @@ AttrType.prototype.validatePrimitiveValue=function(v) {
     }
     return true;
   }
+  
   else {
     log('!!!! Unable to validate primitive-value '+v+' as a '+this.primType);
     return false;

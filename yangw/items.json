@@ -7,7 +7,7 @@
   
 
 
-{"type":"AttributeType","name":"jStatusEnum","primType":"item-key","primSubType":"JStatusEnum","number":"required"},
+{"type":"AttributeType","name":"jStatusEnum","primType":"string","number":"required"},
 
 {"type":"ItemType","name":"JStatusEnum","attributeTypes":["jStatusEnum"],"key":"jStatusEnum"},
 
@@ -18,8 +18,17 @@
 {"type":"JStatusEnum","jStatusEnum":"UNDERWAY"},
 
 {"type":"JStatusEnum","jStatusEnum":"COMPLETED","body":"The journey has been completed."},
-
+{"type":"JStatusEnum","jStatusEnum":"COMPLETED","body":"This should not appear because of item-key"},
 {"type":"AttributeType","name":"jStatus","primType":"item-ref","primSubType":"JStatusEnum","number":"required"},
+
+
+
+{"type":"AttributeType","name":"jModeEnum","primType":"string","number":"required"},
+{"type":"ItemType","name":"JModeEnum","attributeTypes":["jModeEnum"],"key":"jModeEnum"},
+{"type":"JModeEnum","jModeEnum":"BIKE"},
+{"type":"JModeEnum","jModeEnum":"RUN","body":"Should be a lot of fun"},
+{"type":"JModeEnum","jModeEnum":"RUN","body":"Should not be here"},
+{"type":"AttributeType","name":"jMode","primType":"item-ref","primSubType":"JModeEnum","number":"required"},
 
 
 
@@ -55,9 +64,7 @@
 
 {"type":"Artist","name":"Da Vinci","homeTown":"Florence"},
 
-{"type":"Journey","jStart":{"lat":51.0,"lng":0.0},"jEnd":{"lat":52.0,"lng":1.0},"jStatus":"COMPLETED"}
+{"type":"Journey","jStart":{"lat":51.0,"lng":0.0},"jEnd":{"lat":52.0,"lng":1.0},"jStatus":"COMPLETED","jMode":"RUN"}
   
-  ],
-  
-  "tricky":{"str":"this is a string","numb":123,"str":"This is another string","numb":456}
+  ]
 }

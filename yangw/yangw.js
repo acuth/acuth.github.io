@@ -219,6 +219,10 @@ YANGW.prototype.importItem=function(item) {
     log('!!!! Unable to validate attribute values for '+JSON.stringify(item));
     return;
   }
+  if (!this.validateKey(item)) {
+    log('!!!! Unable to validate key for '+JSON.stringify(item));
+    return;
+  }
   var newItem = new Item(this,this.nItem++,itype,item.props);
   this.addItem(newItem);
 };
@@ -284,6 +288,25 @@ YANGW.prototype.validateAttrs=function(item) {
       if (!atype.validatePrimitiveValue(arr[i])) {
         return false;
       }
+    }
+  }
+  return true;
+};
+
+YANGW.prototype.validateKey=function(item) {
+  var itype = this.itemTypes[item.type];
+  if (!itype.key) return true;
+  for (var p in item.props) {
+    var atype = this.attrTypes[p];
+    if (atype.name === itype.key) {
+       var arr = item.props[p];
+       var v = (arr && arr.length == 1) ? arr[0] : null; 
+       var key = itype.name+":"+JSON.stringify(v);
+       var match = this.getItemByKey(key);
+       if (match) {
+         console.log('!!!! Item with key '+key+' already exists - ognoring this one');
+         return false;
+       }
     }
   }
   return true;

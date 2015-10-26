@@ -166,7 +166,9 @@ function onBackPressed() {
 }
 
 function init() {
+  console.log('init()');
   app = new Awac('app');
+  console.log('set colors');
   app.setAppColors({'primary':'#CFDED9','text_primary':'#2E5649','primary_dark':'#222222'});
   app.setOnRefresh(onRefresh);
   app.setOnPageClose(onPageClose);

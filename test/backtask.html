@@ -44,7 +44,10 @@ $(document).ready(function() {
        ...
        _awac.startBackground('background.html');
        ...
-       _awac.getBackgroundResponse('status',function(resp) { });
+       _awac.makeBackgroundRequest('new-page');
+       ...
+       _awac.getBackgroundResponse('status',
+          function(resp) { });
        </pre></div>
     </div><!-- end of details-blurb --> </div><!-- end of details -->
 

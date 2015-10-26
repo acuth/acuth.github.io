@@ -35,8 +35,8 @@ function onAction(action) {
 function init() {
   app = new Awac('app');
   app.setOnAction(onAction);
-  app.addActionBarItem({'label':'OK','action':'ok'});
-  app.addActionBarItem({'label':'Cancel','action':'cancel'});
+  app.addActionBarItem({'label':'OK','icon':'done','action':'ok'});
+  app.addActionBarItem({'label':'Cancel','icon':'close','action':'cancel'});
 	_content = $('#page');
 	_mam = new mamClient('http://www.myappmarks.com/',app,true);
   _mam.initFromAppState();

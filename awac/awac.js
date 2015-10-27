@@ -332,6 +332,7 @@ Awac.prototype.replyMessage = function(msgId,value) {
 
 Awac.prototype.getInitParam = function() {
   var s = this.container.getInitParam();
+  console.log('init param from container = '+s);
   return this.parse(s);
 };
 

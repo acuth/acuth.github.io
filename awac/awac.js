@@ -237,15 +237,20 @@ Awac.prototype.stringify = function(x) {
 };
 
 Awac.prototype.parse = function(s) {
-  if (!s) return null;
-  if (typeof(s) === 'undefined') return null;
-  if (s == 'null') return null;
-  var i = s.indexOf(':');
-  var t = s.substring(0,i);
-  s = s.substring(i+1);
-  if (t == 'string') return decodeURIComponent(s);
-  if (t == 'number') return parseFloat(s);
-  if (t == 'json') return JSON.parse(decodeURIComponent(s));
+  var t = s;
+  try {
+    if (!s) return null;
+    if (typeof(s) === 'undefined') return null;
+    if (s == 'null') return null;
+    var i = s.indexOf(':');
+    t = s.substring(0,i);
+    var s2 = s.substring(i+1);
+    if (t == 'string') return decodeURIComponent(s2);
+    if (t == 'number') return parseFloat(s2);
+    if (t == 'json') return JSON.parse(decodeURIComponent(s2));
+  } catch (err) {
+    console.log('Unable to parse '+s);
+  }
   return null;
 };
 

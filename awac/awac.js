@@ -237,19 +237,19 @@ Awac.prototype.stringify = function(x) {
 };
 
 Awac.prototype.parse = function(s) {
-  var t = s;
   try {
+    console.log('Awac.parse() '+s);
     if (!s) return null;
     if (typeof(s) === 'undefined') return null;
     if (s == 'null') return null;
     var i = s.indexOf(':');
-    t = s.substring(0,i);
+    var t = s.substring(0,i);
     var s2 = s.substring(i+1);
     if (t == 'string') return decodeURIComponent(s2);
     if (t == 'number') return parseFloat(s2);
     if (t == 'json') return JSON.parse(decodeURIComponent(s2));
   } catch (err) {
-    console.log('Unable to parse '+s);
+    console.log('Unable to parse '+s+' ['+err+']');
   }
   return null;
 };

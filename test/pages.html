@@ -39,10 +39,11 @@ $(document).ready(function() {
        <div class="code"><pre>
        _awac = new Awac('_awac');
        _awac.setOnPageClose(function(tag,ok,value){
-      
+          // ok == false indicates page was 'backed' out of
        });
 
-       _awac.openPage('cities','cities.html',
+       var tag = 'cities';
+       _awac.openPage(tag,'cities.html',
                 {'name':'Jabba'});
        </pre></div>
     </div><!-- end of details-blurb --></div><!-- end of details -->

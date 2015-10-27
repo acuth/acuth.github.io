@@ -35,16 +35,16 @@ $(document).ready(function() {
 	</head>
 	<body>
 	  <div id="details"><div id="details-footer"></div><div id="details-blurb">
-	     <div>This page demonstrates one page opening another page and receiving a result from it when it is closed.</div>
+	     <div>This page demonstrates one page opening another page and passing it a parameter and then receiving a result from it when it is closed.</div>
        <div class="code"><pre>
-       _awac = new Awac('_awac');
        _awac.setOnPageClose(function(tag,ok,value){
-          // ok == false indicates page was 'backed' out of
+          // ok == false indicates 
+          // that the page was 'backed' out of
        });
 
        var tag = 'cities';
-       _awac.openPage(tag,'cities.html',
-                {'name':'Jabba'});
+       var param = {'name':'Jabba'};
+       _awac.openPage(tag,'cities.html',param);
        </pre></div>
     </div><!-- end of details-blurb --></div><!-- end of details -->
 

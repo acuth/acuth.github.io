@@ -37,7 +37,7 @@ $(document).ready(function() {
   _awac = new Awac('_awac'); 
   console.log("What is going on?");
   var initp = _awac.getInitParam();
-  if (initp) pLog('got initp='+initp);
+  if (initp) console.log('got initp.name='+initp.name);
   for (var i=0;i<pageNames.length;i++) addPageDetails(i);
   _awac.unlockNavDrawer();
   _awac.setOnBackPressed(exit);

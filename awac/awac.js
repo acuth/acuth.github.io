@@ -248,7 +248,7 @@ Awac.prototype.parse = function(s) {
       return null;
     }
     if (s == 'null') {
-      console.og('s is null');
+      console.log('s is null');
       return null;
     }
     var i = s.indexOf(':');

@@ -43,14 +43,14 @@
 
 	<body>
 	  <div id="details"><div id="details-footer"></div><div id="details-blurb">
-	    <div>This example represents a page used to select an option and return a result to the page that opened it.</div>
+	    <div>This example represents a page used to display a welcome messagebased on the init parameter and then allow them to select an option and return a result to the page that opened it.</div>
       <div class="code"><pre>
       var name = _awac.getInitParam().name;
       ...
       _awac.startPage();
       ...
-      var value = 'London\'s "Gerkin"';
-      _awac.endPage(value);
+      var result = 'London\'s "Gerkin"';
+      _awac.endPage(result);
       </pre></div>
     </div><!-- end of details-blurb --></div><!-- end of details -->
 

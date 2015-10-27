@@ -238,7 +238,7 @@ Awac.prototype.stringify = function(x) {
 
 Awac.prototype.parse = function(s) {
   try {
-    console.log('Awac.parse() '+s);
+    console.log('Awac.parse() value='+s);
     if (!s) {
       console.log('s does not exist');
       return null;
@@ -258,9 +258,11 @@ Awac.prototype.parse = function(s) {
     if (t == 'string') return decodeURIComponent(s2);
     if (t == 'number') return parseFloat(s2);
     if (t == 'json') {
-      var s3 = decodeURIComponent(s2);
-      console.log('decoded value ='+s3);
-      return JSON.parse(s3);
+      s2 = decodeURIComponent(s2);
+      console.log('decoded value='+s2);
+      s2 = JSON.parse(s2);
+      console.log('parsed value='+s2);
+      return s2;
     }
   } catch (err) {
     console.log('Unable to parse '+s+' ['+err+']');

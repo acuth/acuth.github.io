@@ -257,7 +257,11 @@ Awac.prototype.parse = function(s) {
     console.log('type='+t+' value-'+s2);
     if (t == 'string') return decodeURIComponent(s2);
     if (t == 'number') return parseFloat(s2);
-    if (t == 'json') return JSON.parse(decodeURIComponent(s2));
+    if (t == 'json') {
+      var s3 = decodeURIComponent(s2);
+      console.log('decoded value ='+s3);
+      return JSON.parse(s3);
+    }
   } catch (err) {
     console.log('Unable to parse '+s+' ['+err+']');
   }

@@ -239,18 +239,29 @@ Awac.prototype.stringify = function(x) {
 Awac.prototype.parse = function(s) {
   try {
     console.log('Awac.parse() '+s);
-    if (!s) return null;
-    if (typeof(s) === 'undefined') return null;
-    if (s == 'null') return null;
+    if (!s) {
+      console.log('s does not exist');
+      return null;
+    }
+    if (typeof(s) === 'undefined') {
+      console.log('s is undefined');
+      return null;
+    }
+    if (s == 'null') {
+      console.og('s is null');
+      return null;
+    }
     var i = s.indexOf(':');
     var t = s.substring(0,i);
     var s2 = s.substring(i+1);
+    console.log('type='+t+' value-'+s2);
     if (t == 'string') return decodeURIComponent(s2);
     if (t == 'number') return parseFloat(s2);
     if (t == 'json') return JSON.parse(decodeURIComponent(s2));
   } catch (err) {
     console.log('Unable to parse '+s+' ['+err+']');
   }
+  console.log('returning null');
   return null;
 };
 

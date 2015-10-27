@@ -35,12 +35,11 @@ function addPageDetails(i) {
 
 $(document).ready(function() {
   _awac = new Awac('_awac'); 
-  console.log("What is going on?");
   var initp = _awac.getInitParam();
-  if (initp && initp.name) {
-    console.log('got initp.name='+initp.name);
-    $('#name-span').html(initp.name+', ');
-  }
+  var html = 'Hello';
+  if (initp && initp.name) html += ' '+initp.name+',<br/>';
+  html += ' ';
+  $('#name-span').html(html);
   for (var i=0;i<pageNames.length;i++) addPageDetails(i);
   _awac.unlockNavDrawer();
   _awac.setOnBackPressed(exit);
@@ -57,7 +56,7 @@ $(document).ready(function() {
 	   </div><!-- end of details-blurb --></div><!-- end of details -->
 
     <div id="content">
-	    <p>Welcome <span id="name-span"></span> to Awac (github version) - the Android Web App Container. Awac is a simple Android app that can be used to display suitably modified webpages for prototyping purposes.</p>
+	    <p><span id="name-span"></span>and welcome to Awac (github version) - the Android Web App Container. Awac is a simple Android app that can be used to display suitably modified webpages for prototyping purposes.</p>
       <div class="holder" id="pages"></div>
 	  </div> <!-- content -->
 	</body>

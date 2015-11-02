@@ -37,7 +37,7 @@ $(document).ready(function() {
   _awac = new Awac('_awac'); 
   var initp = _awac.getInitParam();
   var html = 'Hello';
-  if (initp && initp.name) html += ' '+initp.name+',<br/>';
+  if (initp && initp.name) html += ' '+initp.name+',<br/><br/>';
   html += ' ';
   $('#name-span').html(html);
   for (var i=0;i<pageNames.length;i++) addPageDetails(i);
@@ -58,8 +58,8 @@ $(document).ready(function() {
 
     <div id="content">
 	    <p><span id="name-span"></span>and welcome to Awac - the Android Web App Container. 
-	    Awac is a simple Android app that can be used to display a set of suitably modified webpages that together define a web-app.<br/>
-	    This web-app (gitub version) is designd to demonstrate some of the key features of Awac. 
+	    Awac is a simple Android app that can be used to display a set of suitably modified webpages that together define a web-app.<br/><br/>
+	    This web-app (github version) is designed to demonstrate some of the key features of Awac. 
 	    For more detail, visit the <a href="http://acuth.github.io/awac/index.html">Awac website</a>.</p>
       <div class="holder" id="pages"></div>
 	  </div> <!-- content -->

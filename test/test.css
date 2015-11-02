@@ -48,6 +48,11 @@ div#content p {
   padding: 10px;
 }
 
+div#content a {
+  color: rgb(27, 21, 10);
+}
+
+
 div.txt {
   width: 80%;
   margin-left: auto;

@@ -56,15 +56,22 @@ $(document).ready(function() {
 	<body>
 	   <div id="details"><div id="details-footer"></div><div id="details-blurb">
 	     These pages are designed to provide an introduction to key Awac features. If the 'Loaded from' link references an http resource then you
-	     can use the link to view the page in a browser and look at its source directly.
+	     can use the link to view the page in a browser and look at the source directly. For example to open a page (and add it to the stack) 
+	     just call openPage();
+	    <div class="code"><pre>
+	    var pageTag = 'simple';
+	    var pageUrl = 'simple.html';
+	    (new Awac()).openPage(pageTag,pageUrl);
+      </pre></div>
 	   </div><!-- end of details-blurb --></div><!-- end of details -->
 
     <div id="content">
 	    <p><span id="name-span"></span>and welcome to Awac - the Android Web App Container. 
 	    Awac is a simple Android app that can be used to display a set of suitably modified webpages that together define a web-app.<br/><br/>
 	    This web-app (github version) is designed to demonstrate some of the key features of Awac. 
-	    For more detail, visit the <a href="http://acuth.github.io/awac/index.html">Awac website</a>.</p>
+	    For more information, visit the <a href="http://acuth.github.io/awac/index.html">Awac website</a>.</p>
       <div class="holder" id="pages"></div>
+      <br/>
 	  </div> <!-- content -->
 	</body>
 </html>

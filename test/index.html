@@ -37,7 +37,10 @@ $(document).ready(function() {
   _awac = new Awac('_awac'); 
   var initp = _awac.getInitParam();
   var html = 'Hello';
-  if (initp && initp.name) html += ' '+initp.name+',<br/><br/>';
+  if (initp && initp.name) {
+    _awac.set('initp.name',initp.name);
+    html += ' '+initp.name+',<br/><br/>';
+  }
   html += ' ';
   $('#name-span').html(html);
   for (var i=0;i<pageNames.length;i++) addPageDetails(i);
@@ -52,7 +55,7 @@ $(document).ready(function() {
 	</head>
 	<body>
 	   <div id="details"><div id="details-footer"></div><div id="details-blurb">
-	     These pages are designed to provide an introduction to key Awac features. If the 'Loded from' link references an http resource then you
+	     These pages are designed to provide an introduction to key Awac features. If the 'Loaded from' link references an http resource then you
 	     can use the link to view the page in a browser and look at its source directly.
 	   </div><!-- end of details-blurb --></div><!-- end of details -->
 

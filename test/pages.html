@@ -27,6 +27,9 @@ $(document).ready(function() {
       _awac.openPage('cities','cities.html',p); 
     }
   });
+  // did we get a name when the web-app was called originally?
+  var name = _awac.get('initp.name');
+  if (name) $('#name-input').val(name);
   _awac.makeBackgroundRequest('new-page');
   loadFooter(true);
   _awac.startPage();

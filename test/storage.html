@@ -56,14 +56,16 @@ $(document).ready(function() {
 	</head>
 	<body>
 	  <div id="details"><div id="details-footer"></div><div id="details-blurb">
-	    <div>In this example we create a global variable to represent Awac called _awac.</div>
+	    <div>In this example we store and load session level values.</div>
       <div class="code"><pre>
-       _awac = new Awac('_awac');
-       ...
-       x = ['red','green','blue'];
-       _awac.set('x',x);
-       ...
-       x = _awac.get('x');
+   _awac = new Awac();
+   
+   
+   x = ['red','green','blue'];
+   _awac.set('x',x);
+   
+   
+   x = _awac.get('x');
        </pre></div>
 	  </div><!-- end of details-blurb --></div><!-- end of details -->
 

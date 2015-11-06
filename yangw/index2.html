@@ -33,7 +33,7 @@ body {
 			   var btn = $('#btn'+i);
 			   btn.click(function(event) {
 			     console.log('show item '+_itemTitles[i]);
-			     _awac.openPage('show','show_item.html',{'item_id':i})
+			     _awac.replacePage('show','show_item.html',{'item_id':i},true);
 			   });
 			   btn.html(_itemTitles[i]);
 			}

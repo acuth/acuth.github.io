@@ -28,7 +28,7 @@ body {
   top: 100px;
   left: 0px;
   width: 100%;
-  bottom: 0px;
+  height: 100px;
   overflow: auto;
 }
 
@@ -51,8 +51,10 @@ body {
 			  var header = $('#item-header');
 			  var content = $('#item-content');
 			  var top = header.height()+'px';
-			  console.log('header height '+top);
-			  content.show().css('top',top);
+			  var height = (_awac.getDims().height-header.height())+'px';
+			  console.log('top '+top);
+			  console.log('height '+height);
+			  content.show().css('top',top).css('height',height);
 			}
 			
 			$(document).ready(function() {

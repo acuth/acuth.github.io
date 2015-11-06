@@ -5,13 +5,16 @@ body {
 }
 
 #item-header {
-   background: #00695c;
+   background3: #00695c;
    background2: #009688;
-   color: white;
+   background: white;
+   color2: white;
+   color: #00695c;
    position: absolute;
    top: 0px;
    left:0px;
    width: 100%;
+   border-bottom: solid 1px gray;
 }
 
 .item-title {
@@ -32,7 +35,7 @@ body {
   border2: solid 1px gray;
   padding2: 10px;
   margin: 10px;
-  font-size: 0.8em;
+  font-size: 1em;
 }
 
 .card {
@@ -40,4 +43,8 @@ body {
   margin: 10px;
   padding: 10px;
   border: solid 1px #c5c5c5;
+}
+
+.edit-item-title {
+  font-size: 1em;
 }

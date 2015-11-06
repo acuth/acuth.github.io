@@ -1,0 +1,42 @@
+body {
+  background: white;
+  margin: 0;
+  padding: 0;
+}
+
+#item-header {
+   background2: #00695c;
+   background: #009688;
+   color: white;
+   position: absolute;
+   top: 0px;
+   left:0px;
+   width: 100%;
+}
+
+.item-title {
+  font-size: 140%;
+  padding: 10px;
+}
+
+#item-content {
+  position: absolute;
+  top: 100px;
+  left: 0px;
+  width: 100%;
+  height: 100px;
+  overflow: auto;
+}
+
+.item-body {
+  border: solid 1px gray;
+  padding: 10px;
+  margin: 10px;
+}
+
+.card {
+  background: white;
+  margin: 10px;
+  padding: 10px;
+  border: solid 1px gray;
+}

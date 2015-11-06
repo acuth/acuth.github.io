@@ -2,7 +2,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-		<title>Yang-WIKI</title>
+		<title>YANG-Wiki</title>
 		<link type="text/css" rel="stylesheet" href="fake_items.css" />
 				<style type="text/css">
 body {
@@ -33,7 +33,7 @@ body {
 			   var btn = $('#btn'+i);
 			   btn.click(function(event) {
 			     console.log('show item '+_itemTitles[i]);
-			     _awac.openPage('show_item','show_item.html',{'item_id':i})
+			     _awac.openPage('show','show_item.html',{'item_id':i})
 			   });
 			   btn.html(_itemTitles[i]);
 			}

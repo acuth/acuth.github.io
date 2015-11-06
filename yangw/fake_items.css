@@ -48,3 +48,9 @@ body {
 .edit-item-title {
   font-size: 1em;
 }
+
+.btn {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}

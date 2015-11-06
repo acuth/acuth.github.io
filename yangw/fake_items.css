@@ -5,8 +5,8 @@ body {
 }
 
 #item-header {
-   background2: #00695c;
-   background: #009688;
+   background: #00695c;
+   background2: #009688;
    color: white;
    position: absolute;
    top: 0px;
@@ -29,14 +29,15 @@ body {
 }
 
 .item-body {
-  border: solid 1px gray;
-  padding: 10px;
+  border2: solid 1px gray;
+  padding2: 10px;
   margin: 10px;
+  font-size: 1em;
 }
 
 .card {
   background: white;
   margin: 10px;
   padding: 10px;
-  border: solid 1px gray;
+  border: solid 1px #c5c5c5;
 }

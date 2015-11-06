@@ -11,7 +11,7 @@
 		<script type="text/javascript">
 			var _awac = null;
 			function onAction(action) {
-			  if ('back' == action) _awac.replacePage('show','show_item.html',{'item_id':_itemId},false);
+			  if ('back' == action) _awac.endPage();
 			  if ('edit' == action) _awac.replacePage('edit','edit_item.html',{'item_id':_itemId},true);
 			}
 			

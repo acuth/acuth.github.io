@@ -4,7 +4,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<style type="text/css">
 body {
-  background: #678;
+  background: #00695c;
   margin: 0;
   padding: 0;
 }
@@ -56,6 +56,7 @@ body {
 			  _awac.setOnBackPressed(onBackPressed);	 
 			  //_awac.setHomeItem({'label':'Back','icon':'arrow_back','action':'back'});
 			  _awac.addActionBarItem({'icon':'star','label':'SKIP','action':'skip'});
+			   _awac.addActionBarItem({'icon':'edit','label':'EDIT','action':'edit'});
 			  _awac.addActionBarItem({'icon':'add','label':'ADD','action':'add'});
 			  $('#calltoaction').on('click',function(){_awac.alert('Sorry, but this call to action has not yet been implemented');});
 			  _awac.startPage();

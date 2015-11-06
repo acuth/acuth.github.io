@@ -11,8 +11,8 @@
 		<script type="text/javascript">
 			var _awac = null;
 			function onAction(action) {
-			  if ('back' == action) _awac.endPage();
-			  if ('edit' == action) _awac.openPage('edit','edit_item.html',{'item_id':_itemId});
+			  if ('back' == action) _awac.replacePage('show','show_item.html',{'item_id':_itemId},false);
+			  if ('edit' == action) _awac.replacePage('edit','edit_item.html',{'item_id':_itemId},true);
 			}
 			
 			var _itemId = -1;
@@ -29,7 +29,6 @@
 			  _awac.setOnAction(onAction);
 			   
 			  _awac.setHomeItem({'label':'Back','icon':'arrow_back','action':'back'});
-			  //_awac.addActionBarItem({'icon':'star','label':'SKIP','action':'skip'});
 			  _awac.addActionBarItem({'icon':'edit','label':'EDIT','action':'edit'});
 			  _awac.addActionBarItem({'icon':'add','label':'ADD','action':'add'});
 			

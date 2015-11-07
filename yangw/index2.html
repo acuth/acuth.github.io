@@ -45,7 +45,14 @@ body {
 			  //_awac.setHomeItem({'label':'Back','icon':'arrow_back','action':'back'});
 			 for (var i=0;i<3;i++) {
 			   addBtnClick(i);
-			 }
+			 } 
+
+			 var btn = $('#btn3');
+			 btn.click(function(event) {
+			   console.log('show list');
+			   _awac.list('[{"label":"acuth"},{"label":"sadia"}]',function(n) { _awac.alert('selected '+n); });
+			 });
+			 btn.html('show list');
 			
 			  _awac.startPage();
 			  //setTimeout(fixLayout,60);
@@ -54,6 +61,7 @@ body {
 	</head>
 	<body>
      <div>
+        <div class="card"><a id="btn3"></a></div>
         <div class="card"><a id="btn0"></a></div>
         <div class="card"><a id="btn1"></a></div>
         <div class="card"><a id="btn2"></a></div>

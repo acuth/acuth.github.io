@@ -41,6 +41,11 @@ MockContainer.prototype.setAppColors = function(json) {
   if (this.debug) console.log(this.varName+'.setAppColors('+json+')');
 };
 
+MockContainer.prototype.getColors = function() {
+  if (this.debug) console.log(this.varName+'.getColors() NYI');
+  return null;
+};
+
 MockContainer.prototype.setHomeItem = function(json) {
   if (this.debug) console.log(this.varName+'.setHomeItem('+json+')');
 };
@@ -111,6 +116,12 @@ MockContainer.prototype.startPage = function() {
 MockContainer.prototype.endPage = function(value) {
   if (this.debug) console.log(this.varName+'.endPage('+value+')');
   //window.close();
+};
+
+MockContainer.prototype.showList = function(items) {
+  if (this.debug) console.log(this.varName+'.showList('+items+')');
+  var yes = confirm('MoclContainer.showList() NYI');
+  this.awac.fireListResult(yes?1:0);
 };
 
 MockContainer.prototype.showDialog = function(msg,ok,cancel) {
@@ -209,7 +220,8 @@ function Awac(varName) {
   this.container = _awac_ ? _awac_ : new MockContainer(this);
   this.container.setVarName(this.varName);
   //console.log(' - this.container='+this.container);
-  this.ondialog = null;
+  this.ondialog = null; 
+  this.onlist = null;
   this.onrefresh = null;
   this.onresult = null;
   this.onmessage = null;
@@ -254,12 +266,12 @@ Awac.prototype.parse = function(s) {
     var i = s.indexOf(':');
     var t = s.substring(0,i);
     var s2 = s.substring(i+1);
-    console.log('type='+t+' value-'+s2);
+    //console.log('type='+t+' value-'+s2);
     if (t == 'string') return decodeURIComponent(s2);
     if (t == 'number') return parseFloat(s2);
     if (t == 'json') {
       s2 = decodeURIComponent(s2);
-      console.log('decoded value='+s2);
+      //console.log('decoded value='+s2);
       s2 = JSON.parse(s2);
       console.log('parsed value='+s2);
       return s2;
@@ -294,6 +306,11 @@ Awac.prototype.setAppColors = function(obj) {
 
 Awac.prototype.setPageColors = function(obj) {
   this.container.setPageColors(JSON.stringify(obj));
+};
+
+Awac.prototype.getColors = function() { 
+  var colors = JSON.parse(this.container.getColors());
+  return colors;
 };
 
 Awac.prototype.setHomeItem = function(obj) {
@@ -434,6 +451,11 @@ Awac.prototype.dialog = function(msg,ok,cancel,cb) {
   this.container.showDialog(msg,ok,cancel);
 };
 
+Awac.prototype.list = function(items,cb) {
+  this.onlist = cb;
+  this.container.showList(items);
+};
+
 // set callbacks
 
 Awac.prototype.setOnRefresh = function(cb) {
@@ -472,6 +494,12 @@ Awac.prototype.fireDialogResult = function(ok) {
   if (this.debug) console.log('Awac.fireDialogResult('+ok+')');
   if (this.ondialog) this.ondialog(ok);
   this.ondialog = null;
+};
+
+Awac.prototype.fireListResult = function(n) {
+  if (this.debug) console.log('Awac.fireListResult('+n+')');
+  if (this.onlist) this.onlist(n);
+  this.onlist = null;
 };
 
 Awac.prototype.fireBackPressed = function() {

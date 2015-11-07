@@ -239,12 +239,29 @@ Awac.prototype.toString = function() {
 };
 
 Awac.prototype.stringify = function(x) {
-  if (!x) return 'null';
+  if (!x) {
+    console.log('x is null');
+    return 'null';
+  }
   var t = typeof(x);
-  if (t === 'undefined') return 'null';
-  if (t == 'string') return 'string:'+encodeURIComponent(x);
-  if (t == 'number') return 'number:'+x;
-  if (t == 'object' || t == 'array') return 'json:'+encodeURIComponent(JSON.stringify(x));
+  if (t === 'undefined') {
+    console.log('x is undefined - returning null');
+    return 'null';
+  }
+  if (t == 'string') {
+    console.log('x is string:'+x);
+    return 'string:'+encodeURIComponent(x);
+  }
+  if (t == 'number') {
+    console.log('x is number:'+x);
+    return 'number:'+x;
+  }
+  if (t == 'object' || t == 'array') {
+    var json = JSON.stringify(x);
+    console.log('x is json:'+json);
+    return 'json:'+encodeURIComponent(json);
+  }
+  console.log('x is unknown type - returning null');
   return 'null';
 };
 
@@ -267,14 +284,21 @@ Awac.prototype.parse = function(s) {
     var t = s.substring(0,i);
     var s2 = s.substring(i+1);
     //console.log('type='+t+' value-'+s2);
-    if (t == 'string') return decodeURIComponent(s2);
-    if (t == 'number') return parseFloat(s2);
+    if (t == 'string') {
+      var result = decodeURIComponent(s2); 
+      console.log('string value='+result);
+      return result;
+    }
+    if (t == 'number') {
+      var result = parseFloat(s2);
+      console.log('number value='+result);
+      return result;
+    }
     if (t == 'json') {
       s2 = decodeURIComponent(s2);
-      //console.log('decoded value='+s2);
-      s2 = JSON.parse(s2);
-      console.log('parsed value='+s2);
-      return s2;
+      var result = JSON.parse(s2);
+      console.log('json value='+result);
+      return result;
     }
   } catch (err) {
     console.log('Unable to parse '+s+' ['+err+']');

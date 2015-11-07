@@ -38,6 +38,14 @@ body {
   font-size: 1em;
 }
 
+.edit-item-body {
+  border: solid 1px gray;
+  padding: 10px;
+  font-size: 1em;
+  height: 100px;
+  overflow: hidden;
+}
+
 .card {
   background: white;
   margin: 10px;
@@ -47,6 +55,10 @@ body {
 
 .edit-item-title {
   font-size: 1em;
+}
+
+table.fields td {
+  vertical-align: top;
 }
 
 .btn {

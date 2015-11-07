@@ -477,7 +477,7 @@ Awac.prototype.dialog = function(msg,ok,cancel,cb) {
 
 Awac.prototype.list = function(items,cb) {
   this.onlist = cb;
-  this.container.showList(this.stringify(items));
+  this.container.showList(JSON.stringify(items));
 };
 
 // set callbacks

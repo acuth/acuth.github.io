@@ -41,6 +41,10 @@
 			  else
 			    _itemId = 0;
 			 $('#item-title').html(_itemTitles[_itemId]);
+			 var colors = _awac.getColors();
+			 if (colors) {
+			    $('#item-title').css('color',colors.primary_dark);
+			 }
 			 
 			 var i = 0;
 			 for (var j=0;j<3;j++) {

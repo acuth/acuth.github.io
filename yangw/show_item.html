@@ -16,7 +16,14 @@
 			  else if ('edit' == action)
 			    _awac.openPage('edit','edit_item.html',{'item_id':_itemId});
 			  else if ('add' == action) {
-			     _awac.list('[{"label":"add post"},{"label":"add comment"}]',function(n) { _awac.alert('selected '+n); });
+			    var labels= ['add comment','add post','add event'];
+			    var items = new Array();
+			    for (var i=0;i<labels.length;i++) {
+			      var item = new Object();
+			      item.label = labels[i];
+			      items[i] = item;
+			    }
+			    _awac.list(items,function(n) { _awac.alert('selected '+n); });
 			  }
 			  else 
 			    _awac.alert('action '+action+' NYI');

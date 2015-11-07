@@ -49,14 +49,14 @@ body {
 
 			 var btn = $('#btn3');
 			 btn.click(function(event) {
-			   //console.log('show list');
-			   console.log('get colors');
-			   //_awac.list('[{"label":"acuth"},{"label":"sadia"}]',function(n) { _awac.alert('selected '+n); });
-			   var colors = _awac.getColors();
-			   _awac.alert('colors='+JSON.stringify(colors));
+			   console.log('show list');
+			   //console.log('get colors');
+			   _awac.list([{'label':'acuth'},{'label':'sadia'}],function(n) { _awac.alert('selected '+n); });
+			   //var colors = _awac.getColors();
+			   //_awac.alert('colors='+JSON.stringify(colors));
 			 });
-			 //btn.html('show list');
-			 btn.html('Get Colors');
+			 btn.html('Show List');
+			 //btn.html('Get Colors');
 			 
 			  _awac.startPage();
 			  //setTimeout(fixLayout,60);

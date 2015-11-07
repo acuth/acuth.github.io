@@ -26,7 +26,11 @@
 			    _itemId = initp.item_id;
 			  else
 			    _itemId = 0;
-			 $('#item-title').html(_itemTitles[_itemId]);
+			 $('#item-title').html(_itemTitles[_itemId]); 
+			 var colors = _awac.getColors();
+			 if (colors) {
+			    $('#item-title').css('color',colors.primary_dark);
+			 }
 			  
 			  _awac.setOnAction(onAction);
 			  _awac.setOnBackPressed(function() { onAction('back'); });

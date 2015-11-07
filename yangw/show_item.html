@@ -15,7 +15,10 @@
 			    _awac.replacePage('root','index2.html',null,false);
 			  else if ('edit' == action)
 			    _awac.openPage('edit','edit_item.html',{'item_id':_itemId});
-			  else
+			  else if ('add' == action) {
+			     _awac.list('[{"label":"add post"},{"label":"add comment"}]',function(n) { _awac.alert('selected '+n); });
+			  }
+			  else 
 			    _awac.alert('action '+action+' NYI');
 			}
 			
@@ -66,7 +69,9 @@
 			</script>
 	</head>
 	<body>
-     <div id="item-header"><div class="item-title" id="item-title">Getting to know Items and lots of other things as well</div></div>
+     <div id="item-header">
+       <div class="item-title" id="item-title">Getting to know Items and lots of other things as well</div>
+     </div>
      <div id="item-content">
        <div class="item-body">
      
@@ -80,24 +85,6 @@
 
 <p>Integer scelerisque lacinia vulputate. Aenean molestie ipsum neque, eget blandit urna vestibulum eu. Nunc nibh urna, posuere porttitor tortor auctor, ultricies elementum ante. Morbi elementum pulvinar condimentum. Quisque pretium, quam et posuere tempus, odio lacus sollicitudin dolor, in rhoncus purus eros eu ante. Ut iaculis dictum neque a faucibus. Suspendisse hendrerit nibh neque, a efficitur nisl semper in. Proin vulputate risus et feugiat bibendum. Vestibulum eu condimentum neque, a cursus risus. Curabitur tincidunt fermentum quam et vestibulum. Sed id velit mattis, malesuada tellus eget, convallis lacus. Nulla fringilla at massa nec consectetur. Suspendisse auctor eget mauris a hendrerit.</p>
 
-     
-     
-        </div>
-        
-          <div class="item-body">
-     
-     <p style="margin-top:0;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec condimentum, turpis et dignissim consectetur, magna metus porttitor neque, eget consectetur ex tortor at elit. Sed non convallis sapien. Duis mollis lectus pulvinar semper consectetur. Quisque dapibus, augue eget pretium finibus, libero est posuere dolor, eget varius magna risus at dolor. Quisque dapibus velit in purus ultricies, sit amet gravida orci vulputate. Praesent sem elit, ultrices ut lacinia vel, condimentum vel dui. Maecenas tincidunt magna lobortis ipsum dapibus aliquam. Praesent hendrerit, enim vel iaculis auctor, libero nulla imperdiet ipsum, sed faucibus dolor sem quis nunc. Fusce porttitor suscipit sem, sit amet luctus nibh finibus vel. Vivamus luctus massa ac lacus molestie dapibus. Sed varius ullamcorper mi, et posuere dolor dignissim id. Integer malesuada ex semper odio tempor laoreet.</p>
-
-<p>Cras commodo velit at sapien euismod, id viverra ligula iaculis. Cras vulputate non purus hendrerit faucibus. Cras convallis sodales ante sed ultrices. Curabitur ornare convallis nunc in maximus. Duis at justo id turpis commodo malesuada. Duis auctor rhoncus diam, non elementum nibh tristique at. Sed feugiat scelerisque viverra. Maecenas gravida finibus erat eu imperdiet. Donec vel mauris id massa laoreet euismod. Aliquam tempor leo a neque tristique, eget facilisis diam ornare. In at est quis enim tincidunt bibendum ac quis nisi. Sed lobortis volutpat molestie. Maecenas luctus congue augue at semper. Sed commodo lorem nec efficitur aliquet. Vestibulum ut elit augue. Integer blandit magna et bibendum ultrices.</p>
-
-<p>Sed felis erat, aliquam pulvinar pretium non, vestibulum sit amet eros. Ut id mi suscipit, interdum turpis eget, sollicitudin arcu. Nullam faucibus auctor ante nec faucibus. Donec semper nibh ut elit consectetur, sit amet sagittis orci semper. Praesent sodales lacus ut condimentum porttitor. Pellentesque neque urna, pharetra consectetur bibendum varius, posuere a sem. Ut neque nisl, scelerisque non accumsan id, condimentum vel felis. Maecenas rutrum tristique quam, nec condimentum arcu tincidunt in. Nam vel dignissim nisi. Aliquam egestas finibus mi, non condimentum massa ullamcorper nec. Morbi viverra ac mi at aliquam. Nulla sagittis dolor nec arcu sagittis, eu malesuada mi sagittis. In tristique neque eget justo fermentum ultrices.</p>
-
-<p>Suspendisse malesuada cursus dolor, a dictum dolor ultricies in. Suspendisse dui libero, tristique in justo eget, cursus cursus purus. Praesent dui arcu, porta in elit eget, euismod tristique quam. Cras sed ultricies mauris. Vivamus eu purus a ex hendrerit consequat a sit amet justo. Sed mattis lectus sit amet sem hendrerit venenatis. Proin porta interdum enim sit amet maximus.</p>
-
-<p>Integer scelerisque lacinia vulputate. Aenean molestie ipsum neque, eget blandit urna vestibulum eu. Nunc nibh urna, posuere porttitor tortor auctor, ultricies elementum ante. Morbi elementum pulvinar condimentum. Quisque pretium, quam et posuere tempus, odio lacus sollicitudin dolor, in rhoncus purus eros eu ante. Ut iaculis dictum neque a faucibus. Suspendisse hendrerit nibh neque, a efficitur nisl semper in. Proin vulputate risus et feugiat bibendum. Vestibulum eu condimentum neque, a cursus risus. Curabitur tincidunt fermentum quam et vestibulum. Sed id velit mattis, malesuada tellus eget, convallis lacus. Nulla fringilla at massa nec consectetur. Suspendisse auctor eget mauris a hendrerit.</p>
-
-     
-     
         </div>
      </div>
 	</body>

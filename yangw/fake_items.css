@@ -41,6 +41,11 @@ body {
   overflow: auto;
 }
 
+.img-circle {
+    width: 40px;
+    border-radius: 50%;
+}
+
 .item-body {
   border2: solid 1px gray;
   padding2: 10px;

@@ -11,7 +11,7 @@ body {
    color: #00695c;
 }
 
-#show-item-header, #edit-item-header {
+#edit-item-header {
    position: absolute;
    top: 0px;
    left:0px;

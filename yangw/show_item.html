@@ -23,7 +23,7 @@
 			      item.label = labels[i];
 			      items[i] = item;
 			    }
-			    _awac.list(items,function(n) { _awac.alert('selected '+n); });
+			    _awac.list(items,function(n) { if (n != -1) _awac.alert('selected '+n); });
 			  }
 			  else 
 			    _awac.alert('action '+action+' NYI');

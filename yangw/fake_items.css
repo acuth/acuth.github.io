@@ -39,10 +39,11 @@ body {
 }
 
 .edit-item-body {
-  border: solid 1px gray;
-  padding: 10px;
-  font-size: 1em;
+  border2: solid 1px gray;
+  padding: 0px;
+  font-size: 0.5em;
   height: 100px;
+  background: yellow;
   overflow: hidden;
 }
 
@@ -54,11 +55,39 @@ body {
 }
 
 .edit-item-title {
-  font-size: 1em;
+  font-size: 1.0em;
 }
 
-table.fields td {
-  vertical-align: top;
+table.fields {
+ width: 100%;
+}
+
+td.field-value {
+  padding-bottom: 10px;
+  border-bottom: solid 1px #b5b5b5;
+}
+
+td.unset {
+  color: gray;
+  font-style: italic;
+}
+
+.body-content {
+  height: 40px;
+  overflow: hidden;
+}
+
+
+tr.field td {
+  vertical-align: top;  
+}
+
+td.field-icon, td.field-del {
+  width: 36px;
+}
+
+td.field-icon i.material-icons, td.field-del i.material-icons { 
+  color: gray; 
 }
 
 .btn {

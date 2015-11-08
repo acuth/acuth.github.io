@@ -30,7 +30,8 @@
 			 $('#item-title').html(_itemTitles[_itemId]); 
 			 var colors = _awac.getColors();
 			 if (colors) {
-			    $('#item-title').css('background',colors.primary_dark).css('color',colors.text_primary);
+			    $('#item-header').css('background',colors.primary_dark);
+			    $('#item-title').css('color',colors.text_primary);
 			 }
 			  
 			  _awac.setOnAction(onAction);
@@ -44,7 +45,9 @@
 			</script>
 	</head>
 	<body>
-     <div id="item-header"><div class="item-title edit-item-title" id="item-title">Getting to know Items and lots of other things as well</div></div>
+     <div id="item-header">
+       <div class="item-title edit-item-title" id="item-title">Getting to know Items and lots of other things as well</div>
+     </div>
      <div id="item-content">
        <table class="fields">
          <tr class="field">

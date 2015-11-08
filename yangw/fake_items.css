@@ -4,21 +4,29 @@ body {
   padding: 0;
 }
 
-#item-header {
+#show-item-header, #edit-item-header {
    background3: #00695c;
    background2: #009688;
    background: white;
-   color2: white;
    color: #00695c;
+}
+
+#show-item-header, #edit-item-header {
    position: absolute;
    top: 0px;
    left:0px;
    width: 100%;
 }
 
-.item-title {
-  font-size: 140%;
+#show-item-header #item-title {
+  font-size: 1.4em;
   padding: 10px;
+}
+
+#edit-item-header #item-title {
+  margin-left: 40px;
+  padding: 10px;
+  font-size: 1.0em;
 }
 
 #item-content {
@@ -52,10 +60,7 @@ body {
   border: solid 1px #c5c5c5;
 }
 
-.edit-item-title {
-  margin-left: 40px;
-  font-size: 1.0em;
-}
+
 
 table.fields {
  width: 100%;

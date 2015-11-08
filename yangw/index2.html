@@ -40,7 +40,9 @@ body {
 			
 			$(document).ready(function() {
 			  _awac = new Awac('_awac');
-			  _awac.setOnAction(onAction);
+			  _awac.setOnAction(onAction);  
+			  _awac.addNavDrawerItem({'label':'logout','action':'logout'});
+			  _awac.unlockNavDrawer();
 			  //_awac.setOnBackPressed(onBackPressed);	 
 			  //_awac.setHomeItem({'label':'Back','icon':'arrow_back','action':'back'});
 			 for (var i=0;i<3;i++) {

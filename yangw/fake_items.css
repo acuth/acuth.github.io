@@ -63,8 +63,7 @@ table.fields {
 }
 
 td.field-value {
-  padding-top: 4px;
-  padding-bottom: 10px;
+  padding-bottom: 16px;
   border-bottom: solid 1px #b5b5b5;
 }
 
@@ -80,6 +79,7 @@ td.unset {
 
 
 tr.field td {
+  padding-top: 10px;
   vertical-align: top;  
 }
 

@@ -20,6 +20,16 @@
 			
 			var _itemId = -1;
 			
+			function fixEditLayout() {
+			  var header = $('#edit-item-header');
+			  var content = $('#edit-item-content');
+			  var top = header.height()+'px';
+			  var height = (_awac.getDims().height-header.height())+'px';
+			  console.log('top '+top);
+			  console.log('height '+height);
+			  content.show().css('top',top).css('height',height);
+			}
+			
 			$(document).ready(function() {
 			  _awac = new Awac('_awac'); 
 			  var initp = _awac.getInitParam();
@@ -42,7 +52,7 @@
 			  _awac.addActionBarItem({'label':'SAVE','action':'save'});
 			
 			  _awac.startPage();
-			  setTimeout(fixLayout,60);
+			  setTimeout(fixEditLayout,60);
 			});
 			</script>
 	</head>
@@ -50,7 +60,7 @@
      <div id="edit-item-header">
        <div id="item-title">-title-goes-here-</div>
      </div>
-     <div id="item-content">
+     <div id="edit-item-content">
        <table class="fields">
          <tr class="field">
            <td class="field-icon"><i class="material-icons">subject</i></td>

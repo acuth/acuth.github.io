@@ -68,7 +68,18 @@ body {
   border: solid 1px #c5c5c5;
 }
 
+.item-type {
+  padding: 2px;
+  width: 28px;
+  height: 28px;
+  border: solid 2px gray;
+  border-radius: 4px;
+  color: gray;
+}
 
+.item-type i.material-icons {
+  font-size: 28px;
+}
 
 table.fields {
  width: 100%;

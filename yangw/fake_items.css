@@ -24,7 +24,7 @@ body {
 }
 
 #edit-item-header #item-title {
-  margin-left: 40px;
+  margin-left2: 40px;
   padding: 10px;
   font-size: 1.4em;
 }
@@ -41,14 +41,14 @@ body {
   overflow: auto;
 }
 
-.edit-item-meta {
+.item-meta {
   padding-top: 20px;
   border-bottom: solid 1px gray;
   padding-bottom: 20px;
 }
 
 .img-circle {
-    width: 40px;
+    width: 36px;
     border-radius: 50%;
 }
 

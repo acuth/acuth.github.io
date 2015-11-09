@@ -41,6 +41,12 @@ body {
   overflow: auto;
 }
 
+.edit-item-meta {
+  padding-top: 20px;
+  border-bottom: solid 1px gray;
+  padding-bottom: 20px;
+}
+
 .img-circle {
     width: 40px;
     border-radius: 50%;
@@ -96,7 +102,7 @@ td.unset {
 }
 
 .body-content {
-  height: 160px;
+  height: 200px;
   overflow: hidden;
 }
 

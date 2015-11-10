@@ -52,6 +52,7 @@
 			  _awac.addActionBarItem({'label':'SAVE','action':'save'});
 			
 				FItem.get('home',function(fitem) { 
+				  $('#item-title').html(fitem.json.title);
 			    $('#edit-body-content').html(fitem.markdown);
 			    _awac.startPage();
 			    setTimeout(fixEditLayout,60);

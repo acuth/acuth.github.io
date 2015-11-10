@@ -51,8 +51,11 @@
 			  _awac.addActionBarItem({'label':'DELETE','action':'delete'}); 
 			  _awac.addActionBarItem({'label':'SAVE','action':'save'});
 			
-			  _awac.startPage();
-			  setTimeout(fixEditLayout,60);
+				FItem.get('home',function(fitem) { 
+			    $('#edit-body-content').html(fitem.markdown);
+			    _awac.startPage();
+			    setTimeout(fixEditLayout,60);
+				});
 			});
 			</script>
 	</head>
@@ -73,7 +76,7 @@
        <table class="fields">
          <tr class="field">
            <td class="field-icon"><i class="material-icons">subject</i></td>
-           <td class="field-value"><div class="body-content">
+           <td class="field-value"><div id="edit-body-content" class="body-content">
            Sed felis erat, aliquam pulvinar pretium non, vestibulum sit amet eros. Ut id mi suscipit, interdum turpis eget, sollicitudin arcu. Nullam faucibus auctor ante nec faucibus. Donec semper nibh ut elit consectetur, sit amet sagittis orci semper. Praesent sodales lacus ut condimentum porttitor. Pellentesque neque urna, pharetra consectetur bibendum varius, posuere a sem. Ut neque nisl, scelerisque non accumsan id, condimentum vel felis. Maecenas rutrum tristique quam, nec condimentum arcu tincidunt in. Nam vel dignissim nisi. Aliquam egestas finibus mi, non condimentum massa ullamcorper nec. Morbi viverra ac mi at aliquam. Nulla sagittis dolor nec arcu sagittis, eu malesuada mi sagittis. In tristique neque eget justo fermentum ultrices.
            </div></td>
            <td class="field-del"><i class="material-icons">highlight_off</i></td>

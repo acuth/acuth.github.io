@@ -44,18 +44,8 @@
 			   btn.html(_itemTitles[j]);
 			}
 			
-			
-			$(document).ready(function() {
-			  _awac = new Awac('_awac'); 
-			  var initp = _awac.getInitParam();
-			  if (initp) 
-			    _itemId = initp.item_id;
-			  else
-			    _itemId = 0;
-			    
-			 FItem.get('home',function(fitem) { 
-			   
-			   
+			function renderItem(fitem) {
+			  		   
 			 var converter = new showdown.Converter();
        var html = converter.makeHtml(fitem.markdown);
 			    
@@ -68,16 +58,17 @@
 			    $('#item-title').css('color',colors.primary_dark);
 			 }
 			 
-			 //var i = 0;
-			 //for (var j=0;j<3;j++) {
-			   //if (_itemId != j) {
-			     //addBtnClick(i,j);
-			     //i++;
-			   //}
-			 //}
-			 
-			 });   
-			 
+			 console.log('rendered item');
+			}
+			
+			$(document).ready(function() {
+			  _awac = new Awac('_awac'); 
+			  var initp = _awac.getInitParam();
+			  if (initp) 
+			    _itemId = initp.item_id;
+			  else
+			    _itemId = 0;
+			    
 			  _awac.setOnAction(onAction);
 			  _awac.unlockNavDrawer();
 			   
@@ -85,7 +76,11 @@
 			  _awac.addActionBarItem({'icon':'edit','label':'EDIT','action':'edit'});
 			  _awac.addActionBarItem({'icon':'add','label':'ADD','action':'add'});
 			  _awac.setOnBackPressed(function() { onAction('back'); });
-			  _awac.startPage();
+			  
+			  FItem.get('home',function(fitem) { 
+			    renderItem(fitem);
+			    _awac.startPage();
+			  });   
 			});
 			</script>
 	</head>

@@ -1,6 +1,6 @@
 Welcome
 
-This file is writtem in _markup_. That is good because:
+This file is writtem in _markdown_. That is good because:
 
  * I can have a list
  * if I want

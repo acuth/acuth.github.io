@@ -38,8 +38,12 @@
 			  console.log('about to get '+_itemId);
 				FItem.get(_itemId,function(fitem) {
 				  console.log('got the fitem');
-			    $('#edit-item-markdown').html(fitem.markdown);
-			    _awac.startPage();
+				  try {
+  			    $('#edit-item-markdown').val(fitem.markdown);
+				  } catch (err) {
+				    console.log('got err='+err);
+				  }
+	  		  _awac.startPage();
 				});
 			});
 			</script>

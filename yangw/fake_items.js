@@ -19,6 +19,7 @@ function ajax(url,cb) {
 function FItem(name,json,markdown) {
   this.name = name;
   this.json = JSON.parse(json);
+  if (markdown) markdown = markdown.trim();
   this.markdown = markdown;
 }
 

@@ -1,6 +1,14 @@
-Back to [[home]].
 
-This page is written using _markdown_. That is good because:
+
+This page is written using markdown. That is good because you don't need to learn HTML.
+
+For example you can easily add an external link to [Google](https://www.google.com/).
+
+I start my morning with a cup of coffee and [The New York Times][NY Times].
+
+Using YANGW syntax I can include an internal link to [[home]] - notice there is no funny little icon after it
+
+![Seaplane image](seaplane.jpg "should say something about a seaplane")
 
 ## Paragraphs
 
@@ -17,14 +25,7 @@ I strongly recommend against using any `<blink>` tags.
 I wish SmartyPants used named entities like `&mdash;`
 instead of decimal-encoded entites like `&#8212;`.
 
-## Links
 
-This is a link to [Google](https://www.google.com/).
-
-I start my morning with a cup of coffee and
-[The New York Times][NY Times].
-
-[ny times]: http://www.nytimes.com/
 
 Not sure how it handles a simple link to [[http://www.google.com/]]
 
@@ -85,3 +86,6 @@ Some of these words _are emphasized also_.
 
 Use two asterisks for **strong emphasis**.
 Or, if you prefer, __use two underscores instead__.
+
+
+[ny times]: http://www.nytimes.com/

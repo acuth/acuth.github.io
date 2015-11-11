@@ -42,7 +42,25 @@ FItem.get=function(name,cb) {
     });
 };
 
-//FItem.get('home',function(fitem) {
-//  console.log('Found '+fitem);
-//});
+
+FItem.prototype.addLink=function(html,pageName,pageTitle) {
+  var link = '[['+pageName+']]';
+  var i = html.indexOf(link);
+  if (i != -1) html = html.replace(link,'<a href="javascript:showPage(\''+pageName+'\');">'+pageTitle+'</a>');
+  return html;
+};
+  
+FItem.prototype.addLinks=function(html) {
+  if (!html) return null;
+  html = this.addLink(html,'markdown','What is Markdown?');  
+  html = this.addLink(html,'home','Welcome to Yangw');
+  return html;
+};
+
+FItem.prototype.getHTML=function() {
+   var converter = new showdown.Converter();
+   var html = converter.makeHtml(this.markdown);
+   html = this.addLinks(html);
+   return html;
+};
               

@@ -3,6 +3,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" />
 		<link type="text/css" rel="stylesheet" href="fake_items.css" />	
 		<style type="text/css">
 		
@@ -50,21 +51,8 @@ div#show-item-header {
 			    _awac.alert('action '+action+' NYI');
 			}
 			
-			function renderItem(fitem) {
-			 var converter = new showdown.Converter();
-       var html = converter.makeHtml(fitem.markdown);
-			    
-			 $('#item-title').html(fitem.json.title);
-			 $('#item-author-icon').html('<image class="img-circle" src="'+fitem.json.authors[0]+'.jpg" />');
-			 $('#item-author-name').html(fitem.json.authors[0]);
-			 $('#item-markdown').html(html);
-			 
-			 var colors = _awac.getColors();
-			 if (colors) {
-			    $('#item-title').css('color',colors.primary_dark);
-			 }
-			 
-			 console.log('rendered item');
+			function showPage(name) {
+			   _awac.replacePage('show','show_item.html',{'item_id':name},true);
 			}
 			
 			$(document).ready(function() {
@@ -75,18 +63,25 @@ div#show-item-header {
 			  else
 			    _itemId = 'home';
 			    
-			 console.log('item-id='+_itemId);
+			  console.log('item-id='+_itemId);
+			 
+			  var colors = _awac.getColors();
+			  if (colors) $('#item-title').css('color',colors.primary_dark);
 			    
 			  _awac.setOnAction(onAction);
 			  _awac.unlockNavDrawer();
 			   
 			  //_awac.setHomeItem({'label':'Back','icon':'arrow_back','action':'back'});
-			  _awac.addActionBarItem({'icon':'edit','label':'EDIT','action':'edit'});
 			  _awac.addActionBarItem({'icon':'add','label':'ADD','action':'add'});
+			  _awac.addActionBarItem({'icon':'edit','label':'EDIT','action':'edit'});
+			  
 			  _awac.setOnBackPressed(function() { onAction('back'); });
 			  
 			  FItem.get(_itemId,function(fitem) { 
-			    renderItem(fitem);
+			    $('#item-title').html(fitem.json.title);
+			    $('#item-author-icon').html('<image class="img-circle" src="'+fitem.json.authors[0]+'.jpg" />');
+			    $('#item-author-name').html(fitem.json.authors[0]);
+			    $('#item-markdown').html(fitem.getHTML());
 			    _awac.startPage();
 			  });   
 			});
@@ -98,7 +93,7 @@ div#show-item-header {
      </div>
      <div id="show-item-content">
         <table><tr>
-         <td><div class="item-type" style="font-size:28px;">W</div></td>
+         <td><div class="item-type"><div class="text-icons">W</div></div></td>
          <!--td><div class="item-type"><i class="material-icons">dashboard</i></div></td-->
          <td id="item-author-icon">-author-icon-goes-here-</td>
          <td style="color:gray">@<span id="item-author-name">-author-name-goes-here-</span><br/>Nov 5, 2015</td>

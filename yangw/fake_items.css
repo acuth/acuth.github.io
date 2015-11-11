@@ -84,7 +84,13 @@ body {
 }
 
 .item-type i.material-icons {
-  font-size: 28px;
+  font-size: 26px;
+}
+
+.item-type div.text-icons {
+   font-size: 26px;
+   text-align: center;
+   font-family: "Raleway";
 }
 
 table.fields {

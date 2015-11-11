@@ -46,13 +46,11 @@
 			    $('#item-title').css('color',colors.text_primary);
 			 }
 			  
-			
-			  
 			  _awac.setOnAction(onAction);
 			  _awac.setOnBackPressed(function() { onAction('back'); });
 			  _awac.setHomeItem({'label':'Back','icon':'close','action':'back'});
 			
-			  _awac.addActionBarItem({'label':'DELETE','action':'delete'}); 
+			  //_awac.addActionBarItem({'label':'DELETE','action':'delete'}); 
 			  _awac.addActionBarItem({'label':'SAVE','action':'save'});
 			
 				FItem.get(_itemId,function(fitem) { 

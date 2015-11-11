@@ -1,3 +1,5 @@
+Back to [[home]].
+
 This page is written using _markdown_. That is good because:
 
 ## Paragraphs

@@ -12,12 +12,10 @@ img {
 }
 
 div#show-item-content {
-  background: yellow;
   width: 100%;
 }
 
 div#show-item-header {
-  background: yellow;
   width: 100%;
 }
 		</style>
@@ -82,7 +80,7 @@ div#show-item-header {
 			  if (initp) 
 			    _itemId = initp.item_id;
 			  else
-			    _itemId = 0;
+			    _itemId = 'home';
 			    
 			  _awac.setOnAction(onAction);
 			  _awac.unlockNavDrawer();
@@ -92,7 +90,7 @@ div#show-item-header {
 			  _awac.addActionBarItem({'icon':'add','label':'ADD','action':'add'});
 			  _awac.setOnBackPressed(function() { onAction('back'); });
 			  
-			  FItem.get('home',function(fitem) { 
+			  FItem.get(_itemId,function(fitem) { 
 			    renderItem(fitem);
 			    _awac.startPage();
 			  });   
@@ -102,8 +100,6 @@ div#show-item-header {
 	<body>
      <div id="show-item-header">
        <div id="item-title">-title-goes-here-</div>
-       <p>What happens if I puy a load of content here - will it get outside the page?
-       This is what I need to know and need to know it now.</p>
      </div>
      <div id="show-item-content">
         <table><tr>

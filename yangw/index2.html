@@ -29,13 +29,13 @@ body {
 			  content.show().css('top',top).css('height',height);
 			}
 			
-			function addBtnClick(i) {
+			function addBtnClick(i,name) {
 			   var btn = $('#btn'+i);
 			   btn.click(function(event) {
-			     console.log('show item '+_itemTitles[i]);
-			     _awac.replacePage('show','show_item.html',{'item_id':i},true);
+			     console.log('show item '+name);
+			     _awac.replacePage('show','show_item.html',{'item_id':name},true);
 			   });
-			   btn.html(_itemTitles[i]);
+			   btn.html(name);
 			}
 			
 			$(document).ready(function() {
@@ -43,23 +43,10 @@ body {
 			  _awac.setOnAction(onAction);  
 			  _awac.addNavDrawerItem({'label':'logout','action':'logout'});
 			  _awac.unlockNavDrawer();
-			  //_awac.setOnBackPressed(onBackPressed);	 
-			  //_awac.setHomeItem({'label':'Back','icon':'arrow_back','action':'back'});
-			 for (var i=0;i<3;i++) {
-			   addBtnClick(i);
-			 } 
+			
+			  addBtnClick(0,'home');
+			  addBtnClick(1,'markdown'); 
 
-			 var btn = $('#btn3');
-			 btn.click(function(event) {
-			   console.log('show list');
-			   //console.log('get colors');
-			   _awac.list([{'label':'acuth'},{'label':'sadia'}],function(n) { _awac.alert('selected '+n); });
-			   //var colors = _awac.getColors();
-			   //_awac.alert('colors='+JSON.stringify(colors));
-			 });
-			 btn.html('Show List');
-			 //btn.html('Get Colors');
-			 
 			  _awac.startPage();
 			  //setTimeout(fixLayout,60);
 			});
@@ -67,10 +54,8 @@ body {
 	</head>
 	<body>
      <div>
-        <div class="card"><a id="btn3"></a></div>
         <div class="card"><a id="btn0"></a></div>
         <div class="card"><a id="btn1"></a></div>
-        <div class="card"><a id="btn2"></a></div>
      </div>
 	</body>
 </html>

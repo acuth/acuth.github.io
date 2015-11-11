@@ -39,9 +39,9 @@
 				FItem.get(_itemId,function(fitem) {
 				  console.log('got the fitem');
 				  try {
-				    console.log(fitem.markdown);
-  			    $('#edit-item-markdown').val(fitem.markdown);
-  			    console.log('set val()');
+				    //console.log(fitem.markdown);
+  			    $('#edit-item-markdown').text(fitem.markdown);
+  			    console.log('set text()');
 				  } catch (err) {
 				    console.log('got err='+err);
 				  }

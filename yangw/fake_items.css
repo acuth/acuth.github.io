@@ -11,6 +11,22 @@ body {
    color: #00695c;
 }
 
+		
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+div#show-item-content {
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div#show-item-header {
+  width: 100%;
+}
+
 #edit-item-header {
    position: absolute;
    top: 0px;

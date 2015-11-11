@@ -1,14 +1,11 @@
 
 
 This page is written using markdown. That is good because you don't need to learn HTML.
+For example you can easily add an external link to [Google](https://www.google.com/) - notice the funny
+little ![external link icon](http://upload.wikimedia.org/wikipedia/commons/6/64/Icon_External_Link.png)?
+But you can also use a YANGW syntax to specify an internal link to another page such as [[home]] - notice there is no funny little icon after it.
 
-For example you can easily add an external link to [Google](https://www.google.com/).
-
-I start my morning with a cup of coffee and [The New York Times][NY Times].
-
-Using YANGW syntax I can include an internal link to [[home]] - notice there is no funny little icon after it
-
-![Seaplane image](seaplane.jpg "should say something about a seaplane")
+![MD image](lovemarkdown.png)
 
 ## Paragraphs
 

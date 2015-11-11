@@ -14,6 +14,8 @@
 			function onAction(action) {
 			  if ('back' == action) 
 			    _awac.endPage();
+			  else if ('edit-markup' == action) 
+			    _awac.openPage('edit-markup','edit_markdown.html',{'item_id':_itemId});
 			  else 
 			    _awac.alert('action '+action+' NYI');
 			}
@@ -58,6 +60,7 @@
 				  $('#item-author-icon').html('<image class="img-circle" src="'+fitem.json.authors[0]+'.jpg" />');
 			    $('#item-author-name').html(fitem.json.authors[0]);
 			    $('#edit-body-content').html(fitem.markdown);
+			    $('#edit-body-content').click(function(event) { onAction('edit-markup'); });
 			    _awac.startPage();
 			    setTimeout(fixEditLayout,60);
 				});
@@ -81,9 +84,7 @@
        <table class="fields">
          <tr class="field">
            <td class="field-icon"><i class="material-icons">subject</i></td>
-           <td class="field-value"><div id="edit-body-content" class="body-content">
-           Sed felis erat, aliquam pulvinar pretium non, vestibulum sit amet eros. Ut id mi suscipit, interdum turpis eget, sollicitudin arcu. Nullam faucibus auctor ante nec faucibus. Donec semper nibh ut elit consectetur, sit amet sagittis orci semper. Praesent sodales lacus ut condimentum porttitor. Pellentesque neque urna, pharetra consectetur bibendum varius, posuere a sem. Ut neque nisl, scelerisque non accumsan id, condimentum vel felis. Maecenas rutrum tristique quam, nec condimentum arcu tincidunt in. Nam vel dignissim nisi. Aliquam egestas finibus mi, non condimentum massa ullamcorper nec. Morbi viverra ac mi at aliquam. Nulla sagittis dolor nec arcu sagittis, eu malesuada mi sagittis. In tristique neque eget justo fermentum ultrices.
-           </div></td>
+           <td class="field-value"><div id="edit-body-content" class="body-content">-item-markup-goes-here-</div></td>
            <td class="field-del"><i class="material-icons">highlight_off</i></td>
         </tr>   
         

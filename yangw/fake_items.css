@@ -138,6 +138,10 @@ a[href^="http://"]:after, a[href^="https://"]:after {
   overflow: hidden;
 }
 
+textarea#edit-item-markdown {
+  width: 100%;
+  height: 500px;
+}
 
 tr.field td {
   padding-top: 10px;

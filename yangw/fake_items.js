@@ -52,8 +52,10 @@ FItem.prototype.addLink=function(html,pageName,pageTitle) {
   
 FItem.prototype.addLinks=function(html) {
   if (!html) return null;
-  html = this.addLink(html,'markdown','What is Markdown?');  
-  html = this.addLink(html,'home','Welcome to Yangw');
+  for (var i=0;i<this.json.links.length;i++) {
+    var link = this.json.links[i];
+    html = this.addLink(html,link.name,link.title);  
+  }
   return html;
 };
 

@@ -32,7 +32,7 @@ div#show-item-header {
 			
 			function onAction(action) {
 			  if ('back' == action)
-			    _awac.replacePage('root','index2.html',null,false);
+			    showPrevPage();
 			  else if ('edit' == action) {
 			    console.log('edit '+_itemId);
 			    _awac.openPage('edit','edit_item.html',{'item_id':_itemId});
@@ -51,8 +51,17 @@ div#show-item-header {
 			    _awac.alert('action '+action+' NYI');
 			}
 			
-			function showPage(name) {
-			   _awac.replacePage('show','show_item.html',{'item_id':name},true);
+			function showNextPage(name) {
+			  FItem.historyPush(_awac,name);
+			  _awac.replacePage('show','show_item.html',{'item_id':name},true);
+			}
+			
+			function showPrevPage() {
+			   var name = FItem.historyPop(_awac);
+			   if (name) 
+			     _awac.replacePage('show','show_item.html',{'item_id':name},false);
+			   else
+  			   _awac.replacePage('root','index2.html',null,false);
 			}
 			
 			$(document).ready(function() {
@@ -99,7 +108,7 @@ div#show-item-header {
          <td style="color:gray">@<span id="item-author-name">-author-name-goes-here-</span><br/>Nov 5, 2015</td>
        </tr></table>
        <div id="item-markdown">-item-markup-goes-here-</div>
-       <a href="javascript:onAction('edit');">EDIT</a>
+       <a href="javascript:onAction('edit');">EDIT</a> |  <a href="javascript:onAction('back');">BACK</a>
      </div>
 	</body>
 </html>

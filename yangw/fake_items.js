@@ -42,11 +42,34 @@ FItem.get=function(name,cb) {
     });
 };
 
+FItem.historyPush=function(awac,name){
+  var history = awac.get('history');
+  if (!history) {
+	  history = {};
+	  history.n = -1;
+		history.names = [];
+	}
+	history.n += 1;
+	history.names[history.n]=name;  
+	awac.set('history',history);
+	console.log('history='+JSON.stringify(history));
+};
+
+FItem.historyPop=function(awac){
+  var history = awac.get('history');
+	if (history) {
+	  history.n -= 1;
+		awac.set('history',history);
+		console.log('history='+JSON.stringify(history));
+		if (history.n >= 0) return history.names[history.n];
+	}
+	return null;
+};
 
 FItem.prototype.addLink=function(html,pageName,pageTitle) {
   var link = '[['+pageName+']]';
   var i = html.indexOf(link);
-  if (i != -1) html = html.replace(link,'<a href="javascript:showPage(\''+pageName+'\');">'+pageTitle+'</a>');
+  if (i != -1) html = html.replace(link,'<a href="javascript:showNextPage(\''+pageName+'\');">'+pageTitle+'</a>');
   return html;
 };
   

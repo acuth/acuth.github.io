@@ -33,6 +33,7 @@ body {
 			   var btn = $('#btn'+i);
 			   btn.click(function(event) {
 			     console.log('show item '+name);
+			     FItem.historyPush(_awac,name);
 			     _awac.replacePage('show','show_item.html',{'item_id':name},true);
 			   });
 			   btn.html(name);

@@ -47,7 +47,7 @@
 				  console.log('got the fitem');
 				  try {
 				    //console.log(fitem.markdown);
-  			    $('#edit-item-markdown').text(fitem.markdown);
+  			    $('#edit-item-markdown').text(fitem.markdown).focus();
   			    console.log('set text()');
 				  } catch (err) {
 				    console.log('got err='+err);

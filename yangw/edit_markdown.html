@@ -24,7 +24,7 @@
 			  var content = $('#edit-item-markdown');
 			  var height = _awac.getDims().height+'px';
 			  console.log('height '+height);
-			  content.show().css('height',height);
+			  content.show().css('height',height).focus();
 			}
 			
 			$(document).ready(function() {
@@ -47,7 +47,7 @@
 				  console.log('got the fitem');
 				  try {
 				    //console.log(fitem.markdown);
-  			    $('#edit-item-markdown').text(fitem.markdown).focus();
+  			    $('#edit-item-markdown').text(fitem.markdown);
   			    console.log('set text()');
 				  } catch (err) {
 				    console.log('got err='+err);

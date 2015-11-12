@@ -20,11 +20,31 @@
 			
 			var _itemId = -1;
 			
+			
+			
+new function($) {
+  $.fn.setCursorPosition = function(pos) {
+    console.log('set cursor position '+pos);
+    if (this.setSelectionRange) {
+      this.setSelectionRange(pos, pos);
+    } else if (this.createTextRange) {
+      var range = this.createTextRange();
+      range.collapse(true);
+      if(pos < 0) {
+        pos = $(this).val().length + pos;
+      }
+      range.moveEnd('character', pos);
+      range.moveStart('character', pos);
+      range.select();
+    }
+  }
+}(jQuery);
+
 			function fixEditLayout() {
 			  var content = $('#edit-item-markdown');
 			  var height = _awac.getDims().height+'px';
 			  console.log('height '+height);
-			  content.show().css('height',height).focus();
+			  content.show().css('height',height).focus().setCursorPosition(0);
 			}
 			
 			$(document).ready(function() {

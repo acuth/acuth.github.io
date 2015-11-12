@@ -20,6 +20,13 @@
 			
 			var _itemId = -1;
 			
+			function fixEditLayout() {
+			  var content = $('#edit-item-markdown');
+			  var height = _awac.getDims().height+'px';
+			  console.log('height '+height);
+			  content.show().css('height',height);
+			}
+			
 			$(document).ready(function() {
 			  _awac = new Awac('_awac'); 
 			  var initp = _awac.getInitParam();
@@ -47,6 +54,7 @@
 				  }
 				  console.log('starting page');
 	  		  _awac.startPage();
+	  		  setTimeout(fixEditLayout,60);
 				});
 			});
 			</script>

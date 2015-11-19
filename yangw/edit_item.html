@@ -59,7 +59,8 @@
 				  $('#item-title').html(fitem.json.title);
 				  $('#item-author-icon').html('<image class="img-circle" src="'+fitem.json.authors[0]+'.jpg" />');
 			    $('#item-author-name').html(fitem.json.authors[0]);
-			    $('#edit-body-content').text(fitem.markdown).click(function(event) { onAction('edit-markup'); });//.attr('disabled','disabled');
+			    $('#edit-body-content').text(fitem.markdown).prop('disabled', true); 
+			    //.click(function(event) { onAction('edit-markup'); });//.attr('disabled','disabled');
 			    _awac.startPage();
 			    setTimeout(fixEditLayout,60);
 				});

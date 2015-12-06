@@ -22,10 +22,6 @@ div#show-item-content {
   margin-right: auto;
 }
 
-div#show-item-header {
-  width: 100%;
-}
-
 #edit-item-header {
    position: absolute;
    top: 0px;
@@ -33,9 +29,11 @@ div#show-item-header {
    width: 100%;
 }
 
-#show-item-header #item-title {
+#item-title {
   font-size: 1.4em;
   padding: 10px;
+  width: 100%; 
+  color: #00695c;
 }
 
 #edit-item-header #item-title {
@@ -107,6 +105,38 @@ div#show-item-header {
    text-align: center;
    font-family: "Raleway";
 }
+
+.img-container{
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background: blue;
+}
+
+.img-container img {
+  width: 100%;
+  height: auto;
+}
+
+@supports(object-fit: cover) {
+    .img-container img {
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+    }
+}
+
+.img-container div.img-title {
+  width: 100%;
+  position: absolute;
+  font-size: 1.4em;
+  padding: 10px;
+  bottom: 0px;
+  color: white;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+
 
 table.fields {
  width: 100%;

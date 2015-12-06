@@ -84,9 +84,20 @@
 			  _awac.setOnBackPressed(function() { onAction('back'); });
 			  
 			  FItem.get(_itemId,function(fitem) { 
-			    $('#item-title').html(fitem.json.name_attr);
+			    var iname = 'subject';
+			    if (fitem.json.item_type_name == 'User') iname = 'person';
+			    else if (fitem.json.item_type_name == 'Tag') iname = 'label';
+			    $('#show-item-type').html('<i class="material-icons">'+iname+'</i>');
+			    
 			    var a = fitem.getUserHTML(fitem.json.author,true);
 			    $('#item-author').html(a);
+			    if (fitem.json.image_url) {
+			      $('#item-title-div').html('<div class="img-container"><img src="'+fitem.json.image_url+'"/>'+
+			              '<div class="img-title">'+fitem.json.name_attr+'</div></div>');
+			    }
+			    else {
+			      $('#item-title-div').html('<div id="item-title">'+fitem.json.name_attr+'</div>');
+			    }
 			    $('#show-item-markdown').html(fitem.getHTML());
 			    _awac.startPage();
 			  });   
@@ -94,13 +105,11 @@
 			</script>
 	</head>
 	<body>
-     <div id="show-item-header">
-       <div id="item-title">-title-goes-here-</div>
-     </div>
+	   <div id="item-title-div">=title-goes-here-</div>
      <div id="show-item-content">
        <table id="show-item-meta">
          <tr>
-           <td><div class="item-type"><div class="text-icons">W</div></div></td>
+           <td><div id="show-item-type" class="item-type">?</div></td>
            <!--td><div class="item-type"><i class="material-icons">dashboard</i></div></td-->
            <td id="item-author">-author-details-go-here-</td>
          </tr>

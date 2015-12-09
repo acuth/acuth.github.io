@@ -118,6 +118,14 @@ FItem.prototype.addLink=function(html,pageName,pageTitle) {
   return html;
 };
 
+FItem.prototype.getMDIcon=function() {
+  var iname = 'subject';
+	if (this.json.item_type_name == 'User') iname = 'person';
+	else if (this.json.item_type_name == 'Tag') iname = 'label';
+	return iname;
+};
+
+
 FItem.prototype.getUserHTML=function(user,readOnly) {
   if (!user) return '';
   var link = (new AttrLink()).setAttrType('user-link').setImageURL(user.image_url).setLeft(user.name_attr,'showNextPage(\''+user.wiki_name+'\')');

@@ -84,11 +84,7 @@
 			  _awac.setOnBackPressed(function() { onAction('back'); });
 			  
 			  FItem.get(_itemId,function(fitem) { 
-			    var iname = 'subject';
-			    if (fitem.json.item_type_name == 'User') iname = 'person';
-			    else if (fitem.json.item_type_name == 'Tag') iname = 'label';
-			   
-			    
+			    var iname = fitem.getMDIcon();
 			    var a = fitem.getUserHTML(fitem.json.author,true);
 			    $('#item-author').html(a);
 			    if (fitem.json.image_url) {

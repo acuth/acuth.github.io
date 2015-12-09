@@ -87,15 +87,20 @@
 			    var iname = 'subject';
 			    if (fitem.json.item_type_name == 'User') iname = 'person';
 			    else if (fitem.json.item_type_name == 'Tag') iname = 'label';
-			    $('#show-item-type').html('<i class="material-icons">'+iname+'</i>');
+			   
 			    
 			    var a = fitem.getUserHTML(fitem.json.author,true);
 			    $('#item-author').html(a);
 			    if (fitem.json.image_url) {
-			      $('#item-title-div').html('<div class="img-container"><img src="'+fitem.json.image_url+'"/>'+
-			              '<div class="img-title">'+fitem.json.name_attr+'</div></div>');
+			      $('#item-title-div').html(
+			        '<div class="img-container"><img src="'+fitem.json.image_url+'"/>'+
+			              '<div class="top"><div class="item-type-inner"><div class="item-type"><i class="material-icons">'+iname+'</i></div></div></div>'+
+			              '<div class="img-title"><div class="img-title-inner">'+fitem.json.name_attr+'</div></div>'+
+			        '</div>');
+			        $('#show-item-type').remove();
 			    }
 			    else {
+			      $('#show-item-type').html('<i class="material-icons">'+iname+'</i>');
 			      $('#item-title-div').html('<div id="item-title">'+fitem.json.name_attr+'</div>');
 			    }
 			    $('#show-item-markdown').html(fitem.getHTML());
@@ -110,7 +115,6 @@
        <table id="show-item-meta">
          <tr>
            <td><div id="show-item-type" class="item-type">?</div></td>
-           <!--td><div class="item-type"><i class="material-icons">dashboard</i></div></td-->
            <td id="item-author">-author-details-go-here-</td>
          </tr>
        </table>

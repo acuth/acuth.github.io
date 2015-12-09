@@ -42,9 +42,6 @@ div#show-item-content {
   font-size: 1.4em;
 }
 
-#show-item-content {
-}
-
 #edit-item-content {
   position: absolute;
   top: 100px;
@@ -100,11 +97,6 @@ div#show-item-content {
   font-size: 26px;
 }
 
-.item-type div.text-icons {
-   font-size: 26px;
-   text-align: center;
-   font-family: "Raleway";
-}
 
 .img-container{
   position: relative;
@@ -130,13 +122,31 @@ div#show-item-content {
   width: 100%;
   position: absolute;
   font-size: 1.4em;
-  padding: 10px;
   bottom: 0px;
   color: white;
   background: rgba(0, 0, 0, 0.3);
 }
 
+.img-container div.top {
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  background2: rgba(255, 0, 0, 0.3);
+}
 
+.img-title-inner, .item-type-inner {
+  padding: 10px;
+}
+
+.img-container .item-type {
+  border-color: white;
+  box-shadow: 2px 2px 8px black; 
+}
+
+.img-container .material-icons {
+  color: white;
+  text-shadow: 2px 2px 8px black;
+}
 
 table.fields {
  width: 100%;

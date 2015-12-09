@@ -18,11 +18,17 @@ function ajax(url,cb) {
 
 
 function AttrLink() {
+  this.background = null;
   this.imageUrl = null;
   this.attrType = null;
   this.left = null;
   this.right = null;
 }
+
+AttrLink.prototype.setBackground=function(background) {
+  this.background = background;
+  return this;
+};
 
 AttrLink.prototype.setAttrType=function(attrType) {
   this.attrType = attrType;
@@ -51,7 +57,9 @@ AttrLink.prototype.setRight=function(label,action) {
 AttrLink.prototype.render=function() {
   var s = '<span class="attr-link';
   if (this.attrType) s += ' '+this.attrType;
-  s += '">';
+  s += '"';
+  if (this.background) s += ' style="background:'+this.background+';"';
+  s += '>';
   if (this.imageUrl) s+= '<img src="'+this.imageUrl+'" />';
   if (this.left) s += '<a class="left" href="javascript:'+this.left.action+';">'+this.left.label+'</a>';
   if (this.right) s += '<a class="right" href="javascript:'+this.right.action+';">'+this.right.label+'</a>';
@@ -113,7 +121,7 @@ FItem.prototype.addLink=function(html,pageName,pageTitle) {
 FItem.prototype.getUserHTML=function(user,readOnly) {
   if (!user) return '';
   var link = (new AttrLink()).setAttrType('user-link').setImageURL(user.image_url).setLeft(user.name_attr,'showNextPage(\''+user.wiki_name+'\')');
-  if (!readOnly) link.setRight('+','showOptions(\'user\')');
+  if (!readOnly) link.setRight('+','showOptions(\'user\')'); else link.setBackground('white');
   return link.render();
 };
   

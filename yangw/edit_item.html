@@ -56,10 +56,12 @@
 			  _awac.addActionBarItem({'label':'SAVE','action':'save'});
 			
 				FItem.get(_itemId,function(fitem) { 
-				  $('#item-title').html(fitem.json.title);
-				  $('#item-author-icon').html('<image class="img-circle" src="'+fitem.json.authors[0]+'.jpg" />');
-			    $('#item-author-name').html(fitem.json.authors[0]);
-			    $('#edit-body-content').text(fitem.markdown).prop('readonly', true).click(function(event) { onAction('edit-markup'); });
+				  var a = fitem.getUserHTML(fitem.json.author,true);
+			    $('#item-author').html(a);
+				  $('#item-title').html(fitem.json.name_attr);
+				  //$('#item-author-icon').html('<image class="img-circle" src="'+fitem.json.author+'.jpg" />');
+			    $('#item-author-name').html(fitem.json.author.name_attr);
+			    $('#edit-body-content').text(fitem.json.markdown).prop('readonly', true).click(function(event) { onAction('edit-markup'); });
 			    _awac.startPage();
 			    setTimeout(fixEditLayout,60);
 				});
@@ -75,8 +77,7 @@
         <table><tr>
          <!--td><div class="item-type"><i class="material-icons">dashboard</i></div></td-->
          <td><div class="item-type" style="font-size:28px;">W</div></td>
-         <td><div id="item-author-icon">-author-icon-goes-here-</div></td>
-         <td style="color:gray">@<span id="item-author-name">-author-name-goes-here-</span><br/>Nov 5, 2015</td>
+         <td id="item-author">-author-details-go-here-</td>
        </tr></table>
        </div>
        

@@ -53,7 +53,7 @@ new function($) {
 			  if (initp) 
 			    _itemId = initp.item_id;
 			  else
-			    _itemId = 'home';
+			    _itemId = 'HomePage';
 			    
 			 console.log('item-id='+_itemId);
 			    
@@ -67,7 +67,7 @@ new function($) {
 				  console.log('got the fitem');
 				  try {
 				    //console.log(fitem.markdown);
-  			    $('#edit-item-markdown').text(fitem.markdown);
+  			    $('#edit-item-markdown').text(fitem.json.markdown);
   			    console.log('set text()');
 				  } catch (err) {
 				    console.log('got err='+err);

@@ -58,9 +58,9 @@
 				FItem.get(_itemId,function(fitem) { 
 				  var iname = fitem.getMDIcon();
 				  var a = fitem.getUserHTML(fitem.json.author,true);
-			    $('#item-author').html(a);
-				  $('#item-title').html(fitem.json.name_attr);
-				  $('#show-item-type').html('<i class="material-icons">'+iname+'</i>');
+			    //$('#item-author').html(a);
+			    $('#item-title-div').html('<div id="item-title">'+fitem.json.name_attr+'</div>');
+				  //$('#show-item-type').html('<i class="material-icons">'+iname+'</i>');
 			    $('#edit-body-content').text(fitem.json.markdown).prop('readonly', true);
 			    $('#edit-body-content-control').click(function(event) { onAction('edit-markup'); }); 
 			    _awac.startPage();
@@ -70,16 +70,14 @@
 			</script>
 	</head>
 	<body>
-     <div id="edit-item-header">
-       <div id="item-title">-title-goes-here-</div>
-     </div>
+     <div id="item-title-div">-title-goes-here-</div>
      <div id="edit-item-content">
-      <div class="item-meta">
+      <!--div class="item-meta">
         <table><tr>
          <td><div id="show-item-type" class="item-type">?</div></td>
          <td id="item-author">-author-details-go-here-</td>
        </tr></table>
-       </div>
+       </div-->
        
        <table class="fields">
          <tr class="field">

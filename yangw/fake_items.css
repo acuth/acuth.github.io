@@ -32,14 +32,8 @@ div#show-item-content {
 #item-title {
   font-size: 1.4em;
   padding: 10px;
-  width: 100%; 
+  width: 90%; 
   color: #00695c;
-}
-
-#edit-item-header #item-title {
-  margin-left2: 40px;
-  padding: 10px;
-  font-size: 1.4em;
 }
 
 #edit-item-content {
@@ -81,7 +75,7 @@ div#show-item-content {
   background: white;
   margin: 10px;
   padding: 10px;
-  border: solid 1px #c5c5c5;
+  border2: solid 1px #c5c5c5;
 }
 
 .item-type {
@@ -231,6 +225,10 @@ textarea#edit-body-content {
   height: 200px;
 }
 
+tr.field {
+  border2:solid 1px blue;
+}
+
 tr.field td {
   padding-top: 10px;
   vertical-align: top;  
@@ -239,10 +237,12 @@ tr.field td {
 td.field-icon, td.field-cntrl {
   width: 40px;
   text-align: center;
+  border3: solid 1px red;
 }
 
 td.field-icon i.material-icons, td.field-cntrl i.material-icons { 
   color: gray; 
+  border3: solid 1px green;
 }
 
 .btn {

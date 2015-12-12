@@ -83,6 +83,12 @@
 			  
 			  _awac.setOnBackPressed(function() { onAction('back'); });
 			  
+			  
+			  new AttrType('name');
+			  new AttrType('type');
+			  var at = AttrType.get('name');
+			  console.log('got at='+at);
+			  
 			  FItem.get(_itemId,function(fitem) { 
 			    var iname = fitem.getMDIcon();
 			    var a = fitem.getUserHTML(fitem.json.author,true);

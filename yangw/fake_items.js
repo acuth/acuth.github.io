@@ -68,6 +68,24 @@ AttrLink.prototype.render=function() {
 };
 
 
+function AttrType(name) {
+  this.name = name;
+  AttrType.types[name] = this;
+}
+
+AttrType.prototype.toString=function() {
+  return '{AttrType name='+this.name+'}';
+};
+
+AttrType.types = [];
+
+AttrType.get=function(name) {
+  return AttrType.types[name];
+};
+
+
+
+
 
 function FItem(json) {
   this.json = JSON.parse(json);
@@ -76,8 +94,6 @@ function FItem(json) {
 FItem.prototype.toString=function() {
   return '{FItem name='+this.json.wiki_name+' json='+JSON.stringify(this.json)+'}';
 };
-
-var _fItemMap = {};
 
 FItem.get=function(name,cb) {
   ajax('https://yangw-2.appspot.com/v4/?op=get_item&wiki_name='+name,function(json) {

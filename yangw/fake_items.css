@@ -236,12 +236,12 @@ tr.field td {
   vertical-align: top;  
 }
 
-td.field-icon, td.field-del {
+td.field-icon, td.field-cntrl {
   width: 40px;
   text-align: center;
 }
 
-td.field-icon i.material-icons, td.field-del i.material-icons { 
+td.field-icon i.material-icons, td.field-cntrl i.material-icons { 
   color: gray; 
 }
 

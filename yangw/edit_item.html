@@ -61,9 +61,8 @@
 			    $('#item-author').html(a);
 				  $('#item-title').html(fitem.json.name_attr);
 				  $('#show-item-type').html('<i class="material-icons">'+iname+'</i>');
-				  //$('#item-author-icon').html('<image class="img-circle" src="'+fitem.json.author+'.jpg" />');
-			    //$('#item-author-name').html(fitem.json.author.name_attr);
-			    $('#edit-body-content').text(fitem.json.markdown).prop('readonly', true).click(function(event) { onAction('edit-markup'); });
+			    $('#edit-body-content').text(fitem.json.markdown).prop('readonly', true);
+			    $('#edit-body-content-control').click(function(event) { onAction('edit-markup'); }); 
 			    _awac.startPage();
 			    setTimeout(fixEditLayout,60);
 				});
@@ -86,13 +85,14 @@
          <tr class="field">
            <td class="field-icon"><i class="material-icons">subject</i></td>
            <td class="field-value"><textarea id="edit-body-content" class="body-content">-item-markup-goes-here-</textarea></td>
-           <td class="field-del"><i class="material-icons">highlight_off</i></td>
+           <td class="field-cntrl"><i id="edit-body-content-control" class="material-icons">edit</i></td>
+           <td class="field-cntrl"><i id="delete-body-content-control" class="material-icons">delete</i></td>
         </tr>   
         
         <tr class="field">
            <td class="field-icon"><i class="material-icons">label</i></td>
            <td class="field-value">#android #funny</td>
-           <td class="field-del"><i class="material-icons">highlight_off</i></td>
+           <td class="field-cntrl"><i class="material-icons">highlight_off</i></td>
         </tr>
         
         <tr class="field">

@@ -16,13 +16,14 @@
 		<script type="text/javascript">
 			var _awac = null;
 			var _itemId = null;
+			var _fitem = null;
 			
 			function onAction(action) {
 			  if ('back' == action)
 			    showPrevPage();
 			  else if ('edit' == action) {
 			    console.log('edit '+_itemId);
-			    _awac.openPage('edit','edit_item.html',{'item_id':_itemId});
+			    _awac.openPage('edit','edit_item.html',{'json':_fitem.json,'item_id':_itemId});
 			  }
 			  else if ('add' == action) {
 			    var labels= ['add comment','add post','add event'];
@@ -90,6 +91,7 @@
 			  console.log('got at='+at);
 			  
 			  FItem.get(_itemId,function(fitem) { 
+			    _fitem = fitem;
 			    var iname = fitem.getMDIcon();
 			    var a = fitem.getUserHTML(fitem.json.author,true);
 			    $('#item-author').html(a);

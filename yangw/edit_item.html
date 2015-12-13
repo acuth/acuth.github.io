@@ -11,16 +11,16 @@
 		<script src="fake_items.js" type="text/javascript"></script>
 		<script type="text/javascript">
 			var _awac = null;
+			var _fitem = null;
+			
 			function onAction(action) {
 			  if ('back' == action) 
 			    _awac.endPage();
-			  else if ('edit-markup' == action) 
-			    _awac.openPage('edit-markup','edit_markdown.html',{'item_id':_itemId});
+			  else if ('edit-markdown' == action) 
+			    _awac.openPage('edit-markdown','edit_markdown.html',{'markdown':_fitem.json.markdown});
 			  else 
 			    _awac.alert('action '+action+' NYI');
 			}
-			
-			var _itemId = -1;
 			
 			function fixEditLayout() {
 			  var header = $('#edit-item-header');
@@ -32,15 +32,25 @@
 			  content.show().css('top',top).css('height',height);
 			}
 			
+			function renderItem(fitem) {
+				  var iname = fitem.getMDIcon();
+				  var a = fitem.getUserHTML(fitem.json.author,true);
+			    //$('#item-author').html(a);
+			    $('#item-title-div').html('<div id="item-title">'+fitem.json.name_attr+'</div>');
+				  //$('#show-item-type').html('<i class="material-icons">'+iname+'</i>');
+			    $('#edit-body-content').text(fitem.json.markdown).prop('readonly', true);
+			    $('#edit-body-content-control').click(function(event) { onAction('edit-markdown'); }); 
+			    _awac.startPage();
+			    
+			    _fitem = fitem;
+			    setTimeout(fixEditLayout,60);
+			}
+			
 			$(document).ready(function() {
 			  _awac = new Awac('_awac'); 
 			  var initp = _awac.getInitParam();
-			  if (initp) 
-			    _itemId = initp.item_id;
-			  else
-			    _itemId = 'HasanUser';
-			    
-			 console.log('item-id='+_itemId);
+			  var fitem = new FItem(initp.json,true);
+			  console.log('got fitem='+fitem);
 			    
 			 var colors = _awac.getColors();
 			 if (colors) {
@@ -55,17 +65,7 @@
 			  //_awac.addActionBarItem({'label':'DELETE','action':'delete'}); 
 			  _awac.addActionBarItem({'label':'SAVE','action':'save'});
 			
-				FItem.get(_itemId,function(fitem) { 
-				  var iname = fitem.getMDIcon();
-				  var a = fitem.getUserHTML(fitem.json.author,true);
-			    //$('#item-author').html(a);
-			    $('#item-title-div').html('<div id="item-title">'+fitem.json.name_attr+'</div>');
-				  //$('#show-item-type').html('<i class="material-icons">'+iname+'</i>');
-			    $('#edit-body-content').text(fitem.json.markdown).prop('readonly', true);
-			    $('#edit-body-content-control').click(function(event) { onAction('edit-markup'); }); 
-			    _awac.startPage();
-			    setTimeout(fixEditLayout,60);
-				});
+			  renderItem(fitem);
 			});
 			</script>
 	</head>

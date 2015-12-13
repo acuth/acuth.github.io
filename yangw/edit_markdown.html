@@ -19,7 +19,7 @@
 			}
 			
 			var _itemId = -1;
-			
+			var _markdown = null;
 			
 			
 new function($) {
@@ -50,32 +50,23 @@ new function($) {
 			$(document).ready(function() {
 			  _awac = new Awac('_awac'); 
 			  var initp = _awac.getInitParam();
-			  if (initp) 
-			    _itemId = initp.item_id;
-			  else
-			    _itemId = 'HomePage';
-			    
-			 console.log('item-id='+_itemId);
+			  _markdown = initp ? initp.markdown : '**This is Markdown**';
+ 			  console.log('_markdown='+_markdown);
 			    
 			  _awac.setOnAction(onAction);
 			  _awac.setOnBackPressed(function() { onAction('back'); });
 			  _awac.setHomeItem({'label':'Back','icon':'close','action':'back'});
 			  _awac.addActionBarItem({'label':'SAVE','action':'save'});
 			
-			  console.log('about to get '+_itemId);
-				FItem.get(_itemId,function(fitem) {
-				  console.log('got the fitem');
-				  try {
+				try {
 				    //console.log(fitem.markdown);
-  			    $('#edit-item-markdown').text(fitem.json.markdown);
-  			    console.log('set text()');
-				  } catch (err) {
-				    console.log('got err='+err);
-				  }
-				  console.log('starting page');
-	  		  _awac.startPage();
-	  		  setTimeout(fixEditLayout,60);
-				});
+  			  $('#edit-item-markdown').text(_markdown);
+				} catch (err) {
+				  console.log('got err='+err);
+				}
+				console.log('starting page');
+	  		_awac.startPage();
+	  		setTimeout(fixEditLayout,60);
 			});
 			</script>
 	</head>

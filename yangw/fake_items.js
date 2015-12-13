@@ -87,8 +87,8 @@ AttrType.get=function(name) {
 
 
 
-function FItem(json) {
-  this.json = JSON.parse(json);
+function FItem(json,isParsed) {
+  this.json = isParsed ? json : JSON.parse(json);
 }
 
 FItem.prototype.toString=function() {

@@ -217,7 +217,23 @@ MockContainer.prototype.getPageTag = function() {
 function Awac(varName) {
   this.varName = varName ? varName : 'x';
   //console.log(this.varName+' = new Awac('+_awac_+')');
-  this.container = _awac_ ? _awac_ : new MockContainer(this);
+  
+  var container = null;
+  container = _awac_;
+  if (container) {
+    console.log('Using _awac_');
+  } else {
+    if (window.parent && window.parent.b2wac) {
+      container = window.parent.b2wac.getContainer(this);
+      console.log('got from parent');
+    }
+    else {
+      container = new MockContainer(this);
+      console.log('Using MockContainer');
+    }
+  }
+  
+  this.container = container;
   this.container.setVarName(this.varName);
   //console.log(' - this.container='+this.container);
   this.ondialog = null; 

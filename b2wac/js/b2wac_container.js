@@ -1,4 +1,5 @@
 function B2wacContainer(awac) {
+  console.log('new B2wacContiner('+awac+')')
   this.debug = true;
   this.values = {};
   this.varName = null;
@@ -16,7 +17,10 @@ B2wacContainer.prototype.toString = function() {
 
 B2wacContainer.prototype.setTitle = function(title) {
   if (this.debug) console.log(this.varName+'.setTitle('+title+')');
-  if (title) document.title = title;
+  if (title) {
+    document.title = title;
+    $('#page-title').html(title);
+  }
 };
 
 B2wacContainer.prototype.addNavDrawerItem = function(json) {
@@ -109,6 +113,7 @@ B2wacContainer.prototype.newApp = function(url) {
 
 B2wacContainer.prototype.startPage = function() {
   if (this.debug) console.log(this.varName+'.startPage()');
+  $('#page iframe').css('display','block');
 };
 
 B2wacContainer.prototype.endPage = function(value) {

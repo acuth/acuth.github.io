@@ -1,9 +1,11 @@
-function B2wacContainer(awac) {
+function B2wacContainer(b2wac,awac,url) {
   console.log('new B2wacContiner('+awac+')')
   this.debug = true;
-  this.values = {};
   this.varName = null;
+  this.b2wac = b2wac;
   this.awac = awac;
+  this.onBackCB = false;
+  this.url = url;
 }
 
 B2wacContainer.prototype.setVarName = function(varName) {
@@ -12,7 +14,7 @@ B2wacContainer.prototype.setVarName = function(varName) {
 };
 
 B2wacContainer.prototype.toString = function() {
-  return "{B2wacContainer var:"+this.varName+"}";
+  return "{B2wacContainer var:"+this.varName+" onBackCB:"+this.onBackCB+"}";
 };
 
 B2wacContainer.prototype.setTitle = function(title) {
@@ -58,7 +60,6 @@ B2wacContainer.prototype.startPage = function() {
 
 B2wacContainer.prototype.endPage = function() {
   if (this.debug) console.log(this.varName+'.endPage()');
-  window.close();
 };
 
 B2wacContainer.prototype.unlockNavDrawer = function() {
@@ -67,11 +68,11 @@ B2wacContainer.prototype.unlockNavDrawer = function() {
 
 B2wacContainer.prototype.set = function(name,value) {
   if (this.debug) console.log(this.varName+'.set('+name+','+value+')');
-  this.values[name] = value;
+  this.b2wac.values[name] = value;
 };
 
 B2wacContainer.prototype.get = function(name) {
-  var value = this.values[name];
+  var value = this.b2wac.values[name];
   if (this.debug) console.log(this.varName+'.get('+name+')='+value);
   return value;
 };
@@ -98,12 +99,12 @@ B2wacContainer.prototype.sendMessage = function(msgId,value) {
 
 B2wacContainer.prototype.openPage = function(tag,url,value) {
   if (this.debug) console.log(this.varName+'.openPage('+tag+','+url+','+value+')');
-  window.open(url+'?initparam='+value,tag);
+  this.b2wac.openPage(tag,url,value);
 };
 
 B2wacContainer.prototype.replacePage = function(tag,url,value,next) {
   if (this.debug) console.log(this.varName+'.replacePage('+tag+','+url+','+value+','+next+')');
-  window.open(url+'?initparam='+value,tag);
+  this.b2wac.replacePage(tag,url,value,next);
 };
 
 B2wacContainer.prototype.newApp = function(url) {
@@ -113,12 +114,12 @@ B2wacContainer.prototype.newApp = function(url) {
 
 B2wacContainer.prototype.startPage = function() {
   if (this.debug) console.log(this.varName+'.startPage()');
-  $('#page iframe').css('display','block');
+  this.b2wac.revealPage();
 };
 
 B2wacContainer.prototype.endPage = function(value) {
   if (this.debug) console.log(this.varName+'.endPage('+value+')');
-  //window.close();
+  this.b2wac.endPage();
 };
 
 B2wacContainer.prototype.showList = function(items) {
@@ -144,6 +145,7 @@ B2wacContainer.prototype.gotOnRefreshCB = function() {
 
 B2wacContainer.prototype.gotOnBackPressedCB = function() {
   if (this.debug) console.log(this.varName+'.gotOnBackPressedCB()');
+  this.onBackCB = true;
 };
 
 B2wacContainer.prototype.gotOnActionCB = function() {
@@ -193,7 +195,8 @@ B2wacContainer.prototype.getDims = function() {
 };
 
 B2wacContainer.prototype.getParam=function(name) {
-  var href = window.location.href;
+  var href = this.url;
+  console.log('getParam() '+name+' from '+this.url);
   var i = href.indexOf('?');
   if (i == -1) return null;
   href = '&'+href.substring(i+1);

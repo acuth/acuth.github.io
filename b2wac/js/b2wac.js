@@ -48,9 +48,9 @@ B2wac.prototype.init=function(href) {
   window.onbeforeunload = function() { alert('onbeforeunload'); b2wac.back(); };
   document.addEventListener('backbutton',function() { alert('backbutton'); b2wac.back(); });
    
-  //window.location.hash="no-back-button";
-  //window.location.hash="Again-No-back-button";//again because google chrome don't insert first hash into history
-  //window.onhashchange=function(){window.location.hash="no-back-button";};
+  window.location.hash="no-back-button";
+  window.location.hash="Again-No-back-button";//again because google chrome don't insert first hash into history
+  window.onhashchange=function(){window.location.hash="no-back-button";};
   
   if (href) {
     var i = href.indexOf('url=');

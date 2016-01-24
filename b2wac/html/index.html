@@ -18,7 +18,7 @@ div#header {
   position: fixed;
   top: 0px;
   width: 100%;
-  height: 100px;
+  height: 72px;
   background: #009688;
   color: white;
   z-index: 200;
@@ -35,7 +35,9 @@ div#page-title {
 }
 
 div.action-icon {
-  float: left;
+  cursor:pointer;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 div.action-icon a {
@@ -46,7 +48,7 @@ div.action-icon a {
 
 div#page {
   position: absolute;
-  top: 100px;
+  top: 72px;
   width: 100%;
   z-index: 100;
 }
@@ -72,16 +74,12 @@ $(document).ready(function() {
   console.log('document ready');
   window.b2wac = new B2wac(window.location.href,'page');
   window.b2wac.init(window.location.href);
-  $('#page-nav').html('<a href="javascript:back();"><i class="material-icons">arrow_back</i></a>');
 });
     </script>
   </head>
   <body>
     <div id="header">
-      <div id="page-header">
-        <div class="action-icon" id="page-nav"></div>
-        <div id="page-title">B2WAC</div>
-      </div>
+      <div id="page-header">-page-header-</div>
     </div>  
     <div id="page">
       

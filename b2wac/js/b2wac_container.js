@@ -1,16 +1,62 @@
 function B2wacContainer(b2wac,awac,url) {
-  console.log('new B2wacContiner('+awac+')')
+  console.log('new B2wacContiner('+awac+')');
   this.debug = true;
   this.varName = null;
   this.b2wac = b2wac;
   this.awac = awac;
   this.onBackCB = false;
+  this.onActionCB = false;
   this.url = url;
   this.title = null;
+  this.homeItem = null;
+  this.actionBarItems = [];
 }
 
+B2wacContainer.prototype.addAction = function(header,i) {
+  var item = JSON.parse(this.actionBarItems[i]);
+  var container = this;
+  var div = $(document.createElement('div')).addClass('action-icon').css('float','right');
+  if (item.icon) div.html('<i class="material-icons">'+item.icon+'</i>'); else div.html(item.label);
+  div.click(function() { container.action(i); }).appendTo(header);
+};
+
+
+B2wacContainer.prototype.addBack = function(header) {
+  var container = this;
+  var div = $(document.createElement('div')).addClass('action-icon').css('float','left');
+  div.html('<i class="material-icons">arrow_back</i>').click(function() { container.back(); }).appendTo(header);
+};
+
+B2wacContainer.prototype.addHome = function(header) {
+  var item = JSON.parse(this.homeItem);
+  var container = this;
+  var div = $(document.createElement('div')).addClass('action-icon').css('float','left');
+  if (item.icon) div.html('<i class="material-icons">'+item.icon+'</i>'); else div.html(utem.label);
+  div.click(function() { container.home(); }).appendTo(header);
+};
+
 B2wacContainer.prototype.updateHeader = function() {
-  $('#page-title').html(this.title);
+  var header = $('#page-header').html(null);
+  if (this.homeItem) 
+    this.addHome(header);
+  else
+    this.addBack(header);
+  $(document.createElement('div')).attr('id','page-title').html(this.title).appendTo(header);
+  for (var i=this.actionBarItems.length;i>0;i--) this.addAction(header,i-1);
+};
+
+B2wacContainer.prototype.back = function() {
+  this.awac.fireBackPressed();
+};
+
+B2wacContainer.prototype.home = function() {
+  var item = JSON.parse(this.homeItem);
+  this.awac.fireAction(item.action);
+};
+
+B2wacContainer.prototype.action = function(i) {
+  var item = JSON.parse(this.actionBarItems[i]);
+  this.awac.fireAction(item.action);
 };
 
 B2wacContainer.prototype.setVarName = function(varName) {
@@ -37,6 +83,7 @@ B2wacContainer.prototype.addOptionsMenuItem = function(json) {
 
 B2wacContainer.prototype.addActionBarItem = function(json) {
   if (this.debug) console.log(this.varName+'.addActionBarItem('+json+')');
+  this.actionBarItems[this.actionBarItems.length] = json;
 };
 
 B2wacContainer.prototype.setPageColors = function(json) {
@@ -54,6 +101,7 @@ B2wacContainer.prototype.getColors = function() {
 
 B2wacContainer.prototype.setHomeItem = function(json) {
   if (this.debug) console.log(this.varName+'.setHomeItem('+json+')');
+  this.homeItem = json;
 };
 
 B2wacContainer.prototype.startPage = function() {
@@ -152,6 +200,7 @@ B2wacContainer.prototype.gotOnBackPressedCB = function() {
 
 B2wacContainer.prototype.gotOnActionCB = function() {
   if (this.debug) console.log(this.varName+'.gotOnActionCB()');
+  this.onActionCB = true;
 };
 
 B2wacContainer.prototype.gotOnMessageCB = function() {

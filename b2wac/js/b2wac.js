@@ -20,6 +20,7 @@ Frame.prototype.conceal=function() {
 };
 
 Frame.prototype.reveal=function() {
+  this.container.updateHeader();
   this.iframe.css('display','block');
 };
 
@@ -70,7 +71,6 @@ B2wac.prototype.getContainer=function(awac) {
 }; 
 
 B2wac.prototype.revealPage=function() {
-  this.frameStack[this.nFrame-1].container.updateHeader();
   this.frameStack[this.nFrame-1].reveal();
 };
 

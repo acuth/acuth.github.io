@@ -1,4 +1,4 @@
-function B2wacContainer(b2wac,awac,url) {
+function B2wacContainer(b2wac,awac,tag,url) {
   console.log('new B2wacContiner('+awac+')');
   this.debug = true;
   this.varName = null;
@@ -6,6 +6,7 @@ function B2wacContainer(b2wac,awac,url) {
   this.awac = awac;
   this.onBackCB = false;
   this.onActionCB = false;
+  this.tag = tag;
   this.url = url;
   this.title = null;
   this.homeItem = null;
@@ -267,7 +268,7 @@ B2wacContainer.prototype.getInitParam = function() {
 };
 
 B2wacContainer.prototype.getPageTag = function() {
-  if (this.debug) console.log(this.varName+'.getPageTag()=default');
-  return 'default';
+  if (this.debug) console.log(this.varName+'.getPageTag()='+this.tag);
+  return this.tag;
 };
 

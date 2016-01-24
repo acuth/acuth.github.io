@@ -1,4 +1,5 @@
-function Frame(url,iframe) {
+function Frame(tag,url,iframe) {
+  this.tag = tag;
   this.url = url;
   this.iframe = iframe;
   this.container = null;
@@ -6,7 +7,7 @@ function Frame(url,iframe) {
 
 Frame.prototype.newContainer=function(b2wac,awac) {
   this.b2wac = b2wac;
-  this.container = new B2wacContainer(b2wac,awac,this.url);
+  this.container = new B2wacContainer(b2wac,awac,this.tag,this.url);
   return this.container;
 };
 
@@ -39,17 +40,17 @@ function B2wac(rootUrl,pageDiv) {
 
 
 B2wac.prototype.init=function(href) {
-  //var pageUrl = '../../test/index.html';
-  var pageUrl = '../../yangw/index2.html';
+  var pageUrl = '../../test/index.html';
+  //var pageUrl = '../../yangw/index2.html';
   console.log('href='+href);
   
   var b2wac = this;
-  window.onbeforeunload = function() { b2wac.onBackPressed(); };
-  document.addEventListener('backbutton',function() { b2wac.onBackPressed(); });
+  //window.onbeforeunload = function() { b2wac.back(); };
+  document.addEventListener('backbutton',function() { b2wac.back(); });
    
-  window.location.hash="no-back-button";
-  window.location.hash="Again-No-back-button";//again because google chrome don't insert first hash into history
-  window.onhashchange=function(){window.location.hash="no-back-button";};
+  //window.location.hash="no-back-button";
+  //window.location.hash="Again-No-back-button";//again because google chrome don't insert first hash into history
+  //window.onhashchange=function(){window.location.hash="no-back-button";};
   
   if (href) {
     var i = href.indexOf('url=');
@@ -121,7 +122,7 @@ B2wac.prototype.openPage=function(tag,pageUrl,value) {
   pageUrl = this.resolvePageUrl(currentUrl,pageUrl);
   var iframe = $(document.createElement('iframe')).appendTo($('#'+this.pageDiv));
   this.nFrame++;
-  this.frameStack[this.nFrame-1] = new Frame(pageUrl,iframe);
+  this.frameStack[this.nFrame-1] = new Frame(tag,pageUrl,iframe);
   this.frameStack[this.nFrame-1].showPage();
 };
 
@@ -133,7 +134,7 @@ B2wac.prototype.replacePage=function(tag,pageUrl,value,next) {
   if (value) pageUrl += '?initparam='+value;
   pageUrl = this.resolvePageUrl(currentUrl,pageUrl);
   var iframe = $(document.createElement('iframe')).appendTo($('#'+this.pageDiv));
-  this.frameStack[this.nFrame-1] = new Frame(pageUrl,iframe);
+  this.frameStack[this.nFrame-1] = new Frame(tag,pageUrl,iframe);
   this.frameStack[this.nFrame-1].showPage();
 };
 

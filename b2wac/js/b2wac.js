@@ -12,6 +12,7 @@ Frame.prototype.newContainer=function(b2wac,awac) {
 
 Frame.prototype.showPage=function() {
   this.iframe.attr('src',this.url);
+  // set title of page
 };
 
 Frame.prototype.conceal=function() {
@@ -40,6 +41,16 @@ B2wac.prototype.init=function(href) {
   //var pageUrl = '../../test/index.html';
   var pageUrl = '../../yangw/index2.html';
   console.log('href='+href);
+  
+  var b2wac = this;
+  window.onbeforeunload = function() {
+    b2wac.onBackPressed();
+  };
+  
+  window.location.hash="no-back-button";
+  window.location.hash="Again-No-back-button";//again because google chrome don't insert first hash into history
+  window.onhashchange=function(){window.location.hash="no-back-button";};
+  
   if (href) {
     var i = href.indexOf('url=');
     if (i != -1) {
@@ -130,7 +141,12 @@ B2wac.prototype.endPage=function() {
   this.frameStack[this.nFrame-1].conceal();
   this.frameStack[this.nFrame-1] = null;
   this.nFrame--;
-  this.frameStack[this.nFrame-1].reveal();
+  if (this.nFrame === 0) {
+    window.close(); 
+  }
+  else {
+    this.frameStack[this.nFrame-1].reveal();
+  }
 };
 
 B2wac.prototype.debugFrameStack=function() {
@@ -138,6 +154,11 @@ B2wac.prototype.debugFrameStack=function() {
   for (var i=0;i<this.nFrame;i++) {
     console.log('frame['+i+']='+this.frameStack[i]);
   }
+};
+
+B2wac.prototype.onBackPressed=function() {
+  alert('onBackPressed()');
+  console.log('onBackPressed()');
 };
 
 B2wac.prototype.back=function() {

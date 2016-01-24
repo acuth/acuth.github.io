@@ -1,14 +1,21 @@
 function Frame(tag,url,iframe) {
+  this.id = Frame.count++;
   this.tag = tag;
   this.url = url;
   this.iframe = iframe;
   this.container = null;
 }
 
+Frame.count = 0;
+
 Frame.prototype.newContainer=function(b2wac,awac) {
   this.b2wac = b2wac;
   this.container = new B2wacContainer(b2wac,awac,this.tag,this.url);
   return this.container;
+};
+
+Frame.prototype.getHash=function() {
+  return 'frame-'+this.id;
 };
 
 Frame.prototype.showPage=function() {
@@ -21,6 +28,9 @@ Frame.prototype.conceal=function() {
 };
 
 Frame.prototype.reveal=function() {
+  var hash = this.getHash();
+  window.location.hash=hash;
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Frame.reveal() set window.location.hash='+hash);
   this.container.updateHeader();
   this.iframe.css('display','block');
 };
@@ -38,6 +48,18 @@ function B2wac(rootUrl,pageDiv) {
   this.values = {};
 }
 
+B2wac.prototype.onHashChange=function() {
+  console.log('>>>>>>>>>>>>>>>>>>>>>>> B2wac.onHashChange()');
+  var pageHash = window.location.hash;
+  if (pageHash) pageHash = pageHash.substring(1);
+  console.log(' - page-hash='+pageHash);
+  var frameHash = this.frameStack[this.nFrame-1].getHash();
+  console.log(' - frame-hash='+frameHash);
+  if (pageHash != 'home' && pageHash != frameHash) {
+    console.log(' - go back to old frame');
+    this.endPage();
+  }
+};
 
 B2wac.prototype.init=function(href) {
   var pageUrl = '../../test/index.html';
@@ -45,12 +67,15 @@ B2wac.prototype.init=function(href) {
   console.log('href='+href);
   
   var b2wac = this;
-  window.onbeforeunload = function() { alert('onbeforeunload'); b2wac.back(); };
+  //window.onbeforeunload = function() { alert('onbeforeunload'); b2wac.back(); };
   document.addEventListener('backbutton',function() { alert('backbutton'); b2wac.back(); });
    
-  window.location.hash="no-back-button";
-  window.location.hash="Again-No-back-button";//again because google chrome don't insert first hash into history
-  window.onhashchange=function(){window.location.hash="no-back-button";};
+  window.onhashchange=function(){b2wac.onHashChange();};
+  
+  window.location.hash="first-home";
+  window.location.hash="home";//again because google chrome don't insert first hash into history
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> set window.location.hash=#home');
+  
   
   if (href) {
     var i = href.indexOf('url=');

@@ -45,8 +45,8 @@ B2wac.prototype.init=function(href) {
   console.log('href='+href);
   
   var b2wac = this;
-  //window.onbeforeunload = function() { b2wac.back(); };
-  document.addEventListener('backbutton',function() { b2wac.back(); });
+  window.onbeforeunload = function() { alert('onbeforeunload'); b2wac.back(); };
+  document.addEventListener('backbutton',function() { alert('backbutton'); b2wac.back(); });
    
   //window.location.hash="no-back-button";
   //window.location.hash="Again-No-back-button";//again because google chrome don't insert first hash into history
@@ -169,9 +169,13 @@ B2wac.prototype.back=function() {
     console.log("fire onBackCB");
     frame.container.awac.fireBackPressed();
   }
-  else {
+  else if (this.nFrame > 1) {
     console.log('default back() behaviour');
     this.endPage();
+  }  
+  else {
+    console.log('last frame');
+    alert('Cannot back from here');
   }
 };
 

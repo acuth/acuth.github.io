@@ -46,7 +46,7 @@ B2wacContainer.prototype.updateHeader = function() {
 };
 
 B2wacContainer.prototype.back = function() {
-  this.awac.fireBackPressed();
+  this.b2wac.back();
 };
 
 B2wacContainer.prototype.home = function() {

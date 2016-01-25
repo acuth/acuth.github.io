@@ -56,14 +56,14 @@ B2wac.prototype.onHashChange=function() {
   var frameHash = this.frameStack[this.nFrame-1].getHash();
   console.log(' - frame-hash='+frameHash);
   if (pageHash != 'home' && pageHash != frameHash) {
-    console.log(' - go back to old frame');
-    this.endPage();
+    console.log(' - go back');
+    this.back();
   }
 };
 
 B2wac.prototype.init=function(href) {
-  var pageUrl = '../../test/index.html';
-  //var pageUrl = '../../yangw/index2.html';
+  //var pageUrl = '../../test/index.html';
+  var pageUrl = '../../yangw/index2.html';
   console.log('href='+href);
   
   var b2wac = this;

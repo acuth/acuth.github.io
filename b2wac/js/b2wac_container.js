@@ -1,4 +1,4 @@
-function B2wacContainer(b2wac,awac,tag,url) {
+function B2wacContainer(b2wac,awac,tag,url,iparam) {
   console.log('new B2wacContiner('+awac+')');
   this.debug = true;
   this.varName = null;
@@ -8,6 +8,7 @@ function B2wacContainer(b2wac,awac,tag,url) {
   this.onActionCB = false;
   this.tag = tag;
   this.url = url;
+  this.iparam = iparam;
   this.title = null;
   this.homeItem = null;
   this.actionBarItems = [];
@@ -109,10 +110,6 @@ B2wacContainer.prototype.startPage = function() {
   if (this.debug) console.log(this.varName+'.startPage()');
 };
 
-B2wacContainer.prototype.endPage = function() {
-  if (this.debug) console.log(this.varName+'.endPage()');
-};
-
 B2wacContainer.prototype.unlockNavDrawer = function() {
   if (this.debug) console.log(this.varName+'.unlockNavDrawer()');
 };
@@ -170,7 +167,7 @@ B2wacContainer.prototype.startPage = function() {
 
 B2wacContainer.prototype.endPage = function(value) {
   if (this.debug) console.log(this.varName+'.endPage('+value+')');
-  this.b2wac.endPage();
+  this.b2wac.endPage(true,value);
 };
 
 B2wacContainer.prototype.showList = function(items) {
@@ -262,9 +259,8 @@ B2wacContainer.prototype.getParam=function(name) {
 };
 
 B2wacContainer.prototype.getInitParam = function() {
-  var value = this.getParam('initparam');
-  if (this.debug) console.log(this.varName+'.getInitParam()='+value);
-  return value;
+  if (this.debug) console.log(this.varName+'.getInitParam()='+this.iparam);
+  return this.iparam;
 };
 
 B2wacContainer.prototype.getPageTag = function() {

@@ -1,7 +1,8 @@
-function Frame(tag,url,iframe) {
+function Frame(tag,url,iparam,iframe) {
   this.id = Frame.count++;
   this.tag = tag;
   this.url = url;
+  this.iparam = iparam;
   this.iframe = iframe;
   this.container = null;
 }
@@ -10,7 +11,7 @@ Frame.count = 0;
 
 Frame.prototype.newContainer=function(b2wac,awac) {
   this.b2wac = b2wac;
-  this.container = new B2wacContainer(b2wac,awac,this.tag,this.url);
+  this.container = new B2wacContainer(b2wac,awac,this.tag,this.url,this.iparam);
   return this.container;
 };
 
@@ -62,8 +63,8 @@ B2wac.prototype.onHashChange=function() {
 };
 
 B2wac.prototype.init=function(href) {
-  //var pageUrl = '../../test/index.html';
-  var pageUrl = '../../yangw/index2.html';
+  var pageUrl = '../../test/index.html';
+  //var pageUrl = '../../yangw/index2.html';
   console.log('href='+href);
   
   var b2wac = this;
@@ -143,11 +144,11 @@ B2wac.prototype.openPage=function(tag,pageUrl,value) {
     frame.conceal();
     currentUrl = frame.url;
   }
-  if (value) pageUrl += '?initparam='+value;
+  //if (value) pageUrl += '?initparam='+value;
   pageUrl = this.resolvePageUrl(currentUrl,pageUrl);
   var iframe = $(document.createElement('iframe')).appendTo($('#'+this.pageDiv));
   this.nFrame++;
-  this.frameStack[this.nFrame-1] = new Frame(tag,pageUrl,iframe);
+  this.frameStack[this.nFrame-1] = new Frame(tag,pageUrl,value,iframe);
   this.frameStack[this.nFrame-1].showPage();
 };
 
@@ -156,14 +157,14 @@ B2wac.prototype.replacePage=function(tag,pageUrl,value,next) {
   var frame = this.frameStack[this.nFrame-1];
   frame.conceal();
   var currentUrl = frame.url;
-  if (value) pageUrl += '?initparam='+value;
+  //if (value) pageUrl += '?initparam='+value;
   pageUrl = this.resolvePageUrl(currentUrl,pageUrl);
   var iframe = $(document.createElement('iframe')).appendTo($('#'+this.pageDiv));
-  this.frameStack[this.nFrame-1] = new Frame(tag,pageUrl,iframe);
+  this.frameStack[this.nFrame-1] = new Frame(tag,pageUrl,value,iframe);
   this.frameStack[this.nFrame-1].showPage();
 };
 
-B2wac.prototype.endPage=function() {
+B2wac.prototype.endPage=function(ok,value) {
   this.frameStack[this.nFrame-1].conceal();
   this.frameStack[this.nFrame-1] = null;
   this.nFrame--;
@@ -171,7 +172,9 @@ B2wac.prototype.endPage=function() {
     window.close(); 
   }
   else {
-    this.frameStack[this.nFrame-1].reveal();
+    var frame = this.frameStack[this.nFrame-1];
+    frame.container.awac.firePageClose(null,ok,value);
+    frame.reveal();
   }
 };
 
@@ -196,7 +199,7 @@ B2wac.prototype.back=function() {
   }
   else if (this.nFrame > 1) {
     console.log('default back() behaviour');
-    this.endPage();
+    this.endPage(false,null);
   }  
   else {
     console.log('last frame');

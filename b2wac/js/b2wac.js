@@ -24,20 +24,9 @@ Frame.prototype.showPage=function() {
   // set title of page
 };
 
-Frame.prototype.conceal=function() {
-  this.iframe.css('display','none');
-};
-
-Frame.prototype.reveal=function() {
-  var hash = this.getHash();
-  window.location.hash=hash;
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Frame.reveal() set window.location.hash='+hash);
-  this.container.updateHeader();
-  this.iframe.css('display','block');
-};
-
 Frame.prototype.toString=function() {
-  return '{Frame url='+this.url+' container='+this.container+'}';
+  var i = this.url.lastIndexOf('/');
+  return '{Frame id='+this.id+' url='+this.url.substring(i)+'}';
 };
   
 function B2wac(rootUrl,pageDiv) {
@@ -47,7 +36,16 @@ function B2wac(rootUrl,pageDiv) {
   this.frameStack = [];
   this.nFrame = 0;
   this.values = {};
+  this.removeConcealedFrame = false;
+  this.concealFrame = null;
+  this.revealFrame = null;
+  this.revealType = -1;
 }
+
+B2wac.UP = 1;
+B2wac.DOWN = 2;
+B2wac.NEXT = 3;
+B2wac.PREV = 4;
 
 B2wac.prototype.onHashChange=function() {
   console.log('>>>>>>>>>>>>>>>>>>>>>>> B2wac.onHashChange()');
@@ -97,10 +95,90 @@ B2wac.prototype.getContainer=function(awac) {
   return this.frameStack[this.nFrame-1].newContainer(this,awac);
 }; 
 
-B2wac.prototype.revealPage=function() {
-  this.frameStack[this.nFrame-1].reveal();
+
+B2wac.prototype.resetTransition=function() {
+  this.comcealFrame = null;
+  this.revealFrame = null;
+  this.removeConcealedFrame = false;
+  this.revealType = -1;
 };
 
+B2wac.prototype.transitionFrames=function() {
+  console.log('>>>>>>>>>>>>>>>>>>>>>>> B2wac.transitionFrames()');
+  console.log(' - reveal-type='+this.revealType);
+  console.log(' - remove-concealed-frame='+this.removeConcealedFrame);
+  console.log(' - conceal '+this.concealFrame);
+  console.log(' - reveal '+this.revealFrame);
+  
+  var dirn = this.revealType;
+  if (dirn == B2wac.NEXT) dirn = B2wac.UP;
+  if (dirn == B2wac.PREV) dirn = B2wac.DOWN;
+  
+  if (this.concealFrame && dirn == B2wac.DOWN+5) {
+    console.log('quick transition replace DOWN');
+    //console.log('conceal iframe id='+this.concealFrame.iframe.attr('id'));
+    //console.log('reveal iframe id='+this.revealFrame.iframe.attr('id'));
+    this.concealFrame.iframe.css('display','none');
+    this.revealFrame.iframe.css('display','block');
+    if (this.removeConcealedFrame) this.concealFrame.iframe.remove();
+    this.resetTransition();
+    return;
+  }
+  
+  var removeFrame = this.removeConcealedFrame;
+  var concealFrame = this.concealFrame;
+  var revealFrame = this.revealFrame;
+  
+  var hash = revealFrame.getHash();
+  window.location.hash=hash;
+  revealFrame.container.updateHeader();
+  
+  if (concealFrame) {
+    console.log('complex reveal');
+      
+    concealFrame.iframe.css('display','block');
+    revealFrame.iframe.css('display','block');
+    
+    var transFrame = null;
+    var revealClass = null;
+    var transClass = null;
+    if (dirn == B2wac.UP) {
+      transFrame = revealFrame;
+      revealClass = 'reveal-start-down';
+      transClass = 'reveal-trans-up';
+    }
+    else if (dirn == B2wac.DOWN) {
+      transFrame = concealFrame;
+      revealClass = 'reveal-start-up';
+      transClass = 'reveal-trans-down';
+    }
+    transFrame.iframe.addClass(revealClass);
+    transFrame.iframe.css('display','block');
+    window.setTimeout(function() {
+      console.log('start of transition');
+      transFrame.iframe.addClass(transClass);
+    },50);
+    window.setTimeout(function() {
+      console.log('end of transition');
+      transFrame.iframe.removeClass(revealClass+' '+transClass);
+      concealFrame.iframe.css('display','none');
+      if (removeFrame) {
+        console.log('removing '+concealFrame);
+        concealFrame.iframe.remove(); 
+      }
+    },600);
+  }
+  else {
+    console.log('simple reveal');
+    revealFrame.iframe.css('display','block');  
+  }
+  this.resetTransition();
+};
+
+B2wac.prototype.startPage=function() {
+  this.revealFrame = this.frameStack[this.nFrame-1];
+  this.transitionFrames();
+};
 
 B2wac.joinUrl=function(url0,url1) {
   console.log('joinUrl(url0='+url0+',url1='+url1+')');
@@ -137,44 +215,52 @@ B2wac.prototype.resolvePageUrl=function(currentUrl,pageUrl) {
   return url;  
 };
 
+B2wac.prototype.newFrame=function(currentUrl,tag,pageUrl,value) {
+  pageUrl = this.resolvePageUrl(currentUrl,pageUrl);
+  var iframe = $(document.createElement('iframe')).appendTo($('#'+this.pageDiv));
+  var frame = new Frame(tag,pageUrl,value,iframe);
+  iframe.attr('id','iframe-'+frame.id);
+  this.frameStack[this.nFrame-1] = frame;
+  frame.showPage();
+};
+
 B2wac.prototype.openPage=function(tag,pageUrl,value) {
   var currentUrl = this.rootUrl;
   if (this.nFrame > 0) {
     var frame = this.frameStack[this.nFrame-1];
-    frame.conceal();
+    this.concealFrame = frame;
+    this.revealType = B2wac.UP;
+    this.removeConcealedPage = false;
     currentUrl = frame.url;
   }
-  //if (value) pageUrl += '?initparam='+value;
-  pageUrl = this.resolvePageUrl(currentUrl,pageUrl);
-  var iframe = $(document.createElement('iframe')).appendTo($('#'+this.pageDiv));
   this.nFrame++;
-  this.frameStack[this.nFrame-1] = new Frame(tag,pageUrl,value,iframe);
-  this.frameStack[this.nFrame-1].showPage();
+  this.newFrame(currentUrl,tag,pageUrl,value);
 };
 
 
 B2wac.prototype.replacePage=function(tag,pageUrl,value,next) {
   var frame = this.frameStack[this.nFrame-1];
-  frame.conceal();
-  var currentUrl = frame.url;
-  //if (value) pageUrl += '?initparam='+value;
-  pageUrl = this.resolvePageUrl(currentUrl,pageUrl);
-  var iframe = $(document.createElement('iframe')).appendTo($('#'+this.pageDiv));
-  this.frameStack[this.nFrame-1] = new Frame(tag,pageUrl,value,iframe);
-  this.frameStack[this.nFrame-1].showPage();
+  this.concealFrame = frame;
+  this.removeConcealedFrame = true;
+  this.revealType = next ? B2wac.NEXT : B2wac.PREV; 
+  this.newFrame(frame.url,tag,pageUrl,value);
 };
 
 B2wac.prototype.endPage=function(ok,value) {
-  this.frameStack[this.nFrame-1].conceal();
+  var frame = this.frameStack[this.nFrame-1];
+  this.concealFrame = frame;
   this.frameStack[this.nFrame-1] = null;
   this.nFrame--;
   if (this.nFrame === 0) {
     window.close(); 
   }
   else {
-    var frame = this.frameStack[this.nFrame-1];
+    frame = this.frameStack[this.nFrame-1];
     frame.container.awac.firePageClose(null,ok,value);
-    frame.reveal();
+    this.revealFrame = frame;
+    this.removeConcealedFrame = true;
+    this.revealType = B2wac.DOWN;
+    this.transitionFrames();
   }
 };
 

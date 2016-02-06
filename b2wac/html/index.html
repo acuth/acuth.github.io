@@ -14,6 +14,26 @@ iframe {
   border: 0px;
 }
 
+iframe.reveal-start-down {
+  position: absolute;
+  top: 500px;
+}
+
+iframe.reveal-trans-up {
+  -webkit-transform: translate3d(0,-500px,0);
+  -webkit-transition: all 0.5s linear;
+}
+
+iframe.reveal-start-up {
+  position: absolute;
+  top: 0px;
+}
+
+iframe.reveal-trans-down {
+  -webkit-transform: translate3d(0,500px,0);
+  -webkit-transition: all 0.5s linear;
+}
+
 div#header {
   position: fixed;
   top: 0px;

@@ -106,9 +106,6 @@ B2wacContainer.prototype.setHomeItem = function(json) {
   this.homeItem = json;
 };
 
-B2wacContainer.prototype.startPage = function() {
-  if (this.debug) console.log(this.varName+'.startPage()');
-};
 
 B2wacContainer.prototype.unlockNavDrawer = function() {
   if (this.debug) console.log(this.varName+'.unlockNavDrawer()');
@@ -162,7 +159,7 @@ B2wacContainer.prototype.newApp = function(url) {
 
 B2wacContainer.prototype.startPage = function() {
   if (this.debug) console.log(this.varName+'.startPage()');
-  this.b2wac.revealPage();
+  this.b2wac.startPage();
 };
 
 B2wacContainer.prototype.endPage = function(value) {

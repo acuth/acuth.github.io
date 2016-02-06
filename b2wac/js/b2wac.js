@@ -166,7 +166,7 @@ B2wac.prototype.transitionFrames=function() {
         console.log('removing '+concealFrame);
         concealFrame.iframe.remove(); 
       }
-    },600);
+    },400);
   }
   else {
     console.log('simple reveal');

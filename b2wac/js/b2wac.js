@@ -46,6 +46,7 @@ B2wac.UP = 1;
 B2wac.DOWN = 2;
 B2wac.NEXT = 3;
 B2wac.PREV = 4;
+B2wac.TRANSITION_TIME = 350;
 
 B2wac.prototype.onHashChange=function() {
   console.log('>>>>>>>>>>>>>>>>>>>>>>> B2wac.onHashChange()');
@@ -103,6 +104,85 @@ B2wac.prototype.resetTransition=function() {
   this.revealType = -1;
 };
 
+B2wac.prototype.hideFrame=function(frame,remove) {
+  frame.iframe.css('display','none');
+  if (remove) {
+    console.log('removing '+frame);
+    frame.iframe.remove(); 
+  }
+};
+
+B2wac.prototype.upDownTransition=function(dirn) {
+    var concealFrame = this.concealFrame;
+    var removeFrame = this.removeConcealedFrame;
+    var transFrame = null;
+    var revealClass = null;
+    var transClass = null;
+    if (dirn == B2wac.UP) {
+      transFrame = this.revealFrame;
+      revealClass = 'reveal-start-down';
+      transClass = 'reveal-trans-up';
+    }
+    else if (dirn == B2wac.DOWN) {
+      transFrame = this.concealFrame;
+      revealClass = 'reveal-start-up';
+      transClass = 'reveal-trans-down';
+    }
+    transFrame.iframe.addClass(revealClass);
+    window.setTimeout(function() {
+      console.log('start of transition');
+      transFrame.iframe.addClass(transClass);
+    },50);
+    var b2wac = this;
+    window.setTimeout(function() {
+      console.log('end of transition');
+      transFrame.iframe.removeClass(revealClass+' '+transClass);
+      b2wac.hideFrame(concealFrame,removeFrame);
+    },B2wac.TRANSITION_TIME+50);
+};
+
+
+B2wac.prototype.leftRightTransition=function(dirn) {
+    var concealFrame = this.concealFrame;
+    var removeFrame = this.removeConcealedFrame;
+    var leftFrame = null;
+    var rightFrame = null;
+    var leftStartClass = null;
+    var rightStartClass = null;
+    var leftTransClass = null;
+    var rightTransClass = null;
+    if (dirn == B2wac.NEXT) {
+      leftFrame = this.concealFrame;
+      rightFrame = this.revealFrame;
+      leftStartClass = 'reveal-start-none';
+      rightStartClass = 'reveal-start-to-right';
+      leftTransClass = 'reveal-trans-to-left';
+      rightTransClass = 'reveal-trans-to-left';
+    }
+    else if (dirn == B2wac.PREV) {
+      leftFrame = this.revealFrame;
+      rightFrame = this.concealFrame;
+      leftStartClass = 'reveal-start-to-left';
+      rightStartClass = 'reveal-start-none';
+      leftTransClass = 'reveal-trans-to-right';
+      rightTransClass = 'reveal-trans-to-right';
+    }
+    leftFrame.iframe.addClass(leftStartClass);
+    rightFrame.iframe.addClass(rightStartClass);
+    window.setTimeout(function() {
+      console.log('start of transition');
+      leftFrame.iframe.addClass(leftTransClass);
+      rightFrame.iframe.addClass(rightTransClass);
+    },50);
+    var b2wac = this;
+    window.setTimeout(function() {
+      console.log('end of transition');
+      leftFrame.iframe.removeClass(leftStartClass+' '+leftTransClass);
+      rightFrame.iframe.removeClass(rightStartClass+' '+rightTransClass);
+      b2wac.hideFrame(concealFrame,removeFrame);
+    },B2wac.TRANSITION_TIME+50);
+};
+
 B2wac.prototype.transitionFrames=function() {
   console.log('>>>>>>>>>>>>>>>>>>>>>>> B2wac.transitionFrames()');
   console.log(' - reveal-type='+this.revealType);
@@ -111,19 +191,8 @@ B2wac.prototype.transitionFrames=function() {
   console.log(' - reveal '+this.revealFrame);
   
   var dirn = this.revealType;
-  if (dirn == B2wac.NEXT) dirn = B2wac.UP;
-  if (dirn == B2wac.PREV) dirn = B2wac.DOWN;
-  
-  if (this.concealFrame && dirn == B2wac.DOWN+5) {
-    console.log('quick transition replace DOWN');
-    //console.log('conceal iframe id='+this.concealFrame.iframe.attr('id'));
-    //console.log('reveal iframe id='+this.revealFrame.iframe.attr('id'));
-    this.concealFrame.iframe.css('display','none');
-    this.revealFrame.iframe.css('display','block');
-    if (this.removeConcealedFrame) this.concealFrame.iframe.remove();
-    this.resetTransition();
-    return;
-  }
+  //if (dirn == B2wac.NEXT) dirn = B2wac.UP;
+  //if (dirn == B2wac.PREV) dirn = B2wac.DOWN;
   
   var removeFrame = this.removeConcealedFrame;
   var concealFrame = this.concealFrame;
@@ -133,45 +202,24 @@ B2wac.prototype.transitionFrames=function() {
   window.location.hash=hash;
   revealFrame.container.updateHeader();
   
-  if (concealFrame) {
-    console.log('complex reveal');
+
+  if (!concealFrame) {
+     console.log('simple reveal');
+     revealFrame.iframe.css('display','block');  
+     this.resetTransition();
+     return;
+  }
+  
+  console.log('complex reveal');
       
-    concealFrame.iframe.css('display','block');
-    revealFrame.iframe.css('display','block');
+  concealFrame.iframe.css('display','block');
+  revealFrame.iframe.css('display','block');
     
-    var transFrame = null;
-    var revealClass = null;
-    var transClass = null;
-    if (dirn == B2wac.UP) {
-      transFrame = revealFrame;
-      revealClass = 'reveal-start-down';
-      transClass = 'reveal-trans-up';
-    }
-    else if (dirn == B2wac.DOWN) {
-      transFrame = concealFrame;
-      revealClass = 'reveal-start-up';
-      transClass = 'reveal-trans-down';
-    }
-    transFrame.iframe.addClass(revealClass);
-    transFrame.iframe.css('display','block');
-    window.setTimeout(function() {
-      console.log('start of transition');
-      transFrame.iframe.addClass(transClass);
-    },50);
-    window.setTimeout(function() {
-      console.log('end of transition');
-      transFrame.iframe.removeClass(revealClass+' '+transClass);
-      concealFrame.iframe.css('display','none');
-      if (removeFrame) {
-        console.log('removing '+concealFrame);
-        concealFrame.iframe.remove(); 
-      }
-    },400);
-  }
-  else {
-    console.log('simple reveal');
-    revealFrame.iframe.css('display','block');  
-  }
+  if (dirn == B2wac.UP || dirn == B2wac.DOWN)
+    this.upDownTransition(dirn);
+  else 
+    this.leftRightTransition(dirn);
+  
   this.resetTransition();
 };
 

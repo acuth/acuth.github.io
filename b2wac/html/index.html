@@ -19,18 +19,49 @@ iframe.reveal-start-down {
   top: 500px;
 }
 
-iframe.reveal-trans-up {
-  -webkit-transform: translate3d(0,-500px,0);
-  -webkit-transition: all 0.35s linear;
-}
-
 iframe.reveal-start-up {
   position: absolute;
   top: 0px;
 }
 
+iframe.reveal-start-to-right {
+  position: absolute;
+  top: 0px;
+  left: 500px;
+}
+
+iframe.reveal-start-to-left {
+  position: absolute;
+  top: 0px;
+  left: -200px;
+}
+
+iframe.reveal-start-none {
+ 
+}
+
+iframe.reveal-trans-none {
+  
+}
+
+iframe.reveal-trans-up {
+  -webkit-transform: translate3d(0,-500px,0);
+  -webkit-transition: all 0.35s linear;
+}
+
 iframe.reveal-trans-down {
   -webkit-transform: translate3d(0,500px,0);
+}
+
+iframe.reveal-trans-to-left {
+  -webkit-transform: translate3d(-500px,0,0);
+}
+
+iframe.reveal-trans-to-right {
+  -webkit-transform: translate3d(200px,0,0);
+}
+
+iframe.reveal-trans-up, iframe.reveal-trans-down, iframe.reveal-trans-to-left, iframe.reveal-trans-to-right {
   -webkit-transition: all 0.35s linear;
 }
 

@@ -212,6 +212,12 @@ B2wac.prototype.transitionFrames=function() {
   
   console.log('complex reveal');
       
+  var width = concealFrame.iframe.width()+'px';
+  console.log(' - width='+width);
+  
+  concealFrame.iframe.css('width',width);
+  revealFrame.iframe.css('width',width);
+  
   concealFrame.iframe.css('display','block');
   revealFrame.iframe.css('display','block');
     

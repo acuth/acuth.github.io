@@ -51,10 +51,12 @@ function lookFor(x) {
    var t0 = (new Date()).getTime();
    var n = 0;
    var xp = ' '+x;
+   var e = document.getElementById('results');
+   e.innerHTML = '';
    for (var i=0;i<_names.length;i++) 
-     if (_names[i].indexOf(x) === 0 || _names[i].indexOf(xp) === 0) {
-       log(n+'. '+_names[i]);
+     if (_names[i].indexOf(x) === 0 || _names[i].indexOf(xp) !== -1) {
        n++;
+       e.innerHTML += '<br/>'+n+'. '+_names[i];
      }
    var t1 = (new Date()).getTime();
    log('found '+n+' entries ['+(t1-t0)+'ms]');
@@ -85,10 +87,10 @@ function log(msg) {
   </head>
   <body onload="doOnLoad();">
     <div style="margin: 10px;">
-      
       <input type="button" onclick="javascript:loadCRT();" value="Load CRT" /><br/>
       <input type="button" onclick="javascript:lookFor('cam');" value="Look for 'cam'" /><br/>
       <input type="button" onclick="javascript:lookFor('king');" value="Look for 'king'" />
+      <div id="results"></div>
     </div>
     <div id="log"></div>
   </body>

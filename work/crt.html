@@ -72,12 +72,20 @@ function storeCRT() {
   log(' - stored places ['+(t1-t0)+'ms]');
 }
 
+function getNames() {
+   log('got '+_places.length+' entries');
+   _names = [];
+   for (var i=0;i<_places.length;i++) _names[i] = _places[i].label.toLowerCase();
+   log('got names');
+}
+
 function loadCRT() {
   log('loadCRT()');
   var t0 = (new Date()).getTime();
   _places = _awac.load('places');
   var t1 = (new Date()).getTime();
   log(' - loaded places ['+(t1-t0)+'ms]');
+  getNames();
 }
 
 function downloadCRT() {
@@ -87,14 +95,10 @@ function downloadCRT() {
     var t1 = (new Date()).getTime();
     log('got response '+text.length+' ['+(t1-t0)+'ms]');
     var json = JSON.parse(text);
+    _places = json.msptl_response.server_response.ldp_response.places_array;
     var t2 = (new Date()).getTime();
     log('got json ['+(t2-t1)+'ms]');
-    _places = json.msptl_response.server_response.ldp_response.places_array;
-    
-    log('got '+_places.length+' entries');
-    _names = [];
-    for (var i=0;i<_places.length;i++) _names[i] = _places[i].label.toLowerCase();
-    log('got names');
+    getNames();
   });
 }
 

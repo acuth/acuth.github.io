@@ -28,6 +28,7 @@ var atocUrl = "http://beta.geohawk.co.uk/mxd/call?cfg=_mxd_&servertype=AtocServe
 
 var _awac = null;
 var _names = null;
+var _places = null;
 
 function doOnLoad() {
   log('doOnLoad()');
@@ -62,8 +63,25 @@ function lookFor(x) {
    log('found '+n+' entries ['+(t1-t0)+'ms]');
 }
 
+
+function storeCRT() {
+  log('storeCRT()');
+  var t0 = (new Date()).getTime();
+  _awac.store('places',_places);
+  var t1 = (new Date()).getTime();
+  log(' - stored places ['+(t1-t0)+'ms]');
+}
+
 function loadCRT() {
   log('loadCRT()');
+  var t0 = (new Date()).getTime();
+  _places = _awac.load('places');
+  var t1 = (new Date()).getTime();
+  log(' - loaded places ['+(t1-t0)+'ms]');
+}
+
+function downloadCRT() {
+  log('downloadCRT()');
   var t0 = (new Date()).getTime();
   ajax(atocUrl,function(text) {
     var t1 = (new Date()).getTime();
@@ -71,10 +89,11 @@ function loadCRT() {
     var json = JSON.parse(text);
     var t2 = (new Date()).getTime();
     log('got json ['+(t2-t1)+'ms]');
-    var arr = json.msptl_response.server_response.ldp_response.places_array;
-    log('got '+arr.length+' entries');
+    _places = json.msptl_response.server_response.ldp_response.places_array;
+    
+    log('got '+_places.length+' entries');
     _names = [];
-    for (var i=0;i<arr.length;i++) _names[i] = arr[i].label.toLowerCase();
+    for (var i=0;i<_places.length;i++) _names[i] = _places[i].label.toLowerCase();
     log('got names');
   });
 }
@@ -87,6 +106,8 @@ function log(msg) {
   </head>
   <body onload="doOnLoad();">
     <div style="margin: 10px;">
+      <input type="button" onclick="javascript:downloadCRT();" value="Down Load CRT" /><br/>
+      <input type="button" onclick="javascript:storeCRT();" value="Store CRT" /><br/>
       <input type="button" onclick="javascript:loadCRT();" value="Load CRT" /><br/>
       <input type="button" onclick="javascript:lookFor('cam');" value="Look for 'cam'" /><br/>
       <input type="button" onclick="javascript:lookFor('king');" value="Look for 'king'" />

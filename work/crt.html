@@ -27,6 +27,7 @@ div#log {
 var atocUrl = "http://beta.geohawk.co.uk/mxd/call?cfg=_mxd_&servertype=AtocServer&op=getstations&outformat=places&rfmt=json";
 
 var _awac = null;
+var _names = null;
 
 function doOnLoad() {
   log('doOnLoad()');
@@ -45,6 +46,20 @@ function ajax(url,cb) {
 	xhr.send();
 }
 
+function lookFor(x) {
+   log('lookFor('+x+')');
+   var t0 = (new Date()).getTime();
+   var n = 0;
+   var xp = ' '+x;
+   for (var i=0;i<_names.length;i++) 
+     if (_names[i].indexOf(x) === 0 || _names[i].indexOf(xp) === 0) {
+       log(n+'. '+_names[i]);
+       n++;
+     }
+   var t1 = (new Date()).getTime();
+   log('found '+n+' entries ['+(t1-t0)+'ms]');
+}
+
 function loadCRT() {
   log('loadCRT()');
   var t0 = (new Date()).getTime();
@@ -56,8 +71,8 @@ function loadCRT() {
     log('got json ['+(t2-t1)+'ms]');
     var arr = json.msptl_response.server_response.ldp_response.places_array;
     log('got '+arr.length+' entries');
-    var names = [];
-    for (var i=0;i<arr.length;i++) names[i] = arr[i].label;
+    _names = [];
+    for (var i=0;i<arr.length;i++) _names[i] = arr[i].label.toLowerCase();
     log('got names');
   });
 }
@@ -69,8 +84,12 @@ function log(msg) {
   </script>
   </head>
   <body onload="doOnLoad();">
-    <input type="button" onclick="javascript:loadCRT();" value="Load CRT" />
-    
+    <div style="margin: 10px;">
+      
+      <input type="button" onclick="javascript:loadCRT();" value="Load CRT" /><br/>
+      <input type="button" onclick="javascript:lookFor('cam');" value="Look for 'cam'" /><br/>
+      <input type="button" onclick="javascript:lookFor('king');" value="Look for 'king'" />
+    </div>
     <div id="log"></div>
   </body>
 </html>

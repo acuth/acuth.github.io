@@ -26,6 +26,7 @@ div#log {
     <script type="text/javascript">
 var atocUrl = "http://beta.geohawk.co.uk/mxd/call?cfg=_mxd_&servertype=AtocServer&op=getstations&outformat=places&rfmt=json";
 
+var MAX_RESULTS = 20;
 var _awac = null;
 var _names = null;
 var _places = null;
@@ -33,6 +34,7 @@ var _places = null;
 function doOnLoad() {
   log('doOnLoad()');
   _awac = new Awac('_awac');
+  $('#name-input').bind('input', nameInputChange);
   _awac.startPage();
 }
 
@@ -49,43 +51,50 @@ function ajax(url,cb) {
 
 function lookFor(x) {
    log('lookFor('+x+')');
+   var e = document.getElementById('results');
+   e.innerHTML = '';
+   if (x.length < 2) return;
+   x = x.toLowerCase();
    var t0 = (new Date()).getTime();
    var n = 0;
    var xp = ' '+x;
-   var e = document.getElementById('results');
-   e.innerHTML = '';
+   var xc = '['+x+']';
+  
+   var html = '';
    for (var i=0;i<_names.length;i++) 
-     if (_names[i].indexOf(x) === 0 || _names[i].indexOf(xp) !== -1) {
+     if (_names[i].indexOf(x) === 0 || _names[i].indexOf(xp) !== -1 || _names[i].indexOf(xc) !== -1) {
        n++;
-       e.innerHTML += '<br/>'+n+'. '+_names[i];
+       html += '<br/>'+_labels[i];
+       if (n > MAX_RESULTS) break;
      }
    var t1 = (new Date()).getTime();
    log('found '+n+' entries ['+(t1-t0)+'ms]');
+   if (n > MAX_RESULTS) return;
+   e.innerHTML = html;
 }
 
 
-function storeCRT() {
-  log('storeCRT()');
+function prepareFind(name) {
+  log('preparFind('+name+')');
   var t0 = (new Date()).getTime();
-  _awac.store('places',_places);
-  var t1 = (new Date()).getTime();
-  log(' - stored places ['+(t1-t0)+'ms]');
-}
-
-function getNames() {
-   log('got '+_places.length+' entries');
-   _names = [];
-   for (var i=0;i<_places.length;i++) _names[i] = _places[i].label.toLowerCase();
-   log('got names');
-}
-
-function loadCRT() {
-  log('loadCRT()');
-  var t0 = (new Date()).getTime();
-  _places = _awac.load('places');
+  _places = _awac.load(name);
   var t1 = (new Date()).getTime();
   log(' - loaded places ['+(t1-t0)+'ms]');
-  getNames();
+  _names = [];
+  _labels = [];
+  for (var i=0;i<_places.length;i++) {
+    var label = _places[i].label;
+    var name = label.toLowerCase();
+    var code = _places[i].code;
+    if (code) {
+      label += ' ['+code.toUpperCase()+']';
+      name += ' ['+code.toLowerCase()+']';
+    }
+    _labels[i] = label;
+    _names[i] = name;
+   }
+   var t2 = (new Date()).getTime();
+   log(' - prepared labels ['+(t2-t1)+'ms]');
 }
 
 function downloadCRT() {
@@ -95,11 +104,18 @@ function downloadCRT() {
     var t1 = (new Date()).getTime();
     log('got response '+text.length+' ['+(t1-t0)+'ms]');
     var json = JSON.parse(text);
-    _places = json.msptl_response.server_response.ldp_response.places_array;
+    var places = json.msptl_response.server_response.ldp_response.places_array;
     var t2 = (new Date()).getTime();
     log('got json ['+(t2-t1)+'ms]');
-    getNames();
+    _awac.store('places',places);
+    var t3 = (new Date()).getTime();
+    log('stored places ['+(t3-t2)+'ms]');
   });
+}
+
+function nameInputChange() {
+  var name = $('#name-input').val();
+  lookFor(name);
 }
 
 function log(msg) {
@@ -110,11 +126,9 @@ function log(msg) {
   </head>
   <body onload="doOnLoad();">
     <div style="margin: 10px;">
+      <input type="text" id="name-input" /><br/>
       <input type="button" onclick="javascript:downloadCRT();" value="Down Load CRT" /><br/>
-      <input type="button" onclick="javascript:storeCRT();" value="Store CRT" /><br/>
-      <input type="button" onclick="javascript:loadCRT();" value="Load CRT" /><br/>
-      <input type="button" onclick="javascript:lookFor('cam');" value="Look for 'cam'" /><br/>
-      <input type="button" onclick="javascript:lookFor('king');" value="Look for 'king'" />
+      <input type="button" onclick="javascript:prepareFind('places');" value="Prepare Find" /><br/>
       <div id="results"></div>
     </div>
     <div id="log"></div>

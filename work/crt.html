@@ -33,12 +33,11 @@ var _awac = null;
 var _names = null;
 var _places = null;
 
-
 function onPageClose(tag,ok,result) {
   log('selected '+JSON.stringify(result));
   $('#name').html(result.label);
   var url = 'https://maps.googleapis.com/maps/api/staticmap?zoom=9&size=600x600&maptype=roadmap&key=AIzaSyAn_z5Q1K0leW-FeTyB1yr5Kj1VeK-8oSM';
-  url += 'center='+result.geo_lat+','+result.geo_long;
+  url += '&center='+result.geo_lat+','+result.geo_long;
   console.log('url='+url);
   var map = $('#map');
   map.html('');

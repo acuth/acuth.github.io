@@ -79,7 +79,9 @@ function getResultDiv(i,n) {
   var classes = 'result';
   if (n == 1) classes += ' top-result';
   var div = $(document.createElement('div')).addClass(classes).html(_labels[i]);
-  div.click(function(e) {
+  div.on('touchstart click',function(e) {
+    e.stopPropagation();
+    e.preventDefault();
     var place = _places[i];
     console.log('selectd '+JSON.stringify(place));
     _awac.endPage(place);

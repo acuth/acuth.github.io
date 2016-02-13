@@ -31,10 +31,19 @@ var _awac = null;
 var _names = null;
 var _places = null;
 
+
+function onPageClose(tag,ok,result) {
+  if (!ok) {
+    log('No selection made');
+    return;
+  } 
+  log('selected '+JSON.stringify(result));
+}
+
 function doOnLoad() {
   log('doOnLoad()');
   _awac = new Awac('_awac');
-  $('#name-input').bind('input', nameInputChange);
+  _awac.setOnPageClose(onPageClose);
   _awac.startPage();
 }
 
@@ -47,54 +56,6 @@ function ajax(url,cb) {
   		}
 	};
 	xhr.send();
-}
-
-function lookFor(x) {
-   log('lookFor('+x+')');
-   var e = document.getElementById('results');
-   e.innerHTML = '';
-   if (x.length < 2) return;
-   x = x.toLowerCase();
-   var t0 = (new Date()).getTime();
-   var n = 0;
-   var xp = ' '+x;
-   var xc = '['+x+']';
-  
-   var html = '';
-   for (var i=0;i<_names.length;i++) 
-     if (_names[i].indexOf(x) === 0 || _names[i].indexOf(xp) !== -1 || _names[i].indexOf(xc) !== -1) {
-       n++;
-       html += '<br/>'+_labels[i];
-       if (n > MAX_RESULTS) break;
-     }
-   var t1 = (new Date()).getTime();
-   log('found '+n+' entries ['+(t1-t0)+'ms]');
-   if (n > MAX_RESULTS) return;
-   e.innerHTML = html;
-}
-
-
-function prepareFind(name) {
-  log('preparFind('+name+')');
-  var t0 = (new Date()).getTime();
-  _places = _awac.load(name);
-  var t1 = (new Date()).getTime();
-  log(' - loaded places ['+(t1-t0)+'ms]');
-  _names = [];
-  _labels = [];
-  for (var i=0;i<_places.length;i++) {
-    var label = _places[i].label;
-    var name = label.toLowerCase();
-    var code = _places[i].code;
-    if (code) {
-      label += ' ['+code.toUpperCase()+']';
-      name += ' ['+code.toLowerCase()+']';
-    }
-    _labels[i] = label;
-    _names[i] = name;
-   }
-   var t2 = (new Date()).getTime();
-   log(' - prepared labels ['+(t2-t1)+'ms]');
 }
 
 function downloadCRT() {
@@ -113,11 +74,6 @@ function downloadCRT() {
   });
 }
 
-function nameInputChange() {
-  var name = $('#name-input').val();
-  lookFor(name);
-}
-
 function callSelect() {
   var initp = new Object();
   initp.type = 'Rail Station';
@@ -133,11 +89,8 @@ function log(msg) {
   </head>
   <body onload="doOnLoad();">
     <div style="margin: 10px;">
-      <input type="text" id="name-input" /><br/>
       <input type="button" onclick="javascript:downloadCRT();" value="Down Load CRT" /><br/>
-      <input type="button" onclick="javascript:prepareFind('places');" value="Prepare Find" /><br/>
-       <input type="button" onclick="javascript:callSelect();" value="Call Select" /><br/>
-      <div id="results"></div>
+      <input type="button" onclick="javascript:callSelect();" value="Call Select" /><br/>
     </div>
     <div id="log"></div>
   </body>

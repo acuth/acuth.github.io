@@ -118,6 +118,13 @@ function nameInputChange() {
   lookFor(name);
 }
 
+function callSelect() {
+  var initp = new Object();
+  initp.type = 'Rail Station';
+  initp.name = 'places';
+  _awac.openPage('select','select.html',initp);
+}
+
 function log(msg) {
   var e = document.getElementById('log');
   e.innerHTML = msg + '<br/>' + e.innerHTML;
@@ -129,6 +136,7 @@ function log(msg) {
       <input type="text" id="name-input" /><br/>
       <input type="button" onclick="javascript:downloadCRT();" value="Down Load CRT" /><br/>
       <input type="button" onclick="javascript:prepareFind('places');" value="Prepare Find" /><br/>
+       <input type="button" onclick="javascript:callSelect();" value="Call Select" /><br/>
       <div id="results"></div>
     </div>
     <div id="log"></div>

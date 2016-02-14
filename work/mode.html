@@ -91,8 +91,8 @@ function onPageClose(tag,ok,result) {
   else {
     var atts = result.attribute_array;
     for (var i=0;i<atts.length;i++) {
-      if (atts[i].indexOf(_placesAttName+':') == 0) {
-        param = '&tfl_stop_id='+atts[i].substring(_placesAttName.length+1);
+      if (atts[i].indexOf(_placesAttrName+':') == 0) {
+        param = '&tfl_stop_id='+atts[i].substring(_placesAttrName.length+1);
         break;
       }
     }

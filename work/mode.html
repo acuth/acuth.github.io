@@ -98,8 +98,7 @@ function onPageClose(tag,ok,result) {
     }
   }
   log('param='+param);
-  url = _boardUrl + param;
-  ajax(boardUrl,function(text) {
+  ajax(_boardUrl + param,function(text) {
     var json = JSON.parse(text);
     log('got board');
   });

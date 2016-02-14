@@ -134,7 +134,7 @@ function doOnLoad() {
     _placesName = 'rail';
     _placesUrl = atocUrl;
   }
-  
+  _awac.setTitle('mode:'+mode);
   $('#search-icon').on('click',function(e){ callSelect(); });
   
   _awac.setOnPageClose(onPageClose);

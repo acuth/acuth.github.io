@@ -274,7 +274,7 @@ Awac.prototype.stringify = function(x) {
   }
   if (t == 'object' || t == 'array') {
     var json = JSON.stringify(x);
-    console.log('x is json:'+json);
+    //console.log('x is json:'+json);
     return 'json:'+encodeURIComponent(json);
   }
   console.log('x is unknown type - returning null');
@@ -283,7 +283,7 @@ Awac.prototype.stringify = function(x) {
 
 Awac.prototype.parse = function(s) {
   try {
-    console.log('Awac.parse() value='+s);
+    //console.log('Awac.parse() value='+s);
     if (!s) {
       console.log('s does not exist');
       return null;
@@ -302,18 +302,18 @@ Awac.prototype.parse = function(s) {
     //console.log('type='+t+' value-'+s2);
     if (t == 'string') {
       var result = decodeURIComponent(s2); 
-      console.log('string value='+result);
+      //console.log('string value='+result);
       return result;
     }
     if (t == 'number') {
       var result = parseFloat(s2);
-      console.log('number value='+result);
+      //console.log('number value='+result);
       return result;
     }
     if (t == 'json') {
       s2 = decodeURIComponent(s2);
       var result = JSON.parse(s2);
-      console.log('json value='+result);
+      //console.log('json value='+result);
       return result;
     }
   } catch (err) {

@@ -63,30 +63,36 @@ MockContainer.prototype.unlockNavDrawer = function() {
   if (this.debug) console.log(this.varName+'.unlockNavDrawer()');
 };
 
-MockContainer.prototype.set = function(name,value) {
-  if (this.debug) console.log(this.varName+'.set('+name+','+value+')');
-  this.values[name] = value;
-};
-
-MockContainer.prototype.get = function(name) {
-  var value = this.values[name];
-  if (this.debug) console.log(this.varName+'.get('+name+')='+value);
-  return value;
-};
-
 MockContainer.prototype.getImplementation = function() {
   if (this.debug) console.log(this.varName+'.getImplementation()=mock');
   return 'mock';
 };
 
+MockContainer.prototype.set = function(name,value) {
+  if (this.debug) console.log(this.varName+'.set('+name+','+this.getDebugValue(value)+')');
+  this.values[name] = value;
+};
+
+MockContainer.prototype.get = function(name) {
+  var value = this.values[name];
+  if (this.debug) console.log(this.varName+'.get('+name+')='+this.getDebugValue(value));
+  return value;
+};
+
+MockContainer.prototype.getDebugValue = function(value) {
+    if (value && value.length > 100)
+      value = value.substring(0,100)+'... length='+value.length;
+    return value;
+};
+
 MockContainer.prototype.store = function(name,value) {
-  if (this.debug) console.log(this.varName+'.store('+name+','+value+')');
+  if (this.debug) console.log(this.varName+'.store('+name+','+this.getDebugValue(value)+')');
   localStorage.setItem(name,value);
 };
 
 MockContainer.prototype.load = function(name) {
   var value = localStorage.getItem(name);
-  if (this.debug) console.log(this.varName+'.load('+name+')='+value);
+  if (this.debug) console.log(this.varName+'.load('+name+')='+this.getDebugValue(value));
   return value;
 };
 

@@ -42,13 +42,15 @@ div#search-div {
     <script type="text/javascript">
 
 var atocUrl = "http://stg.geohawk.co.uk/mxd/call?cfg=_mxd_&servertype=AtocServer&op=getstations&outformat=places&rfmt=json";
-var boardUrl = "http://stg.geohawk.co.uk/mxd/call?cfg=_mytrains&servertype=AtocServer&op=getboard&btype=arrivals,departures&outformat=fboard&rfmt=json";
+var atocBoardUrl = "http://stg.geohawk.co.uk/mxd/call?cfg=_mytrains&servertype=AtocServer&op=getboard&btype=arrivals,departures&outformat=fboard&rfmt=json";
 var tubeUrl = "http://stg.geohawk.co.uk/mxd/call?servertype=TFLUniServer&cfg=_mxd_&op=getstops&outformat=places&rfmt=json";
+var tubeBoardUrl = "http://stg.geohawk.co.uk/mxd/call?servertype=TFLUniServer&cfg=_mxd_&op=getboard&btype=arrivals,departures&outformat=fboard&rfmt=json";
 
 var MAX_RESULTS = 20;
 var _awac = null;
 var _placesName = null;
 var _placesUrl = null;
+var _boardUrl = null;
 var _placesAttrName = null;
 
 function log(msg) {
@@ -74,18 +76,32 @@ function ajax(url,cb) {
 function onPageClose(tag,ok,result) {
   log('selected '+JSON.stringify(result));
   $('#name-div').html(result.label);
+
   var url = 'https://maps.googleapis.com/maps/api/staticmap?zoom=9&size=200x200&maptype=roadmap&key=AIzaSyAn_z5Q1K0leW-FeTyB1yr5Kj1VeK-8oSM';
   url += '&center='+result.geo_lat+','+result.geo_long;
   console.log('url='+url);
   var map = $('#map');
   map.html('');
   $(document.createElement('img')).attr('src',url).appendTo(map);
-  url = boardUrl + '&crs='+result.code;
-  var t0 = (new Date()).getTime();
+
+  var param = null;
+  if (_placesAttrName == null) {
+    param = '&crs='+result.code;
+  }
+  else {
+    var atts = result.attribute_array;
+    for (var i=0;i<atts.length;i++) {
+      if (atts[i].indexOf(_placesAttName+':') == 0) {
+        param = '&tfl_stop_id='+atts[i].substring(_placesAttName.length+1);
+        break;
+      }
+    }
+  }
+  log('param='+param);
+  url = _boardUrl + param;
   ajax(boardUrl,function(text) {
-    var t1 = (new Date()).getTime();
-    log('got response '+text.length+' ['+(t1-t0)+'ms]');
     var json = JSON.parse(text);
+    log('got board');
   });
 }
 
@@ -129,10 +145,12 @@ function doOnLoad() {
     _placesName = 'tube';
     _placesUrl = tubeUrl;
     _placesAttrName = 'tfl_stop_id';
+    _boardUrl= tubeBoardUrl;
   }
   else if (mode == 'rail') {
     _placesName = 'rail';
     _placesUrl = atocUrl;
+    _boardUrl= atocBoardUrl;
   }
   _awac.setTitle('mode:'+mode);
   $('#search-icon').on('click',function(e){ callSelect(); });

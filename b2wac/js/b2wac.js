@@ -46,7 +46,7 @@ B2wac.UP = 1;
 B2wac.DOWN = 2;
 B2wac.NEXT = 3;
 B2wac.PREV = 4;
-B2wac.TRANSITION_TIME = 350;
+B2wac.TRANSITION_TIME = 5350;
 
 B2wac.prototype.onHashChange=function() {
   console.log('>>>>>>>>>>>>>>>>>>>>>>> B2wac.onHashChange()');
@@ -215,6 +215,7 @@ B2wac.prototype.transitionFrames=function() {
   var width = concealFrame.iframe.width()+'px';
   console.log(' - width='+width);
   
+  var header = $('#header').css('width',width);
   concealFrame.iframe.css('width',width);
   revealFrame.iframe.css('width',width);
   

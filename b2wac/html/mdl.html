@@ -6,30 +6,220 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.indigo-pink.min.css">
     <script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+   
+var _titleIndex = 0;
+
+
+function showToast() { 
+    var data = {message: 'Example Message'};
+    var snackbarContainer = document.querySelector('#demo-toast-example');
+    snackbarContainer.MaterialSnackbar.showSnackbar(data);
+}
+
+function hideMenu() {
+  var btn = document.getElementById('hdrbtn');
+  btn.parentNode.removeChild(btn);
+  var menu = document.getElementById('hdrmenu');
+  menu.parentNode.removeChild(menu);
+  componentHandler.upgradeDom();
+}
+
+function showMenu() {
+    var btn = document.createElement('button');
+    btn.setAttribute('class','mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon');
+    btn.setAttribute('id','hdrbtn');
+    btn.innerHTML = '<i class="material-icons">more_vert</i>';
+    
+    var menu = document.createElement('ul');
+    menu.setAttribute('class','mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right');
+    menu.setAttribute('for','hdrbtn');
+    menu.setAttribute('id','hdrmenu');
+    menu.innerHTML = '<li class="mdl-menu__item">About</li>'+
+            '<li class="mdl-menu__item">Contact</li>'+
+            '<li class="mdl-menu__item">Legal information</li>';
+          
+   var hdrrow = document.getElementById('header-row');
+   hdrrow.appendChild(btn);
+   hdrrow.appendChild(menu);
+   componentHandler.upgradeDom();
+}
+
+function showProgress() {
+   var html = '<div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>';
+   document.getElementById('progress-area').innerHTML = html;
+   componentHandler.upgradeDom();
+}
+
+function prepareProgress() {
+   var html = '<div class="mdl-progress mdl-js-progress"></div>';
+   document.getElementById('progress-area').innerHTML = html;
+   componentHandler.upgradeDom();
+}
+
+function hideProgress() {
+  prepareProgress();
+}
+
+function prepareToast() {
+  var html =
+    '<div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">'+
+      '<div class="mdl-snackbar__text"></div>'+
+      '<button class="mdl-snackbar__action" type="button"></button>'+
+    '</div>';
+  document.getElementById('toast-area').innerHTML = html;
+  componentHandler.upgradeDom();
+}
+
+function prepareDialog() {
+  var html =
+  '<dialog id="demo-dialog" class="mdl-dialog">'+
+    //'<h4 class="mdl-dialog__title">Allow data collection?</h4>'+
+    '<div class="mdl-dialog__content">'+
+      '<p>Allowing us to collect data will let us get you the information you want faster.<p>'+
+    '</div>'+
+    '<div class="mdl-dialog__actions">'+
+      '<button type="button" class="mdl-button">Agree</button>'+
+      '<button type="button" class="mdl-button close">Disagree</button>'+
+    '</div>'+
+  '</dialog>';
+  document.getElementById('dialog-area').innerHTML = html;
+  componentHandler.upgradeDom();
+  var dialog = document.getElementById('demo-dialog');
+  if (!dialog.showModal) {
+    dialogPolyfill.registerDialog(dialog);
+  }
+  dialog.querySelector('.close').addEventListener('click', function() {
+    dialog.close();
+  });
+} 
+
+function showDialog() {
+    document.querySelector('dialog').showModal();
+}
+    
+function addCard() {
+  var html = '<div class="mdl-card mdl-shadow--2dp">'+
+  '<div class="mdl-card__title">'+
+    '<h2 class="mdl-card__title-text">Welcome</h2>'+
+  '</div>'+
+  '<div class="mdl-card__supporting-text">'+
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'+
+    'Mauris sagittis pellentesque lacus eleifend lacinia...'+
+  '</div>'+
+  '<div class="mdl-card__actions mdl-card--border">'+
+    '<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Get Started</a>'+
+  '</div>'+
+  '<div class="mdl-card__menu">'+
+    '<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">'+
+      '<i class="material-icons">share</i>'+
+    '</button>'+
+  '</div>'+
+  '</div>';
+  document.getElementById('component').innerHTML = html;
+  componentHandler.upgradeDom();
+}
+
+function addNavDrawer() {
+  var html = //'<div class="mdl-layout__drawer">'+
+      '<span class="mdl-layout-title">Foo</span>'+
+      '<nav class="mdl-navigation">'+
+        '<a class="mdl-navigation__link" href="">BAR</a>'+
+        '<a class="mdl-navigation__link" href="">BAR</a>'+
+        '<a class="mdl-navigation__link" href="">BAR</a>'+
+        '<a class="mdl-navigation__link" href="">BAR</a>'+
+      '</nav>';
+    //'</div>';
+  
+    var newElem = document.createElement('div');
+    newElem.setAttribute('class','mdl-layout__drawer');
+    newElem.innerHTML = html;
+    var main = document.getElementById('main');
+    console.log('parent-node='+main.parentNode);
+    main.parentNode.insertBefore(newElem,main);
+  
+  //var drawerDiv = document.createElement('div');
+  //var drawer = $(drawerDiv).addClass('mdl-layout__drawer');
+  //var nav = $(document.createElement('nav')).addClass('mdl-navigation').appendTo(drawer);
+  //$(document.createElement('a')).addClass('mdl-navigation__link').attr('href','#home').html('Home').appendTo(nav);
+  //$(document.createElement('a')).addClass('mdl-navigation__link').attr('href','#work').html('Work').appendTo(nav);
+  //drawer.insertAfter($('#header'));
+  
+  
+  
+  
+  setTimeout(function() { console.log('upgrade'); componentHandler.upgradeDom(); },1000);//Element(document.getElementById('layout'));
+}      
+
+
+function setTitle() {
+  _titleIndex++;
+  document.getElementById('title').innerHTML = 'B2WAC '+_titleIndex;
+}
+
+
+function doOnLoad() {
+  prepareToast();
+  prepareDialog();
+  prepareProgress();
+}
+
+    </script>
   </head>
-  <body>
+  <body onload="doOnLoad();">
     
     
-     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+     <div id="layout" class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
        
-      <header class="mdl-layout__header">
-        <div class="mdl-layout__header-row">
-          <span class="mdl-layout-title">B2WAC</span>
+      <header id="header" class="mdl-layout__header">
+        <div id="header-row" class="mdl-layout__header-row">
+          <span id="title" class="mdl-layout-title">B2WAC</span>
           <div class="mdl-layout-spacer"></div>
+          <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="">Link</a>
+          </nav>
+          <!--button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
+            <i class="material-icons">more_vert</i>
+          </button>
+          <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
+            <li class="mdl-menu__item">About</li>
+            <li class="mdl-menu__item">Contact</li>
+            <li class="mdl-menu__item">Legal information</li>
+          </ul-->
         </div>
       </header>
       
-      <div class="mdl-layout__drawer">
+      <!--div class="mdl-layout__drawer">
         <nav class="mdl-navigation">
           <a class="mdl-navigation__link" href="#home">Home</a>
           <a class="mdl-navigation__link" href="">Inbox</a>
           <a class="mdl-navigation__link" href="">Trash</a>
         </nav>
-      </div>
+      </div-->
       
-      <main class="mdl-layout__content">
+      <main id="main" class="mdl-layout__content">
+   
+<div id="progress-area"></div>
+<div id="toast-area"></div>
+<div id="dialog-area"></div>
+<div id="component"></div>
+  
+<div id="lorem" style="padding:10px;">  
         
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec condimentum, turpis et dignissim consectetur, magna metus porttitor neque, eget consectetur ex tortor at elit. Sed non convallis sapien. Duis mollis lectus pulvinar semper consectetur. Quisque dapibus, augue eget pretium finibus, libero est posuere dolor, eget varius magna risus at dolor. Quisque dapibus velit in purus ultricies, sit amet gravida orci vulputate. Praesent sem elit, ultrices ut lacinia vel, condimentum vel dui. Maecenas tincidunt magna lobortis ipsum dapibus aliquam. Praesent hendrerit, enim vel iaculis auctor, libero nulla imperdiet ipsum, sed faucibus dolor sem quis nunc. Fusce porttitor suscipit sem, sit amet luctus nibh finibus vel. Vivamus luctus massa ac lacus molestie dapibus. Sed varius ullamcorper mi, et posuere dolor dignissim id. Integer malesuada ex semper odio tempor laoreet.</p>
+<ul>
+<li><a href="javascript:setTitle();">Set Title</a></li>
+<li><a href="javascript:showMenu();">Show Menu</a></li>
+<li><a href="javascript:hideMenu();">Hide Menu</a></li>
+<li><a href="javascript:showProgress();">Show Progress</a></li>
+<li><a href="javascript:hideProgress();">Hide Progress</a></li>
+<li><a href="javascript:showToast();">Show Toast</a></li>
+<li><a href="javascript:showDialog();">Show Dialog</a></li>
+<li><a href="javascript:addCard();">Add Card</a></li>
+</ul>
+
+
+<p>Dolor sit amet, consectetur adipiscing elit. Donec condimentum, turpis et dignissim consectetur, magna metus porttitor neque, eget consectetur ex tortor at elit. Sed non convallis sapien. Duis mollis lectus pulvinar semper consectetur. Quisque dapibus, augue eget pretium finibus, libero est posuere dolor, eget varius magna risus at dolor. Quisque dapibus velit in purus ultricies, sit amet gravida orci vulputate. Praesent sem elit, ultrices ut lacinia vel, condimentum vel dui. Maecenas tincidunt magna lobortis ipsum dapibus aliquam. Praesent hendrerit, enim vel iaculis auctor, libero nulla imperdiet ipsum, sed faucibus dolor sem quis nunc. Fusce porttitor suscipit sem, sit amet luctus nibh finibus vel. Vivamus luctus massa ac lacus molestie dapibus. Sed varius ullamcorper mi, et posuere dolor dignissim id. Integer malesuada ex semper odio tempor laoreet.</p>
 
 <p>Cras commodo velit at sapien euismod, id viverra ligula iaculis. Cras vulputate non purus hendrerit faucibus. Cras convallis sodales ante sed ultrices. Curabitur ornare convallis nunc in maximus. Duis at justo id turpis commodo malesuada. Duis auctor rhoncus diam, non elementum nibh tristique at. Sed feugiat scelerisque viverra. Maecenas gravida finibus erat eu imperdiet. Donec vel mauris id massa laoreet euismod. Aliquam tempor leo a neque tristique, eget facilisis diam ornare. In at est quis enim tincidunt bibendum ac quis nisi. Sed lobortis volutpat molestie. Maecenas luctus congue augue at semper. Sed commodo lorem nec efficitur aliquet. Vestibulum ut elit augue. Integer blandit magna et bibendum ultrices.</p>
 
@@ -39,6 +229,7 @@
 
 <p>Integer scelerisque lacinia vulputate. Aenean molestie ipsum neque, eget blandit urna vestibulum eu. Nunc nibh urna, posuere porttitor tortor auctor, ultricies elementum ante. Morbi elementum pulvinar condimentum. Quisque pretium, quam et posuere tempus, odio lacus sollicitudin dolor, in rhoncus purus eros eu ante. Ut iaculis dictum neque a faucibus. Suspendisse hendrerit nibh neque, a efficitur nisl semper in. Proin vulputate risus et feugiat bibendum. Vestibulum eu condimentum neque, a cursus risus. Curabitur tincidunt fermentum quam et vestibulum. Sed id velit mattis, malesuada tellus eget, convallis lacus. Nulla fringilla at massa nec consectetur. Suspendisse auctor eget mauris a hendrerit.</p>
 
+</div>
       </main>
     </div>
   </body>

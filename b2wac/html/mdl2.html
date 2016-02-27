@@ -1,0 +1,48 @@
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.indigo-pink.min.css">
+  <script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
+  <script type="text/javascript">
+function addNavDrawer() {
+  console.log('add nav drawer');
+  var div = document.createElement('div');
+  div.setAttribute('class','mdl-layout__drawer');
+  div.innerHTML = '<nav class="mdl-navigation">'+
+      '<a class="mdl-navigation__link" href="">Link</a>'+
+      '<a class="mdl-navigation__link" href="">Link</a>'+
+      '<a class="mdl-navigation__link" href="">Link</a>'+
+      '<a class="mdl-navigation__link" href="">Link</a>'+
+    '</nav>';
+  var main = document.getElementById('main');
+  main.parentNode.insertBefore(div,main);
+  console.log('upgrading DOM');
+  componentHandler.upgradeDom();
+}    
+  </script>
+</head>
+<body>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <span class="mdl-layout-title">Title</span>
+      <div class="mdl-layout-spacer"></div>
+    </div>
+  </header>
+  <!--div class="mdl-layout__drawer">
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" href="">Link</a>
+      <a class="mdl-navigation__link" href="">Link</a>
+      <a class="mdl-navigation__link" href="">Link</a>
+      <a class="mdl-navigation__link" href="">Link</a>
+    </nav>
+  </div-->
+  <main id="main" class="mdl-layout__content">
+    <div class="page-content"><!-- Your content goes here -->
+      <a href="javascript:addNavDrawer();">add nav drawer</a>
+    </div>
+  </main>
+</div>
+</body>
+</html>

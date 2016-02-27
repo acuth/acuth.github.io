@@ -5,15 +5,28 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.indigo-pink.min.css">
+    <style type="text/css">
+button.demo-button {
+  display: block;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+}      
+    </style>
     <script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
     <script type="text/javascript">
    
 var _titleIndex = 0;
+var _msgIndex = 0;
 
-
-function showToast() { 
-    var data = {message: 'Example Message'};
+function showToast(msg) {
+    if (!msg) {
+      _msgIndex++;
+      msg = 'Example Message '+_msgIndex;
+    }
+    var data = {message: msg};
     var snackbarContainer = document.querySelector('#demo-toast-example');
     snackbarContainer.MaterialSnackbar.showSnackbar(data);
 }
@@ -80,8 +93,8 @@ function prepareDialog() {
       '<p>Allowing us to collect data will let us get you the information you want faster.<p>'+
     '</div>'+
     '<div class="mdl-dialog__actions">'+
-      '<button type="button" class="mdl-button">Agree</button>'+
-      '<button type="button" class="mdl-button close">Disagree</button>'+
+      '<button type="button" class="mdl-button yes">Agree</button>'+
+      '<button type="button" class="mdl-button no">Disagree</button>'+
     '</div>'+
   '</dialog>';
   document.getElementById('dialog-area').innerHTML = html;
@@ -90,12 +103,17 @@ function prepareDialog() {
   if (!dialog.showModal) {
     dialogPolyfill.registerDialog(dialog);
   }
-  dialog.querySelector('.close').addEventListener('click', function() {
+  dialog.querySelector('.yes').addEventListener('click', function() {
     dialog.close();
+    showToast('you pressed YES');
+  });
+  dialog.querySelector('.no').addEventListener('click', function() {
+    dialog.close();
+    showToast('you pressed NO');
   });
 } 
 
-function showDialog() {
+function showDialog(msg) {
     document.querySelector('dialog').showModal();
 }
     
@@ -163,6 +181,14 @@ function doOnLoad() {
   prepareToast();
   prepareDialog();
   prepareProgress();
+  document.getElementById('settitlebtn').addEventListener('click', setTitle );
+  document.getElementById('showmenubtn').addEventListener('click', showMenu );
+  document.getElementById('hidemenubtn').addEventListener('click', hideMenu );
+  document.getElementById('showprogressbtn').addEventListener('click', showProgress );
+  document.getElementById('hideprogressbtn').addEventListener('click', hideProgress );
+  document.getElementById('showtoastbtn').addEventListener('click', function(e) { showToast(); });
+  document.getElementById('showdialogbtn').addEventListener('click', showDialog );
+  document.getElementById('addcardbtn').addEventListener('click', addCard );
 }
 
     </script>
@@ -179,24 +205,16 @@ function doOnLoad() {
           <nav class="mdl-navigation">
             <a class="mdl-navigation__link" href="">Link</a>
           </nav>
-          <!--button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
-            <i class="material-icons">more_vert</i>
-          </button>
-          <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
-            <li class="mdl-menu__item">About</li>
-            <li class="mdl-menu__item">Contact</li>
-            <li class="mdl-menu__item">Legal information</li>
-          </ul-->
         </div>
       </header>
       
-      <!--div class="mdl-layout__drawer">
+      <div class="mdl-layout__drawer">
         <nav class="mdl-navigation">
           <a class="mdl-navigation__link" href="#home">Home</a>
           <a class="mdl-navigation__link" href="">Inbox</a>
           <a class="mdl-navigation__link" href="">Trash</a>
         </nav>
-      </div-->
+      </div>
       
       <main id="main" class="mdl-layout__content">
    
@@ -206,17 +224,38 @@ function doOnLoad() {
 <div id="component"></div>
   
 <div id="lorem" style="padding:10px;">  
-        
-<ul>
-<li><a href="javascript:setTitle();">Set Title</a></li>
-<li><a href="javascript:showMenu();">Show Menu</a></li>
-<li><a href="javascript:hideMenu();">Hide Menu</a></li>
-<li><a href="javascript:showProgress();">Show Progress</a></li>
-<li><a href="javascript:hideProgress();">Hide Progress</a></li>
-<li><a href="javascript:showToast();">Show Toast</a></li>
-<li><a href="javascript:showDialog();">Show Dialog</a></li>
-<li><a href="javascript:addCard();">Add Card</a></li>
-</ul>
+       
+<button id="settitlebtn" class="demo-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+  Set Title
+</button>
+
+<button id="showmenubtn" class="demo-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+  Show Menu
+</button>
+
+<button id="hidemenubtn" class="demo-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+  Hide Menu
+</button>
+
+<button id="showprogressbtn" class="demo-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+  Show Progress
+</button>
+
+<button id="hideprogressbtn" class="demo-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+  Hide Progress
+</button>
+
+<button id="showtoastbtn" class="demo-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+  Show Alert
+</button>
+
+<button id="showdialogbtn" class="demo-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+  Show Dialog
+</button>
+
+<button id="addcardbtn" class="demo-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+  Add Card
+</button>
 
 
 <p>Dolor sit amet, consectetur adipiscing elit. Donec condimentum, turpis et dignissim consectetur, magna metus porttitor neque, eget consectetur ex tortor at elit. Sed non convallis sapien. Duis mollis lectus pulvinar semper consectetur. Quisque dapibus, augue eget pretium finibus, libero est posuere dolor, eget varius magna risus at dolor. Quisque dapibus velit in purus ultricies, sit amet gravida orci vulputate. Praesent sem elit, ultrices ut lacinia vel, condimentum vel dui. Maecenas tincidunt magna lobortis ipsum dapibus aliquam. Praesent hendrerit, enim vel iaculis auctor, libero nulla imperdiet ipsum, sed faucibus dolor sem quis nunc. Fusce porttitor suscipit sem, sit amet luctus nibh finibus vel. Vivamus luctus massa ac lacus molestie dapibus. Sed varius ullamcorper mi, et posuere dolor dignissim id. Integer malesuada ex semper odio tempor laoreet.</p>

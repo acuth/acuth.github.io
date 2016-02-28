@@ -4,8 +4,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <!--link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.indigo-pink.min.css"-->
-    <link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.cyan-light_blue.min.css">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.indigo-pink.min.css">
+    <!--link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.cyan-light_blue.min.css"-->
     <style type="text/css">
 button.demo-button {
   display: block;
@@ -15,7 +15,11 @@ button.demo-button {
   margin-bottom: 10px;
 }      
 
-.demo-progress {
+div.mdl-layout__drawer-button i {
+  line-height: 48px;
+}
+
+div.demo-progress {
   width: 100%;
 }
     </style>
@@ -100,11 +104,11 @@ function showProgress() {
 function prepareProgress() {
    var html = '<div class="demo-progress mdl-progress mdl-js-progress"></div>';
    document.getElementById('progress-area').innerHTML = html;
-   componentHandler.upgradeDom();
 }
 
 function hideProgress() {
   prepareProgress();
+  componentHandler.upgradeDom();
 }
 
 function prepareToast() {
@@ -114,7 +118,6 @@ function prepareToast() {
       '<button class="mdl-snackbar__action" type="button"></button>'+
     '</div>';
   document.getElementById('toast-area').innerHTML = html;
-  componentHandler.upgradeDom();
 }
 
 function prepareDialog() {
@@ -125,28 +128,27 @@ function prepareDialog() {
       '<p>Allowing us to collect data will let us get you the information you want faster.<p>'+
     '</div>'+
     '<div class="mdl-dialog__actions">'+
-      '<button type="button" class="mdl-button yes">Agree</button>'+
-      '<button type="button" class="mdl-button no">Disagree</button>'+
+      '<button type="button" id="demo-yes-btn" class="mdl-button">Agree</button>'+
+      '<button type="button" id="demo-no-btn" class="mdl-button">Disagree</button>'+
     '</div>'+
   '</dialog>';
   document.getElementById('dialog-area').innerHTML = html;
-  componentHandler.upgradeDom();
   var dialog = document.getElementById('demo-dialog');
   if (!dialog.showModal) {
     dialogPolyfill.registerDialog(dialog);
   }
-  dialog.querySelector('.yes').addEventListener('click', function() {
+  document.getElementById('demo-yes-btn').addEventListener('click', function() {
     dialog.close();
-    showToast('you pressed YES');
+    console.log('you pressed YES');
   });
-  dialog.querySelector('.no').addEventListener('click', function() {
+  document.getElementById('demo-no-btn').addEventListener('click', function() {
     dialog.close();
-    showToast('you pressed NO');
+    console.log('you pressed NO');
   });
 } 
 
-function showDialog(msg) {
-    document.querySelector('dialog').showModal();
+function showDialog() {
+    document.getElementById('demo-dialog').showModal();
 }
     
 function addCard() {
@@ -172,7 +174,7 @@ function addCard() {
 }
 
 function addNavDrawer() {
-  var html = //'<div class="mdl-layout__drawer">'+
+  var html = 
       '<span class="mdl-layout-title">Foo</span>'+
       '<nav class="mdl-navigation">'+
         '<a class="mdl-navigation__link" href="">BAR</a>'+
@@ -180,7 +182,6 @@ function addNavDrawer() {
         '<a class="mdl-navigation__link" href="">BAR</a>'+
         '<a class="mdl-navigation__link" href="">BAR</a>'+
       '</nav>';
-    //'</div>';
   
     var newElem = document.createElement('div');
     newElem.setAttribute('class','mdl-layout__drawer');
@@ -188,16 +189,6 @@ function addNavDrawer() {
     var main = document.getElementById('main');
     console.log('parent-node='+main.parentNode);
     main.parentNode.insertBefore(newElem,main);
-  
-  //var drawerDiv = document.createElement('div');
-  //var drawer = $(drawerDiv).addClass('mdl-layout__drawer');
-  //var nav = $(document.createElement('nav')).addClass('mdl-navigation').appendTo(drawer);
-  //$(document.createElement('a')).addClass('mdl-navigation__link').attr('href','#home').html('Home').appendTo(nav);
-  //$(document.createElement('a')).addClass('mdl-navigation__link').attr('href','#work').html('Work').appendTo(nav);
-  //drawer.insertAfter($('#header'));
-  
-  
-  
   
   setTimeout(function() { console.log('upgrade'); componentHandler.upgradeDom(); },1000);//Element(document.getElementById('layout'));
 }      
@@ -223,6 +214,7 @@ function doOnLoad() {
   document.getElementById('showtoastbtn').addEventListener('click', function(e) { showToast(); });
   document.getElementById('showdialogbtn').addEventListener('click', showDialog );
   document.getElementById('addcardbtn').addEventListener('click', addCard );
+  componentHandler.upgradeDom();
 }
 
     </script>

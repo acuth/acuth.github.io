@@ -14,9 +14,13 @@ function showLogin() {
   _awac.openPage('login','crt_login.html');
 }
 
+function showAbout() {
+  _awac.openPage('about','crt_about.html');
+}
+
 function onAction(action) {
   if (action == 'about') 
-    _awac.openPage('about','crt_about.html');
+    showAbout();
   else if (action == 'logout') {
     _awac.store('username',null);
     showLogin();
@@ -45,6 +49,8 @@ function doOnLoad() {
   <body onload="doOnLoad();">
     <div class="content">
  This is the home page 
+ 
+ <p><a href="javascript:showAbout();">About</a></p>
     </div>
   </body>
 </html>

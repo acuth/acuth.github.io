@@ -22,4 +22,5 @@ p#debug-actions {
   margin-top: 150px;
   font-size: 80%;
   border-top: solid 1px #AAA;
+  display: none;
 }

@@ -69,7 +69,6 @@ function doOnLoad() {
   _awac.setOnPageClose(onPageClose);
   _awac.addNavDrawerItem({'label':'Logout','action':'logout'});
   _awac.addNavDrawerItem({'label':'About','action':'about'});
-  _awac.unlockNavDrawer();
   $('#newsightingbtn').on('click',function(e){ newSighting(); });
   $('#recentsightingbtn').on('click',function(e){ recentSightings(); });
   var uname = _awac.load('username');

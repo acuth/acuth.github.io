@@ -24,3 +24,12 @@ p#debug-actions {
   border-top: solid 1px #AAA;
   display: none;
 }
+
+div.entry {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+  border-bottom: solid 1px gray;
+  cursor: pointer;
+}

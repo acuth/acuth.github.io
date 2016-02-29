@@ -18,8 +18,12 @@ function showAbout() {
   _awac.openPage('about','crt_about.html');
 }
 
-function showBoat() {
+function newSighting() {
   _awac.openPage('boat','crt_boat.html');
+}
+
+function recentSightings() {
+  _awac.openPage('recent','crt_recent.html');
 }
 
 function showHome() {
@@ -63,7 +67,8 @@ function doOnLoad() {
   _awac.addNavDrawerItem({'label':'Logout','action':'logout'});
   _awac.addNavDrawerItem({'label':'About','action':'about'});
   _awac.unlockNavDrawer();
-  $('#newsightingbtn').on('click',function(e){ showBoat(); });
+  $('#newsightingbtn').on('click',function(e){ newSighting(); });
+  $('#recentsightingbtn').on('click',function(e){ recentSightings(); });
   var uname = _awac.load('username');
   if (!uname) hideHome(); else $('#name').html(uname);
   _awac.startPage();
@@ -77,6 +82,8 @@ function doOnLoad() {
  <p>This is the home page, you are logged in as <span id="name"></span>.</p>
  
  <input id="newsightingbtn" type="button" value="New Sighting" />
+ 
+ <input id="recentsightingbtn" type="button" value="Recent Sightings" />
  
  
 <p id="debug-actions">

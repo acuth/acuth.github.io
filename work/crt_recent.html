@@ -12,42 +12,37 @@
 function onAction(action) {
   if (action == 'back') 
     _awac.endPage();
-  else if (action == 'next') {
-    var boatName = $('#boatname').val();    
-    var boatNumber = $('#boatnumber').val();
-    if (!boatName && !boatNumber) 
-      _awac.alert('No boat details supplied');
-    else {
-      var boat = {};
-      boat.name = boatName;
-      boat.number = boatNumber;
-      boat.op = 'save';
-      _awac.replacePage('report','crt_report.html',boat,true);
-    }
-  }
+}
+
+function displayBoat(name,number) {
+  var boat = {};
+  boat.name = name;
+  boat.number = number;
+  boat.op = 'update';
+  _awac.replacePage('report','crt_report.html',boat,true);
 }
 
 function doOnLoad() {
   _awac = new Awac('_awac'); 
   _awac.setOnAction(onAction);
 	_awac.setHomeItem({'label':'Back','icon':'close','action':'back'});
-	_awac.addActionBarItem({'label':'NEXT','action':'next'});
+	$('#mary').on('click',function(e){displayBoat('The Mary Rose','1234');});
+	$('#victory').on('click',function(e){displayBoat('Victory','007');});
+	$('#titanic').on('click',function(e){displayBoat('The Titanic','666');});
+	$('#ark').on('click',function(e){displayBoat('The Ark','00001');});
   _awac.startPage();
 }
   </script>
   </head>
   <body onload="doOnLoad();">
     <div class="content">
-
-<h3>Select Boat</h3>
-
-<input id="boatname" type="text" placeholder="Boat Name" />
-<input id="boatnumber" type="text" placeholder="Boat Index" />
-
-
-<p id="debug-actions">
-  <a href="javascript:onAction('next');">NEXT</a>
-</p>
+      <h3>Recent Sightings</h3>
+      
+      <div id="mary" class="entry" style="border-top: solid 1px gray;">The Mary Rose</div>
+      <div id="victory" class="entry">Victory</div>
+      <div id="titanic" class="entry">The Titanic</div>
+      <div id="ark" class="entry">The Ark</div>
+      
     </div>
   </body>
 </html>

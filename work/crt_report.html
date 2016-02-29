@@ -13,7 +13,9 @@ function onAction(action) {
   if (action == 'back') 
     _awac.endPage();
   else if (action == 'save')
-    _awac.alert('NYI');
+    _awac.alert('op=save NYI');
+  else if (action == 'update')
+    _awac.alert('op=update NYI');
 }
 
 function doOnLoad() {
@@ -23,7 +25,7 @@ function doOnLoad() {
 	var initp = _awac.getInitParam();
 	$('#boatname').val(initp.name);
 	$('#boatnumber').val(initp.number);
-	_awac.addActionBarItem({'label':'SAVE','action':'save'});
+	_awac.addActionBarItem({'label':initp.op,'action':initp.op});
   _awac.startPage();
 }
   </script>

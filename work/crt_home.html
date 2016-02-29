@@ -18,6 +18,10 @@ function showAbout() {
   _awac.openPage('about','crt_about.html');
 }
 
+function showBoat() {
+  _awac.openPage('boat','crt_boat.html');
+}
+
 function showHome() {
   $('#home-div').css('display','block');
 }
@@ -41,7 +45,12 @@ function onAction(action) {
 
 function onPageClose(tag,ok,value) { 
   if (tag == 'login') {
-    if (value == 'home') showHome(); else _awac.endPage();
+    if (value == 'home') {
+      $('#name').html(_awac.load('username'));
+      showHome(); 
+    }
+    else 
+      _awac.endPage();
   }
   console.log('page '+tag+' closed');
 }
@@ -54,8 +63,9 @@ function doOnLoad() {
   _awac.addNavDrawerItem({'label':'Logout','action':'logout'});
   _awac.addNavDrawerItem({'label':'About','action':'about'});
   _awac.unlockNavDrawer();
+  $('#newsightingbtn').on('click',function(e){ showBoat(); });
   var uname = _awac.load('username');
-  if (!uname) hideHome();
+  if (!uname) hideHome(); else $('#name').html(uname);
   _awac.startPage();
   if (!uname) showLogin();
 }
@@ -64,7 +74,10 @@ function doOnLoad() {
   <body onload="doOnLoad();">
     <div class="content">
 <div id="home-div">      
- This is the home page 
+ <p>This is the home page, you are logged in as <span id="name"></span>.</p>
+ 
+ <input id="newsightingbtn" type="button" value="New Sighting" />
+ 
  
  <p><a href="javascript:showAbout();">About</a></p
   <p><a href="javascript:onAction('logout');">Logout</a></p>

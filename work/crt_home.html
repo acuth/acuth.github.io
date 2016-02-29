@@ -27,11 +27,16 @@ function recentSightings() {
 }
 
 function showHome() {
+  $('#name').html(_awac.load('username'));
   $('#home-div').css('display','block');
+  _awac.setTitle('Home');
+  _awac.unlockNavDrawer();
 }
 
 function hideHome() {
   $('#home-div').css('display','none');
+  _awac.setTitle('');
+  _awac.lockNavDrawer();  
 }
 
 function onAction(action) {
@@ -49,10 +54,8 @@ function onAction(action) {
 
 function onPageClose(tag,ok,value) { 
   if (tag == 'login') {
-    if (value == 'home') {
-      $('#name').html(_awac.load('username'));
+    if (value == 'home') 
       showHome(); 
-    }
     else 
       _awac.endPage();
   }
@@ -70,7 +73,10 @@ function doOnLoad() {
   $('#newsightingbtn').on('click',function(e){ newSighting(); });
   $('#recentsightingbtn').on('click',function(e){ recentSightings(); });
   var uname = _awac.load('username');
-  if (!uname) hideHome(); else $('#name').html(uname);
+  if (!uname) 
+    hideHome(); 
+  else
+    showHome();
   _awac.startPage();
   if (!uname) showLogin();
 }

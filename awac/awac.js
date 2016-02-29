@@ -63,6 +63,10 @@ MockContainer.prototype.unlockNavDrawer = function() {
   if (this.debug) console.log(this.varName+'.unlockNavDrawer()');
 };
 
+MockContainer.prototype.lockNavDrawer = function() {
+  if (this.debug) console.log(this.varName+'.lockNavDrawer()');
+};
+
 MockContainer.prototype.getImplementation = function() {
   if (this.debug) console.log(this.varName+'.getImplementation()=mock');
   return 'mock';
@@ -377,6 +381,10 @@ Awac.prototype.getDims = function() {
 
 Awac.prototype.unlockNavDrawer = function() {
   this.container.unlockNavDrawer();
+};
+
+Awac.prototype.lockNavDrawer = function() {
+  //this.container.lockNavDrawer();
 };
 
 Awac.prototype.set = function(name,value) {

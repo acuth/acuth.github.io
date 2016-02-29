@@ -18,7 +18,6 @@ function onAction(action) {
 
 function doOnLoad() {
   _awac = new Awac('_awac'); 
-  _awac.setTitle('Report');
   _awac.setOnAction(onAction);
 	_awac.setHomeItem({'label':'Back','icon':'close','action':'back'});
 	var initp = _awac.getInitParam();
@@ -31,12 +30,15 @@ function doOnLoad() {
   </head>
   <body onload="doOnLoad();">
     <div class="content">
+<h3>Boat Sighting Report</h3>
 <input id="boatname" type="text" placeholder="Boat Name" disabled/>
 <input id="boatnumber" type="text" placeholder="Boat Index" disabled/>
 <input type="text" placeholder="Sub Zone" />
 <input type="text" placeholder="Notification Code" />
 
-<p><a href="javascript:onAction('save');">SAVE</a></p>
+<p id="debug-actions">
+  <a href="javascript:onAction('save');">SAVE</a>
+</p>
     </div>
   </body>
 </html>

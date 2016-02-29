@@ -28,7 +28,6 @@ function onAction(action) {
 
 function doOnLoad() {
   _awac = new Awac('_awac'); 
-  _awac.setTitle('Select Boat');
   _awac.setOnAction(onAction);
 	_awac.setHomeItem({'label':'Back','icon':'close','action':'back'});
 	_awac.addActionBarItem({'label':'MEXT','action':'next'});
@@ -38,14 +37,16 @@ function doOnLoad() {
   </head>
   <body onload="doOnLoad();">
     <div class="content">
-<p>This is the select boat page</p>
+
+<h3>Select Boat</h3>
 
 <input id="boatname" type="text" placeholder="Boat Name" />
 <input id="boatnumber" type="text" placeholder="Boat Index" />
 
 
-<p><a href="javascript:onAction('next');">NEXT</a></p>
-
+<p id="debug-actions">
+  <a href="javascript:onAction('next');">NEXT</a>
+</p>
     </div>
   </body>
 </html>

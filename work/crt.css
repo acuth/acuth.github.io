@@ -17,3 +17,9 @@ input {
   border: solid 1px gray;
   margin-bottom: 10px;
 }
+
+p#debug-actions {
+  margin-top: 150px;
+  font-size: 80%;
+  border-top: solid 1px #AAA;
+}

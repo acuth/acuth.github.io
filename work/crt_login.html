@@ -29,7 +29,7 @@ function doOnLoad() {
   _awac = new Awac('_awac'); 
   _awac.setTitle('Login');
   _awac.setOnBackPressed(onBackPressed);
-  $('#btn').one('click',function(e){ doLogin(); });
+  $('#btn').on('click',function(e){ doLogin(); });
   _awac.startPage();
 }
   </script>

@@ -18,18 +18,32 @@ function showAbout() {
   _awac.openPage('about','crt_about.html');
 }
 
+function showHome() {
+  $('#home-div').css('display','block');
+}
+
+function hideHome() {
+  $('#home-div').css('display','none');
+}
+
+
+
+function doLogout() {
+  _awac.store('username',null);
+  hideHome();
+  showLogin();
+}
+
 function onAction(action) {
   if (action == 'about') 
     showAbout();
-  else if (action == 'logout') {
-    _awac.store('username',null);
-    showLogin();
-  }
+  else if (action == 'logout') 
+    doLogout();
 }
 
 function onPageClose(tag,ok,value) { 
   if (tag == 'login') {
-    if (value == 'home') _awac.alert('show home page'); else _awac.endPage();
+    if (value == 'home') showHome(); else _awac.endPage();
   }
   console.log('page '+tag+' closed');
 }
@@ -42,16 +56,21 @@ function doOnLoad() {
   _awac.addNavDrawerItem({'label':'Logout','action':'logout'});
   _awac.addNavDrawerItem({'label':'About','action':'about'});
   _awac.unlockNavDrawer();
+  var uname = _awac.load('username');
+  if (!uname) hideHome();
   _awac.startPage();
-  if (!_awac.load('username')) showLogin();
+  if (!uname) showLogin();
 }
   </script>
   </head>
   <body onload="doOnLoad();">
     <div class="content">
+<div id="home-div">      
  This is the home page 
  
- <p><a href="javascript:showAbout();">About</a></p>
+ <p><a href="javascript:showAbout();">About</a></p
+  <p><a href="javascript:doLogout();">Logout</a></p>
+</div>
     </div>
   </body>
 </html>

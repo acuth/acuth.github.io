@@ -28,6 +28,9 @@ function onAction(action) {
 }
 
 function onPageClose(tag,ok,value) { 
+  if (tag == 'login') {
+    if (value == 'home') _awac.alert('show home page'); else _awac.endPage();
+  }
   console.log('page '+tag+' closed');
 }
 
@@ -40,9 +43,7 @@ function doOnLoad() {
   _awac.addNavDrawerItem({'label':'About','action':'about'});
   _awac.unlockNavDrawer();
   _awac.startPage();
-  
-  var username = _awac.load('username');
-  if (!username) setTimeout(function() { showLogin(); },100);
+  if (!_awac.load('username')) showLogin();
 }
   </script>
   </head>

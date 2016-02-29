@@ -10,8 +10,9 @@
     <script type="text/javascript">
 
 function onAction(action) {
-  if (action == 'back') 
-    _awac.endPage();
+  if (action == 'back') {
+    _awac.replacePage('home','crt_home.html',null,false);
+  }
 }
 
 function displayBoat(name,number) {
@@ -22,10 +23,15 @@ function displayBoat(name,number) {
   _awac.replacePage('report','crt_report.html',boat,true);
 }
 
+function onBackPressed() {
+  onAction('back');
+}
+
 function doOnLoad() {
   _awac = new Awac('_awac'); 
   _awac.setOnAction(onAction);
-	_awac.setHomeItem({'label':'Back','icon':'close','action':'back'});
+  _awac.setHomeItem({'label':'Back','icon':'arrow_back','action':'back'});
+	_awac.setOnBackPressed(onBackPressed);
 	$('#mary').on('click',function(e){displayBoat('The Mary Rose','1234');});
 	$('#victory').on('click',function(e){displayBoat('Victory','007');});
 	$('#titanic').on('click',function(e){displayBoat('The Titanic','666');});

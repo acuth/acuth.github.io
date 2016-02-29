@@ -1,0 +1,19 @@
+body {
+  background: white;
+  margin: 0;
+  padding: 0;
+}
+
+div.content {
+  margin: 10px;
+}
+
+input {
+  display: block;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+  border: solid 1px gray;
+  margin-bottom: 10px;
+}

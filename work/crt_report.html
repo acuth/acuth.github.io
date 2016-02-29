@@ -28,7 +28,7 @@ function onBackPressed() {
 function doOnLoad() {
   _awac = new Awac('_awac'); 
   _awac.setOnAction(onAction);
-	_awac.setHomeItem({'label':'Back','icon':'back','action':'back'});
+	_awac.setHomeItem({'label':'Back','icon':'arrow_back','action':'back'});
 	_awac.setOnBackPressed(onBackPressed);
 	var initp = _awac.getInitParam();
 	$('#boatname').val(initp.name);

@@ -32,6 +32,11 @@ function doOnLoad() {
   _awac.setOnAction(onAction);
 	_awac.setHomeItem({'label':'Back','icon':'close','action':'back'});
 	_awac.addActionBarItem({'label':'NEXT','action':'next'});
+	var initp = _awac.getInitParam();
+	if (initp) {
+	  if (initp.name) $('#boatname').val(initp.name);  
+	  if (initp.number) $('#boatnumber').val(initp.number);  
+	}
   _awac.startPage();
 }
   </script>

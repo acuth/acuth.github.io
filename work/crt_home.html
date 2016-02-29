@@ -26,19 +26,17 @@ function hideHome() {
   $('#home-div').css('display','none');
 }
 
-
-
-function doLogout() {
-  _awac.store('username',null);
-  hideHome();
-  showLogin();
-}
-
 function onAction(action) {
   if (action == 'about') 
     showAbout();
   else if (action == 'logout') 
-    doLogout();
+    _awac.dialog('Are you sure you want to logout?','YES','NO',function(yes) {
+      if (yes) {
+        _awac.store('username',null);
+        hideHome();
+        showLogin();
+      }
+    });
 }
 
 function onPageClose(tag,ok,value) { 
@@ -69,7 +67,7 @@ function doOnLoad() {
  This is the home page 
  
  <p><a href="javascript:showAbout();">About</a></p
-  <p><a href="javascript:doLogout();">Logout</a></p>
+  <p><a href="javascript:onAction('logout');">Logout</a></p>
 </div>
     </div>
   </body>

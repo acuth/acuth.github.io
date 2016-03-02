@@ -6,13 +6,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.indigo-pink.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.3/dialog-polyfill.min.css">
-
-
-   
-    
     <!--link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.cyan-light_blue.min.css"-->
     <style type="text/css">
-button.demo-button {
+button.app-button {
   display: block;
   width: 60%;
   margin-left: auto;
@@ -24,7 +20,7 @@ div.mdl-layout__drawer-button i {
   line-height: 48px;
 }
 
-div.demo-progress {
+div.app-progress {
   width: 100%;
 }
     </style>
@@ -43,7 +39,7 @@ function showToast(msg) {
       msg = 'Example Message '+_msgIndex;
     }
     var data = {message: msg};
-    var snackbarContainer = document.querySelector('#demo-toast-example');
+    var snackbarContainer = document.querySelector('#app-toast');
     snackbarContainer.MaterialSnackbar.showSnackbar(data);
 }
 
@@ -56,9 +52,9 @@ function hideMenu() {
 }
 
 function hideLink() {
-  var nav = document.getElementById('demo-nav');
+  var nav = document.getElementById('app-nav');
   nav.parentNode.removeChild(nav);
-  var btn = document.getElementById('demo-search-btn');
+  var btn = document.getElementById('app-search-btn');
   btn.parentNode.removeChild(btn);
   componentHandler.upgradeDom();
 }
@@ -67,13 +63,13 @@ function hideLink() {
 function showLink() {
    var nav = document.createElement('nav');
    nav.setAttribute('class','msl-navigation');
-   nav.setAttribute('id','demo-nav');
+   nav.setAttribute('id','app-nav');
    var html = '<a class="mdl-navigation__link" href="#link">Link</a>';
    nav.innerHTML = html;
   
   var btn = document.createElement('button');
   btn.setAttribute('class','mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon');
-  btn.setAttribute('id','demo-search-btn');
+  btn.setAttribute('id','app-search-btn');
   btn.innerHTML = '<i class="material-icons">search</i>';
     
   var hdrrow = document.getElementById('header-row');
@@ -103,13 +99,13 @@ function showMenu() {
 }
 
 function showProgress() {
-   var html = '<div class="demo-progress mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>';
+   var html = '<div class="app-progress mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>';
    document.getElementById('progress-area').innerHTML = html;
    componentHandler.upgradeDom();
 }
 
 function prepareProgress() {
-   var html = '<div class="demo-progress mdl-progress mdl-js-progress"></div>';
+   var html = '<div class="app-progress mdl-progress mdl-js-progress"></div>';
    document.getElementById('progress-area').innerHTML = html;
 }
 
@@ -118,44 +114,22 @@ function hideProgress() {
   componentHandler.upgradeDom();
 }
 
-function prepareToast() {
-  var html =
-    '<div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">'+
-      '<div class="mdl-snackbar__text"></div>'+
-      '<button class="mdl-snackbar__action" type="button"></button>'+
-    '</div>';
-  document.getElementById('toast-area').innerHTML = html;
-}
-
 function prepareDialog() {
-  var html =
-  '<dialog id="demo-dialog" class="mdl-dialog">'+
-    //'<h4 class="mdl-dialog__title">Allow data collection?</h4>'+
-    '<div class="mdl-dialog__content">'+
-      '<p>Allowing us to collect data will let us get you the information you want faster.<p>'+
-    '</div>'+
-    '<div class="mdl-dialog__actions">'+
-      '<button type="button" id="demo-yes-btn" class="mdl-button mdl-button--primary">Agree</button>'+
-      '<button type="button" id="demo-no-btn" class="mdl-button mdl-button--primary">Disagree</button>'+
-    '</div>'+
-  '</dialog>';
-  document.getElementById('dialog-area').innerHTML = html;
-  var dialog = document.getElementById('demo-dialog');
-  if (!dialog.showModal) {
-    dialogPolyfill.registerDialog(dialog);
-  }
-  document.getElementById('demo-yes-btn').addEventListener('click', function() {
+  console.log('-prepareDialog()');
+  var dialog = document.getElementById('app-dialog');
+   document.getElementById('app-yes-btn').addEventListener('click', function() {
     console.log('you pressed YES');
     dialog.close();
   });
-  document.getElementById('demo-no-btn').addEventListener('click', function() {
+  document.getElementById('app-no-btn').addEventListener('click', function() {
     console.log('you pressed NO');
     dialog.close();
   });
-} 
+  console.log('-prepareDialog()');
+}
 
 function showDialog() {
-    document.getElementById('demo-dialog').showModal();
+    document.getElementById('app-dialog').showModal();
 }
     
 function addCard() {
@@ -209,8 +183,10 @@ function setTitle() {
 
 function doOnLoad() {
   console.log('+doOnLoad()');
-  prepareToast();
-  prepareDialog();
+  var dialog = document.getElementById('app-dialog');
+  if (!dialog.showModal) {
+    dialogPolyfill.registerDialog(dialog);
+  }
   prepareProgress();
   document.getElementById('settitlebtn').addEventListener('click', setTitle );
   document.getElementById('showmenubtn').addEventListener('click', showMenu );
@@ -223,7 +199,8 @@ function doOnLoad() {
   document.getElementById('showdialogbtn').addEventListener('click', showDialog );
   document.getElementById('addcardbtn').addEventListener('click', addCard );
   componentHandler.upgradeDom();
-  console.log('=doOnLoad()');
+  prepareDialog();
+  console.log('-doOnLoad()');
 }
 
     </script>
@@ -249,52 +226,66 @@ function doOnLoad() {
         </nav>
       </div>
       
+      <dialog id="app-dialog" class="mdl-dialog">
+        <div class="mdl-dialog__content">
+          <p>Do you ant to take the red pill or the blue pill?<p>
+        </div>
+        <div class="mdl-dialog__actions">
+          <button type="button" id="app-yes-btn" class="mdl-button mdl-button--primary">Red</button>
+          <button type="button" id="app-no-btn" class="mdl-button mdl-button--primary">Blue</button>
+        </div>
+      </dialog>
+      
+      <div id="app-toast" class="mdl-js-snackbar mdl-snackbar">
+        <div class="mdl-snackbar__text"></div>
+        <button class="mdl-snackbar__action" type="button"></button>
+      </div>
+      
       <main id="main" class="mdl-layout__content">
    
 <div id="progress-area"></div>
-<div id="toast-area"></div>
-<div id="dialog-area"></div>
+
 <div id="component"></div>
   
 <div id="lorem" style="padding:10px;">  
        
-<button id="settitlebtn" class="demo-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+<button id="settitlebtn" class="app-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
   Set Title
 </button>
 
-<button id="showmenubtn" class="demo-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+<button id="showmenubtn" class="app-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
   Show Menu
 </button>
 
-<button id="hidemenubtn" class="demo-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+<button id="hidemenubtn" class="app-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
   Hide Menu
 </button>
 
-<button id="showlinkbtn" class="demo-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+<button id="showlinkbtn" class="app-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
   Show Links
 </button>
 
-<button id="hidelinkbtn" class="demo-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+<button id="hidelinkbtn" class="app-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
   Hide Links
 </button>
 
-<button id="showprogressbtn" class="demo-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+<button id="showprogressbtn" class="app-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
   Show Progress
 </button>
 
-<button id="hideprogressbtn" class="demo-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+<button id="hideprogressbtn" class="app-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
   Hide Progress
 </button>
 
-<button id="showtoastbtn" class="demo-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+<button id="showtoastbtn" class="app-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
   Show Alert
 </button>
 
-<button id="showdialogbtn" class="demo-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+<button id="showdialogbtn" class="app-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
   Show Dialog
 </button>
 
-<button id="addcardbtn" class="demo-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+<button id="addcardbtn" class="app-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
   Add Card
 </button>
 

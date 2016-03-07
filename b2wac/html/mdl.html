@@ -24,6 +24,10 @@ div.mdl-layout__drawer-button i {
 div.app-progress {
   width: 100%;
 }
+
+div#buttons {
+  margin-top: 10px;
+}
     </style>
 
     <script type="text/javascript">
@@ -161,11 +165,13 @@ function setTitle() {
      <div id="layout" class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
        
       <header id="header" class="mdl-layout__header">
+        
         <div class="mdl-layout-icon"></div>
         <div id="header-row" class="mdl-layout__header-row">
           <span id="title" class="mdl-layout-title">B2WAC</span>
           <div class="mdl-layout-spacer"></div>
         </div>
+        <div id="progress-area"></div>
       </header>
       
       <div class="mdl-layout__drawer">
@@ -183,7 +189,7 @@ function setTitle() {
       
       <main id="main" class="mdl-layout__content">
    
-<div id="progress-area"></div>
+
 
 <div id="component"></div>
 
@@ -243,7 +249,7 @@ function addButton(title,func) {
   addButton('Hide Link',hideLink);
   addButton('Show Progress',showProgress);
   addButton('Hide Progress',hideProgress);
-  addButton('Show Alert',showToast);
+  addButton('Show Alert',function(e) { showToast(); });
   addButton('Show Dialog',showDialog);
 
   componentHandler.upgradeDom();

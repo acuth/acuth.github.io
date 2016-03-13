@@ -26,7 +26,8 @@ div#buttons {
   margin-top: 10px;
 }
 
-p#latest {
+div#latest {
+  padding: 20px;
   font-weight: bold;
   font-style: italic;
   font-size: 120%;
@@ -55,17 +56,18 @@ function showToast(msg) {
     info('showToast()');
 }
 
-function hideMenu() {
-  var btn = document.getElementById('hdrbtn');
-  btn.parentNode.removeChild(btn);
-  var menu = document.getElementById('hdrmenu');
-  menu.parentNode.removeChild(menu);
-  componentHandler.upgradeDom();
-}
-
-
+var optionsMenuItems = null;
 var actionBarItems = null;
 var homeItem = null;
+
+function addOptionsMenuItem(item) {
+  if (!optionsMenuItems) optionsMenuItems = [];
+  optionsMenuItems[optionsMenuItems.length] = item;
+}
+
+function clearOptionsMenuItems() {
+  optionsMenuItems = null;
+}
 
 function addActionBarItem(item) {
   if (!actionBarItems) actionBarItems = [];
@@ -96,6 +98,14 @@ function getHomeControl(item) {
   return btn;
 }
 
+function getMenuControl(item) {
+  var li = document.createElement('li');
+  li.setAttribute('class','mdl-menu__item');
+  li.innerHTML = item.label;
+  li.addEventListener('click', function() { actionBarCallback(item.action); });
+  return li;
+}
+
 function redrawHeader() {
   var div = document.getElementById('app-action-bar-links');
   div.innerHTML = '';
@@ -109,38 +119,10 @@ function redrawHeader() {
   div.setAttribute('style','z-index:99;')
   if (homeItem) {
     div.appendChild(getHomeControl(homeItem));
-  }
-  componentHandler.upgradeDom();
-}
-
-function showLink() {
-  addActionBarItem({'icon':'search','label':'OK','action':'search'});
-  addActionBarItem({'icon':'backup','label':'Back','action':'backup'});
-  redrawHeader();
-}
-
-var _homeFlag = true;
-
-function showHome() {
-  _homeFlag = !_homeFlag;
-  var item = _homeFlag ? 
-    {'label':'Settings','icon':'settings','action':'settings'} :
-      {'label':'Back','icon':'arrow_back','action':'back'};
-  setHomeItem(item);
-  redrawHeader();
-} 
-
-function hideLink() {
-  clearActionBarItems();
-  redrawHeader();
-}
-
-function hideHome() {
-  setHomeItem(null);
-  redrawHeader();
-}
-
-function showMenu() {
+  } 
+  div = document.getElementById('app-options-menu');
+  div.innerHTML = '';
+  if (optionsMenuItems) {
     var btn = document.createElement('button');
     btn.setAttribute('class','mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon');
     btn.setAttribute('id','hdrbtn');
@@ -150,18 +132,65 @@ function showMenu() {
     menu.setAttribute('class','mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right');
     menu.setAttribute('for','hdrbtn');
     menu.setAttribute('id','hdrmenu');
-    menu.innerHTML = '<li class="mdl-menu__item">About</li>'+
-            '<li class="mdl-menu__item">Contact</li>'+
-            '<li class="mdl-menu__item">Legal information</li>';
-          
-   var hdrrow = document.getElementById('header-row');
-   hdrrow.appendChild(btn);
-   hdrrow.appendChild(menu);
-   componentHandler.upgradeDom();
+    
+    for (var i=0;i<optionsMenuItems.length;i++) 
+      menu.appendChild(getMenuControl(optionsMenuItems[i]));
+    div.appendChild(btn);
+    div.appendChild(menu);
+  }
+  componentHandler.upgradeDom();
 }
 
-function showProgress() {
-   var html = '<div class="app-progress mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>';
+
+
+
+
+var _linksVisible = false;
+function toggleLinks() {
+  _linksVisible = !_linksVisible;
+  if (_linksVisible) {
+    addActionBarItem({'icon':'done','label':'OK','action':'ok'});
+    addActionBarItem({'icon':'clear','label':'Cancel','action':'cancel'});
+  }
+  else 
+    clearActionBarItems();
+  redrawHeader();
+}
+
+var _homeVisible = false;
+var _homeFlag = true;
+function toggleHome() {
+  _homeVisible = !_homeVisible;
+  var item = null;
+  if (_homeVisible) {
+    _homeFlag = !_homeFlag;
+    item = _homeFlag ? 
+      {'label':'Settings','icon':'settings','action':'settings'} :
+        {'label':'Back','icon':'arrow_back','action':'back'};
+  }
+  setHomeItem(item);
+  redrawHeader();
+} 
+
+
+var _menuVisible = false;
+function toggleMenu() {
+    _menuVisible = !_menuVisible;
+    if (_menuVisible) {
+      addOptionsMenuItem({'label':'Settings','action':'settings'});
+      addOptionsMenuItem({'label':'Language','action':'language'});
+    }
+    else 
+      clearOptionsMenuItems();
+    redrawHeader();
+}
+
+var _progressVisible = false;
+function toggleProgress() {
+   _progressVisible = !_progressVisible;
+   var html = _progressVisible ? 
+      '<div class="app-progress mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>' :
+      '<div class="app-progress mdl-progress mdl-js-progress"></div>';
    document.getElementById('progress-area').innerHTML = html;
    componentHandler.upgradeDom();
 }
@@ -169,11 +198,6 @@ function showProgress() {
 function prepareProgress() {
    var html = '<div class="app-progress mdl-progress mdl-js-progress"></div>';
    document.getElementById('progress-area').innerHTML = html;
-}
-
-function hideProgress() {
-  prepareProgress();
-  componentHandler.upgradeDom();
 }
 
 function prepareDialog() {
@@ -195,7 +219,7 @@ function dialogCallback(yes) {
 }
 
 function actionBarCallback(action) {
-  info('You activated the '+action+' action');
+  info('You activated the \''+action+'\' action');
 }
 
 function showDialog2(content,yes,no) {
@@ -208,10 +232,6 @@ function showDialog2(content,yes,no) {
 function showDialog() {
   showDialog2('<p>You take the blue pill, the story ends. You wake up in your bed and believe whatever you want to believe. '+
             'You take the red pill, you stay in Wonderland, and I show you how deep the rabbit hole goes.</p>','Red','Blue');
-}
-
-function insertAfter(newNode, referenceNode) {
-    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
 function showDrawer2() {
@@ -227,21 +247,16 @@ function showDrawer2() {
     var newElem = document.createElement('div');
     newElem.setAttribute('class','mdl-layout__drawer');
     newElem.innerHTML = html;
-    //var layout = document.getElementById('layout');
     document.body.appendChild(newElem);
-    //insertAfter(newElem,layout);
   
     componentHandler.upgradeDom();
-}      
+}     
 
-function showDrawer() {
+var _drawerVisible = false;
+function toggleDrawer() {
+    _drawerVisible = !_drawerVisible;
     var e = document.querySelector('.mdl-layout__drawer-button');
-    if (e) e.setAttribute('style','display:block;');
-}
-
-function hideDrawer() {
-   var e = document.querySelector('.mdl-layout__drawer-button');
-   if (e) e.setAttribute('style','display:none;');
+    if (e) e.setAttribute('style',_drawerVisible?'display:block;':'display:none;');
 }
 
 function setTitle() {
@@ -261,11 +276,11 @@ function setTitle() {
           <span id="title" class="mdl-layout-title">B2WAC</span>
           <div class="mdl-layout-spacer"></div>
           <div id="app-action-bar-links"></div>
+          <div id="app-options-menu"></div>
         </div>
         <div id="progress-area"></div>
       </header>
       
-
       <!--div class="mdl-layout__drawer">
         <nav class="mdl-navigation">
           <a class="mdl-navigation__link" href="#home">Home</a>
@@ -285,11 +300,11 @@ function setTitle() {
 
 <div id="component"></div>
 
+<div id="latest">Nothing has happpend so far</div>
+
 <div id="buttons"></div>
   
 <div id="lorem" style="padding:10px;">  
-       
-<p id="latest">Nothing has happpend so far</p>
 
 <p>Dolor sit amet, consectetur adipiscing elit. Donec condimentum, turpis et dignissim consectetur, magna metus porttitor neque, eget consectetur ex tortor at elit. Sed non convallis sapien. Duis mollis lectus pulvinar semper consectetur. Quisque dapibus, augue eget pretium finibus, libero est posuere dolor, eget varius magna risus at dolor. Quisque dapibus velit in purus ultricies, sit amet gravida orci vulputate. Praesent sem elit, ultrices ut lacinia vel, condimentum vel dui. Maecenas tincidunt magna lobortis ipsum dapibus aliquam. Praesent hendrerit, enim vel iaculis auctor, libero nulla imperdiet ipsum, sed faucibus dolor sem quis nunc. Fusce porttitor suscipit sem, sit amet luctus nibh finibus vel. Vivamus luctus massa ac lacus molestie dapibus. Sed varius ullamcorper mi, et posuere dolor dignissim id. Integer malesuada ex semper odio tempor laoreet.</p>
 
@@ -334,16 +349,11 @@ function addButton(title,func) {
   prepareProgress();
   
   addButton('Set Title',setTitle);
-  addButton('Show Menu',showMenu);
-  addButton('Hide Menu',hideMenu);
-  addButton('Show Link',showLink);
-  addButton('Hide Link',hideLink);
-  addButton('Show Home',showHome);
-  addButton('Hide Home',hideHome);
-  addButton('Show Drawer',showDrawer);
-  addButton('Hide Drawer',hideDrawer);
-  addButton('Show Progress',showProgress);
-  addButton('Hide Progress',hideProgress);
+  addButton('Toggle Menu',toggleMenu);
+  addButton('Toggle Links',toggleLinks);
+  addButton('Toggle Home',toggleHome);
+  addButton('Toggle Drawer',toggleDrawer);
+  addButton('Toggle Progress',toggleProgress);
   addButton('Show Alert',function(e) { showToast(); });
   addButton('Show Dialog',showDialog);
 

@@ -83,11 +83,20 @@ function setHomeItem(item) {
 }
 
 function getActionBarControl(item) {
-  var btn = document.createElement('button');
-  btn.setAttribute('class','mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon');
-  btn.innerHTML = '<i class="material-icons">'+item.icon+'</i>';
-  btn.addEventListener('click', function() { actionBarCallback(item.action); });
-  return btn;
+  if (item.icon) {
+    var btn = document.createElement('button');
+    btn.setAttribute('class','mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon');
+    btn.innerHTML = '<i class="material-icons">'+item.icon+'</i>';
+    btn.addEventListener('click', function() { actionBarCallback(item.action); });
+    return btn;
+  }
+  else {
+    var a = document.createElement('a');
+    a.setAttribute('class','mdl-navigation__link');
+    a.innerHTML = item.label;
+    a.addEventListener('click', function() { actionBarCallback(item.action); });
+    return a;
+  }
 }
 
 function getHomeControl(item) {
@@ -150,7 +159,7 @@ function toggleLinks() {
   _linksVisible = !_linksVisible;
   if (_linksVisible) {
     addActionBarItem({'icon':'done','label':'OK','action':'ok'});
-    addActionBarItem({'icon':'clear','label':'Cancel','action':'cancel'});
+    addActionBarItem({'label':'Cancel','action':'cancel'});
   }
   else 
     clearActionBarItems();
@@ -275,7 +284,7 @@ function setTitle() {
           
           <span id="title" class="mdl-layout-title">B2WAC</span>
           <div class="mdl-layout-spacer"></div>
-          <div id="app-action-bar-links"></div>
+          <div id="app-action-bar-links" class="mdl-navigation"></div>
           <div id="app-options-menu"></div>
         </div>
         <div id="progress-area"></div>

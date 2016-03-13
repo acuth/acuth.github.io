@@ -38,13 +38,21 @@ B2wacContainer.prototype.addHome = function(header) {
 };
 
 B2wacContainer.prototype.updateHeader = function() {
-  var header = $('#page-header').html(null);
-  if (this.homeItem) 
-    this.addHome(header);
-  else
-    this.addBack(header);
-  $(document.createElement('div')).attr('id','page-title').html(this.title).appendTo(header);
-  for (var i=this.actionBarItems.length;i>0;i--) this.addAction(header,i-1);
+  console.log('\n\nB2wacConatiner.updateHeader()');
+  console.log(' - title: '+this.title);
+  console.log(' - home: '+this.homeItem);
+  console.log(' - action bar: '+this.actionBarItems);
+  
+  this.b2wac.updateHeader(this.title,this.homeItem,this.actionBarItems);
+  
+  
+//  var header = $('#page-header').html(null);
+//  if (this.homeItem) 
+//    this.addHome(header);
+//  else
+//    this.addBack(header);
+//  $(document.createElement('div')).attr('id','page-title').html(this.title).appendTo(header);
+//  for (var i=this.actionBarItems.length;i>0;i--) this.addAction(header,i-1);
 };
 
 B2wacContainer.prototype.back = function() {
@@ -175,13 +183,17 @@ B2wacContainer.prototype.showList = function(items) {
 
 B2wacContainer.prototype.showDialog = function(msg,ok,cancel) {
   if (this.debug) console.log(this.varName+'.showDialog('+msg+','+ok+','+cancel+')');
-  var yes = confirm(msg);
+  this.b2wac.showDialog(msg,ok,cancel);
+};
+
+B2wacContainer.prototype.fireDialogResult = function(yes) {
+  if (this.debug) console.log(this.varName+'.fireDialogResult('+yes+')');
   this.awac.fireDialogResult(yes);
 };
 
 B2wacContainer.prototype.alert = function(msg) {
   if (this.debug) console.log(this.varName+'.alert('+msg+')');
-  alert(msg);
+  this.b2wac.alert(msg);
 };
 
 B2wacContainer.prototype.gotOnRefreshCB = function() {

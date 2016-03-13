@@ -1,138 +1,182 @@
+<!doctype html>
 <html>
   <head>
     <title>B2WAC</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <style type="text/css">
-body {
-  margin: 0;
-  padding: 0;
-}
-
-iframe {
-  border: 0px;
-}
-
-iframe.reveal-start-down {
-  position: absolute;
-  top: 500px;
-}
-
-iframe.reveal-start-up {
-  position: absolute;
-  top: 0px;
-}
-
-iframe.reveal-start-to-right {
-  position: absolute;
-  top: 0px;
-  left: 100%;
-}
-
-iframe.reveal-start-to-left {
-  position: absolute;
-  top: 0px;
-  left: -100%;
-}
-
-iframe.reveal-start-none {
- 
-}
-
-iframe.reveal-trans-none {
-  
-}
-
-iframe.reveal-trans-up {
-  -webkit-transform: translate3d(0,-500px,0);
-  -webkit-transition: all 0.35s linear;
-}
-
-iframe.reveal-trans-down {
-  -webkit-transform: translate3d(0,500px,0);
-}
-
-iframe.reveal-trans-to-left {
-  -webkit-transform: translate3d(-100%,0,0);
-}
-
-iframe.reveal-trans-to-right {
-  -webkit-transform: translate3d(100%,0,0);
-}
-
-iframe.reveal-trans-up, iframe.reveal-trans-down, iframe.reveal-trans-to-left, iframe.reveal-trans-to-right {
-  -webkit-transition: all 5.35s linear;
-}
-
-div#header {
-  position: fixed;
-  top: 0px;
-  width: 100%;
-  height: 72px;
-  background: #009688;
-  color: white;
-  z-index: 200;
-}
-
-div#page-header {
-  padding: 20px;
-}
-
-div#page-title {
-  float: left;
-  font-size: 1.4em;
-  padding-left: 10px;
-}
-
-div.action-icon {
-  cursor:pointer;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-div.action-icon a {
-  font-size: 1.4em;
-  color: white;
-  text-decoration: none;
-}
-
-div#page {
-  position: absolute;
-  top: 72px;
-  width: 100%;
-  z-index: 100;
-}
-
-div#page iframe {
-  width: 100%;
-  height: 100%;
-  display: none;
-}
-
-    </style>
+    <link rel="stylesheet" href="../css/b2wac.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <style type="text/css">
+div#page {
+  top: 0px;
+  height: 100%;
+} 
+    </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js" type="text/javascript"></script>
-    <script src="../js/b2wac_container.js" type="text/javascript"></script>
-    <script src="../js/b2wac.js" type="text/javascript"></script>
+    <script src="../js/mdl_container.js" type="text/javascript"></script>
+    <script src="../js/mdl_b2wac.js" type="text/javascript"></script>
+    <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.3/dialog-polyfill.min.css'>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.indigo-pink.min.css">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.3/dialog-polyfill.min.js'></script>
+    <script src="https://code.getmdl.io/1.1.1/material.min.js"></script>
+    
+    
     <script type="text/javascript">
+    
+    
+var optionsMenuItems = null;
+var actionBarItems = null;
+var homeItem = null;
+
+function addOptionsMenuItem(item) {
+  if (!optionsMenuItems) optionsMenuItems = [];
+  optionsMenuItems[optionsMenuItems.length] = item;
+}
+
+function clearOptionsMenuItems() {
+  optionsMenuItems = null;
+}
+
+function addActionBarItem(item) {
+  if (!actionBarItems) actionBarItems = [];
+  actionBarItems[actionBarItems.length] = item;
+}
+
+function clearActionBarItems() {
+  actionBarItems = null;
+}
+
+function setHomeItem(item) {
+  homeItem = item;
+}
+
+function getActionBarControlXXXX(item) {
+  var btn = document.createElement('button');
+  btn.setAttribute('class','mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon');
+  btn.innerHTML = '<i class="material-icons">'+item.icon+'</i>';
+  btn.addEventListener('click', function() { actionBarCallback(item.action); });
+  return btn;
+}
+
+function getHomeControlXXXX(item) {
+  var btn = document.createElement('button');
+  btn.setAttribute('class','mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon');
+  btn.innerHTML = '<i class="material-icons">'+item.icon+'</i>';
+  btn.addEventListener('click', function() { actionBarCallback(item.action); });
+  return btn;
+}
+
+function getMenuControlXXXX(item) {
+  var li = document.createElement('li');
+  li.setAttribute('class','mdl-menu__item');
+  li.innerHTML = item.label;
+  li.addEventListener('click', function() { actionBarCallback(item.action); });
+  return li;
+}
+
+function updateMDLHeaderXXXXX() {
+  console.log('updateMDLHeader()');
+  var div = document.getElementById('app-action-bar-links');
+  div.innerHTML = '';
+  if (actionBarItems) {
+    for (var i=0;i<actionBarItems.length;i++) {
+      div.appendChild(getActionBarControl(actionBarItems[i]));
+    }
+  }
+  div = document.getElementById('app-home-icon');
+  div.innerHTML = '';
+  div.setAttribute('style','z-index:99;')
+  if (homeItem) {
+    div.appendChild(getHomeControl(homeItem));
+  } 
+  div = document.getElementById('app-options-menu');
+  div.innerHTML = '';
+  if (optionsMenuItems) {
+    var btn = document.createElement('button');
+    btn.setAttribute('class','mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon');
+    btn.setAttribute('id','hdrbtn');
+    btn.innerHTML = '<i class="material-icons">more_vert</i>';
+    
+    var menu = document.createElement('ul');
+    menu.setAttribute('class','mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right');
+    menu.setAttribute('for','hdrbtn');
+    menu.setAttribute('id','hdrmenu');
+    
+    for (var i=0;i<optionsMenuItems.length;i++) 
+      menu.appendChild(getMenuControl(optionsMenuItems[i]));
+    div.appendChild(btn);
+    div.appendChild(menu);
+  }
+  componentHandler.upgradeDom();
+}
+
+    
+    
+    
    
 function back() {
   window.b2wac.back();
 }   
-   
+
+function prepareDialog(b2wac) {
+console.log('-prepareDialog()');
+  var dialog = document.getElementById('app-dialog');
+  document.getElementById('app-dialog-yes-btn').addEventListener('click', function() {
+    dialog.close();
+    b2wac.dialogCallback(true);
+  });
+  document.getElementById('app-dialog-no-btn').addEventListener('click', function() {
+    dialog.close();
+    b2wac.dialogCallback(false);
+  });
+  console.log('-prepareDialog()');
+}
+
 $(document).ready(function() { 
+  'use strict';
   console.log('document ready');
+  var dialog = document.getElementById('app-dialog');
+  if (!dialog.showModal) {
+    dialogPolyfill.registerDialog(dialog);
+  }
   window.b2wac = new B2wac(window.location.href,'page');
   window.b2wac.init(window.location.href);
+  prepareDialog(window.b2wac);
 });
     </script>
   </head>
   <body>
-    <div id="header">
-      <div id="page-header">-page-header-</div>
-    </div>  
-    <div id="page"></div>
+     <div id="layout" class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+       
+      <header id="app-header" class="mdl-layout__header">
+        <div id="app-home-icon" class="mdl-layout-icon"></div>
+        <div id="header-row" class="mdl-layout__header-row">
+          <span id="title" class="mdl-layout-title">B2WAC</span>
+          <div class="mdl-layout-spacer"></div>
+          <div id="app-action-bar-links" class="mdl-navigation"></div>
+          <div id="app-options-menu"></div>
+        </div>
+        <div id="progress-area"></div>
+      </header>
+      
+      <div id="app-toast" class="mdl-js-snackbar mdl-snackbar">
+        <div class="mdl-snackbar__text"></div>
+        <button class="mdl-snackbar__action" type="button"></button>
+      </div>
+      
+      <main id="main" class="mdl-layout__content">
+        <div id="page"></div>
+      </main>
+    </div> <!-- layout -->
+    
+      <dialog id="app-dialog" class="mdl-dialog">
+        <div id="app-dialog-content" class="mdl-dialog__content">-content-</div>
+        <div class="mdl-dialog__actions">
+          <button type="button" id="app-dialog-yes-btn" class="mdl-button mdl-button--primary">-yes-</button>
+          <button type="button" id="app-dialog-no-btn" class="mdl-button mdl-button--primary">-no-</button>
+        </div>
+      </dialog>
   </body>
 </html>

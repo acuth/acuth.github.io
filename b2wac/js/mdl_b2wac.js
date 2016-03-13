@@ -61,6 +61,20 @@ B2wac.prototype.onHashChange=function() {
   }
 };
 
+
+B2wac.prototype.prepareDialog=function() {
+  var b2wac = this;
+  var dialog = document.getElementById('app-dialog');
+  document.getElementById('app-dialog-yes-btn').addEventListener('click', function() {
+    dialog.close();
+    b2wac.dialogCallback(true);
+  });
+  document.getElementById('app-dialog-no-btn').addEventListener('click', function() {
+    dialog.close();
+    b2wac.dialogCallback(false);
+  });
+};
+
 B2wac.prototype.init=function(href) {
   var pageUrl = '../../test/index.html';
   //var pageUrl = '../../yangw/index2.html';
@@ -69,7 +83,9 @@ B2wac.prototype.init=function(href) {
   var b2wac = this;
   //window.onbeforeunload = function() { alert('onbeforeunload'); b2wac.back(); };
   document.addEventListener('backbutton',function() { alert('backbutton'); b2wac.back(); });
-   
+  
+  this.prepareDialog();
+  
   window.onhashchange=function(){b2wac.onHashChange();};
   
   window.location.hash="first-home";

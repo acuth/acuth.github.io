@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
   <head>
     <title>MDL Demo</title>
@@ -17,10 +18,6 @@ button.app-button {
   margin-bottom: 10px;
 }      
 
-div.mdl-layout__drawer-button i {
-  line-height: 48px;
-}
-
 div.app-progress {
   width: 100%;
 }
@@ -28,12 +25,24 @@ div.app-progress {
 div#buttons {
   margin-top: 10px;
 }
+
+p#latest {
+  font-weight: bold;
+  font-style: italic;
+  font-size: 120%;
+  color: orange;
+  text-align: center;
+}
     </style>
 
     <script type="text/javascript">
    
 var _titleIndex = 0;
 var _msgIndex = 0;
+
+function info(msg) {
+  document.getElementById('latest').innerHTML = msg;
+}
 
 function showToast(msg) {
     if (!msg) {
@@ -43,6 +52,7 @@ function showToast(msg) {
     var data = {message: msg};
     var snackbarContainer = document.querySelector('#app-toast');
     snackbarContainer.MaterialSnackbar.showSnackbar(data);
+    info('showToast()');
 }
 
 function hideMenu() {
@@ -53,31 +63,81 @@ function hideMenu() {
   componentHandler.upgradeDom();
 }
 
-function hideLink() {
-  var nav = document.getElementById('app-nav');
-  nav.parentNode.removeChild(nav);
-  var btn = document.getElementById('app-search-btn');
-  btn.parentNode.removeChild(btn);
+
+var actionBarItems = null;
+var homeItem = null;
+
+function addActionBarItem(item) {
+  if (!actionBarItems) actionBarItems = [];
+  actionBarItems[actionBarItems.length] = item;
+}
+
+function clearActionBarItems() {
+  actionBarItems = null;
+}
+
+function setHomeItem(item) {
+  homeItem = item;
+}
+
+function getActionBarControl(item) {
+  var btn = document.createElement('button');
+  btn.setAttribute('class','mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon');
+  btn.innerHTML = '<i class="material-icons">'+item.icon+'</i>';
+  btn.addEventListener('click', function() { actionBarCallback(item.action); });
+  return btn;
+}
+
+function getHomeControl(item) {
+  var btn = document.createElement('button');
+  btn.setAttribute('class','mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon');
+  btn.innerHTML = '<i class="material-icons">'+item.icon+'</i>';
+  btn.addEventListener('click', function() { actionBarCallback(item.action); });
+  return btn;
+}
+
+function redrawHeader() {
+  var div = document.getElementById('app-action-bar-links');
+  div.innerHTML = '';
+  if (actionBarItems) {
+    for (var i=0;i<actionBarItems.length;i++) {
+      div.appendChild(getActionBarControl(actionBarItems[i]));
+    }
+  }
+  div = document.getElementById('app-home-icon');
+  div.innerHTML = '';
+  div.setAttribute('style','z-index:99;')
+  if (homeItem) {
+    div.appendChild(getHomeControl(homeItem));
+  }
   componentHandler.upgradeDom();
 }
 
-
 function showLink() {
-   var nav = document.createElement('nav');
-   nav.setAttribute('class','msl-navigation');
-   nav.setAttribute('id','app-nav');
-   var html = '<a class="mdl-navigation__link" href="#link">Link</a>';
-   nav.innerHTML = html;
-  
-  var btn = document.createElement('button');
-  btn.setAttribute('class','mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon');
-  btn.setAttribute('id','app-search-btn');
-  btn.innerHTML = '<i class="material-icons">search</i>';
-    
-  var hdrrow = document.getElementById('header-row');
-  hdrrow.appendChild(nav);
-  hdrrow.appendChild(btn);
-  componentHandler.upgradeDom();
+  addActionBarItem({'icon':'search','label':'OK','action':'search'});
+  addActionBarItem({'icon':'backup','label':'Back','action':'backup'});
+  redrawHeader();
+}
+
+var _homeFlag = true;
+
+function showHome() {
+  _homeFlag = !_homeFlag;
+  var item = _homeFlag ? 
+    {'label':'Settings','icon':'settings','action':'settings'} :
+      {'label':'Back','icon':'arrow_back','action':'back'};
+  setHomeItem(item);
+  redrawHeader();
+} 
+
+function hideLink() {
+  clearActionBarItems();
+  redrawHeader();
+}
+
+function hideHome() {
+  setHomeItem(null);
+  redrawHeader();
 }
 
 function showMenu() {
@@ -119,22 +179,42 @@ function hideProgress() {
 function prepareDialog() {
   console.log('-prepareDialog()');
   var dialog = document.getElementById('app-dialog');
-   document.getElementById('app-yes-btn').addEventListener('click', function() {
-    console.log('you pressed YES');
+  document.getElementById('app-dialog-yes-btn').addEventListener('click', function() {
     dialog.close();
+    dialogCallback(true);
   });
-  document.getElementById('app-no-btn').addEventListener('click', function() {
-    console.log('you pressed NO');
+  document.getElementById('app-dialog-no-btn').addEventListener('click', function() {
     dialog.close();
+    dialogCallback(false);
   });
   console.log('-prepareDialog()');
 }
 
-function showDialog() {
-    document.getElementById('app-dialog').showModal();
+function dialogCallback(yes) {
+  info('You selected the '+(yes?'YES':'NO')+' option');
 }
 
-function addNavDrawer() {
+function actionBarCallback(action) {
+  info('You activated the '+action+' action');
+}
+
+function showDialog2(content,yes,no) {
+  document.getElementById('app-dialog-content').innerHTML = content;
+  document.getElementById('app-dialog-yes-btn').innerHTML = yes;
+  document.getElementById('app-dialog-no-btn').innerHTML = no;
+  document.getElementById('app-dialog').showModal();
+}
+
+function showDialog() {
+  showDialog2('<p>You take the blue pill, the story ends. You wake up in your bed and believe whatever you want to believe. '+
+            'You take the red pill, you stay in Wonderland, and I show you how deep the rabbit hole goes.</p>','Red','Blue');
+}
+
+function insertAfter(newNode, referenceNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+
+function showDrawer2() {
   var html = 
       '<span class="mdl-layout-title">Foo</span>'+
       '<nav class="mdl-navigation">'+
@@ -147,13 +227,22 @@ function addNavDrawer() {
     var newElem = document.createElement('div');
     newElem.setAttribute('class','mdl-layout__drawer');
     newElem.innerHTML = html;
-    var main = document.getElementById('main');
-    console.log('parent-node='+main.parentNode);
-    main.parentNode.insertBefore(newElem,main);
+    //var layout = document.getElementById('layout');
+    document.body.appendChild(newElem);
+    //insertAfter(newElem,layout);
   
-  setTimeout(function() { console.log('upgrade'); componentHandler.upgradeDom(); },1000);//Element(document.getElementById('layout'));
+    componentHandler.upgradeDom();
 }      
 
+function showDrawer() {
+    var e = document.querySelector('.mdl-layout__drawer-button');
+    if (e) e.setAttribute('style','display:block;');
+}
+
+function hideDrawer() {
+   var e = document.querySelector('.mdl-layout__drawer-button');
+   if (e) e.setAttribute('style','display:none;');
+}
 
 function setTitle() {
   _titleIndex++;
@@ -166,21 +255,24 @@ function setTitle() {
        
       <header id="header" class="mdl-layout__header">
         
-        <div class="mdl-layout-icon"></div>
+        <div id="app-home-icon" class="mdl-layout-icon"></div>
         <div id="header-row" class="mdl-layout__header-row">
+          
           <span id="title" class="mdl-layout-title">B2WAC</span>
           <div class="mdl-layout-spacer"></div>
+          <div id="app-action-bar-links"></div>
         </div>
         <div id="progress-area"></div>
       </header>
       
-      <div class="mdl-layout__drawer">
+
+      <!--div class="mdl-layout__drawer">
         <nav class="mdl-navigation">
           <a class="mdl-navigation__link" href="#home">Home</a>
           <a class="mdl-navigation__link" href="#inbox">Inbox</a>
           <a class="mdl-navigation__link" href="#trash">Trash</a>
         </nav>
-      </div>
+      </div-->
       
       <div id="app-toast" class="mdl-js-snackbar mdl-snackbar">
         <div class="mdl-snackbar__text"></div>
@@ -197,6 +289,8 @@ function setTitle() {
   
 <div id="lorem" style="padding:10px;">  
        
+<p id="latest">Nothing has happpend so far</p>
+
 <p>Dolor sit amet, consectetur adipiscing elit. Donec condimentum, turpis et dignissim consectetur, magna metus porttitor neque, eget consectetur ex tortor at elit. Sed non convallis sapien. Duis mollis lectus pulvinar semper consectetur. Quisque dapibus, augue eget pretium finibus, libero est posuere dolor, eget varius magna risus at dolor. Quisque dapibus velit in purus ultricies, sit amet gravida orci vulputate. Praesent sem elit, ultrices ut lacinia vel, condimentum vel dui. Maecenas tincidunt magna lobortis ipsum dapibus aliquam. Praesent hendrerit, enim vel iaculis auctor, libero nulla imperdiet ipsum, sed faucibus dolor sem quis nunc. Fusce porttitor suscipit sem, sit amet luctus nibh finibus vel. Vivamus luctus massa ac lacus molestie dapibus. Sed varius ullamcorper mi, et posuere dolor dignissim id. Integer malesuada ex semper odio tempor laoreet.</p>
 
 <p>Cras commodo velit at sapien euismod, id viverra ligula iaculis. Cras vulputate non purus hendrerit faucibus. Cras convallis sodales ante sed ultrices. Curabitur ornare convallis nunc in maximus. Duis at justo id turpis commodo malesuada. Duis auctor rhoncus diam, non elementum nibh tristique at. Sed feugiat scelerisque viverra. Maecenas gravida finibus erat eu imperdiet. Donec vel mauris id massa laoreet euismod. Aliquam tempor leo a neque tristique, eget facilisis diam ornare. In at est quis enim tincidunt bibendum ac quis nisi. Sed lobortis volutpat molestie. Maecenas luctus congue augue at semper. Sed commodo lorem nec efficitur aliquet. Vestibulum ut elit augue. Integer blandit magna et bibendum ultrices.</p>
@@ -212,13 +306,10 @@ function setTitle() {
     </div>
     
      <dialog id="app-dialog" class="mdl-dialog">
-        <div class="mdl-dialog__content">
-          <p></p>You take the blue pill, the story ends. You wake up in your bed and believe whatever you want to believe. 
-          You take the red pill, you stay in Wonderland, and I show you how deep the rabbit hole goes.</p>
-        </div>
+        <div id="app-dialog-content" class="mdl-dialog__content">-content-</div>
         <div class="mdl-dialog__actions">
-          <button type="button" id="app-yes-btn" class="mdl-button mdl-button--primary">Red</button>
-          <button type="button" id="app-no-btn" class="mdl-button mdl-button--primary">Blue</button>
+          <button type="button" id="app-dialog-yes-btn" class="mdl-button mdl-button--primary">-yes-</button>
+          <button type="button" id="app-dialog-no-btn" class="mdl-button mdl-button--primary">-no-</button>
         </div>
       </dialog>
     
@@ -247,6 +338,10 @@ function addButton(title,func) {
   addButton('Hide Menu',hideMenu);
   addButton('Show Link',showLink);
   addButton('Hide Link',hideLink);
+  addButton('Show Home',showHome);
+  addButton('Hide Home',hideHome);
+  addButton('Show Drawer',showDrawer);
+  addButton('Hide Drawer',hideDrawer);
   addButton('Show Progress',showProgress);
   addButton('Hide Progress',hideProgress);
   addButton('Show Alert',function(e) { showToast(); });

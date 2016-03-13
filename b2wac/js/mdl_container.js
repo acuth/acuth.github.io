@@ -220,10 +220,12 @@ B2wacContainer.prototype.gotOnPageCloseCB = function() {
 
 B2wacContainer.prototype.startRefresh = function() {
   if (this.debug) console.log(this.varName+'.startRefresh()');
+  this.b2wac.startRefresh();
 };
 
 B2wacContainer.prototype.endRefresh = function() {
   if (this.debug) console.log(this.varName+'.endRefresh()');
+  this.b2wac.endRefresh();
 };
 
 B2wacContainer.prototype.startBackground = function(url) {

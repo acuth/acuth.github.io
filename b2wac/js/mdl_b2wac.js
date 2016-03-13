@@ -61,7 +61,6 @@ B2wac.prototype.onHashChange=function() {
   }
 };
 
-
 B2wac.prototype.prepareDialog=function() {
   var b2wac = this;
   var dialog = document.getElementById('app-dialog');
@@ -429,10 +428,21 @@ B2wac.prototype.updateHeader=function(title,homeItem,actionBarItems,optionsMenuI
   componentHandler.upgradeDom();
 };
 
+B2wac.prototype.startRefresh=function() {
+  var html = '<div class="app-progress mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>';
+  document.getElementById('app-progress-area').innerHTML = html;
+  componentHandler.upgradeDom();
+};
+
+B2wac.prototype.endRefresh=function() {
+  var html = '<div class="app-progress mdl-progress mdl-js-progress"></div>';
+  document.getElementById('app-progress-area').innerHTML = html;
+  componentHandler.upgradeDom();
+};
+
 B2wac.prototype.alert=function(msg) {
   var data = {message: msg};
-  var snackbarContainer = document.querySelector('#app-toast');
-  snackbarContainer.MaterialSnackbar.showSnackbar(data);
+  document.getElementById('app-toast').MaterialSnackbar.showSnackbar(data);
 };
 
 B2wac.prototype.showDialog = function(content,yes,no) {

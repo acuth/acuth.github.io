@@ -366,6 +366,7 @@ B2wac.prototype.back=function() {
 
 
 B2wac.prototype.getHomeControl=function(item) {
+  console.log('B2wac.getHomeControl('+item+')');
   var btn = document.createElement('button');
   btn.setAttribute('class','mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon');
   btn.innerHTML = '<i class="material-icons">'+item.icon+'</i>';

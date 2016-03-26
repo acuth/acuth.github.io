@@ -454,8 +454,10 @@ B2wac.prototype.showDialog = function(content,yes,no) {
 B2wac.prototype.listCallback = function(i) {
   document.getElementById('app-modal-list').close();
   this.modalListVisible = false;
-  var frame = this.frameStack[this.nFrame-1];
-  frame.container.awac.fireListResult(i);
+  if (i != -1) {
+    var frame = this.frameStack[this.nFrame-1];
+    frame.container.awac.fireListResult(i);
+  }
 };
 
 B2wac.prototype.getListControl = function(items,i) {

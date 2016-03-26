@@ -11,10 +11,6 @@
 		<script type="text/javascript">
 var _awac = null;
 
-function question() {
-
-}
-
 $(document).ready(function() {
   _awac = new Awac('_awac');
   _awac.setOnAction(showPage);
@@ -47,7 +43,7 @@ $(document).ready(function() {
    
    var positive = 'red';
    var negative = 'blue';
-   _awac.dialog('Which pill are you going to take   ?',
+   _awac.dialog('Which pill are you going to take?',
      positive,negative,
      function(positiveClick){...});
    
@@ -59,12 +55,12 @@ $(document).ready(function() {
     <div id="navigation"></div>
     
     <div id="content">
-        <p>Awac provides access to native alerts, dialogues and modal lists.</p>
+        <p>Awac provides access to native alerts, dialogs and modal lists.</p>
 
         <div class="holder">
           <button class="topb" id="show-alert"><span>Show Alert</span></button>
-          <button id="show-list"><span>Show List</span></button>
           <button id="show-dialog"><span>Show Dialog</span></button>
+          <button id="show-list"><span>Show List</span></button>
         </div>
      </div>
   </body>

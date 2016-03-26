@@ -40,6 +40,7 @@ function B2wac(rootUrl,pageDiv) {
   this.concealFrame = null;
   this.revealFrame = null;
   this.revealType = -1;
+  this.modalListVisible = false;
 }
 
 B2wac.UP = 1;
@@ -348,6 +349,10 @@ B2wac.prototype.back=function() {
     console.log("fire onBackCB");
     frame.container.awac.fireBackPressed();
   }
+  else if (this.modalListVisible) {
+    console.log('closing modal list');
+    this.listCallback(-1);
+  }
   else if (this.nFrame > 1) {
     console.log('default back() behaviour');
     this.endPage(false,null);
@@ -448,6 +453,7 @@ B2wac.prototype.showDialog = function(content,yes,no) {
 
 B2wac.prototype.listCallback = function(i) {
   document.getElementById('app-modal-list').close();
+  this.modalListVisible = false;
   var frame = this.frameStack[this.nFrame-1];
   frame.container.awac.fireListResult(i);
 };
@@ -469,6 +475,7 @@ B2wac.prototype.showList = function(items) {
   e.innerHTML = null;
   e.appendChild(ul);
   document.getElementById('app-modal-list').showModal();
+  this.modalListVisible = true;
 };
 
 B2wac.prototype.dialogCallback = function(yes) {

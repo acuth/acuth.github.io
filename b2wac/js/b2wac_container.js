@@ -169,8 +169,8 @@ B2wacContainer.prototype.endPage = function(value) {
 
 B2wacContainer.prototype.showList = function(items) {
   if (this.debug) console.log(this.varName+'.showList('+items+')');
-  var yes = confirm('MoclContainer.showList() NYI');
-  this.awac.fireListResult(yes?1:0);
+  var yes = confirm('MockContainer.showList() NYI');
+  this.awac.fireListResult(12);
 };
 
 B2wacContainer.prototype.showDialog = function(msg,ok,cancel) {

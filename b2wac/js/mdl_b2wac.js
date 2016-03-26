@@ -76,7 +76,6 @@ B2wac.prototype.prepareDialog=function() {
 
 B2wac.prototype.init=function(href) {
   var pageUrl = '../../test/index.html';
-  //var pageUrl = '../../yangw/index2.html';
   console.log('href='+href);
   
   var b2wac = this;
@@ -287,6 +286,7 @@ B2wac.prototype.resolvePageUrl=function(currentUrl,pageUrl) {
 
 B2wac.prototype.newFrame=function(currentUrl,tag,pageUrl,value) {
   pageUrl = this.resolvePageUrl(currentUrl,pageUrl);
+  pageUrl += '?r='+Math.random();
   var iframe = $(document.createElement('iframe')).appendTo($('#'+this.pageDiv));
   var frame = new Frame(tag,pageUrl,value,iframe);
   iframe.attr('id','iframe-'+frame.id);
@@ -341,11 +341,6 @@ B2wac.prototype.debugFrameStack=function() {
   }
 };
 
-B2wac.prototype.onBackPressed=function() {
-  alert('onBackPressed()');
-  console.log('onBackPressed()');
-};
-
 B2wac.prototype.back=function() {
   console.log('back()');
   var frame = this.frameStack[this.nFrame-1];
@@ -359,11 +354,9 @@ B2wac.prototype.back=function() {
   }  
   else {
     console.log('last frame');
-    alert('Cannot back from here');
+    this.alert('You cannot go back from here');
   }
 };
-
-
 
 B2wac.prototype.getHomeControl=function(item) {
   console.log('B2wac.getHomeControl('+item+')');
@@ -387,7 +380,7 @@ B2wac.prototype.getActionBarControl=function(item) {
   } else {
     var a = document.createElement('a');
     a.setAttribute('class','mdl-navigation__link');
-    a.innerHTML = item.label;
+    a.innerHTML = '<b>'+item.label.toUpperCase()+'</b>';
     var b2wac = this;
     a.addEventListener('click', function() { b2wac.actionBarCallback(item.action); });
     return a;
@@ -453,6 +446,31 @@ B2wac.prototype.showDialog = function(content,yes,no) {
   document.getElementById('app-dialog').showModal();
 };
 
+B2wac.prototype.listCallback = function(i) {
+  document.getElementById('app-modal-list').close();
+  var frame = this.frameStack[this.nFrame-1];
+  frame.container.awac.fireListResult(i);
+};
+
+B2wac.prototype.getListControl = function(items,i) {
+  var li = document.createElement('li');
+  li.innerHTML = items[i].label;
+  var b2wac = this;
+  li.addEventListener('click',function() { b2wac.listCallback(i); });
+  return li;
+};
+
+B2wac.prototype.showList = function(items) {
+  items = JSON.parse(items);
+  var ul = document.createElement('ul');
+  for (var i=0;i<items.length;i++) 
+    ul.appendChild(this.getListControl(items,i));
+  var e = document.getElementById('app-modal-list-content');
+  e.innerHTML = null;
+  e.appendChild(ul);
+  document.getElementById('app-modal-list').showModal();
+};
+
 B2wac.prototype.dialogCallback = function(yes) {
   var frame = this.frameStack[this.nFrame-1];
   frame.container.awac.fireDialogResult(yes);
@@ -462,3 +480,5 @@ B2wac.prototype.actionBarCallback=function(action) {
   var frame = this.frameStack[this.nFrame-1];
   frame.container.awac.fireAction(action);
 };
+
+

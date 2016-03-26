@@ -19,7 +19,13 @@ $(document).ready(function() {
   _awac = new Awac('_awac');
   _awac.setOnAction(showPage);
 	_awac.unlockNavDrawer();
-	setButton($('#show-dialog'),function() {   
+	setButton($('#show-list'),function() {   
+	  var items = [{'label':'Red'},{'label':'Green'},{'label':'Blue'}];
+	  _awac.list(items,function(n) { 
+	    pLog('You selected '+items[n].label); 
+	  });
+  });
+  setButton($('#show-dialog'),function() {   
 	  _awac.dialog('Which pill are you going to take?','red','blue',function(yes) {
       pLog('You took the '+(yes?'Red':'Blue')+ ' pill');
     });
@@ -54,11 +60,12 @@ $(document).ready(function() {
     <div id="navigation"></div>
     
     <div id="content">
-        <p>Awac provides access to native dialogues and alerts.</p>
+        <p>Awac provides access to native alerts, dialogues and modal lists.</p>
 
         <div class="holder">
-          <button class="topb" id="show-dialog"><span>Show Dialog</span></button>
-          <button id="show-alert"><span>Show Alert</span></button>
+          <button class="topb" id="show-alert"><span>Show Alert</span></button>
+          <button id="show-list"><span>Show List</span></button>
+          <button id="show-dialog"><span>Show Dialog</span></button>
         </div>
      </div>
   </body>

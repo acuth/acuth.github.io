@@ -15,8 +15,7 @@ button.app-button {
   width: 60%;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 10px;
-}      
+  margin-bottom: 10px;}      
 
 div.app-progress {
   width: 100%;
@@ -207,6 +206,7 @@ function prepareProgress() {
 
 function prepareDialog() {
   console.log('-prepareDialog()');
+  return;
   var dialog = document.getElementById('app-dialog');
   document.getElementById('app-dialog-yes-btn').addEventListener('click', function() {
     dialog.close();
@@ -227,10 +227,15 @@ function actionBarCallback(action) {
   info('You activated the \''+action+'\' action');
 }
 
+function test() {
+   info('You activated the test action');
+   document.getElementById('app-dialog').close();
+}
+
 function showDialog2(content,yes,no) {
-  document.getElementById('app-dialog-content').innerHTML = content;
-  document.getElementById('app-dialog-yes-btn').innerHTML = yes;
-  document.getElementById('app-dialog-no-btn').innerHTML = no;
+  document.getElementById('app-dialog-content').innerHTML = content + '<a href="javascript:test();">Test</a>';
+  //document.getElementById('app-dialog-yes-btn').innerHTML = yes;
+  //document.getElementById('app-dialog-no-btn').innerHTML = no;
   document.getElementById('app-dialog').showModal();
 }
 
@@ -327,10 +332,10 @@ function setTitle() {
     
      <dialog id="app-dialog" class="mdl-dialog">
         <div id="app-dialog-content" class="mdl-dialog__content">-content-</div>
-        <div class="mdl-dialog__actions">
+        <!--div class="mdl-dialog__actions">
           <button type="button" id="app-dialog-yes-btn" class="mdl-button mdl-button--primary">-yes-</button>
           <button type="button" id="app-dialog-no-btn" class="mdl-button mdl-button--primary">-no-</button>
-        </div>
+        </div-->
       </dialog>
     
     

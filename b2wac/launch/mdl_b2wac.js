@@ -5,6 +5,7 @@ function Frame(tag,url,iparam,iframe) {
   this.iparam = iparam;
   this.iframe = iframe;
   this.container = null;
+  this.navDrawerItems = [];
 }
 
 Frame.count = 0;
@@ -41,6 +42,8 @@ function B2wac(rootUrl,pageDiv) {
   this.revealFrame = null;
   this.revealType = -1;
   this.modalListVisible = false;
+  this.navDrawerVisible = false;
+  this.navDrawerItems = [];
 }
 
 B2wac.UP = 1;
@@ -62,9 +65,50 @@ B2wac.prototype.onHashChange=function() {
   }
 };
 
+B2wac.prototype.addNavDrawerItem=function(item) {
+  this.navDrawerItems[this.navDrawerItems.length] = item;
+};
+
+B2wac.prototype.prepareNavDrawer=function() {
+  var dialog = document.createElement('dialog');
+  dialog.setAttribute('id','app-nav-drawer');
+  dialog.setAttribute('class','mdl-dialog');
+  dialog.innerHTML = '<div id="app-nav-drawer-content" class="mdl-dialog__content">-content-</div>';
+  document.body.appendChild(dialog);
+  if (!dialog.showModal) {
+    dialogPolyfill.registerDialog(dialog);
+  }
+}; 
+
+B2wac.prototype.prepareModalList=function() {
+  var dialog = document.createElement('dialog');
+  dialog.setAttribute('id','app-modal-list');
+  dialog.setAttribute('class','mdl-dialog');
+  dialog.innerHTML = '<div id="app-modal-list-content" class="mdl-dialog__content">-content-</div>';
+  document.body.appendChild(dialog);
+  if (!dialog.showModal) {
+    dialogPolyfill.registerDialog(dialog);
+  }
+}; 
+
 B2wac.prototype.prepareDialog=function() {
+  var dialog = document.createElement('dialog');
+  dialog.setAttribute('id','app-dialog');
+  dialog.setAttribute('class','mdl-dialog');
+  dialog.innerHTML = 
+        '<div id="app-dialog-content" class="mdl-dialog__content">-content-</div>'+
+        '<div class="mdl-dialog__actions">'+
+          '<button type="button" id="app-dialog-yes-btn" class="mdl-button mdl-button--primary">-yes-</button>'+
+          '<button type="button" id="app-dialog-no-btn" class="mdl-button mdl-button--primary">-no-</button>'+
+        '</div>';
+  document.body.appendChild(dialog);
+  if (!dialog.showModal) {
+    dialogPolyfill.registerDialog(dialog);
+  }
+  
+  
   var b2wac = this;
-  var dialog = document.getElementById('app-dialog');
+  //var dialog = document.getElementById('app-dialog');
   document.getElementById('app-dialog-yes-btn').addEventListener('click', function() {
     dialog.close();
     b2wac.dialogCallback(true);
@@ -84,6 +128,8 @@ B2wac.prototype.init=function(href) {
   document.addEventListener('backbutton',function() { alert('backbutton'); b2wac.back(); });
   
   this.prepareDialog();
+  this.prepareModalList();
+  this.prepareNavDrawer();
   
   window.onhashchange=function(){b2wac.onHashChange();};
   
@@ -353,6 +399,10 @@ B2wac.prototype.back=function() {
     console.log('closing modal list');
     this.listCallback(-1);
   }
+  else if (this.navDrawerVisible) {
+    console.log('closing nav drawer');
+    this.navDrawerCallback(null);
+  }
   else if (this.nFrame > 1) {
     console.log('default back() behaviour');
     this.endPage(false,null);
@@ -370,6 +420,26 @@ B2wac.prototype.getHomeControl=function(item) {
   btn.innerHTML = '<i class="material-icons">'+item.icon+'</i>';
   var b2wac = this;
   btn.addEventListener('click', function() { b2wac.actionBarCallback(item.action); });
+  return btn;
+};
+
+B2wac.prototype.getBackControl=function() {
+  console.log('B2wac.getBackControl()');
+  var btn = document.createElement('button');
+  btn.setAttribute('class','mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon');
+  btn.innerHTML = '<i class="material-icons">arrow_back</i>';
+  var b2wac = this;
+  btn.addEventListener('click', function() { b2wac.back(); });
+  return btn;
+};
+
+B2wac.prototype.getNavDrawerControl=function() {
+  console.log('B2wac.getNavDrawerControl()');
+  var btn = document.createElement('button');
+  btn.setAttribute('class','mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon');
+  btn.innerHTML = '<i class="material-icons">menu</i>';
+  var b2wac = this;
+  btn.addEventListener('click', function() { b2wac.showNavDrawer(); });
   return btn;
 };
 
@@ -392,7 +462,7 @@ B2wac.prototype.getActionBarControl=function(item) {
   }
 };
 
-B2wac.prototype.updateHeader=function(title,homeItem,actionBarItems,optionsMenuItems) {
+B2wac.prototype.updateHeader=function(title,showNavDrawer,homeItem,actionBarItems,optionsMenuItems) {
   console.log('B2wac.updateHeader()');
   document.getElementById('title').innerHTML = title;
   var div = document.getElementById('app-action-bar-links');
@@ -401,11 +471,15 @@ B2wac.prototype.updateHeader=function(title,homeItem,actionBarItems,optionsMenuI
     for (var i=0;i<actionBarItems.length;i++)
       div.appendChild(this.getActionBarControl(JSON.parse(actionBarItems[i])));
   }
+  //
   div = document.getElementById('app-home-icon');
   div.innerHTML = '';
-  if (homeItem) {
-    div.appendChild(this.getHomeControl(JSON.parse(homeItem)));
-  } 
+  var homeControl;
+  if (homeItem) homeControl = this.getHomeControl(JSON.parse(homeItem));
+  else if (showNavDrawer) homeControl = this.getNavDrawerControl();
+  else homeControl = this.getBackControl();
+  div.appendChild(homeControl);
+  //
   div = document.getElementById('app-options-menu');
   div.innerHTML = '';
   if (optionsMenuItems) {
@@ -460,7 +534,16 @@ B2wac.prototype.listCallback = function(i) {
   }
 };
 
-B2wac.prototype.getListControl = function(items,i) {
+B2wac.prototype.navDrawerCallback = function(action) {
+  document.getElementById('app-nav-drawer').close();
+  this.navDrawerVisible = false;
+  if (action) {
+    var frame = this.frameStack[this.nFrame-1];
+    frame.container.awac.fireAction(action);
+  }
+};
+
+B2wac.prototype.getListItemControl = function(items,i) {
   var li = document.createElement('li');
   li.innerHTML = items[i].label;
   var b2wac = this;
@@ -468,11 +551,30 @@ B2wac.prototype.getListControl = function(items,i) {
   return li;
 };
 
+B2wac.prototype.getNavDrawerItemControl = function(item) {
+  var li = document.createElement('li');
+  li.innerHTML = item.label;
+  var b2wac = this;
+  li.addEventListener('click',function() { b2wac.navDrawerCallback(item.action); });
+  return li;
+};
+
+B2wac.prototype.showNavDrawer = function() {
+  var ul = document.createElement('ul');
+  for (var i=0;i<this.navDrawerItems.length;i++) 
+    ul.appendChild(this.getNavDrawerItemControl(JSON.parse(this.navDrawerItems[i])));
+  var e = document.getElementById('app-nav-drawer-content');
+  e.innerHTML = null;
+  e.appendChild(ul);
+  document.getElementById('app-nav-drawer').showModal();
+  this.navDrawerVisible = true;
+};
+
 B2wac.prototype.showList = function(items) {
   items = JSON.parse(items);
   var ul = document.createElement('ul');
   for (var i=0;i<items.length;i++) 
-    ul.appendChild(this.getListControl(items,i));
+    ul.appendChild(this.getListItemControl(items,i));
   var e = document.getElementById('app-modal-list-content');
   e.innerHTML = null;
   e.appendChild(ul);

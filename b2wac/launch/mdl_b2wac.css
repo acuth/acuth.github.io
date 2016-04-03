@@ -111,3 +111,9 @@ div#page {
 div.app-progress {
   width: 100%;
 }
+
+#app-nav-drawer {
+  margin-left: 0px;
+  top: 0px;
+  height: 100%;
+}

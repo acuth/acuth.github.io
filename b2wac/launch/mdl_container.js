@@ -12,6 +12,7 @@ function B2wacContainer(b2wac,awac,tag,url,iparam) {
   this.title = null;
   this.homeItem = null;
   this.actionBarItems = [];
+  this.showNavDrawer = false;
 }
 
 B2wacContainer.prototype.addAction = function(header,i) {
@@ -39,20 +40,7 @@ B2wacContainer.prototype.addHome = function(header) {
 
 B2wacContainer.prototype.updateHeader = function() {
   console.log('\n\nB2wacConatiner.updateHeader()');
-  console.log(' - title: '+this.title);
-  console.log(' - home: '+this.homeItem);
-  console.log(' - action bar: '+this.actionBarItems);
-  
-  this.b2wac.updateHeader(this.title,this.homeItem,this.actionBarItems);
-  
-  
-//  var header = $('#page-header').html(null);
-//  if (this.homeItem) 
-//    this.addHome(header);
-//  else
-//    this.addBack(header);
-//  $(document.createElement('div')).attr('id','page-title').html(this.title).appendTo(header);
-//  for (var i=this.actionBarItems.length;i>0;i--) this.addAction(header,i-1);
+  this.b2wac.updateHeader(this.title,this.showNavDrawer,this.homeItem,this.actionBarItems);
 };
 
 B2wacContainer.prototype.back = function() {
@@ -85,6 +73,7 @@ B2wacContainer.prototype.setTitle = function(title) {
 
 B2wacContainer.prototype.addNavDrawerItem = function(json) {
   if (this.debug) console.log(this.varName+'.addNavDrawerItem('+json+')');
+  this.b2wac.addNavDrawerItem(json);
 };
 
 B2wacContainer.prototype.addOptionsMenuItem = function(json) {
@@ -117,6 +106,7 @@ B2wacContainer.prototype.setHomeItem = function(json) {
 
 B2wacContainer.prototype.unlockNavDrawer = function() {
   if (this.debug) console.log(this.varName+'.unlockNavDrawer()');
+  this.showNavDrawer = true;
 };
 
 B2wacContainer.prototype.set = function(name,value) {

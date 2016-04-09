@@ -545,24 +545,12 @@ B2wac.prototype.navDrawerCallback = function(action) {
   }
 };
 
-B2wac.prototype.getListItemControl = function(items,i) {
+B2wac.prototype.getModalControl = function(isList,item,i) {
   var btn = document.createElement('button');
-  btn.setAttribute('class','mdl-button');
-  btn.setAttribute('style','text-align:left;text-transform:none;');
-  btn.innerHTML = items[i].label;
-  var b2wac = this;
-  btn.addEventListener('click',function() { b2wac.listCallback(i); });
-  return btn;
-};
-
-B2wac.prototype.getNavDrawerItemControl = function(item) {
-  var btn = document.createElement('button');
-  btn.setAttribute('class','mdl-button');
-  btn.setAttribute('style','text-align:left;text-transform:none;');
-  //var li = document.createElement('li');
+  btn.setAttribute('class','app-modal-button mdl-button mdl-js-button mdl-js-ripple-effect');
   btn.innerHTML = item.label;
   var b2wac = this;
-  btn.addEventListener('click',function() { b2wac.navDrawerCallback(item.action); });
+  btn.addEventListener('click',function() { if (isList) b2wac.listCallback(i); else b2wac.navDrawerCallback(item.action); });
   return btn;
 };
 
@@ -584,7 +572,7 @@ B2wac.prototype.showNavDrawer = function() {
   div.setAttribute('class','mdl-dialog__actions mdl-dialog__actions--full-width');
   //var ul = document.createElement('ul');
   for (var i=0;i<this.navDrawerItems.length;i++) 
-    div.appendChild(this.getNavDrawerItemControl(JSON.parse(this.navDrawerItems[i])));
+    div.appendChild(this.getModalControl(false,JSON.parse(this.navDrawerItems[i]),i));
   var e = document.getElementById('app-nav-drawer-content');
   e.innerHTML = null;
   e.appendChild(this.getCloseButton(false));
@@ -599,7 +587,7 @@ B2wac.prototype.showList = function(items) {
   var div = document.createElement('div');
   div.setAttribute('class','mdl-dialog__actions mdl-dialog__actions--full-width');
   for (var i=0;i<items.length;i++) 
-    div.appendChild(this.getListItemControl(items,i));
+    div.appendChild(this.getModalControl(true,items[i],i));
   var e = document.getElementById('app-modal-list-content');
   e.innerHTML = null;
   e.appendChild(this.getCloseButton(true));

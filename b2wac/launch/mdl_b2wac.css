@@ -121,3 +121,8 @@ div.app-progress {
 #app-modal-list-content, #app-nav-drawer-content {
   padding: 0px;
 }
+
+button.app-modal-button {
+  text-align: left;
+  text-transform: none;
+}

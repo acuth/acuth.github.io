@@ -393,17 +393,17 @@ B2wac.prototype.debugFrameStack=function() {
 B2wac.prototype.back=function() {
   console.log('back()');
   var frame = this.frameStack[this.nFrame-1];
-  if (frame.container.onBackCB) {
-    console.log("fire onBackCB");
-    frame.container.awac.fireBackPressed();
-  }
-  else if (this.modalListVisible) {
+  if (this.modalListVisible) {
     console.log('closing modal list');
     this.listCallback(-1);
   }
   else if (this.navDrawerVisible) {
     console.log('closing nav drawer');
     this.navDrawerCallback(null);
+  }
+  else if (frame.container.onBackCB) {
+    console.log("fire onBackCB");
+    frame.container.awac.fireBackPressed();
   }
   else if (this.nFrame > 1) {
     console.log('default back() behaviour');

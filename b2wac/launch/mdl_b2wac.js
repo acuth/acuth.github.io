@@ -571,6 +571,7 @@ B2wac.prototype.getCloseButton = function(isList) {
     div.setAttribute('class','app-modal-close mdl-dialog__actions');
     var btn = document.createElement('button');
     btn.setAttribute('class','mdl-button mdl-js-button mdl-button--icon');
+    btn.setAttribute('id','app-modal-close-btn-'+(isList?'list':'drawer'));
     btn.innerHTML = '<i class="material-icons mdl-color-text--blue-grey-400">close</i>';
     var b2wac = this;
     btn.addEventListener('click',function() { if (isList) b2wac.listCallback(-1); else b2wac.navDrawerCallback(null); });
@@ -590,6 +591,7 @@ B2wac.prototype.showNavDrawer = function() {
   e.appendChild(div);
   document.getElementById('app-nav-drawer').showModal();
   this.navDrawerVisible = true;
+  document.getElementById('app-modal-close-btn-drawer').blur();
 };
 
 B2wac.prototype.showList = function(items) {
@@ -604,6 +606,7 @@ B2wac.prototype.showList = function(items) {
   e.appendChild(div);
   document.getElementById('app-modal-list').showModal();
   this.modalListVisible = true;
+  document.getElementById('app-modal-close-btn-list').blur();
 };
 
 B2wac.prototype.dialogCallback = function(yes) {

@@ -162,7 +162,7 @@ B2wacContainer.prototype.startPage = function() {
 
 B2wacContainer.prototype.endPage = function(value) {
   if (this.debug) console.log(this.varName+'.endPage('+value+')');
-  this.b2wac.endPage(true,value);
+  this.b2wac.endPage(this.tag,true,value);
 };
 
 B2wacContainer.prototype.showList = function(items) {
@@ -235,7 +235,7 @@ B2wacContainer.prototype.callBackground = function() {
 
 B2wacContainer.prototype.getStackDepth = function() {
   if (this.debug) console.log(this.varName+'.getStackDepth()=0');
-  return 0;
+  return this.b2wac.getDepth();
 };
 
 B2wacContainer.prototype.getDims = function() {

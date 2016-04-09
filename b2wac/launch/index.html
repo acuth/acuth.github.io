@@ -16,24 +16,6 @@
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.teal-pink.min.css" />
     <script src='https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.3/dialog-polyfill.min.js'></script>
     <script src="https://code.getmdl.io/1.1.1/material.min.js"></script>
-    <script type="text/javascript">
-function back() {
-  window.b2wac.back();
-}   
-
-$(document).ready(function() { 
-  'use strict';
-  console.log('document ready');
-  //var dialog = document.getElementById('app-dialog');
-  //var modalList = document.getElementById('app-modal-list');
-  //if (!modalList.showModal) {
-    //dialogPolyfill.registerDialog(dialog);
-    //dialogPolyfill.registerDialog(modalList);
-  //}
-  window.b2wac = new B2wac(window.location.href,'page');
-  window.b2wac.init(window.location.href);
-});
-    </script>
   </head>
   <body>
      <div id="layout" class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
@@ -60,17 +42,11 @@ $(document).ready(function() {
         <div id="page"></div>
       </main>
     </div> <!-- layout -->
-    
-      <!--dialog id="app-dialog" class="mdl-dialog">
-        <div id="app-dialog-content" class="mdl-dialog__content">-content-</div>
-        <div class="mdl-dialog__actions">
-          <button type="button" id="app-dialog-yes-btn" class="mdl-button mdl-button--primary">-yes-</button>
-          <button type="button" id="app-dialog-no-btn" class="mdl-button mdl-button--primary">-no-</button>
-        </div>
-      </dialog-->
-      
-      <!--dialog id="app-modal-list" class="mdl-dialog">
-        <div id="app-modal-list-content" class="mdl-dialog__content">-content-</div>
-      </dialog-->
+    <script type="text/javascript">
+(function () {
+  'use strict';  
+  window.b2wac = new B2wac('page',window.location.href);
+} ());
+    </script>    
   </body>
 </html>

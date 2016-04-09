@@ -30,9 +30,13 @@ Frame.prototype.toString=function() {
   return '{Frame id='+this.id+' url='+this.url.substring(i)+'}';
 };
   
-function B2wac(rootUrl,pageDiv) {
-  var i = rootUrl.indexOf('?');
-  this.rootUrl = i == -1 ? rootUrl : rootUrl.substring(0,i);
+function B2wac(pageDiv,href,pageUrl) {
+  console.log('B2wac()\n - pageDiv='+pageDiv+'\n - href='+href+'\n - pageUrl='+pageUrl);
+  var i = href.indexOf('#');
+  if (i != -1) href = href.substring(0,i);
+  this.href = href;
+  i = href.indexOf('?');
+  this.rootUrl = i == -1 ? href : href.substring(0,i);
   this.pageDiv = pageDiv;
   this.frameStack = [];
   this.nFrame = 0;
@@ -44,6 +48,35 @@ function B2wac(rootUrl,pageDiv) {
   this.modalListVisible = false;
   this.navDrawerVisible = false;
   this.navDrawerItems = [];
+
+  if (this.href && !pageUrl) {
+    i = this.href.indexOf('url=');
+    if (i != -1) {
+      var j = this.href.indexOf('&',i);
+      var url = j == -1 ? this.href.substring(i+4) : this.href.substring(i+4,j);
+      pageUrl = decodeURIComponent(url);
+      console.log('use url param to set pageUrl\n - pageUrl='+pageUrl);
+    }
+  }
+  if (!pageUrl) {
+    pageUrl = '../../test/index.html';
+    console.log('using default value for pageUrl\n - pageUrl='+pageUrl);
+  }
+  
+  var b2wac = this;
+  //window.onbeforeunload = function() { alert('onbeforeunload'); b2wac.back(); };
+  document.addEventListener('backbutton',function() { alert('backbutton'); b2wac.back(); });
+  
+  this.prepareDialog();
+  this.prepareModalList();
+  this.prepareNavDrawer();
+  
+  window.onhashchange=function(){b2wac.onHashChange();};
+  
+  window.location.hash="first-home";
+  window.location.hash="home";//again because google chrome don't insert first hash into history
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> set window.location.hash=#home');
+  this.openPage(null,pageUrl,null);
 }
 
 B2wac.UP = 1;
@@ -119,44 +152,9 @@ B2wac.prototype.prepareDialog=function() {
   });
 };
 
-B2wac.prototype.init=function(href) {
-  var pageUrl = '../../test/index.html';
-  console.log('href='+href);
-  
-  var b2wac = this;
-  //window.onbeforeunload = function() { alert('onbeforeunload'); b2wac.back(); };
-  document.addEventListener('backbutton',function() { alert('backbutton'); b2wac.back(); });
-  
-  this.prepareDialog();
-  this.prepareModalList();
-  this.prepareNavDrawer();
-  
-  window.onhashchange=function(){b2wac.onHashChange();};
-  
-  window.location.hash="first-home";
-  window.location.hash="home";//again because google chrome don't insert first hash into history
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> set window.location.hash=#home');
-  
-  
-  if (href) {
-    var i = href.indexOf('url=');
-    if (i != -1) {
-      var j = href.indexOf('&',i);
-      var url = j == -1 ? href.substring(i+4) : href.substring(i+4,j);
-      url = decodeURIComponent(url);
-      console.log('extract url='+url);
-      pageUrl = url;
-    }
-  }
- 
-  console.log('init('+pageUrl+')');
-  this.openPage(null,pageUrl,null);
-};
-
 B2wac.prototype.getContainer=function(awac) {
   return this.frameStack[this.nFrame-1].newContainer(this,awac);
 }; 
-
 
 B2wac.prototype.resetTransition=function() {
   this.comcealFrame = null;
@@ -363,7 +361,11 @@ B2wac.prototype.replacePage=function(tag,pageUrl,value,next) {
   this.newFrame(frame.url,tag,pageUrl,value);
 };
 
-B2wac.prototype.endPage=function(ok,value) {
+B2wac.prototype.getDepth=function() {
+  return this.nFrame-1;
+};
+
+B2wac.prototype.endPage=function(tag,ok,value) {
   var frame = this.frameStack[this.nFrame-1];
   this.concealFrame = frame;
   this.frameStack[this.nFrame-1] = null;
@@ -373,7 +375,7 @@ B2wac.prototype.endPage=function(ok,value) {
   }
   else {
     frame = this.frameStack[this.nFrame-1];
-    frame.container.awac.firePageClose(null,ok,value);
+    frame.container.awac.firePageClose(tag,ok,value);
     this.revealFrame = frame;
     this.removeConcealedFrame = true;
     this.revealType = B2wac.DOWN;
@@ -544,40 +546,62 @@ B2wac.prototype.navDrawerCallback = function(action) {
 };
 
 B2wac.prototype.getListItemControl = function(items,i) {
-  var li = document.createElement('li');
-  li.innerHTML = items[i].label;
+  var btn = document.createElement('button');
+  btn.setAttribute('class','mdl-button');
+  btn.setAttribute('style','text-align:left;text-transform:none;');
+  btn.innerHTML = items[i].label;
   var b2wac = this;
-  li.addEventListener('click',function() { b2wac.listCallback(i); });
-  return li;
+  btn.addEventListener('click',function() { b2wac.listCallback(i); });
+  return btn;
 };
 
 B2wac.prototype.getNavDrawerItemControl = function(item) {
-  var li = document.createElement('li');
-  li.innerHTML = item.label;
+  var btn = document.createElement('button');
+  btn.setAttribute('class','mdl-button');
+  btn.setAttribute('style','text-align:left;text-transform:none;');
+  //var li = document.createElement('li');
+  btn.innerHTML = item.label;
   var b2wac = this;
-  li.addEventListener('click',function() { b2wac.navDrawerCallback(item.action); });
-  return li;
+  btn.addEventListener('click',function() { b2wac.navDrawerCallback(item.action); });
+  return btn;
+};
+
+B2wac.prototype.getCloseButton = function(isList) {
+    var div = document.createElement('div');
+    div.setAttribute('class','app-modal-close mdl-dialog__actions');
+    var btn = document.createElement('button');
+    btn.setAttribute('class','mdl-button mdl-js-button mdl-button--icon');
+    btn.innerHTML = '<i class="material-icons mdl-color-text--blue-grey-400">close</i>';
+    var b2wac = this;
+    btn.addEventListener('click',function() { if (isList) b2wac.listCallback(-1); else b2wac.navDrawerCallback(null); });
+    div.appendChild(btn);
+    return div;
 };
 
 B2wac.prototype.showNavDrawer = function() {
-  var ul = document.createElement('ul');
+  var div = document.createElement('div');
+  div.setAttribute('class','mdl-dialog__actions mdl-dialog__actions--full-width');
+  //var ul = document.createElement('ul');
   for (var i=0;i<this.navDrawerItems.length;i++) 
-    ul.appendChild(this.getNavDrawerItemControl(JSON.parse(this.navDrawerItems[i])));
+    div.appendChild(this.getNavDrawerItemControl(JSON.parse(this.navDrawerItems[i])));
   var e = document.getElementById('app-nav-drawer-content');
   e.innerHTML = null;
-  e.appendChild(ul);
+  e.appendChild(this.getCloseButton(false));
+  e.appendChild(div);
   document.getElementById('app-nav-drawer').showModal();
   this.navDrawerVisible = true;
 };
 
 B2wac.prototype.showList = function(items) {
   items = JSON.parse(items);
-  var ul = document.createElement('ul');
+  var div = document.createElement('div');
+  div.setAttribute('class','mdl-dialog__actions mdl-dialog__actions--full-width');
   for (var i=0;i<items.length;i++) 
-    ul.appendChild(this.getListItemControl(items,i));
+    div.appendChild(this.getListItemControl(items,i));
   var e = document.getElementById('app-modal-list-content');
   e.innerHTML = null;
-  e.appendChild(ul);
+  e.appendChild(this.getCloseButton(true));
+  e.appendChild(div);
   document.getElementById('app-modal-list').showModal();
   this.modalListVisible = true;
 };

@@ -116,6 +116,7 @@ div.app-progress {
   margin-left: 0px;
   top: 0px;
   height: 100%;
+  padding: 0px;
 }
 
 #app-modal-list-content, #app-nav-drawer-content {

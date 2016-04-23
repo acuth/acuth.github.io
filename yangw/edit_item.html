@@ -33,12 +33,56 @@
 			  content.show().css('top',top).css('height',height);
 			}
 			
+			
+			function appendEditControls(c) {
+			  var html = '<span class="edit-control-span"><i class="material-icons">delete</i></span>' +
+			    '<span class="edit-control-span"><i class="material-icons">edit</i></span>';
+			  c.html(html);
+			}
+			
+			function appendClearBoth(c) {
+			    var d = $(document.createElement('div'));
+			    d.css('clear','both');
+			    //d.html('-clear-both-');
+			    d.appendTo(c);
+			}
+			
 			function renderItem(fitem) {
 				  var iname = fitem.getMDIcon();
 				  var a = fitem.getUserHTML(fitem.json.author,true);
-			    //$('#item-author').html(a);
-			    $('#item-title-div').html('<div id="item-title">'+fitem.json.name_attr+'</div>');
-				  //$('#show-item-type').html('<i class="material-icons">'+iname+'</i>');
+				  
+			    var titleDiv = $('#item-title-div');
+			    titleDiv.html('');
+			    
+			    var t = $(document.createElement('div'));
+			    t.attr('id','item-title');
+			    t.addClass('left');
+			    t.html(fitem.json.name_attr);
+			    t.appendTo(titleDiv);
+			    
+			    var c = $(document.createElement('div'));
+			    c.addClass('edit-controls right');
+			    appendEditControls(c);
+			    c.appendTo(titleDiv);
+			    
+			    appendClearBoth(titleDiv);
+			    
+			    var typesDiv = $('#item-types-div');
+			    typesDiv.html('');
+			    
+			    t = $(document.createElement('div'));
+			    t.attr('id','item-types');
+			    t.addClass('left');
+			    t.html('<div class="item-type"><i class="material-icons">'+iname+'</i></div>');
+			    t.appendTo(typesDiv);
+			    
+			    c = $(document.createElement('div'));
+			    c.addClass('edit-controls right');
+			    appendEditControls(c);
+			    c.appendTo(typesDiv);
+			    
+			    appendClearBoth(typesDiv);
+			
 			    $('#edit-body-content').text(fitem.json.markdown).prop('readonly', true);
 			    $('#edit-body-content-control').click(function(event) { onAction('edit-markdown'); }); 
 			    _awac.startPage();
@@ -72,13 +116,9 @@
 	</head>
 	<body>
      <div id="item-title-div">-title-goes-here-</div>
-     <div id="edit-item-content">
-      <!--div class="item-meta">
-        <table><tr>
-         <td><div id="show-item-type" class="item-type">?</div></td>
-         <td id="item-author">-author-details-go-here-</td>
-       </tr></table>
-       </div-->
+     <div id="item-types-div">-item-types-go-here-</div>
+     
+    <div style="position: relative;" id="edit-item-content">
        
        <table class="fields">
          <tr class="field">

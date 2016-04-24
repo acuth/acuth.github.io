@@ -54,16 +54,36 @@ AttrLink.prototype.setRight=function(label,action) {
   return this;
 };
 
-AttrLink.prototype.render=function() {
-  var s = '<span class="attr-link';
-  if (this.attrType) s += ' '+this.attrType;
-  s += '"';
-  if (this.background) s += ' style="background:'+this.background+';"';
+AttrLink.prototype.newDivStr=function(styles,classes) {
+  var s = '<div';
+  if (styles) s += ' style="'+styles+'"';
+  if (classes) s += ' class="'+classes+'"';
   s += '>';
-  if (this.imageUrl) s+= '<img src="'+this.imageUrl+'" />';
-  if (this.left) s += '<a class="left" href="javascript:'+this.left.action+';">'+this.left.label+'</a>';
-  if (this.right) s += '<a class="right" href="javascript:'+this.right.action+';">'+this.right.label+'</a>';
-  s += '</span>';
+  return s;
+};
+
+
+AttrLink.prototype.render=function() {
+  var s = '';
+  // make sure it is inline
+  s += '<div class="attr-link">';
+  // use flex layout for a set of divs
+  s += '<div class="attr-link-container"';
+  if (this.background) s += ' style="background:'+this.background+'"';
+  s += '>';
+  
+  var classes = null;
+  if (this.imageUrl) {
+    classes = 'match-img-circle';
+    s += this.newDivStr(null,classes)+'<img class="img-circle" src="'+this.imageUrl+'" /></div>';
+  }
+  
+  if (this.left) s += this.newDivStr(null,classes+' left')+'<a href="javascript:'+this.left.action+';">'+this.left.label+'</a></div>';
+  if (this.left && this.right) s += this.newDivStr(null,classes+' divider')+'</div>';
+  if (this.right) s += this.newDivStr(null,classes+' right')+'<a href="javascript:'+this.right.action+';">'+this.right.label+'</a></div>';
+
+  s += '</div>';
+  s += '</div>';
   return s;
 };
 

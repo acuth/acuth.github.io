@@ -42,11 +42,11 @@ div#show-item-content {
 }
 
 .left-content {
-  width: 87.5%;
+  width: 80%;
 }
 
 .right-controls {
-  width: 12.5%;
+  width: 20%;
 }
 
 .padded-container {
@@ -79,6 +79,7 @@ div#show-item-content {
 
 .img-circle {
     width: 36px;
+    height: 36px;
     border-radius: 50%;
 }
 
@@ -190,6 +191,33 @@ span.attr-link {
   height: 32px;
 }
 
+div.attr-link {
+  display: inline-block;
+}
+
+div.attr-link-container {
+  display: flex;
+  background: #d5d5d5;
+}
+
+
+
+div.attr-link-container div {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+div.attr-link-container div.divider {
+  padding-left: 0px;
+  padding-right: 0px;
+  border-left: solid 1px gray;
+}
+
+div.match-img-circle {
+  height: 36px;
+  line-height: 36px;
+}
+
 span.user-link {
   border-top-left-radius: 16px;
   border-bottom-left-radius: 16px;
@@ -283,13 +311,13 @@ td.field-icon i.material-icons, td.field-cntrl i.material-icons, span.edit-contr
   cursor: pointer;
 }
 
-.left {
+div.left {
   float: left;
   border2: solid 1px gray;
   background2: #e5e5FF;
 }
 
-.right {
+div.right {
   float: right;
   border2: solid 1px gray;
   background2: #FFe5e5;

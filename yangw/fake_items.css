@@ -12,6 +12,9 @@ body {
    color: #00695c;
 }
 
+p {
+  -webkit-margin-before: 0px;
+}
 
 img {
   max-width: 100%;
@@ -19,10 +22,7 @@ img {
 }
 
 div#show-item-content {
-  border2: solid 1px green;
-  width: 95%;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
 }
 
 #edit-item-content {
@@ -190,6 +190,10 @@ span.attr-link {
   background: #d5d5d5;
   height: 32px;
 }
+div.spacer {
+  display: inline-block;
+  width: 10px;
+}
 
 div.attr-link {
   vertical-align: middle;
@@ -209,7 +213,6 @@ div.attr-link-container div {
 }
 
 div.attr-link-container div.img-circle {
-  border2: solid 1px red; 
   padding-left: 0px;
   padding-right: 0px;
   border-top-left-radius: 16px;

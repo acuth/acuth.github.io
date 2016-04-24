@@ -90,7 +90,8 @@
 			    typesDiv.html('');
 			    t = newDiv('left-content left');
 			    newDiv('padded-container').css('display','flex').html('<div class="item-type"><i class="material-icons">'+iname+'</i></div>'+
-			      '&nbsp; <div>'+author+'</div>').appendTo(t);
+			      '<div class="spacer"></div>' +
+			      '<div>'+author+'</div>').appendTo(t);
 			    t.appendTo(typesDiv);
 			    //c = newDiv('right-controls edit-controls right');
 			    //p = newDiv('padded-container');
@@ -163,13 +164,9 @@
      <div id="item-types-div">-item-types-go-here-</div>
 	  
      <div id="show-item-content">
-       <!--table id="show-item-meta">
-         <tr>
-           <td><div id="show-item-type" class="item-type">?</div></td>
-           <td id="item-author">-author-details-go-here-</td>
-         </tr>
-       </table-->
-       <div id="show-item-markdown">-item-markup-goes-here-</div>
+       <div class="padded-container">
+         <div id="show-item-markdown">-item-markup-goes-here-</div>
+       </div>
        <div id="show-itm-footer"><a href="javascript:onAction('edit');">EDIT</a> |  <a href="javascript:onAction('back');">BACK</a></div>
      </div>
 	</body>

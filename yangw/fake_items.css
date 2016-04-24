@@ -77,7 +77,7 @@ div#show-item-content {
   padding-bottom: 20px;
 }
 
-.img-circle {
+img.img-circle {
     width: 36px;
     height: 36px;
     border-radius: 50%;
@@ -192,30 +192,35 @@ span.attr-link {
 }
 
 div.attr-link {
+  vertical-align: middle;
   display: inline-block;
 }
 
 div.attr-link-container {
   display: flex;
-  background: #d5d5d5;
 }
 
-
-
 div.attr-link-container div {
+  background: #d5d5d5;
   padding-left: 8px;
   padding-right: 8px;
+  height: 36px;
+  line-height: 36px;
+}
+
+div.attr-link-container div.img-circle {
+  border2: solid 1px red; 
+  padding-left: 0px;
+  padding-right: 0px;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
 }
 
 div.attr-link-container div.divider {
   padding-left: 0px;
-  padding-right: 0px;
-  border-left: solid 1px gray;
-}
-
-div.match-img-circle {
-  height: 36px;
-  line-height: 36px;
+  padding-right: 0px; 
+  border-left: solid 1px white;
+  border-right: solid 1px gray;
 }
 
 span.user-link {

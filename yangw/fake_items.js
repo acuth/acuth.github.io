@@ -68,19 +68,15 @@ AttrLink.prototype.render=function() {
   // make sure it is inline
   s += '<div class="attr-link">';
   // use flex layout for a set of divs
-  s += '<div class="attr-link-container"';
-  if (this.background) s += ' style="background:'+this.background+'"';
-  s += '>';
+  s += '<div class="attr-link-container">';
+ 
+  var styles = this.background ? 'background:'+this.background : null;
+  if (this.imageUrl) 
+    s += this.newDivStr(styles,'img-circle')+'<img class="img-circle" src="'+this.imageUrl+'" /></div>';
   
-  var classes = null;
-  if (this.imageUrl) {
-    classes = 'match-img-circle';
-    s += this.newDivStr(null,classes)+'<img class="img-circle" src="'+this.imageUrl+'" /></div>';
-  }
-  
-  if (this.left) s += this.newDivStr(null,classes+' left')+'<a href="javascript:'+this.left.action+';">'+this.left.label+'</a></div>';
-  if (this.left && this.right) s += this.newDivStr(null,classes+' divider')+'</div>';
-  if (this.right) s += this.newDivStr(null,classes+' right')+'<a href="javascript:'+this.right.action+';">'+this.right.label+'</a></div>';
+  if (this.left) s += this.newDivStr(styles)+'<a href="javascript:'+this.left.action+';">'+this.left.label+'</a></div>';
+  if (this.left && this.right) s += this.newDivStr(styles,'divider')+'</div>';
+  if (this.right) s += this.newDivStr(styles)+'<a href="javascript:'+this.right.action+';">'+this.right.label+'</a></div>';
 
   s += '</div>';
   s += '</div>';

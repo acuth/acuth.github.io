@@ -54,6 +54,51 @@
 			  _awac.replacePage('show','show_item.html',{'item_id':wiki_name},true);
 			}
 			
+			function appendEditControls(c) {
+			  var html = '<span class="edit-control-span"><i class="material-icons">delete</i></span>' +
+			    '<span class="edit-control-span"><i class="material-icons">edit</i></span>';
+			  c.html(html);
+			}
+			
+			function appendClearBoth(c) {
+			    var d = newDiv();
+			    d.css('clear','both');
+			    //d.html('-clear-both-');
+			    d.appendTo(c);
+			}
+			
+			function newDiv(classes) {
+			  var d = $(document.createElement('div'));
+			  if (classes) d.addClass(classes);
+			  return d;
+			}
+		
+		  function renderItemHeader(fitem,iname,author) {
+		      var titleDiv = $('#item-title-div');
+			    titleDiv.html('');
+			    var t = newDiv('left-content left');
+			    newDiv('padded-container item-title').html(fitem.json.name_attr).appendTo(t);
+			    t.appendTo(titleDiv);
+			    //var c = newDiv('right-controls edit-controls right');
+			    //var p = newDiv('padded-container');
+			    //appendEditControls(p);
+			    //p.appendTo(c);
+			    //c.appendTo(titleDiv);
+			    appendClearBoth(titleDiv);
+			    
+			    var typesDiv = $('#item-types-div');
+			    typesDiv.html('');
+			    t = newDiv('left-content left');
+			    newDiv('padded-container').css('display','flex').html('<div class="item-type"><i class="material-icons">'+iname+'</i></div>'+
+			      '<div>'+author+'</div>').appendTo(t);
+			    t.appendTo(typesDiv);
+			    //c = newDiv('right-controls edit-controls right');
+			    //p = newDiv('padded-container');
+			    //appendEditControls(p);
+			    //p.appendTo(c);
+			    //c.appendTo(typesDiv);
+			    appendClearBoth(typesDiv);
+		  }
 			
 			function showPrevPage() {
 			   var name = FItem.historyPop(_awac);
@@ -62,6 +107,7 @@
 			   else
   			   _awac.replacePage('root','index2.html',null,false);
 			}
+		
 			
 			$(document).ready(function() {
 			  _awac = new Awac('_awac'); 
@@ -95,7 +141,6 @@
 			    _fitem = fitem;
 			    var iname = fitem.getMDIcon();
 			    var a = fitem.getUserHTML(fitem.json.author,true);
-			    $('#item-author').html(a);
 			    if (fitem.json.image_url) {
 			      $('#item-title-div').html(
 			        '<div class="img-container"><img src="'+fitem.json.image_url+'"/>'+
@@ -105,8 +150,7 @@
 			        $('#show-item-type').remove();
 			    }
 			    else {
-			      $('#show-item-type').html('<i class="material-icons">'+iname+'</i>');
-			      $('#item-title-div').html('<div id="item-title">'+fitem.json.name_attr+'</div>');
+			      renderItemHeader(fitem,iname,a);
 			    }
 			    $('#show-item-markdown').html(fitem.getHTML());
 			    _awac.startPage();
@@ -115,14 +159,16 @@
 			</script>
 	</head>
 	<body>
-	   <div id="item-title-div">=title-goes-here-</div>
+	   <div id="item-title-div">-item-title-goes-here-</div>
+     <div id="item-types-div">-item-types-go-here-</div>
+	  
      <div id="show-item-content">
-       <table id="show-item-meta">
+       <!--table id="show-item-meta">
          <tr>
            <td><div id="show-item-type" class="item-type">?</div></td>
            <td id="item-author">-author-details-go-here-</td>
          </tr>
-       </table>
+       </table-->
        <div id="show-item-markdown">-item-markup-goes-here-</div>
        <div id="show-itm-footer"><a href="javascript:onAction('edit');">EDIT</a> |  <a href="javascript:onAction('back');">BACK</a></div>
      </div>

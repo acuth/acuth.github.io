@@ -41,50 +41,63 @@
 			}
 			
 			function appendClearBoth(c) {
-			    var d = $(document.createElement('div'));
+			    var d = newDiv();
 			    d.css('clear','both');
 			    //d.html('-clear-both-');
 			    d.appendTo(c);
 			}
 			
+			function newDiv(classes) {
+			  var d = $(document.createElement('div'));
+			  if (classes) d.addClass(classes);
+			  return d;
+			}
+			
 			function renderItem(fitem) {
+			   console.log('edit_item.renderItem()');
+			   console.log(JSON.stringify(fitem));
 				  var iname = fitem.getMDIcon();
+				  console.log('iname='+iname);
 				  var a = fitem.getUserHTML(fitem.json.author,true);
 				  
 			    var titleDiv = $('#item-title-div');
 			    titleDiv.html('');
-			    
-			    var t = $(document.createElement('div'));
-			    t.attr('id','item-title');
-			    t.addClass('left');
-			    t.html(fitem.json.name_attr);
+			    var t = newDiv('left-content left');
+			    newDiv('padded-container item-title').html(fitem.json.name_attr).appendTo(t);
 			    t.appendTo(titleDiv);
-			    
-			    var c = $(document.createElement('div'));
-			    c.addClass('edit-controls right');
-			    appendEditControls(c);
+			    var c = newDiv('right-controls edit-controls right');
+			    var p = newDiv('padded-container');
+			    appendEditControls(p);
+			    p.appendTo(c);
 			    c.appendTo(titleDiv);
-			    
 			    appendClearBoth(titleDiv);
 			    
 			    var typesDiv = $('#item-types-div');
 			    typesDiv.html('');
-			    
-			    t = $(document.createElement('div'));
-			    t.attr('id','item-types');
-			    t.addClass('left');
-			    t.html('<div class="item-type"><i class="material-icons">'+iname+'</i></div>');
+			    t = newDiv('left-content left');
+			    newDiv('padded-container').html('<div class="item-type"><i class="material-icons">'+iname+'</i></div>').appendTo(t);
 			    t.appendTo(typesDiv);
-			    
-			    c = $(document.createElement('div'));
-			    c.addClass('edit-controls right');
-			    appendEditControls(c);
+			    c = newDiv('right-controls edit-controls right');
+			    p = newDiv('padded-container');
+			    appendEditControls(p);
+			    p.appendTo(c);
 			    c.appendTo(typesDiv);
-			    
 			    appendClearBoth(typesDiv);
+			    
+			    var markdownDiv = $('#item-markdown-div');
+			    markdownDiv.html('');
+			    t = newDiv('left-content left');
+			    newDiv('padded-container').html('<div class="item-markdown">'+fitem.json.markdown+'</div>').appendTo(t);
+			    t.appendTo(markdownDiv);
+			    c = newDiv('right-controls edit-controls right');
+			    p = newDiv('padded-container');
+			    appendEditControls(p);
+			    p.appendTo(c);
+			    c.appendTo(markdownDiv);
+			    appendClearBoth(markdownDiv);
 			
-			    $('#edit-body-content').text(fitem.json.markdown).prop('readonly', true);
-			    $('#edit-body-content-control').click(function(event) { onAction('edit-markdown'); }); 
+			    //$('#edit-body-content').text(fitem.json.markdown).prop('readonly', true);
+			    //$('#edit-body-content-control').click(function(event) { onAction('edit-markdown'); }); 
 			    _awac.startPage();
 			    
 			    _fitem = fitem;
@@ -115,18 +128,13 @@
 			</script>
 	</head>
 	<body>
-     <div id="item-title-div">-title-goes-here-</div>
+     <div id="item-title-div">-item-title-goes-here-</div>
      <div id="item-types-div">-item-types-go-here-</div>
+     <div id="item-markdown-div">-item-markdown-goes-here-</div>
      
     <div style="position: relative;" id="edit-item-content">
        
        <table class="fields">
-         <tr class="field">
-           <td class="field-icon"><i class="material-icons">subject</i></td>
-           <td class="field-value"><textarea id="edit-body-content" class="body-content">-item-markup-goes-here-</textarea></td>
-           <td class="field-cntrl"><i id="edit-body-content-control" class="material-icons">edit</i></td>
-           <td class="field-cntrl"><i id="delete-body-content-control" class="material-icons">delete</i></td>
-        </tr>   
         
         <tr class="field">
            <td class="field-icon"><i class="material-icons">label</i></td>

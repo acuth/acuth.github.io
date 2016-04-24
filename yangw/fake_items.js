@@ -195,6 +195,8 @@ FItem.prototype.addLinks=function(html) {
     }
     i = j;
   }
+  console.log('addLinks html='+html);
+  html = html.replace('<p>','<div>').replace('</p>','</div>');
   return html;
 };
 

@@ -12,10 +12,6 @@ body {
    color: #00695c;
 }
 
-p {
-  -webkit-margin-before: 0px;
-}
-
 img {
   max-width: 100%;
   height: auto;

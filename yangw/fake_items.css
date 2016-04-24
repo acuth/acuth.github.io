@@ -37,6 +37,11 @@ div#show-item-content {
   position: relative;
 }
 
+div.show-item-footer {
+  margin-top: 50px;
+  border-top: solid 1px gray;
+}
+
 .left-content {
   width: 80%;
 }

@@ -191,6 +191,7 @@ span.attr-link {
   background: #d5d5d5;
   height: 32px;
 }
+
 div.spacer {
   display: inline-block;
   width: 10px;
@@ -199,6 +200,7 @@ div.spacer {
 div.attr-link {
   vertical-align: middle;
   display: inline-block;
+  margin-bottom: 1px;
 }
 
 div.attr-link-container {
@@ -211,6 +213,7 @@ div.attr-link-container div {
   padding-right: 8px;
   height: 36px;
   line-height: 36px;
+ 
 }
 
 div.attr-link-container div.img-circle {
@@ -230,29 +233,6 @@ div.attr-link-container div.divider {
 span.user-link {
   border-top-left-radius: 16px;
   border-bottom-left-radius: 16px;
-}
-
-span.attr-link img {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-}
-
-span.attr-link a {
-  line-height: 32px;
-  border2: solid 1px #008800;
-  color: #880000;
-}
-
-span.attr-link a.right {
-  border-left: solid 1px black;
-  padding-right: 8px;
-  padding-left: 4px;
-}
-
-span.attr-link a.left {
-  padding-left: 8px;
-  padding-right: 4px;
 }
 
 a {

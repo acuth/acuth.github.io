@@ -75,7 +75,9 @@
 			    var typesDiv = $('#item-types-div');
 			    typesDiv.html('');
 			    t = newDiv('left-content left');
-			    newDiv('padded-container').html('<div class="item-type"><i class="material-icons">'+iname+'</i></div>').appendTo(t);
+			    newDiv('padded-container').css('display','flex').html('<div class="item-type"><i class="material-icons">'+iname+'</i></div>'+
+			              
+			                '<div class="padded-container">'+fitem.json.item_type_name+'</div>').appendTo(t);
 			    t.appendTo(typesDiv);
 			    c = newDiv('right-controls edit-controls right');
 			    p = newDiv('padded-container');

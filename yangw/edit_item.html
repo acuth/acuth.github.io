@@ -17,7 +17,7 @@
 			function onAction(action) {
 			  if ('back' == action) 
 			    _awac.endPage();
-			  else if ('edit-markdown' == action) 
+			  else if ('edit:markdown' == action) 
 			    _awac.openPage('edit-markdown','edit_markdown.html',{'markdown':_fitem.json.markdown});
 			  else 
 			    _awac.alert('action '+action+' NYI');

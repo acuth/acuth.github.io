@@ -281,6 +281,7 @@ tr.field td {
 
 span.edit-control-span {
   padding-left: 10px;
+  cursor: pointer;
 }
 
 td.field-icon, td.field-cntrl, span.edit-control-span {

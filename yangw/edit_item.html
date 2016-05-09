@@ -23,6 +23,31 @@
 			    _awac.alert('action '+action+' NYI');
 			}
 			
+			function newSpan(classes) {
+			  var d = $(document.createElement('span'));
+			  if (classes) d.addClass(classes);
+			  return d;
+			}
+			
+			function newDiv(classes) {
+			  var d = $(document.createElement('div'));
+			  if (classes) d.addClass(classes);
+			  return d;
+			}
+			
+			function getActionSpan(name,action) {
+			    var span = newSpan('edit-control-span');
+          span.html('<i class="material-icons">'+action+'</i>');
+          span.on('click',function(){onAction(action+':'+name);});
+          return span;
+			}
+				
+			function appendEditControls2(c,name,actions) {
+			  if (actions)
+          for (var i=0;i<actions.length;i++)
+            getActionSpan(name,actions[i]).appendTo(c);
+			}
+			
 			function fixEditLayout() {
 			  var header = $('#edit-item-header');
 			  var content = $('#edit-item-content');
@@ -47,11 +72,7 @@
 			    d.appendTo(c);
 			}
 			
-			function newDiv(classes) {
-			  var d = $(document.createElement('div'));
-			  if (classes) d.addClass(classes);
-			  return d;
-			}
+			
 			
 			function renderItem(fitem) {
 			   console.log('edit_item.renderItem()');
@@ -67,7 +88,7 @@
 			    t.appendTo(titleDiv);
 			    var c = newDiv('right-controls edit-controls right');
 			    var p = newDiv('padded-container');
-			    appendEditControls(p);
+			    appendEditControls2(p,'title',['edit']);
 			    p.appendTo(c);
 			    c.appendTo(titleDiv);
 			    appendClearBoth(titleDiv);
@@ -81,7 +102,7 @@
 			    t.appendTo(typesDiv);
 			    c = newDiv('right-controls edit-controls right');
 			    p = newDiv('padded-container');
-			    appendEditControls(p);
+			    appendEditControls2(p,'type',['info']);
 			    p.appendTo(c);
 			    c.appendTo(typesDiv);
 			    appendClearBoth(typesDiv);
@@ -93,7 +114,7 @@
 			    t.appendTo(markdownDiv);
 			    c = newDiv('right-controls edit-controls right');
 			    p = newDiv('padded-container');
-			    appendEditControls(p);
+			    appendEditControls2(p,'markdown',['edit']);
 			    p.appendTo(c);
 			    c.appendTo(markdownDiv);
 			    appendClearBoth(markdownDiv);

@@ -48,6 +48,7 @@ function B2wac(pageDiv,href,pageUrl,fbConfig) {
   this.modalListVisible = false;
   this.navDrawerVisible = false;
   this.navDrawerItems = [];
+  this.fbUser = null;
 
   if (this.href && !pageUrl) {
     i = this.href.indexOf('url=');
@@ -632,16 +633,21 @@ B2wac.prototype.actionBarCallback=function(action) {
 
 B2wac.prototype.onFBAuthStateChanged=function(user) {
   console.log('onFBAuthStateChanged(user='+user+')');
+  this.fbUser = user;
+  var frame = this.frameStack[this.nFrame-1];
+  frame.container.awac.fireSignInOut(this.getUser());
+};
+
+B2wac.prototype.getUser=function() {
   var u = null;
   if (user) {
     u = {};
     u.displayName = user.displayName;
     u.photoURL = user.photoURL;
   }
-  var frame = this.frameStack[this.nFrame-1];
-  frame.container.awac.fireSignInOut(this.stringify(u));
+  return this.stringify(u);
 };
-
+  
 B2wac.prototype.signIn=function() {
   console.log('B2wac.signIn()');
   var provider = new firebase.auth.GoogleAuthProvider();

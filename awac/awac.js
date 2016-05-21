@@ -224,6 +224,11 @@ MockContainer.prototype.getPageTag = function() {
   return 'default';
 };
 
+MockContainer.prototype.getUser = function() {
+  if (this.debug) console.log(this.varName+'.getUser()');
+  return null;
+};
+
 MockContainer.prototype.signIn = function() {
   if (this.debug) console.log(this.varName+'.signIn()');
 };
@@ -601,9 +606,9 @@ Awac.prototype.fireSignIn = function(user) {
    if (this.onsigninout) this.onsigninout(this.parse(user));
 };
 
-Awac.prototype.fireSignOut = function() {
-   if (this.debug) console.log('Awac.fireSignOut()');
-   if (this.onsigninout) this.onsigninout();
+Awac.prototype.fireSignOut = function(user) {
+   if (this.debug) console.log('Awac.fireSignOut(user='+user+')');
+   if (this.onsigninout) this.onsigninout(user);
 };
 
 //
@@ -640,8 +645,15 @@ Awac.prototype.callBackground = function() {
   this.container.callBackground();
 };
 
+Awac.prototype.getUser = function() {
+  return container.getUser();
+};
+
 Awac.prototype.setOnSignInOut = function(cb) {
   this.onsigninout = cb;
+  if (cb) {
+    cb(this.getUser());
+  }
 };
 
 Awac.prototype.signIn = function() {

@@ -640,10 +640,10 @@ B2wac.prototype.onFBAuthStateChanged=function(user) {
 
 B2wac.prototype.getUser=function() {
   var u = null;
-  if (user) {
+  if (this.fbUser) {
     u = {};
-    u.displayName = user.displayName;
-    u.photoURL = user.photoURL;
+    u.displayName = this.fbUser.displayName;
+    u.photoURL = this.fbUser.photoURL;
   }
   return this.stringify(u);
 };

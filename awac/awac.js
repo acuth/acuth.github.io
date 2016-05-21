@@ -646,7 +646,7 @@ Awac.prototype.callBackground = function() {
 };
 
 Awac.prototype.getUser = function() {
-  return container.getUser();
+  return this.container.getUser();
 };
 
 Awac.prototype.setOnSignInOut = function(cb) {

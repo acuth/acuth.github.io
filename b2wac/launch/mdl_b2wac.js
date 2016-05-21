@@ -85,6 +85,27 @@ B2wac.NEXT = 3;
 B2wac.PREV = 4;
 B2wac.TRANSITION_TIME = 350;
 
+B2wac.prototype.stringify = function(x) {
+  if (!x) {
+    return 'null';
+  }
+  var t = typeof(x);
+  if (t === 'undefined') {
+    return 'null';
+  }
+  if (t == 'string') {
+    return 'string:'+encodeURIComponent(x);
+  }
+  if (t == 'number') {
+    return 'number:'+x;
+  }
+  if (t == 'object' || t == 'array') {
+    var json = JSON.stringify(x);
+    return 'json:'+encodeURIComponent(json);
+  }
+  return 'null';
+};
+
 B2wac.prototype.onHashChange=function() {
   console.log('>>>>>>>>>>>>>>>>>>>>>>> B2wac.onHashChange()');
   var pageHash = window.location.hash;
@@ -611,8 +632,10 @@ B2wac.prototype.onFBAuthStateChanged=function(user) {
   if (user) {
     console.log('signed in as '+user.photoURL+' '+user.displayName);
     var frame = this.frameStack[this.nFrame-1];
-    var userStr = user.displayName;
-    frame.container.awac.fireSignIn(userStr);
+    var u = {};
+    u.displayName = user.displayName;
+    u.photoURL = user.photoURL;
+    frame.container.awac.fireSignIn(this.stringify(u));
   }
   else {
     console.log('no longer signed in');

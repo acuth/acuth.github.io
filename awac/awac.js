@@ -592,6 +592,11 @@ Awac.prototype.fireBackgroundResponse = function(msgId,value) {
   cb(this.parse(value));
 };
 
+Awac.prototype.fireSignIn = function(user) {
+   if (this.debug) console.log('Awac.fireSignIn('+user+')');
+   if (this.onsignin) this.onsignin(this.parse(user));
+};
+
 //
 
 Awac.prototype.startRefresh = function() {
@@ -626,6 +631,7 @@ Awac.prototype.callBackground = function() {
   this.container.callBackground();
 };
 
-Awac.prototype.signIn = function() {
+Awac.prototype.signIn = function(cb) {
+  this.onsignin = cb;
   this.container.signIn();
 };

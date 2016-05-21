@@ -609,7 +609,10 @@ B2wac.prototype.actionBarCallback=function(action) {
 
 B2wac.prototype.onFBAuthStateChanged=function(user) {
   if (user) {
-    console.log('signed in as '+user.photoUrl+' '+user.displayName);
+    console.log('signed in as '+user.photoURL+' '+user.displayName);
+    var frame = this.frameStack[this.nFrame-1];
+    var userStr = user.displayName;
+    frame.container.awac.fireSignIn(userStr);
   }
   else {
     console.log('no longer signed in');

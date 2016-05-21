@@ -18,7 +18,7 @@
     <script src="https://code.getmdl.io/1.1.1/material.min.js"></script>
   </head>
   <body>
-     <div id="layout" class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+     <div id="layout" class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
        
       <header id="app-header" class="mdl-layout__header">
         <div id="app-home-icon" class="mdl-layout-icon"></div>
@@ -42,11 +42,20 @@
         <div id="page"></div>
       </main>
     </div> <!-- layout -->
+    
+    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
     <script type="text/javascript">
 (function () {
   'use strict';  
+  var config = {
+    apiKey: "AIzaSyAT8Pae5XOfC06g3ZiZhy3Yv_hkXjPTHGM",
+    authDomain: "fchat-5a65b.firebaseapp.com",
+    databaseURL: "https://fchat-5a65b.firebaseio.com",
+    storageBucket: "xxx",
+  };
+  firebase.initializeApp(config);
   window.b2wac = new B2wac('page',window.location.href);
 } ());
-    </script>    
+    </script> 
   </body>
 </html>

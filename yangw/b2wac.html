@@ -60,6 +60,9 @@
   };
   firebase.initializeApp(config);
   window.b2wac = new B2wac('page',window.location.href,'app_home.html');
+  window.b2wac.fbauth = firebase.auth();
+  window.b2wac.fbdatabase = firebase.database();
+  window.b2wac.fbstorage = firebase.storage();
 } ());
     </script>    
   </body>

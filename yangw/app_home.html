@@ -16,6 +16,7 @@ body {
 			var _awac = null;
 			
 			function onSignInOut(user) {
+			  console.log('onSignInOut(user='+user+')');
 			  if (user) {
   			  document.getElementById('photo').setAttribute('src',user.photoURL);
 			  }

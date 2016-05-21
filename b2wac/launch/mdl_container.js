@@ -180,9 +180,9 @@ B2wacContainer.prototype.fireDialogResult = function(yes) {
   this.awac.fireDialogResult(yes);
 };
 
-B2wacContainer.prototype.fireSignIn = function(user) {
-  if (this.debug) console.log(this.varName+'.fireSignIn('+user+')');
-  this.awac.fireSignIn(user);
+B2wacContainer.prototype.fireSignInOut = function(user) {
+  if (this.debug) console.log(this.varName+'.fireSignInOut('+user+')');
+  this.awac.fireSignInOut(user);
 };
 
 B2wacContainer.prototype.alert = function(msg) {

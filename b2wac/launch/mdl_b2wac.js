@@ -631,13 +631,6 @@ B2wac.prototype.actionBarCallback=function(action) {
   frame.container.awac.fireAction(action);
 };
 
-B2wac.prototype.onFBAuthStateChanged=function(user) {
-  console.log('onFBAuthStateChanged(user='+user+')');
-  this.fbUser = user;
-  var frame = this.frameStack[this.nFrame-1];
-  frame.container.awac.fireSignInOut(this.getUser());
-};
-
 B2wac.prototype.getUser=function() {
   var u = null;
   if (this.fbUser) {
@@ -646,6 +639,13 @@ B2wac.prototype.getUser=function() {
     u.photoURL = this.fbUser.photoURL;
   }
   return this.stringify(u);
+};
+
+B2wac.prototype.onFBAuthStateChanged=function(user) {
+  console.log('onFBAuthStateChanged(user='+user+')');
+  this.fbUser = user;
+  var frame = this.frameStack[this.nFrame-1];
+  frame.container.awac.fireSignInOut(this.getUser());
 };
   
 B2wac.prototype.signIn=function() {

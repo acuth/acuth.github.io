@@ -555,6 +555,13 @@ Awac.prototype.setOnPageClose = function(cb) {
   this.onpageclose = cb;
 };
 
+Awac.prototype.setOnSignInOut = function(cb) {
+  this.onsigninout = cb;
+  if (cb) {
+    cb(this.getUser());
+  }
+};
+
 // fire callbacks
 
 Awac.prototype.fireDialogResult = function(ok) {
@@ -601,17 +608,10 @@ Awac.prototype.fireBackgroundResponse = function(msgId,value) {
   cb(this.parse(value));
 };
 
-Awac.prototype.fireSignIn = function(user) {
-   if (this.debug) console.log('Awac.fireSignIn('+user+')');
-   if (this.onsigninout) this.onsigninout(this.parse(user));
+Awac.prototype.fireSignInOut = function(user) {
+  if (this.debug) console.log('Awac.fireSignInOut('+user+')');
+  if (this.onsigninout) this.onsigninout(this.parse(user));
 };
-
-Awac.prototype.fireSignOut = function(user) {
-   if (this.debug) console.log('Awac.fireSignOut(user='+user+')');
-   if (this.onsigninout) this.onsigninout(user);
-};
-
-//
 
 Awac.prototype.startRefresh = function() {
   this.container.startRefresh();
@@ -646,14 +646,7 @@ Awac.prototype.callBackground = function() {
 };
 
 Awac.prototype.getUser = function() {
-  return this.container.getUser();
-};
-
-Awac.prototype.setOnSignInOut = function(cb) {
-  this.onsigninout = cb;
-  if (cb) {
-    cb(this.getUser());
-  }
+  return this.parse(this.container.getUser());
 };
 
 Awac.prototype.signIn = function() {

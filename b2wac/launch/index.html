@@ -47,15 +47,14 @@
     <script type="text/javascript">
 (function () {
   'use strict';  
-  var config = {
+  var fbConfig = {
     apiKey: "AIzaSyAT8Pae5XOfC06g3ZiZhy3Yv_hkXjPTHGM",
     authDomain: "fchat-5a65b.firebaseapp.com",
     databaseURL: "https://fchat-5a65b.firebaseio.com",
     storageBucket: "xxx",
   };
-  firebase.initializeApp(config);
-  window.b2wac = new B2wac('page',window.location.href);
-  window.b2wac.initFirebase();
+  firebase.initializeApp(fbConfig);
+  window.b2wac = new B2wac('page',window.location.href,fbConfig);
 } ());
     </script> 
   </body>

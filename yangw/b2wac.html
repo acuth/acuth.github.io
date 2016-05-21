@@ -52,18 +52,13 @@
     <script type="text/javascript">
 (function () {
   'use strict';  
-  var config = {
+  var fbConfig = {
     apiKey: "AIzaSyAT8Pae5XOfC06g3ZiZhy3Yv_hkXjPTHGM",
     authDomain: "fchat-5a65b.firebaseapp.com",
     databaseURL: "https://fchat-5a65b.firebaseio.com",
     storageBucket: "xxx",
   };
-  firebase.initializeApp(config);
-  window.b2wac = new B2wac('page',window.location.href,'app_home.html');
-  window.b2wac.fbauth = firebase.auth();
-  window.b2wac.fbdatabase = firebase.database();
-  window.b2wac.fbstorage = firebase.storage();
-  window.b2wac.initFirebase();
+  window.b2wac = new B2wac('page',window.location.href,'app_home.html',fbConfig);
 } ());
     </script>    
   </body>

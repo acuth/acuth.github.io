@@ -30,7 +30,7 @@ Frame.prototype.toString=function() {
   return '{Frame id='+this.id+' url='+this.url.substring(i)+'}';
 };
   
-function B2wac(pageDiv,href,pageUrl) {
+function B2wac(pageDiv,href,pageUrl,fbConfig) {
   console.log('B2wac()\n - pageDiv='+pageDiv+'\n - href='+href+'\n - pageUrl='+pageUrl);
   var i = href.indexOf('#');
   if (i != -1) href = href.substring(0,i);
@@ -62,6 +62,8 @@ function B2wac(pageDiv,href,pageUrl) {
     pageUrl = '../../test/index.html';
     console.log('using default value for pageUrl\n - pageUrl='+pageUrl);
   }
+  
+  this.initFirebase(fbConfig);
   
   var b2wac = this;
   //window.onbeforeunload = function() { alert('onbeforeunload'); b2wac.back(); };
@@ -651,8 +653,14 @@ B2wac.prototype.signOut=function() {
   frame.container.awac.fireSignInOut();
 };
 
-B2wac.prototype.initFirebase=function() {
-  this.fbauth.onAuthStateChanged(this.onFBAuthStateChanged.bind(this));
+B2wac.prototype.initFirebase=function(fbConfig) {
+  if (fbConfig) {
+    firebase.initializeApp(fbConfig);
+    this.fbauth = firebase.auth();
+    this.fbdatabase = firebase.database();
+    this.fbstorage = firebase.storage();
+    this.fbauth.onAuthStateChanged(this.onFBAuthStateChanged.bind(this));
+  }
 };
 
 

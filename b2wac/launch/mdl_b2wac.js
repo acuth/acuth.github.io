@@ -631,6 +631,7 @@ B2wac.prototype.actionBarCallback=function(action) {
 };
 
 B2wac.prototype.onFBAuthStateChanged=function(user) {
+  console.log('onFBAuthStateChanged(user='+user+')');
   var u = null;
   if (user) {
     u = {};

@@ -228,6 +228,10 @@ MockContainer.prototype.signIn = function() {
   if (this.debug) console.log(this.varName+'.signIn()');
 };
 
+MockContainer.prototype.signOut = function() {
+  if (this.debug) console.log(this.varName+'.signOut()');
+};
+
 function Awac(varName) {
   this.varName = varName ? varName : 'x';
   //console.log(this.varName+' = new Awac('+_awac_+')');
@@ -594,7 +598,12 @@ Awac.prototype.fireBackgroundResponse = function(msgId,value) {
 
 Awac.prototype.fireSignIn = function(user) {
    if (this.debug) console.log('Awac.fireSignIn('+user+')');
-   if (this.onsignin) this.onsignin(this.parse(user));
+   if (this.onsigninout) this.onsigninout(this.parse(user));
+};
+
+Awac.prototype.fireSignOut = function() {
+   if (this.debug) console.log('Awac.fireSignOut()');
+   if (this.onsigninout) this.onsigninout();
 };
 
 //
@@ -631,7 +640,14 @@ Awac.prototype.callBackground = function() {
   this.container.callBackground();
 };
 
-Awac.prototype.signIn = function(cb) {
-  this.onsignin = cb;
+Awac.prototype.setOnSignInOut = function(cb) {
+  this.onsigninout = cb;
+};
+
+Awac.prototype.signIn = function() {
   this.container.signIn();
+};
+
+Awac.prototype.signOut = function() {
+  this.container.signOut();
 };

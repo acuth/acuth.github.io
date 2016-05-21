@@ -277,3 +277,9 @@ B2wacContainer.prototype.signIn = function() {
   if (this.debug) console.log(this.varName+'.signIn()');
   return this.b2wac.signIn();
 };
+
+B2wacContainer.prototype.signOut = function() {
+  if (this.debug) console.log(this.varName+'.signOut()');
+  return this.b2wac.signOut();
+};
+

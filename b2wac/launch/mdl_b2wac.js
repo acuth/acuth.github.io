@@ -629,24 +629,30 @@ B2wac.prototype.actionBarCallback=function(action) {
 };
 
 B2wac.prototype.onFBAuthStateChanged=function(user) {
+  var u = null;
   if (user) {
-    console.log('signed in as '+user.photoURL+' '+user.displayName);
-    var frame = this.frameStack[this.nFrame-1];
-    var u = {};
+    u = {};
     u.displayName = user.displayName;
     u.photoURL = user.photoURL;
-    frame.container.awac.fireSignIn(this.stringify(u));
   }
-  else {
-    console.log('no longer signed in');
-  }
+  var frame = this.frameStack[this.nFrame-1];
+  frame.container.awac.fireSignInOut(this.stringify(u));
 };
 
 B2wac.prototype.signIn=function() {
   console.log('B2wac.signIn()');
-  this.fbauth.onAuthStateChanged(this.onFBAuthStateChanged.bind(this));
   var provider = new firebase.auth.GoogleAuthProvider();
   this.fbauth.signInWithPopup(provider);
+};
+
+B2wac.prototype.signOut=function() {
+  console.log('B2wac.signOut()');
+  var frame = this.frameStack[this.nFrame-1];
+  frame.container.awac.fireSignInOut();
+};
+
+B2wac.prototype.initFirebase=function() {
+  this.fbauth.onAuthStateChanged(this.onFBAuthStateChanged.bind(this));
 };
 
 

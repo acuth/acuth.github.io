@@ -15,13 +15,18 @@ body {
 		<script type="text/javascript">
 			var _awac = null;
 			
-			function signIn(user) {
-			  _awac.alert('signed in as '+JSON.stringify(user));
-			  document.getElementById('photo').setAttribute('src',user.photoURL);
+			function onSignInOut(user) {
+			  if (user) {
+  			  document.getElementById('photo').setAttribute('src',user.photoURL);
+			  }
+			  else {
+			    document.getElementById('photo').setAttribute('src','');
+			  }
 			}
 			
 			function onAction(action) {
-			  if ('signin' == action) _awac.signIn(signIn);
+			  if ('signin' == action) _awac.signIn();
+			  if ('signout' == action) _awac.signOut();
 			  if ('back' == action) onBackPressed();
 			  if ('skip' == action) _awac.replacePage('wizard','wizard3.html',null,true);
 			}
@@ -48,8 +53,10 @@ body {
 			
 			$(document).ready(function() {
 			  _awac = new Awac('_awac');
+			  _awac.setOnSignInOut(onSignInOut);
 			  _awac.setOnAction(onAction);  
 			  _awac.addNavDrawerItem({'label':'Sign in','action':'signin'});
+			  _awac.addNavDrawerItem({'label':'Sign out','action':'signout'});
 			  _awac.unlockNavDrawer();
 			
 			  addBtnClick(0,'HomePage');

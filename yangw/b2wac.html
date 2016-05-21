@@ -48,9 +48,17 @@
         <div id="page"></div>
       </main>
     </div> <!-- layout -->
+    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
     <script type="text/javascript">
 (function () {
   'use strict';  
+  var config = {
+    apiKey: "AIzaSyAT8Pae5XOfC06g3ZiZhy3Yv_hkXjPTHGM",
+    authDomain: "fchat-5a65b.firebaseapp.com",
+    databaseURL: "https://fchat-5a65b.firebaseio.com",
+    storageBucket: "xxx",
+  };
+  firebase.initializeApp(config);
   window.b2wac = new B2wac('page',window.location.href,'app_home.html');
 } ());
     </script>    

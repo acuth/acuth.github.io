@@ -609,6 +609,8 @@ B2wac.prototype.actionBarCallback=function(action) {
 
 B2wac.prototype.signIn=function() {
   console.log('B2wac.signIn()');
+  var provider = new firebase.auth.GoogleAuthProvider();
+  this.auth.signInWithPopup(provider);
 };
 
 

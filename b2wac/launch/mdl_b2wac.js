@@ -607,4 +607,8 @@ B2wac.prototype.actionBarCallback=function(action) {
   frame.container.awac.fireAction(action);
 };
 
+B2wac.prototype.signIn=function() {
+  console.log('B2wac.signIn()');
+};
+
 

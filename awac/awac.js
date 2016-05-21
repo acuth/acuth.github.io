@@ -224,6 +224,10 @@ MockContainer.prototype.getPageTag = function() {
   return 'default';
 };
 
+MockContainer.prototype.signIn = function() {
+  if (this.debug) console.log(this.varName+'.signIn()');
+};
+
 function Awac(varName) {
   this.varName = varName ? varName : 'x';
   //console.log(this.varName+' = new Awac('+_awac_+')');
@@ -622,3 +626,6 @@ Awac.prototype.callBackground = function() {
   this.container.callBackground();
 };
 
+Awac.prototype.signIn = function() {
+  this.container.signIn();
+};

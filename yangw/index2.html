@@ -15,6 +15,7 @@ body {
 		<script type="text/javascript">
 			var _awac = null;
 			function onAction(action) {
+			  if ('signin' == action) _awac.signIn();
 			  if ('back' == action) onBackPressed();
 			  if ('skip' == action) _awac.replacePage('wizard','wizard3.html',null,true);
 			}
@@ -45,7 +46,7 @@ body {
 			  var colors = {'primary':'#FF9800','text_primary':'#FFFFFF','primary_dark':'#F57C00'};
 	      _awac.setAppColors(colors);
 			  _awac.setOnAction(onAction);  
-			  _awac.addNavDrawerItem({'label':'logout','action':'logout'});
+			  _awac.addNavDrawerItem({'label':'Sign in','action':'signin'});
 			  _awac.unlockNavDrawer();
 			
 			  addBtnClick(0,'HomePage');

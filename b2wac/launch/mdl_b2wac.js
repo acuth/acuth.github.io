@@ -607,8 +607,18 @@ B2wac.prototype.actionBarCallback=function(action) {
   frame.container.awac.fireAction(action);
 };
 
+B2wac.prototype.onAuthStateChanged=function(user) {
+  if (user) {
+    console.log('signed in as '+JSON.stringify(user));
+  }
+  else {
+    console.log('no longer signed in');
+  }
+};
+
 B2wac.prototype.signIn=function() {
   console.log('B2wac.signIn()');
+  this.fbauth.onAuthStateChanged(this.onAuthStateChanged.bind(this));
   var provider = new firebase.auth.GoogleAuthProvider();
   this.fbauth.signInWithPopup(provider);
 };

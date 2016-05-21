@@ -273,6 +273,12 @@ B2wacContainer.prototype.getPageTag = function() {
   return this.tag;
 };
 
+B2wacContainer.prototype.getUser = function() {
+  var u = this.b2wac.getUser();
+  if (this.debug) console.log(this.varName+'.getUser()='+u);
+  return u;
+};
+
 B2wacContainer.prototype.signIn = function() {
   if (this.debug) console.log(this.varName+'.signIn()');
   return this.b2wac.signIn();

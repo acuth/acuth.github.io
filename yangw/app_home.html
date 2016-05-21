@@ -14,8 +14,13 @@ body {
 		<script src="fake_items.js" type="text/javascript"></script>
 		<script type="text/javascript">
 			var _awac = null;
+			
+			function signIn(user) {
+			  _awac.alert('signed in as '+user);
+			}
+			
 			function onAction(action) {
-			  if ('signin' == action) _awac.signIn();
+			  if ('signin' == action) _awac.signIn(signIn);
 			  if ('back' == action) onBackPressed();
 			  if ('skip' == action) _awac.replacePage('wizard','wizard3.html',null,true);
 			}

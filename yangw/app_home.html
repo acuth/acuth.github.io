@@ -18,6 +18,7 @@ body {
 			function onSignInOut(user) {
 			  console.log('onSignInOut(user='+user+')');
 			  if (user) {
+			    console.log('user='+JSON.stringify(user));
   			  document.getElementById('photo').setAttribute('src',user.photoURL);
 			  }
 			  else {

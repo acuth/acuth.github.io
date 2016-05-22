@@ -637,6 +637,8 @@ B2wac.prototype.getUser=function() {
     u = {};
     u.displayName = this.fbUser.displayName;
     u.photoURL = this.fbUser.photoURL;
+    u.uid = this.fbUser.uid;
+    u.email = this.fbUser.email;
   }
   return this.stringify(u);
 };

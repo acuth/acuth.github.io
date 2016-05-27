@@ -664,9 +664,11 @@ B2wac.prototype.signOut=function() {
 };
 
 
-B2wac.prototype.loadUser=function(data) {
-    var val = data.val();
-    console.log('key:'+data.key+' name:'+val.name+' email:'+val.email);
+B2wac.prototype.loadUser=function(snapshot) {
+    console.log('loadUser()');
+    var val = snapshot.val();
+    console.log('val='+JSON.stringify(val));
+    //console.log('key:'+data.key+' name:'+val.name+' email:'+val.email);
 };
 
 B2wac.prototype.initFirebase=function(fbConfig) {
@@ -678,14 +680,8 @@ B2wac.prototype.initFirebase=function(fbConfig) {
     this.fbauth.onAuthStateChanged(this.onFBAuthStateChanged.bind(this));
     
     var usersRef = this.fbdatabase.ref('users');
-    usersRef.once('value').then(function(snapshot) {
-      console.log('got once cb');
-      var val = snapshot.val();
-      console.log('val='+JSON.stringify(val));
-    });
-    //usersRef.off();
-    //var b2wac = this;
-    //usersRef.on('child_added', function(data) { b2wac.loadUser(data); });
+    var b2qac = this;
+    usersRef.once('value').then(function(snapshot) { b2wac.loadData(snapshot); });
   }
 };
 

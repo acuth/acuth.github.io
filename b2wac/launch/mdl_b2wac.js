@@ -648,6 +648,10 @@ B2wac.prototype.onFBAuthStateChanged=function(user) {
   this.fbUser = user;
   var frame = this.frameStack[this.nFrame-1];
   frame.container.awac.fireSignInOut(this.getUser());
+  
+  console.log('load data for /users/'+user.uid);
+  var b2qac = this;
+  this.fbdatabase.ref('/users/'+user.uid).once('value').then(function(snapshot) { b2wac.loadUser(snapshot); });
 };
   
 B2wac.prototype.signIn=function() {
@@ -666,8 +670,15 @@ B2wac.prototype.signOut=function() {
 
 B2wac.prototype.loadUser=function(snapshot) {
     console.log('loadUser()');
-    var val = snapshot.val();
-    console.log('val='+JSON.stringify(val));
+    var user = this.fbauth.currentUser;
+    if (!user) 
+      console.log('There is no current user');
+    else if (!snapshot) 
+      console.log('There is no user data for /users/'+user.uid);
+    else {
+      var val = snapshot.val();
+      console.log('val='+JSON.stringify(val));
+    }
     //console.log('key:'+data.key+' name:'+val.name+' email:'+val.email);
 };
 
@@ -679,9 +690,9 @@ B2wac.prototype.initFirebase=function(fbConfig) {
     this.fbstorage = firebase.storage();
     this.fbauth.onAuthStateChanged(this.onFBAuthStateChanged.bind(this));
     
-    var usersRef = this.fbdatabase.ref('users');
-    var b2qac = this;
-    usersRef.once('value').then(function(snapshot) { b2wac.loadUser(snapshot); });
+    //var usersRef = this.fbdatabase.ref('users');
+    //var b2qac = this;
+    //usersRef.once('value').then(function(snapshot) { b2wac.loadUser(snapshot); });
   }
 };
 

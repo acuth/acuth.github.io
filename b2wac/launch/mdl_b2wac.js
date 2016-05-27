@@ -680,16 +680,16 @@ B2wac.prototype.loadUser=function(snapshot) {
     else if (!snapshot) 
       console.log('There is no user data for /users/'+user.uid);
     else {
+      var now = new Date();
       var val = snapshot.val();
-      if (val) {
-        console.log('current data='+JSON.stringify(val));
-      }
-      else {
+      if (!val) {
         val = {};
         val.n_connect = 0;
       }
-      console.log('updating data');
-      var now = new Date();
+      if (!val.first_sugnin) {
+        val.first_signin_str = now.toString();
+        val.first_signin = now.getTime();
+      }
       val.last_signin_str = now.toString();
       val.last_signin = now.getTime();
       val.n_connect++;

@@ -685,7 +685,7 @@ B2wac.prototype.loadUser=function(snapshot) {
         console.log('val='+JSON.stringify(val));
       else {
         console.log('setting data');
-        this.fbdatabase().ref('/users/' + user.uid).set({
+        this.fbdatabase.ref('/users/' + user.uid).set({
           first_signin: new Date(),
           n_connect: 1
         });

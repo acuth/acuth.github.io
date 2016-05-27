@@ -681,7 +681,7 @@ B2wac.prototype.initFirebase=function(fbConfig) {
     
     var usersRef = this.fbdatabase.ref('users');
     var b2qac = this;
-    usersRef.once('value').then(function(snapshot) { b2wac.loadData(snapshot); });
+    usersRef.once('value').then(function(snapshot) { b2wac.loadUser(snapshot); });
   }
 };
 

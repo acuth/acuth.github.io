@@ -689,7 +689,9 @@ B2wac.prototype.loadUser=function(snapshot) {
         val.n_connect = 0;
       }
       console.log('updating data');
-      val.last_signin = (new Date()).getTime();
+      var now = new Date();
+      val.last_signin_str = now.toString();
+      val.last_signin = now.getTime();
       val.n_connect++;
       this.fbdatabase.ref('/users/' + user.uid).set(val);
     }

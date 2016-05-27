@@ -682,20 +682,17 @@ B2wac.prototype.loadUser=function(snapshot) {
     else {
       var val = snapshot.val();
       if (val) {
-        console.log('val='+JSON.stringify(val));
-        val.last_signin = (new Date()).getTime();
-        val.n_connect++;
-        this.fbdatabase.ref('/users/' + user.uid).set(val);
+        console.log('current data='+JSON.stringify(val));
       }
       else {
-        console.log('setting data');
         val = {};
-        val.last_signin = (new Date()).getTime();
-        val.n_connect = 1;
-        this.fbdatabase.ref('/users/' + user.uid).set(val);
+        val.n_connect = 0;
       }
+      console.log('updating data');
+      val.last_signin = (new Date()).getTime();
+      val.n_connect++;
+      this.fbdatabase.ref('/users/' + user.uid).set(val);
     }
-    //console.log('key:'+data.key+' name:'+val.name+' email:'+val.email);
 };
 
 B2wac.prototype.initFirebase=function(fbConfig) {

@@ -649,8 +649,8 @@ B2wac.prototype.onFBAuthStateChanged=function(user) {
   
   
   if (user) {
-    console.log('\n\n\nload data for /users/'+user.uid);
-    var b2qac = this;
+    console.log('\n\n\n ----------- load data for /users/'+user.uid+'\n\n\n');
+    var b2wac = this;
     this.fbdatabase.ref('/users/'+user.uid).once('value').then(function(snapshot) { b2wac.loadUser(snapshot); });
   }
   

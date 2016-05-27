@@ -681,7 +681,15 @@ B2wac.prototype.loadUser=function(snapshot) {
       console.log('There is no user data for /users/'+user.uid);
     else {
       var val = snapshot.val();
-      console.log('val='+JSON.stringify(val));
+      if (val) 
+        console.log('val='+JSON.stringify(val));
+      else {
+        console.log('setting data');
+        this.fbdatabase().ref('/users/' + user.uid).set({
+          first_signin: new Date(),
+          n_connect: 1
+        });
+      }
     }
     //console.log('key:'+data.key+' name:'+val.name+' email:'+val.email);
 };

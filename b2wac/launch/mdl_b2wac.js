@@ -684,15 +684,13 @@ B2wac.prototype.loadUser=function(snapshot) {
       var val = snapshot.val();
       if (!val) {
         val = {};
-        val.n_connect = 0;
-      }
-      if (!val.first_sugnin) {
+        val.n_signin = 0;
         val.first_signin_str = now.toString();
         val.first_signin = now.getTime();
       }
       val.last_signin_str = now.toString();
       val.last_signin = now.getTime();
-      val.n_connect++;
+      val.n_signin++;
       this.fbdatabase.ref('/users/' + user.uid).set(val);
     }
 };

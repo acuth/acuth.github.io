@@ -647,11 +647,10 @@ B2wac.prototype.onFBAuthStateChanged=function(user) {
   console.log('onFBAuthStateChanged(user='+user+')');
   this.fbUser = user;
   
-  
   if (user) {
-    console.log('\n\n\n ----------- load data for /users/'+user.uid+'\n\n\n');
+    //console.log('\n\n\n ----------- load data for /users/'+user.uid+'\n\n\n');
     var b2wac = this;
-    this.fbdatabase.ref('/users/'+user.uid).once('value').then(function(snapshot) { b2wac.loadUser(snapshot); });
+    this.fbdatabase.ref('/users/'+user.uid).once('value').then(function(snapshot) { b2wac.recordUserSignIn(snapshot); });
   }
   
   var frame = this.frameStack[this.nFrame-1];
@@ -671,28 +670,23 @@ B2wac.prototype.signOut=function() {
   //frame.container.awac.fireSignInOut();
 };
 
-
-B2wac.prototype.loadUser=function(snapshot) {
-    console.log('loadUser()');
-    var user = this.fbauth.currentUser;
-    if (!user) 
+B2wac.prototype.recordUserSignIn=function(snapshot) {
+    if (!this.fbUser) {
       console.log('There is no current user');
-    else if (!snapshot) 
-      console.log('There is no user data for /users/'+user.uid);
-    else {
-      var now = new Date();
-      var val = snapshot.val();
-      if (!val) {
-        val = {};
-        val.n_signin = 0;
-        val.first_signin_str = now.toString();
-        val.first_signin = now.getTime();
-      }
-      val.last_signin_str = now.toString();
-      val.last_signin = now.getTime();
-      val.n_signin++;
-      this.fbdatabase.ref('/users/' + user.uid).set(val);
+      return;
     }
+    var now = new Date();
+    var val = snapshot.val();
+    if (!val) {
+      val = {};
+      val.n_signin = 0;
+      val.first_signin_str = now.toString();
+      val.first_signin = now.getTime();
+    }
+    val.last_signin_str = now.toString();
+    val.last_signin = now.getTime();
+    val.n_signin++;
+    this.fbdatabase.ref('/users/' + this.fbUser.uid).set(val);
 };
 
 B2wac.prototype.initFirebase=function(fbConfig) {
@@ -702,10 +696,6 @@ B2wac.prototype.initFirebase=function(fbConfig) {
     this.fbdatabase = firebase.database();
     this.fbstorage = firebase.storage();
     this.fbauth.onAuthStateChanged(this.onFBAuthStateChanged.bind(this));
-    
-    //var usersRef = this.fbdatabase.ref('users');
-    //var b2qac = this;
-    //usersRef.once('value').then(function(snapshot) { b2wac.loadUser(snapshot); });
   }
 };
 

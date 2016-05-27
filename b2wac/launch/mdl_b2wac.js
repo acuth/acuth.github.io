@@ -646,12 +646,16 @@ B2wac.prototype.getUser=function() {
 B2wac.prototype.onFBAuthStateChanged=function(user) {
   console.log('onFBAuthStateChanged(user='+user+')');
   this.fbUser = user;
+  
+  
+  if (user) {
+    console.log('\n\n\nload data for /users/'+user.uid);
+    var b2qac = this;
+    this.fbdatabase.ref('/users/'+user.uid).once('value').then(function(snapshot) { b2wac.loadUser(snapshot); });
+  }
+  
   var frame = this.frameStack[this.nFrame-1];
   frame.container.awac.fireSignInOut(this.getUser());
-  
-  console.log('load data for /users/'+user.uid);
-  var b2qac = this;
-  this.fbdatabase.ref('/users/'+user.uid).once('value').then(function(snapshot) { b2wac.loadUser(snapshot); });
 };
   
 B2wac.prototype.signIn=function() {

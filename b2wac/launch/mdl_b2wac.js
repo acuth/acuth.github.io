@@ -681,14 +681,18 @@ B2wac.prototype.loadUser=function(snapshot) {
       console.log('There is no user data for /users/'+user.uid);
     else {
       var val = snapshot.val();
-      if (val) 
+      if (val) {
         console.log('val='+JSON.stringify(val));
+        val.last_signin = (new Date()).getTime();
+        val.n_connect++;
+        this.fbdatabase.ref('/users/' + user.uid).set(val);
+      }
       else {
         console.log('setting data');
-        this.fbdatabase.ref('/users/' + user.uid).set({
-          first_signin: new Date(),
-          n_connect: 1
-        });
+        val = {};
+        val.last_signin = (new Date()).getTime();
+        val.n_connect = 1;
+        this.fbdatabase.ref('/users/' + user.uid).set(val);
       }
     }
     //console.log('key:'+data.key+' name:'+val.name+' email:'+val.email);

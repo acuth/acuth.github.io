@@ -664,7 +664,7 @@ B2wac.prototype.signOut=function() {
 };
 
 
-B2wav.prototype.loadUser=function(data) {
+B2wac.prototype.loadUser=function(data) {
     var val = data.val();
     console.log('key:'+data.key+' name:'+val.name+' email:'+val.email);
 };

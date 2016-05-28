@@ -21,7 +21,8 @@ body {
 			  if (user) {
 			    console.log('user='+JSON.stringify(user));
   			  document.getElementById('photo').setAttribute('src',user.photoURL);
-  			  _awac.getFBDBResponse('/users/'+user.uid+'/n_signin',function(nSignIn) {
+  			  console.log('photo='+user.photoURL);
+  			  _awac.makeFBDBRequest('/users/'+user.uid+'/n_signin',false,function(nSignIn) {
 			      document.getElementById('n-signin').innerHTML = ' ' +nSignIn;
 			    });
 			  }

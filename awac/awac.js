@@ -617,7 +617,7 @@ Awac.prototype.fireBackgroundResponse = function(msgId,value) {
 Awac.prototype.fireFBDBResponse = function(msgId,snapshot) {
   if (this.debug) console.log('Awac.fireFBDBResponse('+msgId+','+snapshot+')');
   var cb = this.onfbdbresp[msgId];
-  //this.onfbdbresp[msgId] = null;
+  if (this.onfbdbonce) this.onfbdbresp[msgId] = null;
   cb(snapshot);
 };
 
@@ -649,10 +649,11 @@ Awac.prototype.getBackgroundResponse = function(value,cb) {
   this.container.makeBackgroundRequest(msgId,v);
 };
 
-Awac.prototype.getFBDBResponse = function(key,cb) {
+Awac.prototype.makeFBDBRequest = function(key,once,cb) {
   var msgId = this.nFBDBRequest++;
   this.onfbdbresp[msgId] = cb;
-  this.container.makeFBDBRequest(msgId,key);
+  this.onfgdbonce[msgId] = once;
+  this.container.makeFBDBRequest(msgId,once,key);
 };
 
 Awac.prototype.makeBackgroundRequest = function(value) {

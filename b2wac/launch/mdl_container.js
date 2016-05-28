@@ -289,12 +289,17 @@ B2wacContainer.prototype.signOut = function() {
   return this.b2wac.signOut();
 };
 
-B2wacContainer.prototype.makeFBDBRequest = function(msgId,key) {
+B2wacContainer.prototype.makeFBDBRequest = function(msgId,once,key) {
   var fbdb = this.b2wac.getFBDatabase();
   if (this.debug) console.log(this.varName+'.makeFBDBRequest('+msgId+','+key+')');
   var container = this;
-  fbdb.ref(key).on('value',function(snapshot) { 
-    container.awac.fireFBDBResponse(msgId,snapshot.val());
-  });
+  if (once) 
+    fbdb.ref(key).once('value').then(function(snapshot) { 
+      container.awac.fireFBDBResponse(msgId,snapshot.val());
+    });
+  else 
+    fbdb.ref(key).on('value',function(snapshot) { 
+      container.awac.fireFBDBResponse(msgId,snapshot.val());
+    });
 };
 

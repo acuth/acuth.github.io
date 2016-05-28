@@ -237,9 +237,8 @@ MockContainer.prototype.signOut = function() {
   if (this.debug) console.log(this.varName+'.signOut()');
 };
 
-MockContainer.prototype.getFBDatabase = function() {
-  if (this.debug) console.log(this.varName+'.getFBDatabase()=null');
-  return null;
+MockContainer.prototype.getFBDatabase = function(key) {
+  if (this.debug) console.log(this.varName+'.getFBDatabase('+key+')');
 };
 
 function Awac(varName) {
@@ -567,6 +566,10 @@ Awac.prototype.setOnSignInOut = function(cb) {
   }
 };
 
+Awac.prototype.setOnFBDatabase = function(cb) {
+  this.onfbdb = cb;
+};
+
 // fire callbacks
 
 Awac.prototype.fireDialogResult = function(ok) {
@@ -618,6 +621,11 @@ Awac.prototype.fireSignInOut = function(user) {
   if (this.onsigninout) this.onsigninout(this.parse(user));
 };
 
+Awac.prototype.fireFBDatabase = function(snapshot) {
+  if (this.debug) console.log('Awac.fireFBDatabase('+snapshot+')');
+  if (this.onfbdb) this.onfbdb(snapshot);
+};
+
 Awac.prototype.startRefresh = function() {
   this.container.startRefresh();
 };
@@ -662,6 +670,6 @@ Awac.prototype.signOut = function() {
   this.container.signOut();
 };
 
-Awac.prototype.getFBDatabase = function() {
-  this.container.getFBDatabase();
+Awac.prototype.getFBDatabase = function(key) {
+  this.container.getFBDatabase(key);
 };

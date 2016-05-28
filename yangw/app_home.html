@@ -16,14 +16,17 @@ body {
 		<script type="text/javascript">
 			var _awac = null;
 			
+			function dbUpdate(snapshot) {
+			  console.log('dbUpdate()'+JSON.stringify(snapshot));
+			}
+			
 			function onSignInOut(user) {
 			  console.log('onSignInOut(user='+user+')');
 			  if (user) {
 			    console.log('user='+JSON.stringify(user));
   			  document.getElementById('photo').setAttribute('src',user.photoURL);
-  			  var fbdb = _awac.getFBDatabase();
-  			  console.log('fbdb='+fbdb);
-  			  if (fbdb) fbdb.ref('/users').once('value').then(function(snapshot) { console.log('snapshot='+JSON.stringify(snapshot)); });
+  			  _awac.setOnFBDatabase(dbUpdate);
+  			  _awac.getFBDatabase('/users/');
 			  }
 			  else {
 			    document.getElementById('photo').setAttribute('src','');

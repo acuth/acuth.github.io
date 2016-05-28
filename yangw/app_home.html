@@ -16,8 +16,7 @@ body {
 		<script type="text/javascript">
 			var _awac = null;
 			
-			function dbUpdate(action,snapshot) {
-			  console.log('dbUpdate(action='+action+') snapshot='+JSON.stringify(snapshot));
+			function updateNSignIn(snapshot) {
 			  document.getElementById('n-signin').innerHTML = ' ' +snapshot.n_signin;
 			}
 			
@@ -26,7 +25,7 @@ body {
 			  if (user) {
 			    console.log('user='+JSON.stringify(user));
   			  document.getElementById('photo').setAttribute('src',user.photoURL);
-  			  _awac.getFBDBResponse('/users/'+user.uid,function(snapshot) { dbUpdate('test',snapshot); });
+  			  _awac.getFBDBResponse('/users/'+user.uid,updateNSignIn);
 			  }
 			  else {
 			    document.getElementById('photo').setAttribute('src','');
@@ -81,7 +80,7 @@ body {
         <div class="card"><a id="btn0"></a></div>
         <div class="card"><a id="btn1"></a></div>
         <img id="photo" />
-        <div>numver of sign-ins: <span id="n-signin">???</span></div>
+        <div style="padding: 10px;font-size: 80%; color: gray;">number of sign-ins: <span id="n-signin">???</span></div>
      </div>
 	</body>
 </html>

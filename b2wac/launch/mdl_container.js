@@ -295,10 +295,12 @@ B2wacContainer.prototype.makeFBDBRequest = function(msgId,once,key) {
   var container = this;
   if (once) 
     fbdb.ref(key).once('value').then(function(snapshot) { 
+      console.log('got value (once) for key '+key);
       container.awac.fireFBDBResponse(msgId,snapshot.val());
     });
   else 
     fbdb.ref(key).on('value',function(snapshot) { 
+      console.log('got value for key '+key);
       container.awac.fireFBDBResponse(msgId,snapshot.val());
     });
 };

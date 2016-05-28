@@ -617,7 +617,7 @@ Awac.prototype.fireBackgroundResponse = function(msgId,value) {
 Awac.prototype.fireFBDBResponse = function(msgId,snapshot) {
   if (this.debug) console.log('Awac.fireFBDBResponse('+msgId+','+snapshot+')');
   var cb = this.onfbdbresp[msgId];
-  this.onfbdbresp[msgId] = null;
+  //this.onfbdbresp[msgId] = null;
   cb(snapshot);
 };
 

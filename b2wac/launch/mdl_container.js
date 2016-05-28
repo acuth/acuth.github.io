@@ -293,7 +293,7 @@ B2wacContainer.prototype.makeFBDBRequest = function(msgId,key) {
   var fbdb = this.b2wac.getFBDatabase();
   if (this.debug) console.log(this.varName+'.makeFBDBRequest('+msgId+','+key+')');
   var container = this;
-  fbdb.ref(key).once('value').then(function(snapshot) { 
+  fbdb.ref(key).on('value').then(function(snapshot) { 
     container.awac.fireFBDBResponse(msgId,snapshot.val());
   });
 };

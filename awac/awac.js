@@ -616,10 +616,13 @@ Awac.prototype.fireBackgroundResponse = function(msgId,value) {
 };
 
 Awac.prototype.fireFBDBResponse = function(msgId,snapshot) {
-  if (this.debug) console.log('Awac.fireFBDBResponse('+msgId+','+snapshot+')');
+  if (this.debug) console.log('Awac.fireFBDBResponse(msgId='+msgId+')');
   var cb = this.onfbdbresp[msgId];
-  if (this.onfbdbonce) this.onfbdbresp[msgId] = null;
-  cb(snapshot);
+  if (this.onfbdbonce[msgId]) {
+    console.log('clearing cb for msgId='+msgId);
+    this.onfbdbresp[msgId] = null;
+  }
+  if (cb) cb(snapshot); else console.log('Cound not find cb for msgId='+msgId);
 };
 
 Awac.prototype.fireSignInOut = function(user) {

@@ -25,7 +25,7 @@ body {
 			  if (user) {
 			    console.log('user='+JSON.stringify(user));
   			  document.getElementById('photo').setAttribute('src',user.photoURL);
-  			  _awac.getFBDBResponse('/users/'+user.uid,updateNSignIn);
+  			  _awac.getFBDBResponse('/users/'+user.uid+'/n_signin',updateNSignIn);
 			  }
 			  else {
 			    document.getElementById('photo').setAttribute('src','');

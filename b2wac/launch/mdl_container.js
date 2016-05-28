@@ -292,6 +292,10 @@ B2wacContainer.prototype.signOut = function() {
 B2wacContainer.prototype.getFBDatabase = function() {
   var fbdb = this.b2wac.getFBDatabase();
   if (this.debug) console.log(this.varName+'.getFBDatabase()='+fbdb+'!!!!!!!!!!!!!!');
+  
+  
+  
+  
   if (fbdb) fbdb.ref('/users/').once('value').then(function(snapshot) { console.log('snapshot='+JSON.stringify(snapshot.val())); });
   return fbdb;
 };

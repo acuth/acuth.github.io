@@ -651,6 +651,7 @@ Awac.prototype.getBackgroundResponse = function(value,cb) {
 };
 
 Awac.prototype.makeFBDBRequest = function(key,once,cb) {
+  console.log('makeFBDBRequest('+key+','+once+')');
   var msgId = this.nFBDBRequest++;
   this.onfbdbresp[msgId] = cb;
   this.onfgdbonce[msgId] = once;

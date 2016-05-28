@@ -18,6 +18,7 @@ body {
 			
 			function dbUpdate(action,snapshot) {
 			  console.log('dbUpdate(action='+action+') snapshot='+JSON.stringify(snapshot));
+			  document.getElementById('n-signin').innerHTML = ' ' +snapshot.n_signin;
 			}
 			
 			function onSignInOut(user) {
@@ -80,6 +81,7 @@ body {
         <div class="card"><a id="btn0"></a></div>
         <div class="card"><a id="btn1"></a></div>
         <img id="photo" />
+        <div>numver of sign-ins: <span id="n-signin">???</span></div>
      </div>
 	</body>
 </html>

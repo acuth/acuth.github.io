@@ -654,7 +654,7 @@ Awac.prototype.makeFBDBRequest = function(key,once,cb) {
   console.log('makeFBDBRequest('+key+','+once+')');
   var msgId = this.nFBDBRequest++;
   this.onfbdbresp[msgId] = cb;
-  this.onfgdbonce[msgId] = once;
+  this.onfbdbonce[msgId] = once;
   this.container.makeFBDBRequest(msgId,once,key);
 };
 

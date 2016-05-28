@@ -16,16 +16,14 @@ body {
 		<script type="text/javascript">
 			var _awac = null;
 			
-			function updateNSignIn(nSignIn) {
-			  document.getElementById('n-signin').innerHTML = ' ' +nSignIn;
-			}
-			
 			function onSignInOut(user) {
 			  console.log('onSignInOut(user='+user+')');
 			  if (user) {
 			    console.log('user='+JSON.stringify(user));
   			  document.getElementById('photo').setAttribute('src',user.photoURL);
-  			  _awac.getFBDBResponse('/users/'+user.uid+'/n_signin',updateNSignIn);
+  			  _awac.getFBDBResponse('/users/'+user.uid+'/n_signin',function(nSignIn) {
+			      document.getElementById('n-signin').innerHTML = ' ' +nSignIn;
+			    });
 			  }
 			  else {
 			    document.getElementById('photo').setAttribute('src','');

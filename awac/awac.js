@@ -275,6 +275,8 @@ function Awac(varName) {
   this.debug = true;
   this.nBackgroundRequest = 0;
   this.onbackgroundresp = [];
+  this.nFBDBRequest = 0;
+  this.onfbdbresp = [];
 }
 
 Awac.prototype.toString = function() {
@@ -566,10 +568,6 @@ Awac.prototype.setOnSignInOut = function(cb) {
   }
 };
 
-Awac.prototype.setOnFBDatabase = function(cb) {
-  this.onfbdb = cb;
-};
-
 // fire callbacks
 
 Awac.prototype.fireDialogResult = function(ok) {
@@ -616,14 +614,16 @@ Awac.prototype.fireBackgroundResponse = function(msgId,value) {
   cb(this.parse(value));
 };
 
+Awac.prototype.fireFBDBResponse = function(msgId,snapshot) {
+  if (this.debug) console.log('Awac.fireFBDBResponse('+msgId+','+snapshot+')');
+  var cb = this.onfbdbresp[msgId];
+  this.onfbdbresp[msgId] = null;
+  cb(snapshot);
+};
+
 Awac.prototype.fireSignInOut = function(user) {
   if (this.debug) console.log('Awac.fireSignInOut('+user+')');
   if (this.onsigninout) this.onsigninout(this.parse(user));
-};
-
-Awac.prototype.fireFBDatabase = function(snapshot) {
-  if (this.debug) console.log('Awac.fireFBDatabase('+snapshot+')');
-  if (this.onfbdb) this.onfbdb(snapshot);
 };
 
 Awac.prototype.startRefresh = function() {
@@ -647,6 +647,12 @@ Awac.prototype.getBackgroundResponse = function(value,cb) {
   var msgId = this.nBackgroundRequest++;
   this.onbackgroundresp[msgId] = cb;
   this.container.makeBackgroundRequest(msgId,v);
+};
+
+Awac.prototype.getFBDBResponse = function(key,cb) {
+  var msgId = this.nFBDBRequest++;
+  this.onfbdbresp[msgId] = cb;
+  this.container.makeFBDBRequest(msgId,key);
 };
 
 Awac.prototype.makeBackgroundRequest = function(value) {

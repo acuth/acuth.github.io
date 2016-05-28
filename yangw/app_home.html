@@ -17,17 +17,18 @@ body {
 			var _awac = null;
 			
 			function onSignInOut(user) {
-			  console.log('onSignInOut(user='+user+')');
+			  console.log('onSignInOut()');
 			  if (user) {
-			    console.log('user='+JSON.stringify(user));
+			    console.log(' - user='+JSON.stringify(user));
   			  document.getElementById('photo').setAttribute('src',user.photoURL);
-  			  console.log('photo='+user.photoURL);
   			  _awac.makeFBDBRequest('/users/'+user.uid+'/n_signin',false,function(nSignIn) {
-			      document.getElementById('n-signin').innerHTML = ' ' +nSignIn;
+			      document.getElementById('n-signin').innerHTML = '# of sign-ins ' +nSignIn;
 			    });
 			  }
 			  else {
+			    console.log(' - user=null');
 			    document.getElementById('photo').setAttribute('src','');
+			    document.getElementById('n-signin').innerHTML = '';
 			  }
 			}
 			
@@ -80,7 +81,7 @@ body {
         <div class="card"><a id="btn0"></a></div>
         <div class="card"><a id="btn1"></a></div>
         <img id="photo" />
-        <div style="padding: 10px;font-size: 80%; color: gray;">number of sign-ins: <span id="n-signin"></span></div>
+        <div id="n-signin" style="padding: 10px;font-size: 80%; color: gray;"></div>
         <br/><br/><br/><br/><br/><br/><br/>
         <br/><br/><br/><br/><br/><br/><br/>
         <br/><br/><br/><br/><br/><br/><br/>

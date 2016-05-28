@@ -291,16 +291,14 @@ B2wacContainer.prototype.signOut = function() {
 
 B2wacContainer.prototype.makeFBDBRequest = function(msgId,once,key) {
   var fbdb = this.b2wac.getFBDatabase();
-  if (this.debug) console.log(this.varName+'.makeFBDBRequest('+msgId+','+key+')');
+  if (this.debug) console.log(this.varName+'.makeFBDBRequest(msgId='+msgId+',once='+once+',key='+key+')');
   var container = this;
   if (once) 
     fbdb.ref(key).once('value').then(function(snapshot) { 
-      console.log('got value (once) for key '+key);
       container.awac.fireFBDBResponse(msgId,snapshot.val());
     });
   else 
     fbdb.ref(key).on('value',function(snapshot) { 
-      console.log('got value for key '+key);
       container.awac.fireFBDBResponse(msgId,snapshot.val());
     });
 };

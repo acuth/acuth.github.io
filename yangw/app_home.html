@@ -20,6 +20,9 @@ body {
 			  if (user) {
 			    console.log('user='+JSON.stringify(user));
   			  document.getElementById('photo').setAttribute('src',user.photoURL);
+  			  var fbdb = _awac.getFBDatabase();
+  			  console.log('fbdb='+fbdb);
+  			  fbdb.ref('/users').once('value').then(function(snapshot) { console.log('snapshot='+JSON.stringify(snapshot)); });
 			  }
 			  else {
 			    document.getElementById('photo').setAttribute('src','');

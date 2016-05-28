@@ -699,4 +699,8 @@ B2wac.prototype.initFirebase=function(fbConfig) {
   }
 };
 
+B2wac.prototype.getFBDatabase=function() {
+  return this.fbdatabase;
+};
+
 

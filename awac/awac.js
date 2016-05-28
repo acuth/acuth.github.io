@@ -237,6 +237,11 @@ MockContainer.prototype.signOut = function() {
   if (this.debug) console.log(this.varName+'.signOut()');
 };
 
+MockContainer.prototype.getFBDatabase = function() {
+  if (this.debug) console.log(this.varName+'.getFBDatabase()=null');
+  return null;
+};
+
 function Awac(varName) {
   this.varName = varName ? varName : 'x';
   //console.log(this.varName+' = new Awac('+_awac_+')');
@@ -655,4 +660,8 @@ Awac.prototype.signIn = function() {
 
 Awac.prototype.signOut = function() {
   this.container.signOut();
+};
+
+Awac.prototype.getFBDatabase = function() {
+  this.container.getFBDatabase();
 };

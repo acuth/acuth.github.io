@@ -623,7 +623,7 @@ Awac.prototype.fireFBDBResponse = function(msgId,snapshot) {
 };
 
 Awac.prototype.fireSignInOut = function(user) {
-  if (this.debug) console.log('Awac.fireSignInOut('+user+')');
+  if (this.debug) console.log('Awac.fireSignInOut()');
   if (this.onsigninout) this.onsigninout(this.parse(user));
 };
 
@@ -651,7 +651,7 @@ Awac.prototype.getBackgroundResponse = function(value,cb) {
 };
 
 Awac.prototype.makeFBDBRequest = function(key,once,cb) {
-  console.log('makeFBDBRequest('+key+','+once+')');
+  console.log('Awac.makeFBDBRequest('+key+','+once+')');
   var msgId = this.nFBDBRequest++;
   this.onfbdbresp[msgId] = cb;
   this.onfbdbonce[msgId] = once;
@@ -677,8 +677,4 @@ Awac.prototype.signIn = function() {
 
 Awac.prototype.signOut = function() {
   this.container.signOut();
-};
-
-Awac.prototype.getFBDatabase = function(key) {
-  this.container.getFBDatabase(key);
 };

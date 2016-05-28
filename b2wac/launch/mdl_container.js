@@ -39,7 +39,7 @@ B2wacContainer.prototype.addHome = function(header) {
 };
 
 B2wacContainer.prototype.updateHeader = function() {
-  console.log('\n\nB2wacConatiner.updateHeader()');
+  console.log('\n\nB2wacContainer.updateHeader()');
   this.b2wac.updateHeader(this.title,this.showNavDrawer,this.homeItem,this.actionBarItems);
 };
 

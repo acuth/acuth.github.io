@@ -290,7 +290,8 @@ B2wacContainer.prototype.signOut = function() {
 };
 
 B2wacContainer.prototype.getFBDatabase = function() {
-  if (this.debug) console.log(this.varName+'.getFBDatabase()');
-  return this.b2wac.getFBDatabase();
+  var fbdb = this.b2wac.getFBDatabase();
+  if (this.debug) console.log(this.varName+'.getFBDatabase()='+fbdb);
+  return fbdb;
 };
 

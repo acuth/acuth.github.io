@@ -700,6 +700,7 @@ B2wac.prototype.initFirebase=function(fbConfig) {
 };
 
 B2wac.prototype.getFBDatabase=function() {
+  console.log('B2wac.getFBDatabase()='+this.fbdatabase);
   return this.fbdatabase;
 };
 

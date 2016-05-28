@@ -277,6 +277,7 @@ function Awac(varName) {
   this.onbackgroundresp = [];
   this.nFBDBRequest = 0;
   this.onfbdbresp = [];
+  this.onfbdbonce = [];
 }
 
 Awac.prototype.toString = function() {

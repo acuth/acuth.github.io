@@ -16,8 +16,8 @@ body {
 		<script type="text/javascript">
 			var _awac = null;
 			
-			function dbUpdate(snapshot) {
-			  console.log('dbUpdate() snapshot='+JSON.stringify(snapshot));
+			function dbUpdate(action,snapshot) {
+			  console.log('dbUpdate(action='+action+') snapshot='+JSON.stringify(snapshot));
 			}
 			
 			function onSignInOut(user) {
@@ -25,7 +25,7 @@ body {
 			  if (user) {
 			    console.log('user='+JSON.stringify(user));
   			  document.getElementById('photo').setAttribute('src',user.photoURL);
-  			  _awac.getFBDatabaseResponse('/users/',dbUpdate);
+  			  _awac.getFBDBResponse('/users/',function(snapshot) { dbUpdate('test',snapshot); });
 			  }
 			  else {
 			    document.getElementById('photo').setAttribute('src','');

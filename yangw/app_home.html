@@ -20,6 +20,9 @@ body {
 			  console.log('onSignInOut()');
 			  if (user) {
 			    console.log(' - user='+JSON.stringify(user));
+			    document.getElementById('signin').setAttribute('style','display:none');
+			    document.getElementById('account').setAttribute('style','display:block');
+			    document.getElementById('name').innerHTML = 'You are signed in as <b>'+user.displayName+'</b> ('+user.email+')';
   			  document.getElementById('photo').setAttribute('src',user.photoURL);
   			  _awac.makeFBDBRequest('/users/'+user.uid+'/n_signin',false,function(nSignIn) {
 			      document.getElementById('n-signin').innerHTML = '# of sign-ins ' +nSignIn;
@@ -27,8 +30,8 @@ body {
 			  }
 			  else {
 			    console.log(' - user=null');
-			    document.getElementById('photo').setAttribute('src','');
-			    document.getElementById('n-signin').innerHTML = '';
+			    document.getElementById('account').setAttribute('style','display:none');
+			    document.getElementById('signin').setAttribute('style','display:block');
 			  }
 			}
 			
@@ -78,10 +81,14 @@ body {
 	<body>
 	   <div style="background:rgb(255,152,0);color:white;padding:20px;">&nbsp;</div>
      <div>
+        <div id="signin" class="card">You need to <a href="javascript:onAction('signin');">sign in</a></div>
+        <div id="account" class="card" style="display:none;">
+          <div><img id="photo" /></div>
+          <div id="name" style="color:gray;"></div>
+          <div id="n-signin" style="font-size:80%;color:gray;"></div>
+        </div>
         <div class="card"><a id="btn0"></a></div>
         <div class="card"><a id="btn1"></a></div>
-        <img id="photo" />
-        <div id="n-signin" style="padding: 10px;font-size: 80%; color: gray;"></div>
         <br/><br/><br/><br/><br/><br/><br/>
         <br/><br/><br/><br/><br/><br/><br/>
         <br/><br/><br/><br/><br/><br/><br/>

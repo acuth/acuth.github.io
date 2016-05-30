@@ -661,6 +661,11 @@ Awac.prototype.makeFBDBRequest = function(key,once,cb) {
   this.container.makeFBDBRequest(msgId,once,key);
 };
 
+Awac.prototype.setFBDB = function(key,val) {
+  console.log('Awac.setFBDB('+key+','+JSON.stringify(val)+')');
+  this.container.setFBDB(key,val);
+};
+
 Awac.prototype.makeBackgroundRequest = function(value) {
   var v = this.stringify(value);
   this.container.makeBackgroundRequest(-1,v);

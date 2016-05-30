@@ -639,6 +639,7 @@ B2wac.prototype.getUser=function() {
     u.photoURL = this.fbUser.photoURL;
     u.uid = this.fbUser.uid;
     u.email = this.fbUser.email;
+    u.providerId = this.fbUser.providerId;
   }
   return this.stringify(u);
 };

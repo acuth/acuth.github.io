@@ -275,7 +275,7 @@ B2wacContainer.prototype.getPageTag = function() {
 
 B2wacContainer.prototype.getUser = function() {
   var u = this.b2wac.getUser();
-  if (this.debug) console.log(this.varName+'.getUser()='+u);
+  if (this.debug) console.log(this.varName+'.getUser()');
   return u;
 };
 
@@ -303,3 +303,8 @@ B2wacContainer.prototype.makeFBDBRequest = function(msgId,once,key) {
     });
 };
 
+B2wacContainer.prototype.setFBDB = function(key,val) {
+  var fbdb = this.b2wac.getFBDatabase();
+  if (this.debug) console.log(this.varName+'.setFBDB(key='+key+',val='+JSON.stringify(val)+')'); 
+  fbdb.ref(key).set(val);
+};

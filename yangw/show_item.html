@@ -20,7 +20,11 @@
 			var _fitem = null;
 			
 			function onAction(action) {
-			  if ('back' == action)
+			  if ('signout' == action) {
+			    _awac.signOut();
+			    _awac.replacePage('signin','app_login.html',null,false);
+			  }
+			  else if ('back' == action)
 			    showPrevPage();
 			  else if ('edit' == action) {
 			    console.log('edit '+_itemId);
@@ -106,7 +110,7 @@
 			   if (name) 
 			     _awac.replacePage('show','show_item.html',{'item_id':name},false);
 			   else
-  			   _awac.replacePage('root','app_home.html',null,false);
+  			   _awac.replacePage('root','app_login.html',null,false);
 			}
 		
 			
@@ -124,6 +128,7 @@
 			  if (colors) $('#item-title').css('color',colors.primary_dark);
 			    
 			  _awac.setOnAction(onAction);
+			  _awac.addNavDrawerItem({'label':'Sign out','action':'signout'});
 			  _awac.unlockNavDrawer();
 			   
 			  //_awac.setHomeItem({'label':'Back','icon':'arrow_back','action':'back'});

@@ -1,0 +1,193 @@
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<title>YANG-Wiki</title>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link type="text/css" rel="stylesheet" href="fake_items.css" />
+				<style type="text/css">
+body {
+  background: rgb(255,152,0);
+}
+
+div#flex-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    background2: red;
+    align-items: center;
+    justify-content: center;
+}
+
+img.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+}
+		</style>	
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
+		<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js" type="text/javascript"></script>
+		<script src="https://acuth.github.io/awac/awac.js" type="text/javascript"></script>
+		<script src="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js" type="text/javascript"></script>
+		<script src="fake_items.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			var _awac = null;
+			var _user = null;
+			var _username = null;
+			
+			
+			function displaySignInAccount(signin) {
+			  if (signin) {
+			    //document.getElementById('account').setAttribute('style','display:none');
+			    document.getElementById('signin').setAttribute('style','display:block');
+			    document.body.style.background = 'rgb(255,152,0)';
+			  }
+			  else {
+			    document.getElementById('signin').setAttribute('style','display:none');
+			    //document.getElementById('account').setAttribute('style','display:block');
+			    //document.body.style.background = '#e5e5e5';
+			  }
+			  componentHandler.upgradeDom();
+			}
+			
+			function displayAccount() {
+        var html = '<img class="avatar" src="'+_user.photoURL+'"/> '+_username+'<br/><br/>';
+        html += 'You are now ready to access this wiki<br/><br/>';
+        html += '<button onclick="javascript:onAction(\'open\');" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary">Open Wiki</button>';
+  		
+  		
+        document.getElementById('signin').innerHTML = html;
+        displaySignInAccount(true);
+
+			  //document.getElementById('name').innerHTML = 'You are signed in as <b>'+_username+'</b> ('+_user.email+')';
+  			//document.getElementById('photo').setAttribute('src',_user.photoURL);
+  			//_awac.makeFBDBRequest('/users/'+_user.uid+'/n_signin',false,function(nSignIn) {
+			 //   document.getElementById('n-signin').innerHTML = '# of sign-ins ' +nSignIn;
+			 // });
+			}
+			
+			function gotUsername() {
+			 
+			}
+			
+			
+			
+			
+			
+			function onAction(action) {
+			  if ('signin' == action) _awac.signIn();
+			  if ('signout' == action) _awac.signOut();
+			  if ('back' == action) onBackPressed();
+			  if ('open' == action) openWiki();
+			}
+			
+			var _requireSignIn = false;
+			var _requireUsername = false;
+			
+			function displayWiki(force) {
+			  if (force || (!_requireSignIn && !_requireUsername)) {
+			    var name = 'HomePage';
+			    //FItem.historyPush(_awac,name);
+			    _awac.replacePage('show','show_item.html',{'item_id':name},true);
+			  }
+			  else {
+			    var html = '<div style="text-align:center;width:50%;">';
+			    html += '<p>You are signed in as '+_user.email+' and have a username for this wiki</p>';
+			    html += '<div style="display:flex;">';
+  			  html += '<div style="padding-right:10px;"><img class="avatar" src="'+_user.photoURL+'"/></div>';
+  			  html += '<div>'+_username+'</div>';
+          html += '</div>';
+    			html += '<button onclick="displayWiki(true);" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary">Proceed to Wiki</button>';
+  	  	  html += '</div>';
+  	  	  document.getElementById('flex-container').innerHTML = html;
+  	  		componentHandler.upgradeDom();
+			  }
+			}
+			
+			function doGetUsername() {
+			   var uname = document.getElementById('username').value;
+			   if (!uname) {
+			     _awac.alert('You dont appear to have supplied a username');
+			    return;
+			  } 
+			  _awac.makeFBDBRequest('/usernames/set/'+uname,true,function(status) {
+			     if (status) {
+			        _awac.alert('Sorry, but the username "'+uname+'" is already taken');
+			        return;
+			     }
+			     _awac.setFBDB('/usernames/set/'+uname,'taken');
+			     _awac.setFBDB('/usernames/'+_user.uid,uname);
+			     _username = uname;
+			     displayWiki();
+			  });
+			}
+			
+			function getUsername(username) {
+			  console.log('getUsername(username='+username+')');
+			  _username = username;
+			  if (username) {
+  			  displayWiki();
+			  }
+			  else {
+			    _requireUsername = true;
+			    var html = '<div style="text-align:center;width:50%;">';
+  			  html += '<p>You are signed in as '+_user.email+'. ';
+  			  html += 'You now need to supply a username that will be used to identify you within the Wiki.</p>';
+  			  html += '<div style="display:flex;">';
+  			  html += '<div style="padding-right:10px;"><img class="avatar" src="'+_user.photoURL+'"/></div>';
+	  		  html += '<div><form action="javascript:doGetUsername();">';
+          html += '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">';
+          html += '<input class="mdl-textfield__input" type="text" id="username">';
+          html += '<label class="mdl-textfield__label" for="username">Username...</label>';
+          html += '</div>';
+          html += '</form></div>';
+          html += '</div>';
+          html += '</div>';
+  			  document.getElementById('flex-container').innerHTML = html;
+  			  componentHandler.upgradeDom();
+			  }
+			}
+			
+			function onSignInOut(user) {
+			  console.log('onSignInOut(user='+user+')');
+			  _user = user;
+			  if (user) {
+			    _awac.makeFBDBRequest('/usernames/'+user.uid,true,getUsername);
+			  }
+			  else {
+			    _requireSignIn = true;
+  			  var html = '<div style="text-align:center;">';
+  			  html += '<p>First you need to sign-in using a Google account - you will only need to this once.</p>';
+    			html += '<button onclick="_awac.signIn();" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary">Sign In</button>';
+  	  	  html += '</div>';
+  	  	  document.getElementById('flex-container').innerHTML = html;
+  	  		componentHandler.upgradeDom();
+			  }
+			}
+			
+			function trySignIn() {
+			    console.log('trySignIn()');
+			    _awac.setOnSignInOut(onSignInOut);
+			}
+			
+			$(document).ready(function() {
+			  _awac = new Awac('_awac');
+			  _awac.setOnAction(onAction);  
+			  //_awac.startPage();
+			  _awac.startMdlPage('toplevel','https://storage.googleapis.com/code.getmdl.io/1.0.0/material.teal-pink.min.css');
+			  setTimeout(trySignIn,100);
+			});
+			</script>
+	</head>
+	<body>
+	   <div id="toplevel">
+	     <div id="flex-container">
+         <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
+         &nbsp;Signing you in...
+       </div>
+     </div>
+	</body>
+</html>

@@ -477,7 +477,7 @@ Awac.prototype.setMdlCss = function(containerId,mdlCssUrl) {
  
   var urls = mdlCssUrl.split(',');
   for (var i=0;i<urls.length;i++) {
-  var link = document.createElement( 'link' );
+    var link = document.createElement( 'link' );
     link.href = urls[i];
     link.type = 'text/css';
     link.rel = 'stylesheet';

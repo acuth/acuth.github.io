@@ -22,6 +22,12 @@ div#flex-container {
     justify-content: center;
 }
 
+div.wizard {
+  width: 50%;
+  text-align:center;
+  border:solid 1px red;
+}
+
 img.avatar {
     width: 36px;
     height: 36px;
@@ -37,55 +43,14 @@ img.avatar {
 			var _awac = null;
 			var _user = null;
 			var _username = null;
-			
-			
-			function displaySignInAccount(signin) {
-			  if (signin) {
-			    //document.getElementById('account').setAttribute('style','display:none');
-			    document.getElementById('signin').setAttribute('style','display:block');
-			    document.body.style.background = 'rgb(255,152,0)';
-			  }
-			  else {
-			    document.getElementById('signin').setAttribute('style','display:none');
-			    //document.getElementById('account').setAttribute('style','display:block');
-			    //document.body.style.background = '#e5e5e5';
-			  }
-			  componentHandler.upgradeDom();
-			}
-			
-			function displayAccount() {
-        var html = '<img class="avatar" src="'+_user.photoURL+'"/> '+_username+'<br/><br/>';
-        html += 'You are now ready to access this wiki<br/><br/>';
-        html += '<button onclick="javascript:onAction(\'open\');" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary">Open Wiki</button>';
-  		
-  		
-        document.getElementById('signin').innerHTML = html;
-        displaySignInAccount(true);
-
-			  //document.getElementById('name').innerHTML = 'You are signed in as <b>'+_username+'</b> ('+_user.email+')';
-  			//document.getElementById('photo').setAttribute('src',_user.photoURL);
-  			//_awac.makeFBDBRequest('/users/'+_user.uid+'/n_signin',false,function(nSignIn) {
-			 //   document.getElementById('n-signin').innerHTML = '# of sign-ins ' +nSignIn;
-			 // });
-			}
-			
-			function gotUsername() {
-			 
-			}
-			
-			
-			
-			
+			var _requireSignIn = false;
+			var _requireUsername = false;
 			
 			function onAction(action) {
 			  if ('signin' == action) _awac.signIn();
 			  if ('signout' == action) _awac.signOut();
 			  if ('back' == action) onBackPressed();
-			  if ('open' == action) openWiki();
 			}
-			
-			var _requireSignIn = false;
-			var _requireUsername = false;
 			
 			function displayWiki(force) {
 			  if (force || (!_requireSignIn && !_requireUsername)) {
@@ -94,7 +59,7 @@ img.avatar {
 			    _awac.replacePage('show','show_item.html',{'item_id':name},true);
 			  }
 			  else {
-			    var html = '<div style="text-align:center;width:50%;">';
+			    var html = '<div class="wizard">';
 			    html += '<p>You are signed in as '+_user.email+' and have a username for this wiki</p>';
 			    html += '<div style="display:flex;">';
   			  html += '<div style="padding-right:10px;"><img class="avatar" src="'+_user.photoURL+'"/></div>';
@@ -133,7 +98,7 @@ img.avatar {
 			  }
 			  else {
 			    _requireUsername = true;
-			    var html = '<div style="text-align:center;width:50%;">';
+			    var html = '<div class="wizard">';
   			  html += '<p>You are signed in as '+_user.email+'. ';
   			  html += 'You now need to supply a username that will be used to identify you within the Wiki.</p>';
   			  html += '<div style="display:flex;">';
@@ -159,7 +124,7 @@ img.avatar {
 			  }
 			  else {
 			    _requireSignIn = true;
-  			  var html = '<div style="text-align:center;">';
+  			  var html = '<div class="wizard">';
   			  html += '<p>First you need to sign-in using a Google account - you will only need to this once.</p>';
     			html += '<button onclick="_awac.signIn();" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary">Sign In</button>';
   	  	  html += '</div>';
@@ -177,17 +142,15 @@ img.avatar {
 			  _awac = new Awac('_awac');
 			  _awac.setOnAction(onAction);  
 			  //_awac.startPage();
-			  _awac.startMdlPage('toplevel','https://storage.googleapis.com/code.getmdl.io/1.0.0/material.teal-pink.min.css');
+			  _awac.startMdlPage('flex-container','https://storage.googleapis.com/code.getmdl.io/1.0.0/material.teal-pink.min.css');
 			  setTimeout(trySignIn,100);
 			});
 			</script>
 	</head>
 	<body>
-	   <div id="toplevel">
-	     <div id="flex-container">
+	   <div id="flex-container" class="mdl-layout mdl-js-layout">
          <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
          &nbsp;Signing you in...
-       </div>
      </div>
 	</body>
 </html>

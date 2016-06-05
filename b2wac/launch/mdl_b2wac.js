@@ -671,6 +671,16 @@ B2wac.prototype.signOut=function() {
   //frame.container.awac.fireSignInOut();
 };
 
+B2wac.prototype.getDims = function() {
+   var e = document.getElementById('main');
+   console.log('main='+e.offsetWidth);
+   var dims = {};
+   dims.width = e.offsetWidth;
+   dims.height = e.offsetHeight;
+   console.log('B2wac.getDims()='+JSON.stringify(dims));
+   return dims;
+};
+
 B2wac.prototype.recordUserSignIn=function(snapshot) {
     if (!this.fbUser) {
       console.log('There is no current user');

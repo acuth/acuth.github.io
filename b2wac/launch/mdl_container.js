@@ -244,8 +244,10 @@ B2wacContainer.prototype.getStackDepth = function() {
 };
 
 B2wacContainer.prototype.getDims = function() {
-  if (this.debug) console.log(this.varName+'.getDims()=768x1024');
-  return '{"width":768,"height":1024}';
+  var dims = this.b2wac.getDims();
+  var result = JSON.stringify(dims);
+  if (this.debug) console.log(this.varName+'.getDims()='+result);
+  return result;
 };
 
 B2wacContainer.prototype.getParam=function(name) {

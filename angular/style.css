@@ -39,6 +39,7 @@ body {
 
 .page h1 	{ font-size:20px; }
 .page a     { margin-top:50px; }
+.page p { text-align:left; padding: 10px; }
 
 /* PAGES
 ============================================================================= */

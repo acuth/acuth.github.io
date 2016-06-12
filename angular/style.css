@@ -4,7 +4,7 @@ body {
   padding: 0;
   margin: 0;
   overflow-y:hidden; 
-  
+  font-family: Arial;
 }
 
 #header {
@@ -17,7 +17,7 @@ body {
 }
 
 #header h1 {
-  font-size: 40px;
+  font-size: 20px;
 }
 
 .page-holder {
@@ -37,7 +37,7 @@ body {
 	background: #e5e5e5;
 }
 
-.page h1 	{ font-size:60px; }
+.page h1 	{ font-size:20px; }
 .page a     { margin-top:50px; }
 
 #about      { color:#333; position:absolute; text-align:center; top:50px; width:100%; }

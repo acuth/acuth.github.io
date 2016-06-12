@@ -1,19 +1,15 @@
 <!DOCTYPE html>
 <html>
-  <head>
-
-	<!-- CSS -->
-	<!-- load bootstrap (bootswatch version) -->
-	<!--link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/readable/bootstrap.min.css"-->
-	<link rel="stylesheet" href="style.css">
+  <head>  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	  <link rel="stylesheet" href="style.css">
 	
 	<!-- JS -->
 	<!-- load angular, ngRoute, ngAnimate -->
-	<script src="http://code.angularjs.org/1.2.13/angular.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-route.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-animate.js"></script>
-	<script src="app.js"></script>
-
+	  <script src="http://code.angularjs.org/1.2.13/angular.js"></script>
+	  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-route.js"></script>
+	  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-animate.js"></script>
+	  <script src="app.js"></script>
   </head>
   <!-- apply our angular app -->
   <body>
@@ -21,10 +17,10 @@
       <h1>Angular Page Transitions</h1>
     </div>
     
-  <div class="page-holder" ng-app="animateApp">
-    <!-- inject our views using ng-view -->
-    <!-- each angular controller applies a different class here -->
-	  <div class="page {{ pageClass }}" ng-view></div>
+    <div class="page-holder" ng-app="animateApp">
+      <!-- inject our views using ng-view -->
+      <!-- each angular controller applies a different class here -->
+	    <div class="page {{ pageClass }}" ng-view></div>
 	  </div>
   </body>
 </html>

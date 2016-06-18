@@ -116,6 +116,11 @@ img.avatar {
 			  }
 			}
 			
+			function doSignIn() {
+			  _requireSignIn = true;
+			  _awac.signIn();
+			}
+			
 			function onSignInOut(user) {
 			  console.log('onSignInOut(user='+user+')');
 			  _user = user;
@@ -123,10 +128,9 @@ img.avatar {
 			    _awac.makeFBDBRequest('/usernames/'+user.uid,true,getUsername);
 			  }
 			  else {
-			    _requireSignIn = true;
   			  var html = '<div class="wizard">';
   			  html += '<p>First you need to sign-in using a Google account - you will only need to this once.</p>';
-    			html += '<button onclick="_awac.signIn();" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary">Sign In</button>';
+    			html += '<button onclick="doSignIn();" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary">Sign In</button>';
   	  	  html += '</div>';
   	  	  document.getElementById('flex-container').innerHTML = html;
   	  		componentHandler.upgradeDom();

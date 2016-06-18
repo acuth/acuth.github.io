@@ -123,6 +123,13 @@ B2wac.prototype.onHashChange=function() {
 };
 
 B2wac.prototype.addNavDrawerItem=function(item) {
+  for (var i=0;i<this.navDrawerItems.length;i++) {
+    var oldItem = this.navDrawerItems[i];
+    if (oldItem.label == item.label) {
+      this.navDrawerItems[i] = item;
+      return;
+    }
+  }
   this.navDrawerItems[this.navDrawerItems.length] = item;
 };
 

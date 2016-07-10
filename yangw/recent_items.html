@@ -1,0 +1,67 @@
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+		<link type="text/css" rel="stylesheet" href="fake_items.css" />	
+		<style type="text/css">
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
+		<script src="http://acuth.github.io/awac/awac.js" type="text/javascript"></script>
+		<script src="fake_items.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			var _awac = null;
+			
+			function onAction(action) {
+			  if ('back' == action) 
+			    showPrevPage();
+	      else
+			    _awac.alert('action '+action+' NYI');
+			}
+			
+			var _items = null;
+			
+			function select(i) {
+			  var name = _items[i].wiki_name;
+			  FItem.historyPush(_awac,name);
+			  _awac.replacePage('show','show_item.html',{'item_id':name},true);
+			}
+			
+			function showPrevPage() {
+			   var name = FItem.historyPop(_awac);
+			   if (name) 
+			     _awac.replacePage('show','show_item.html',{'item_id':name},false);
+			   else
+  			   _awac.replacePage('root','app_login.html',null,false);
+			}
+			
+			function onGetRecent(json) {
+			  _items = json;
+			  console.log('onGetRecent() json='+JSON.stringify(json));
+			  var html = '<ul>';
+			  for (var i=0;i<json.length;i++) {
+			    var item = json[i];
+			    var modify = new Date(item.modify*1000);
+			    html += '<li onclick="javascript:select('+i+');">'+item.item_type_name+' | '+modify+' | '+item.wiki_name+'</li>';
+			  }
+			  html += '</ul>';
+			  document.getElementById('items').innerHTML = html;
+			  _awac.startPage();
+			}
+	
+			$(document).ready(function() {
+			  _awac = new Awac('_awac'); 
+			  _awac.setOnAction(onAction);
+			  _awac.setOnBackPressed(function() { onAction('back'); });
+			  _awac.setHomeItem({'label':'Back','icon':'close','action':'back'});
+				FItem.getRecent(onGetRecent);
+			});
+			</script>
+	</head>
+	<body>
+	  <div class="padded-container">
+    <h3>Recent Items</h3>
+    <div id="items">-items-go-here-</div>
+    </div>
+	</body>
+</html>

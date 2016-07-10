@@ -122,14 +122,18 @@ B2wac.prototype.onHashChange=function() {
   }
 };
 
-B2wac.prototype.addNavDrawerItem=function(item) {
+B2wac.prototype.addNavDrawerItem=function(itemStr) {
+  //console.log('B2wac.addNavDrawerItem('+itemStr+')');
+  var item = JSON.parse(itemStr);
   for (var i=0;i<this.navDrawerItems.length;i++) {
     var oldItem = this.navDrawerItems[i];
     if (oldItem.label == item.label) {
+      //console.log('updating nav drawer item '+item.label);
       this.navDrawerItems[i] = item;
       return;
     }
   }
+  //console.log('adding nav drawer item '+item.label);
   this.navDrawerItems[this.navDrawerItems.length] = item;
 };
 
@@ -603,7 +607,7 @@ B2wac.prototype.showNavDrawer = function() {
   div.setAttribute('class','mdl-dialog__actions mdl-dialog__actions--full-width');
   //var ul = document.createElement('ul');
   for (var i=0;i<this.navDrawerItems.length;i++) 
-    div.appendChild(this.getModalControl(false,JSON.parse(this.navDrawerItems[i]),i));
+    div.appendChild(this.getModalControl(false,this.navDrawerItems[i],i));
   var e = document.getElementById('app-nav-drawer-content');
   e.innerHTML = null;
   e.appendChild(this.getCloseButton(false));

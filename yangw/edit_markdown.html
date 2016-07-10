@@ -14,7 +14,11 @@
 			function onAction(action) {
 			  if ('back' == action) 
 			    _awac.endPage();
-			  else 
+			  else if ('save' == action) {
+			     var md = $('#edit-item-markdown').val();
+			     _awac.endPage(md);
+			  }
+			  else
 			    _awac.alert('action '+action+' NYI');
 			}
 			

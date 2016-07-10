@@ -26,22 +26,65 @@
 			  }
 			  else if ('back' == action)
 			    showPrevPage();
+			  else if ('recent' == action)
+			    showRecentItems();
+			  else if ('history' == action)
+			    showHistory();
+			  else if ('+comment' == action)
+			    doAddComment();
 			  else if ('edit' == action) {
 			    console.log('edit '+_itemId);
 			    _awac.openPage('edit','edit_item.html',{'json':_fitem.json,'item_id':_itemId});
 			  }
-			  else if ('add' == action) {
-			    var labels= ['add comment','add post','add event'];
-			    var items = new Array();
-			    for (var i=0;i<labels.length;i++) {
-			      var item = new Object();
-			      item.label = labels[i];
-			      items[i] = item;
-			    }
-			    _awac.list(items,function(n) { if (n != -1) _awac.alert('selected '+n); });
-			  }
+			  else if ('add' == action)
+			    displayAddList();
 			  else 
 			    _awac.alert('action '+action+' NYI');
+			}
+			
+			function onPageClose(tag,ok,result) {
+			  if (ok && result) {
+  			  if (tag == 'edit-comment-markdown') {
+	  		    FItem.addComment(_itemId,result,showNextPage);
+			    }  
+			    else if (tag == 'recent') {
+			      console.log('show page '+result);
+			      //showNextPage(wiki_name);
+			    }
+			  }
+			}
+			
+			function displayAddList() {
+			  var labels = ['add comment','add child post','add next post'];
+			  var actions = ['+comment','+child','+next'];
+			  var items = new Array();
+			  for (var i=0;i<labels.length;i++) {
+			      var item = new Object();
+			      item.label = labels[i];
+			      item.action = actions[i];
+			      items[i] = item;
+		    }
+			  _awac.list(items,function(n) { 
+			    if (n != -1) {
+			        var newAction = items[n].action;
+			        if (newAction == '+comment') 
+			          onAction(newAction); 
+			        else 
+			          _awac.alert('selected '+newAction); 
+			    }
+			  });
+			}
+			
+			function doAddComment() {
+			  _awac.openPage('edit-comment-markdown','edit_markdown.html',{'markdown':''});
+			}
+			
+			function showRecentItems() {
+			  _awac.replacePage('recent','recent_items.html',null,true);
+			}
+			
+			function showHistory() {
+			  _awac.replacePage('history','show_history.html',null,true);
 			}
 			
 			function showNextPage(name) {
@@ -127,8 +170,11 @@
 			  var colors = _awac.getColors();
 			  if (colors) $('#item-title').css('color',colors.primary_dark);
 			    
+			  _awac.setOnPageClose(onPageClose);
 			  _awac.setOnAction(onAction);
 			  _awac.addNavDrawerItem({'label':'Sign out','action':'signout'});
+			  _awac.addNavDrawerItem({'label':'Most recent','action':'recent'});
+			  _awac.addNavDrawerItem({'label':'History','action':'history'});
 			  _awac.unlockNavDrawer();
 			   
 			  //_awac.setHomeItem({'label':'Back','icon':'arrow_back','action':'back'});

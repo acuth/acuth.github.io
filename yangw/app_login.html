@@ -61,10 +61,12 @@ img.avatar {
 			  else {
 			    var html = '<div class="wizard">';
 			    html += '<p>You are signed in as '+_user.email+' and have a username for this wiki</p>';
-			    html += '<div style="display:flex;">';
+			    html += '<div style="margin-left:auto;margin-right:auto;">';
+  			  html += '<div style="display:flex">';
   			  html += '<div style="padding-right:10px;"><img class="avatar" src="'+_user.photoURL+'"/></div>';
   			  html += '<div>'+_username+'</div>';
           html += '</div>';
+          
     			html += '<button onclick="displayWiki(true);" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary">Proceed to Wiki</button>';
   	  	  html += '</div>';
   	  	  document.getElementById('flex-container').innerHTML = html;
@@ -101,12 +103,13 @@ img.avatar {
 			    var html = '<div class="wizard">';
   			  html += '<p>You are signed in as '+_user.email+'. ';
   			  html += 'You now need to supply a username that will be used to identify you within the Wiki.</p>';
-  			  html += '<div style="display:flex;">';
+  			  html += '<div style="display:flex;margin-left:auto;margin-right:auto;">';
   			  html += '<div style="padding-right:10px;"><img class="avatar" src="'+_user.photoURL+'"/></div>';
 	  		  html += '<div><form action="javascript:doGetUsername();">';
           html += '<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">';
           html += '<input class="mdl-textfield__input" type="text" id="username">';
           html += '<label class="mdl-textfield__label" for="username">Username...</label>';
+          html += '</div>'; 
           html += '</div>';
           html += '</form></div>';
           html += '</div>';

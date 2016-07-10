@@ -143,6 +143,19 @@ FItem.historyPop=function(awac){
 	return null;
 };
 
+FItem.getHistory=function(awac) {
+  var history = awac.get('history');
+	if (history) {
+	  console.log(JSON.stringify(history));
+	  var items = [];
+	  for (var i=0;i<=history.n;i++) {
+		  items[i] = history.names[i];
+		}
+	  return items;
+	}
+	return null;
+};
+
 FItem.prototype.addLink=function(html,pageName,pageTitle) {
   var link = '[['+pageName+']]';
   var i = html.indexOf(link);
@@ -212,4 +225,18 @@ FItem.prototype.getHTML=function() {
    html = this.addLinks(html);
    return html;
 };
+
+FItem.addComment=function(name,markdown,cb) {
+  ajax('https://yangw-2.appspot.com/v4/?op=add_comment&wiki_name='+name+'&markdown='+encodeURIComponent(markdown),function(jsonStr) {
+    //console.log('got '+jsonStr);
+    cb(JSON.parse(jsonStr).wiki_name);
+  });
+};
+
+FItem.getRecent=function(cb) {
+  ajax('https://yangw-2.appspot.com/v4/?op=show_recent',function(jsonStr) {
+    cb(JSON.parse(jsonStr));
+  });
+};
+
               

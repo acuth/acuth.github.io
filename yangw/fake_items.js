@@ -193,6 +193,9 @@ FItem.prototype.addLinks=function(html) {
     if (name == 'wiki') {
       html = html.replace('[['+target+']]','<a class="internal-link" href="javascript:showNextPage(\''+inline.wiki_name+'\');">'+inline.name_attr+'</a>');
     }
+    else if (name == 'commenton') {
+      html = html.replace('[['+target+']]','<a class="internal-link" href="javascript:showNextPage(\''+inline.wiki_name+'\');">'+inline.name_attr+'</a>');
+    }
     else if (name == 'http' || name == 'https') {
       html = html.replace('[['+target+']]','<a target="_blank" class="external-link" href="'+target+'">'+target+'</a>');
     }

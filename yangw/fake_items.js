@@ -100,8 +100,28 @@ AttrType.get=function(name) {
 };
 
 
+function FItemRow(json) {
+  this.json = json;
+}
 
+FItemRow.prototype.getMDIcon=function() {
+  var iname = 'subject';
+	if (this.json.item_type_name == 'User') iname = 'person';
+	else if (this.json.item_type_name == 'Tag') iname = 'label';
+	else if (this.json.item_type_name == 'Comment') iname = 'comment';
+	return iname;
+};
 
+FItemRow.prototype.getDiv=function(i) {
+  var iname = this.getMDIcon();
+  var modify = new Date(this.json.modify*1000);
+  var html = '<div class="item-row" onclick="javascript:select('+i+');">';
+  html += '<div class="item-type"><i class="material-icons">'+iname+'</i></div>';
+  html += ' ';
+  html += this.json.name_attr ? this.json.name_attr : this.json.wiki_name;
+  html += '</div>';
+  return html;
+};
 
 function FItem(json,isParsed) {
   this.json = isParsed ? json : JSON.parse(json);
@@ -167,6 +187,7 @@ FItem.prototype.getMDIcon=function() {
   var iname = 'subject';
 	if (this.json.item_type_name == 'User') iname = 'person';
 	else if (this.json.item_type_name == 'Tag') iname = 'label';
+	else if (this.json.item_type_name == 'Comment') iname = 'comment';
 	return iname;
 };
 

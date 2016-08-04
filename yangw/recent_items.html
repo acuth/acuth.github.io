@@ -38,13 +38,10 @@
 			function onGetRecent(json) {
 			  _items = json;
 			  console.log('onGetRecent() json='+JSON.stringify(json));
-			  var html = '<ul>';
+			  var html = '';
 			  for (var i=0;i<json.length;i++) {
-			    var item = json[i];
-			    var modify = new Date(item.modify*1000);
-			    html += '<li onclick="javascript:select('+i+');">'+item.item_type_name+' | '+modify+' | '+item.wiki_name+'</li>';
+			    html += (new FItemRow(json[i])).getDiv(i);
 			  }
-			  html += '</ul>';
 			  document.getElementById('items').innerHTML = html;
 			  _awac.startPage();
 			}

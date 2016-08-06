@@ -170,6 +170,16 @@ img.img-circle {
   text-shadow: 2px 2px 8px black;
 }
 
+div.elapsed {
+  color: gray;
+  width: 2.0em;
+  text-align: right;
+}
+
+div.item-row div.elapsed, div.item-row div.name {
+  line-height: 36px;
+}
+
 table.fields {
  width: 100%;
 }

@@ -28,6 +28,8 @@
 			    showPrevPage();
 			  else if ('recent' == action)
 			    showRecentItems();
+			  else if ('comments' == action)
+			    showCommentItems();
 			  else if ('history' == action)
 			    showHistory();
 			  else if ('+comment' == action)
@@ -80,7 +82,18 @@
 			}
 			
 			function showRecentItems() {
-			  _awac.replacePage('recent','recent_items.html',null,true);
+			  var initp = {};
+			  initp.items_hdr = 'Recent Items !!!!';
+			  initp.op = 'recent';
+			  _awac.replacePage('recent','recent_items.html',initp,true);
+			}
+			
+			function showCommentItems() {
+			  var initp = {};
+			  initp.items_hdr = 'Comment Items !!!!';
+			  initp.op = 'comments';
+			  initp.wiki_name = _fitem.json.wiki_name;
+			  _awac.replacePage('recent','recent_items.html',initp,true);
 			}
 			
 			function showHistory() {
@@ -174,6 +187,7 @@
 			  _awac.setOnAction(onAction);
 			  _awac.addNavDrawerItem({'label':'Sign out','action':'signout'});
 			  _awac.addNavDrawerItem({'label':'Most recent','action':'recent'});
+			  _awac.addNavDrawerItem({'label':'Show Comments','action':'comments'});
 			  _awac.addNavDrawerItem({'label':'History','action':'history'});
 			  _awac.unlockNavDrawer();
 			   

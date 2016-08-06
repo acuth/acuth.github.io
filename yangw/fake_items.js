@@ -112,13 +112,32 @@ FItemRow.prototype.getMDIcon=function() {
 	return iname;
 };
 
+FItemRow.prototype.getElapsedTime=function(dt) {
+  var ms = (new Date()).getTime()-dt.getTime();
+  var s = Math.round(ms/1000);
+  var m = Math.round(s/60);
+  if (m < 60) return m+'m';
+  var h = Math.round(m/60);
+  if (h < 24) return h+'h';
+  var d = Math.round(h/24);
+  if (d < 7) return d+'d';
+  var w = Math.round(d/7);
+  return w+'w';
+};
+
 FItemRow.prototype.getDiv=function(i) {
   var iname = this.getMDIcon();
   var modify = new Date(this.json.modify*1000);
-  var html = '<div class="item-row" onclick="javascript:select('+i+');">';
+  var now = (new Date()).getTime();
+  console.log('now='+now+' modify='+modify);
+  var html = '<div class="item-row"  onclick="javascript:select('+i+');">';
+  html += '<div class="padded-container" style="display:flex;">';
   html += '<div class="item-type"><i class="material-icons">'+iname+'</i></div>';
-  html += ' ';
-  html += this.json.name_attr ? this.json.name_attr : this.json.wiki_name;
+  html += '<div class="spacer"></div>';
+  html += '<div class="elapsed">'+this.getElapsedTime(modify)+'</div>';
+  html += '<div class="spacer"></div>';
+  html += '<div class="name">'+(this.json.name_attr ? this.json.name_attr : this.json.wiki_name)+'</div>';
+  html += '</div>';
   html += '</div>';
   return html;
 };
@@ -262,5 +281,12 @@ FItem.getRecent=function(cb) {
     cb(JSON.parse(jsonStr));
   });
 };
+
+FItem.getComments=function(wiki_name,cb) {
+  ajax('https://yangw-2.appspot.com/v4/?op=get_comments&wiki_name='+wiki_name,function(jsonStr) {
+    cb(JSON.parse(jsonStr));
+  });
+};
+
 
               

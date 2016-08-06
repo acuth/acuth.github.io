@@ -11,21 +11,7 @@
 		<script src="fake_items.js" type="text/javascript"></script>
 		<script type="text/javascript">
 			var _awac = null;
-			
-			function onAction(action) {
-			  if ('back' == action) 
-			    showPrevPage();
-	      else
-			    _awac.alert('action '+action+' NYI');
-			}
-			
 			var _items = null;
-			
-			function select(i) {
-			  var name = _items[i].wiki_name;
-			  FItem.historyPush(_awac,name);
-			  _awac.replacePage('show','show_item.html',{'item_id':name},true);
-			}
 			
 			function showPrevPage() {
 			   var name = FItem.historyPop(_awac);
@@ -35,9 +21,21 @@
   			   _awac.replacePage('root','app_login.html',null,false);
 			}
 			
+			function onAction(action) {
+			  if ('back' == action) 
+			    showPrevPage();
+	      else
+			    _awac.alert('action '+action+' NYI');
+			}
+			
+			function select(i) {
+			  var name = _items[i].wiki_name;
+			  FItem.historyPush(_awac,name);
+			  _awac.replacePage('show','show_item.html',{'item_id':name},true);
+			}
+			
 			function onGetRecent(json) {
 			  _items = json;
-			  console.log('onGetRecent() json='+JSON.stringify(json));
 			  var html = '';
 			  for (var i=0;i<json.length;i++) {
 			    html += (new FItemRow(json[i])).getDiv(i);
@@ -47,17 +45,25 @@
 			}
 	
 			$(document).ready(function() {
-			  _awac = new Awac('_awac'); 
+			  _awac = new Awac('_awac');
+			  var initP = _awac.getInitParam();
+			  console.log('initp='+JSON.stringify(initP));
+			  document.getElementById('items-hdr').innerHTML = initP.items_hdr;
 			  _awac.setOnAction(onAction);
 			  _awac.setOnBackPressed(function() { onAction('back'); });
 			  _awac.setHomeItem({'label':'Back','icon':'close','action':'back'});
-				FItem.getRecent(onGetRecent);
+				var op = initP.op;
+				if (!op) op = 'recent';
+				if (op == 'recent')
+  				FItem.getRecent(onGetRecent);
+  			else if (op == 'comments')
+  			  FItem.getComments(initP.wiki_name,onGetRecent);
 			});
 			</script>
 	</head>
 	<body>
 	  <div class="padded-container">
-    <h3>Recent Items</h3>
+    <h3 id="items-hdr">-title-</h3>
     <div id="items">-items-go-here-</div>
     </div>
 	</body>

@@ -107,12 +107,25 @@
 			  _awac.replacePage('recent','recent_items.html',initp,true);
 			}
 			
+			var _childItems = null;
+			
+			function select(i) {
+			  var name = _childItems[i].wiki_name;
+			  FItem.historyPush(_awac,name);
+			  _awac.replacePage('show','show_item.html',{'item_id':name},true);
+			}
+			
+			function onGetChildItems(json) {
+			  _childItems = json;
+			  var html = '';
+			  for (var i=0;i<json.length;i++) {
+			    html += (new FItemRow(json[i])).getDiv(i);
+			  }
+			  document.getElementById('child-items').innerHTML = html;
+			}
+
 			function showChildItems() {
-			  var initp = {};
-			  initp.items_hdr = 'Child Pages';
-			  initp.op = 'children';
-			  initp.wiki_name = _fitem.json.wiki_name;
-			  _awac.replacePage('recent','recent_items.html',initp,true);
+			  FItem.getChildren(_fitem.json.wiki_name,onGetChildItems);
 			}
 			
 			function showHistory() {
@@ -239,6 +252,7 @@
 			      renderItemHeader(fitem,iname,a);
 			    }
 			    $('#show-item-markdown').html(fitem.getHTML());
+			    showChildItems();
 			    _awac.startPage();
 			  });
 			});
@@ -253,6 +267,8 @@
          <div id="show-item-markdown">-item-markup-goes-here-</div>
        </div>
      </div>
+     
+     <div id="child-items"></div>
      
      <div class="show-item-footer padded-container">
         <a href="javascript:onAction('edit');">EDIT</a> |  <a href="javascript:onAction('back');">BACK</a>

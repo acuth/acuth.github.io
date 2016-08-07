@@ -4,7 +4,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" />
-		<link type="text/css" rel="stylesheet" href="fake_items.css" />	
+		<link type="text/css" rel="stylesheet" href="fake_items.css" />
 		<style type="text/css">
 
 		</style>
@@ -30,17 +30,21 @@
 			    showRecentItems();
 			  else if ('comments' == action)
 			    showCommentItems();
+			  else if ('children' == action)
+			    showChildItems();
 			  else if ('history' == action)
 			    showHistory();
 			  else if ('+comment' == action)
 			    doAddComment();
+			  else if ('+child' == action)
+			    doAddChild();
 			  else if ('edit' == action) {
 			    console.log('edit '+_itemId);
 			    _awac.openPage('edit','edit_item.html',{'json':_fitem.json,'item_id':_itemId});
 			  }
 			  else if ('add' == action)
 			    displayAddList();
-			  else 
+			  else
 			    _awac.alert('action '+action+' NYI');
 			}
 			
@@ -48,7 +52,10 @@
 			  if (ok && result) {
   			  if (tag == 'edit-comment-markdown') {
 	  		    FItem.addComment(_itemId,result,showNextPage);
-			    }  
+			    }
+			    else if (tag == 'edit-child-markdown') {
+	  		    FItem.addChild(_itemId,result.name_attr,result.markdown,showNextPage);
+			    }
 			    else if (tag == 'recent') {
 			      console.log('show page '+result);
 			      //showNextPage(wiki_name);
@@ -66,19 +73,23 @@
 			      item.action = actions[i];
 			      items[i] = item;
 		    }
-			  _awac.list(items,function(n) { 
+			  _awac.list(items,function(n) {
 			    if (n != -1) {
 			        var newAction = items[n].action;
-			        if (newAction == '+comment') 
-			          onAction(newAction); 
-			        else 
-			          _awac.alert('selected '+newAction); 
+			        if (newAction == '+comment' || newAction == '+child')
+			          onAction(newAction);
+			        else
+			          _awac.alert('selected '+newAction);
 			    }
 			  });
 			}
 			
 			function doAddComment() {
-			  _awac.openPage('edit-comment-markdown','edit_markdown.html',{'markdown':''});
+			  _awac.openPage('edit-comment-markdown','edit_markdown.html',{'include_name':false,'markdown':''});
+			}
+			
+			function doAddChild() {
+			  _awac.openPage('edit-child-markdown','edit_markdown.html',{'include_name':true,'markdown':''});
 			}
 			
 			function showRecentItems() {
@@ -90,8 +101,16 @@
 			
 			function showCommentItems() {
 			  var initp = {};
-			  initp.items_hdr = 'Comment Items !!!!';
+			  initp.items_hdr = 'Comments';
 			  initp.op = 'comments';
+			  initp.wiki_name = _fitem.json.wiki_name;
+			  _awac.replacePage('recent','recent_items.html',initp,true);
+			}
+			
+			function showChildItems() {
+			  var initp = {};
+			  initp.items_hdr = 'Child Pages';
+			  initp.op = 'children';
 			  initp.wiki_name = _fitem.json.wiki_name;
 			  _awac.replacePage('recent','recent_items.html',initp,true);
 			}
@@ -163,7 +182,7 @@
 			
 			function showPrevPage() {
 			   var name = FItem.historyPop(_awac);
-			   if (name) 
+			   if (name)
 			     _awac.replacePage('show','show_item.html',{'item_id':name},false);
 			   else
   			   _awac.replacePage('root','app_login.html',null,false);
@@ -171,9 +190,9 @@
 		
 			
 			$(document).ready(function() {
-			  _awac = new Awac('_awac'); 
+			  _awac = new Awac('_awac');
 			  var initp = _awac.getInitParam();
-			  if (initp) 
+			  if (initp)
 			    _itemId = initp.item_id;
 			  else
 			    _itemId = 'HomePage';
@@ -188,6 +207,7 @@
 			  _awac.addNavDrawerItem({'label':'Sign out','action':'signout'});
 			  _awac.addNavDrawerItem({'label':'Most recent','action':'recent'});
 			  _awac.addNavDrawerItem({'label':'Show Comments','action':'comments'});
+			  _awac.addNavDrawerItem({'label':'Show Child Pages','action':'children'});
 			  _awac.addNavDrawerItem({'label':'History','action':'history'});
 			  _awac.unlockNavDrawer();
 			   
@@ -203,7 +223,7 @@
 			  var at = AttrType.get('name');
 			  console.log('got at='+at);
 			  
-			  FItem.get(_itemId,function(fitem) { 
+			  FItem.get(_itemId,function(fitem) {
 			    _fitem = fitem;
 			    var iname = fitem.getMDIcon();
 			    var a = fitem.getUserHTML(fitem.json.author,true);
@@ -220,7 +240,7 @@
 			    }
 			    $('#show-item-markdown').html(fitem.getHTML());
 			    _awac.startPage();
-			  });   
+			  });
 			});
 			</script>
 	</head>

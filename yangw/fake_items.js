@@ -71,7 +71,7 @@ AttrLink.prototype.render=function() {
   s += '<div class="attr-link-container">';
  
   var styles = this.background ? 'background:'+this.background : null;
-  if (this.imageUrl) 
+  if (this.imageUrl)
     s += this.newDivStr(styles,'img-circle')+'<img class="img-circle" src="'+this.imageUrl+'" /></div>';
   
   if (this.left) s += this.newDivStr(styles)+'<a href="javascript:'+this.left.action+';">'+this.left.label+'</a></div>';
@@ -166,7 +166,7 @@ FItem.historyPush=function(awac,name){
 		history.names = [];
 	}
 	history.n += 1;
-	history.names[history.n]=name;  
+	history.names[history.n]=name;
 	awac.set('history',history);
 	console.log('history='+JSON.stringify(history));
 };
@@ -225,7 +225,7 @@ FItem.prototype.addLinks=function(html) {
   for (var k=0;k<20;k++) {
     i = this.json.markdown.indexOf('[[',j);
     if (i == -1) break;
-    j = this.json.markdown.indexOf(']]',i); 
+    j = this.json.markdown.indexOf(']]',i);
     if (j == -1) break;
     var target = this.json.markdown.substring(i+2,j);
     var name = target.substring(0,target.indexOf(':'));
@@ -234,7 +234,10 @@ FItem.prototype.addLinks=function(html) {
       html = html.replace('[['+target+']]','<a class="internal-link" href="javascript:showNextPage(\''+inline.wiki_name+'\');">'+inline.name_attr+'</a>');
     }
     else if (name == 'commenton') {
-      html = html.replace('[['+target+']]','<a class="internal-link" href="javascript:showNextPage(\''+inline.wiki_name+'\');">'+inline.name_attr+'</a>');
+      html = html.replace('[['+target+']]','<div class="comment-on-div"><i>comment-on:</i> <a class="internal-link" href="javascript:showNextPage(\''+inline.wiki_name+'\');">'+inline.name_attr+'</a></div>');
+    }
+    else if (name == 'parent') {
+      html = html.replace('[['+target+']]','<div class="parent-div"><i>parent:</i> <a class="internal-link" href="javascript:showNextPage(\''+inline.wiki_name+'\');">'+inline.name_attr+'</a></div>');
     }
     else if (name == 'http' || name == 'https') {
       html = html.replace('[['+target+']]','<a target="_blank" class="external-link" href="'+target+'">'+target+'</a>');
@@ -271,7 +274,12 @@ FItem.prototype.getHTML=function() {
 
 FItem.addComment=function(name,markdown,cb) {
   ajax('https://yangw-2.appspot.com/v4/?op=add_comment&wiki_name='+name+'&markdown='+encodeURIComponent(markdown),function(jsonStr) {
-    //console.log('got '+jsonStr);
+    cb(JSON.parse(jsonStr).wiki_name);
+  });
+};
+
+FItem.addChild=function(name,name_attr,markdown,cb) {
+  ajax('https://yangw-2.appspot.com/v4/?op=add_child&wiki_name='+name+'&name_attr='+name_attr+'&markdown='+encodeURIComponent(markdown),function(jsonStr) {
     cb(JSON.parse(jsonStr).wiki_name);
   });
 };
@@ -284,6 +292,12 @@ FItem.getRecent=function(cb) {
 
 FItem.getComments=function(wiki_name,cb) {
   ajax('https://yangw-2.appspot.com/v4/?op=get_comments&wiki_name='+wiki_name,function(jsonStr) {
+    cb(JSON.parse(jsonStr));
+  });
+};
+
+FItem.getChildren=function(wiki_name,cb) {
+  ajax('https://yangw-2.appspot.com/v4/?op=get_children&wiki_name='+wiki_name,function(jsonStr) {
     cb(JSON.parse(jsonStr));
   });
 };

@@ -3,7 +3,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-		<link type="text/css" rel="stylesheet" href="fake_items.css" />	
+		<link type="text/css" rel="stylesheet" href="fake_items.css" />
 		<style type="text/css">
 		</style>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
@@ -11,12 +11,31 @@
 		<script src="fake_items.js" type="text/javascript"></script>
 		<script type="text/javascript">
 			var _awac = null;
+			var _include_name = false;
+			
 			function onAction(action) {
-			  if ('back' == action) 
+			  if ('back' == action)
 			    _awac.endPage();
 			  else if ('save' == action) {
 			     var md = $('#edit-item-markdown').val();
-			     _awac.endPage(md);
+			     var name = null;
+			     if (_include_name) {
+			        name = $('#edit-item-name').val();
+			        if (!name) {
+			          _awac.alert('Need to supply a name');
+			          return;
+			        }
+			     }
+			     var outp = null;
+			     if (_include_name) {
+			       outp = {};
+			       outp.markdown = md;
+			       outp.name_attr = name;
+			     }
+			     else {
+			       outp = md;
+			     }
+			     _awac.endPage(outp);
 			  }
 			  else
 			    _awac.alert('action '+action+' NYI');
@@ -46,17 +65,23 @@ new function($) {
 
 			function fixEditLayout() {
 			  var content = $('#edit-item-markdown');
-			  var height = _awac.getDims().height+'px';
+			  var height = _awac.getDims().height;
+			  if (_include_name) height -= 100; else height -= 20;
+			  height += 'px';
 			  console.log('height '+height);
 			  content.show().css('height',height).focus().setCursorPosition(0);
 			}
 			
 			$(document).ready(function() {
-			  _awac = new Awac('_awac'); 
+			  _awac = new Awac('_awac');
 			  var initp = _awac.getInitParam();
 			  _markdown = initp ? initp.markdown : '**This is Markdown**';
  			  console.log('_markdown='+_markdown);
-			    
+ 			  _include_name = initp.include_name;
+			  if (!_include_name) {
+			    $('#edit-item-name').hide();
+			  }
+			  
 			  _awac.setOnAction(onAction);
 			  _awac.setOnBackPressed(function() { onAction('back'); });
 			  _awac.setHomeItem({'label':'Back','icon':'close','action':'back'});
@@ -76,7 +101,8 @@ new function($) {
 	</head>
 	<body>
 	  <div class="padded-container">
-    <textarea id="edit-item-markdown">-item-markdown-goes-here-</textarea>
+	  <input id="edit-item-name" type="text" placeholder="Page Title" />
+    <textarea id="edit-item-markdown" placeholder="Add a description/comment here..."></textarea>
     </div>
 	</body>
 </html>

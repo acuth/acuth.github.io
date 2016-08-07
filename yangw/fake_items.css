@@ -162,7 +162,7 @@ img.img-circle {
 
 .img-container .item-type {
   border-color: white;
-  box-shadow: 2px 2px 8px black; 
+  box-shadow: 2px 2px 8px black;
 }
 
 .img-container .material-icons {
@@ -235,7 +235,7 @@ div.attr-link-container div.img-circle {
 
 div.attr-link-container div.divider {
   padding-left: 0px;
-  padding-right: 0px; 
+  padding-right: 0px;
   border-left: solid 1px white;
   border-right: solid 1px gray;
 }
@@ -260,18 +260,39 @@ a.external-link:after, a.external-link:after {
   overflow: hidden;
 }
 
-textarea#edit-item-markdown, textarea#edit-body-content {
+div.comment-on-div, div.parent-div {
+  font-size: 80%;
+  border: solid 1px gray;
+  display: inline;
+  padding-left: 4px;
+  padding-right: 4px;
+  -webkit-border-radius: 4px;
+}
+
+blockquote {
+    display: block;
+    padding-left: 16px;
+    border-left: solid 4px red;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 1em;
+    -webkit-margin-end: 1em;
+}
+
+textarea#edit-item-markdown, textarea#edit-body-content, input#edit-item-name {
+  padding: 4px;
   background: white;
   width: 100%;
-  border: 0px;
+  border: solid 1px gray;
   color: black;
   font-size: 1.0em;
   line-height: 1.4em;
   outline: none;
 }
-  
+
 textarea#edit-item-markdown {
-  height: 100%;
+  height: 50%;
+  margin-top: 4px;
 }
 
 textarea#edit-body-content {
@@ -286,7 +307,7 @@ tr.field {
 
 tr.field td {
   padding-top: 10px;
-  vertical-align: top;  
+  vertical-align: top;
 }
 
 
@@ -302,8 +323,8 @@ td.field-icon, td.field-cntrl, span.edit-control-span {
   border3: solid 1px red;
 }
 
-td.field-icon i.material-icons, td.field-cntrl i.material-icons, span.edit-control-span i.material-icons { 
-  color: gray; 
+td.field-icon i.material-icons, td.field-cntrl i.material-icons, span.edit-control-span i.material-icons {
+  color: gray;
   border3: solid 1px green;
 }
 

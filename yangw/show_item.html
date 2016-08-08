@@ -30,8 +30,6 @@
 			    showRecentItems();
 			  else if ('comments' == action)
 			    showCommentItems();
-			  else if ('children' == action)
-			    showChildItems();
 			  else if ('history' == action)
 			    showHistory();
 			  else if ('+comment' == action)
@@ -107,25 +105,27 @@
 			  _awac.replacePage('recent','recent_items.html',initp,true);
 			}
 			
-			var _childItems = null;
+			var _linkedItems = null;
 			
 			function select(i) {
-			  var name = _childItems[i].wiki_name;
+			  var name = _linkedItems[i].wiki_name;
 			  FItem.historyPush(_awac,name);
 			  _awac.replacePage('show','show_item.html',{'item_id':name},true);
 			}
 			
-			function onGetChildItems(json) {
-			  _childItems = json;
+			function onGetLinkedItems(json) {
+			  var hdr = 'Linked Items';
+			  if (_fitem.json.item_type_name == 'Page') hdr = 'Child Pages';
+			  else if (_fitem.json.item_type_name == 'Tag') hdr = 'Tagged Items';
+			  _linkedItems = json;
 			  var html = '';
+			  var found = false;
 			  for (var i=0;i<json.length;i++) {
 			    html += (new FItemRow(json[i])).getDiv(i);
+			    found = true;
 			  }
-			  document.getElementById('child-items').innerHTML = html;
-			}
-
-			function showChildItems() {
-			  FItem.getChildren(_fitem.json.wiki_name,onGetChildItems);
+			  if (found)
+			    document.getElementById('linked-items').innerHTML = '<div class="padded-container"><h4>'+hdr+'</h4></div>'+html;
 			}
 			
 			function showHistory() {
@@ -220,7 +220,6 @@
 			  _awac.addNavDrawerItem({'label':'Sign out','action':'signout'});
 			  _awac.addNavDrawerItem({'label':'Most recent','action':'recent'});
 			  _awac.addNavDrawerItem({'label':'Show Comments','action':'comments'});
-			  _awac.addNavDrawerItem({'label':'Show Child Pages','action':'children'});
 			  _awac.addNavDrawerItem({'label':'History','action':'history'});
 			  _awac.unlockNavDrawer();
 			   
@@ -252,7 +251,12 @@
 			      renderItemHeader(fitem,iname,a);
 			    }
 			    $('#show-item-markdown').html(fitem.getHTML());
-			    showChildItems();
+			    
+			    if (_fitem.json.item_type_name == 'Page')
+			      FItem.getLinkedItems(_fitem.json.wiki_name,'parent',onGetLinkedItems);
+			    else if (_fitem.json.item_type_name == 'Tag')
+			      FItem.getLinkedItems(_fitem.json.wiki_name,'tag',onGetLinkedItems);
+			    
 			    _awac.startPage();
 			  });
 			});
@@ -268,7 +272,7 @@
        </div>
      </div>
      
-     <div id="child-items"></div>
+     <div id="linked-items"></div>
      
      <div class="show-item-footer padded-container">
         <a href="javascript:onAction('edit');">EDIT</a> |  <a href="javascript:onAction('back');">BACK</a>

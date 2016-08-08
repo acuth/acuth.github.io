@@ -57,9 +57,9 @@
 				if (op == 'recent')
   				FItem.getRecent(onGetRecent);
   			else if (op == 'comments')
-  			  FItem.getComments(initP.wiki_name,onGetRecent);
+  			  FItem.getLinkedItems(initP.wiki_name,'commenton',onGetRecent);
   			else if (op == 'children')
-  			  FItem.getChildren(initP.wiki_name,onGetRecent);
+  			  FItem.getLinkedItems(initP.wiki_name,'parent',onGetRecent);
 			});
 			</script>
 	</head>

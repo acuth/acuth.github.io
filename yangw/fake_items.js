@@ -130,13 +130,13 @@ FItemRow.prototype.getDiv=function(i) {
   var modify = new Date(this.json.modify*1000);
   var now = (new Date()).getTime();
   console.log('now='+now+' modify='+modify);
-  var html = '<div class="item-row"  onclick="javascript:select('+i+');">';
+  var html = '<div class="item-row">';
   html += '<div class="padded-container" style="display:flex;">';
-  html += '<div class="item-type"><i class="material-icons">'+iname+'</i></div>';
+  html += '<div><i class="material-icons">'+iname+'</i></div>';
+  html += '<div class="spacer"></div>';
+  html += '<a class="name" href="javascript:select('+i+');">'+(this.json.name_attr ? this.json.name_attr : this.json.wiki_name)+'</a>';
   html += '<div class="spacer"></div>';
   html += '<div class="elapsed">'+this.getElapsedTime(modify)+'</div>';
-  html += '<div class="spacer"></div>';
-  html += '<div class="name">'+(this.json.name_attr ? this.json.name_attr : this.json.wiki_name)+'</div>';
   html += '</div>';
   html += '</div>';
   return html;
@@ -290,14 +290,8 @@ FItem.getRecent=function(cb) {
   });
 };
 
-FItem.getComments=function(wiki_name,cb) {
-  ajax('https://yangw-2.appspot.com/v4/?op=get_comments&wiki_name='+wiki_name,function(jsonStr) {
-    cb(JSON.parse(jsonStr));
-  });
-};
-
-FItem.getChildren=function(wiki_name,cb) {
-  ajax('https://yangw-2.appspot.com/v4/?op=get_children&wiki_name='+wiki_name,function(jsonStr) {
+FItem.getLinkedItems=function(wikiName,attrType,cb) {
+  ajax('https://yangw-2.appspot.com/v4/?op=get_linked_items&wiki_name='+wikiName+'&attr_type='+attrType,function(jsonStr) {
     cb(JSON.parse(jsonStr));
   });
 };

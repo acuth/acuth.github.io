@@ -176,8 +176,13 @@ div.elapsed {
   text-align: right;
 }
 
-div.item-row div.elapsed, div.item-row div.name {
-  line-height: 36px;
+div.item-row i, div.item-row a.name, div.item-row div.elapsed {
+  line-height: 18px;
+  font-size: 100%;
+}
+
+div.item-row a.name {
+  width: 80%;
 }
 
 table.fields {

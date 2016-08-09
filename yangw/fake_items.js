@@ -125,7 +125,8 @@ FItemRow.prototype.getElapsedTime=function(dt) {
   return w+'w';
 };
 
-FItemRow.prototype.getDiv=function(i) {
+FItemRow.prototype.getDiv=function(i,fn) {
+  if (!fn) fn = 'select';
   var iname = this.getMDIcon();
   var modify = new Date(this.json.modify*1000);
   var now = (new Date()).getTime();
@@ -134,7 +135,7 @@ FItemRow.prototype.getDiv=function(i) {
   html += '<div class="padded-container" style="display:flex;">';
   html += '<div><i class="material-icons">'+iname+'</i></div>';
   html += '<div class="spacer"></div>';
-  html += '<a class="name" href="javascript:select('+i+');">'+(this.json.name_attr ? this.json.name_attr : this.json.wiki_name)+'</a>';
+  html += '<a class="name" href="javascript:'+fn+'('+i+');">'+(this.json.name_attr ? this.json.name_attr : this.json.wiki_name)+'</a>';
   html += '<div class="spacer"></div>';
   html += '<div class="elapsed">'+this.getElapsedTime(modify)+'</div>';
   html += '</div>';
@@ -269,6 +270,7 @@ FItem.prototype.getHTML=function() {
    //html = converter.makeHtml(this.json.markdown);
    //console.log('using showdown\n\n'+html);
    html = this.addLinks(html);
+   html += '<div class="wiki-name-div"><i>wiki-name:</i> <span class="wiki-name-span">'+this.json.wiki_name+'</span></div>';
    return html;
 };
 

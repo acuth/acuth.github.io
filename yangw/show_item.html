@@ -107,7 +107,7 @@
 			
 			var _linkedItems = null;
 			
-			function select(i) {
+			function selectLinked(i) {
 			  var name = _linkedItems[i].wiki_name;
 			  FItem.historyPush(_awac,name);
 			  _awac.replacePage('show','show_item.html',{'item_id':name},true);
@@ -121,12 +121,34 @@
 			  var html = '';
 			  var found = false;
 			  for (var i=0;i<json.length;i++) {
-			    html += (new FItemRow(json[i])).getDiv(i);
+			    html += (new FItemRow(json[i])).getDiv(i,'selectLinked');
 			    found = true;
 			  }
 			  if (found)
 			    document.getElementById('linked-items').innerHTML = '<div class="padded-container"><h4>'+hdr+'</h4></div>'+html;
 			}
+			
+			var _commentItems = null;
+			
+			function selectComment(i) {
+			  var name = _commentItems[i].wiki_name;
+			  FItem.historyPush(_awac,name);
+			  _awac.replacePage('show','show_item.html',{'item_id':name},true);
+			}
+			
+			function onGetCommentItems(json) {
+			  var hdr = 'Comments';
+			  _commentItems = json;
+			  var html = '';
+			  var found = false;
+			  for (var i=0;i<json.length;i++) {
+			    html += (new FItemRow(json[i])).getDiv(i,'selectComment');
+			    found = true;
+			  }
+			  if (found)
+			    document.getElementById('comment-items').innerHTML = '<div class="padded-container"><h4>'+hdr+'</h4></div>'+html;
+			}
+			
 			
 			function showHistory() {
 			  _awac.replacePage('history','show_history.html',null,true);
@@ -250,12 +272,15 @@
 			    else {
 			      renderItemHeader(fitem,iname,a);
 			    }
+			    
 			    $('#show-item-markdown').html(fitem.getHTML());
 			    
 			    if (_fitem.json.item_type_name == 'Page')
 			      FItem.getLinkedItems(_fitem.json.wiki_name,'parent',onGetLinkedItems);
 			    else if (_fitem.json.item_type_name == 'Tag')
 			      FItem.getLinkedItems(_fitem.json.wiki_name,'tag',onGetLinkedItems);
+			    
+			    FItem.getLinkedItems(_fitem.json.wiki_name,'commenton',onGetCommentItems);
 			    
 			    _awac.startPage();
 			  });
@@ -273,6 +298,7 @@
      </div>
      
      <div id="linked-items"></div>
+     <div id="comment-items"></div>
      
      <div class="show-item-footer padded-container">
         <a href="javascript:onAction('edit');">EDIT</a> |  <a href="javascript:onAction('back');">BACK</a>

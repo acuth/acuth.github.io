@@ -176,6 +176,11 @@ div.elapsed {
   text-align: right;
 }
 
+span.wiki-name-span {
+  color: #F57C00;
+  font-weight: bold;
+}
+
 div.item-row i, div.item-row a.name, div.item-row div.elapsed {
   line-height: 18px;
   font-size: 100%;
@@ -265,7 +270,7 @@ a.external-link:after, a.external-link:after {
   overflow: hidden;
 }
 
-div.comment-on-div, div.parent-div {
+div.comment-on-div, div.parent-div, div.wiki-name-div {
   font-size: 80%;
   border: solid 1px gray;
   display: inline;

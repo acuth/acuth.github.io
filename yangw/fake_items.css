@@ -289,7 +289,7 @@ blockquote {
     -webkit-margin-end: 1em;
 }
 
-textarea#edit-item-markdown, textarea#edit-body-content, input#edit-item-name {
+textarea#edit-item-markdown, textarea#edit-body-content, input#edit-item-name, input#edit-item-wiki-name {
   padding: 4px;
   background: white;
   width: 100%;
@@ -298,6 +298,10 @@ textarea#edit-item-markdown, textarea#edit-body-content, input#edit-item-name {
   font-size: 1.0em;
   line-height: 1.4em;
   outline: none;
+}
+
+input#edit-item-wiki-name {
+  margin-top: 4px;
 }
 
 textarea#edit-item-markdown {

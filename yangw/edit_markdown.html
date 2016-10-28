@@ -12,6 +12,7 @@
 		<script type="text/javascript">
 			var _awac = null;
 			var _include_name = false;
+			var _default_name = null;
 			
 			function onAction(action) {
 			  if ('back' == action)
@@ -26,11 +27,20 @@
 			          return;
 			        }
 			     }
+			     var item_id = null;
+			     if (_include_item_id) {
+			        item_id = $('#edit-item-id').val();
+			        if (!item_id) {
+			          _awac.alert('Need to supply an item-id');
+			          return;
+			        }
+			     }
 			     var outp = null;
-			     if (_include_name) {
+			     if (_include_name || _include_item_id) {
 			       outp = {};
 			       outp.markdown = md;
-			       outp.name_attr = name;
+			       if (_include_name) outp.name_attr = name;
+			       if (_include_item_id) outp.item_id = item_id;
 			     }
 			     else {
 			       outp = md;
@@ -72,14 +82,38 @@ new function($) {
 			  content.show().css('height',height).focus().setCursorPosition(0);
 			}
 			
+			function extractDefaultName(item_id) {
+			  var result = '';
+			  var addSpace = true;
+			  for (var i=0;i<item_id.length;i++) {
+			    var char = item_id.substring(i,i+1);
+			    if (i != 0 && char >= 'A' && char <= 'Z') result += ' ';
+			    result += char;
+			  }
+			  return result;
+			}
+			
 			$(document).ready(function() {
 			  _awac = new Awac('_awac');
 			  var initp = _awac.getInitParam();
 			  _markdown = initp ? initp.markdown : '**This is Markdown**';
  			  console.log('_markdown='+_markdown);
  			  _include_name = initp.include_name;
+ 			  _include_item_id = initp.include_item_id;
+ 			  _default_name = initp.name;
+ 			  _default_item_id = initp.item_id;
+ 			  if (_default_item_id && !_default_name) _default_name = extractDefaultName(_default_item_id);
 			  if (!_include_name) {
 			    $('#edit-item-name').hide();
+			  }
+			  else {
+			    if (_default_name) $('#edit-item-name').val(_default_name);
+			  }
+			  if (!_include_item_id) {
+			    $('#edit-item-id').hide();
+			  }
+			  else {
+			    if (_default_item_id) $('#edit-item-id').val(_default_item_id);
 			  }
 			  
 			  _awac.setOnAction(onAction);
@@ -102,6 +136,7 @@ new function($) {
 	<body>
 	  <div class="padded-container">
 	  <input id="edit-item-name" type="text" placeholder="Page Title" />
+	  <input id="edit-item-id" type="text" placeholder="Page Id" />
     <textarea id="edit-item-markdown" placeholder="Add a description/comment here..."></textarea>
     </div>
 	</body>

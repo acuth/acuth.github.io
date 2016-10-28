@@ -29,9 +29,9 @@
 			}
 			
 			function select(i) {
-			  var name = _items[i].wiki_name;
-			  FItem.historyPush(_awac,name);
-			  _awac.replacePage('show','show_item.html',{'item_id':name},true);
+			  var id = _items[i].item_id;
+			  FItem.historyPush(_awac,id);
+			  _awac.replacePage('show','show_item.html',{'item_id':id},true);
 			}
 			
 			function onGetRecent(json) {
@@ -57,9 +57,9 @@
 				if (op == 'recent')
   				FItem.getRecent(onGetRecent);
   			else if (op == 'comments')
-  			  FItem.getLinkedItems(initP.wiki_name,'commenton',onGetRecent);
+  			  FItem.getLinkedItems('Comment','parent',initP.item_id,onGetRecent);
   			else if (op == 'children')
-  			  FItem.getLinkedItems(initP.wiki_name,'parent',onGetRecent);
+  			  FItem.getLinkedItems('Page','parent',initP.item_id,onGetRecent);
 			});
 			</script>
 	</head>

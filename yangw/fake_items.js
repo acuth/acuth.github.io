@@ -5,17 +5,37 @@ var _itemTitles = ['An Introduction to Items',
               
               
               
-function ajax(url,cb) {
+function ajax(url,cb,checkJson) {
+  console.log('AJAX make request url='+url);
   var xhr = new XMLHttpRequest();
 	xhr.open("GET",url,true);
 	xhr.onreadystatechange = function() {
   		if (xhr.readyState == 4) {
-    		cb(xhr.responseText);
+  		  if (checkJson) {
+    		  var parsed = false;
+    		  try {
+  	  	    var json = JSON.parse(xhr.responseText);
+  		      parsed = true;
+  		      if (!json.ok)
+  		        console.log('AJAX got msg "'+json.msg+'"');
+  		      else {
+  		        console.log('AJAX got response');
+  		    	  cb(json);
+  		      }
+  		    } catch (ex) {
+  		  	  if (!parsed) {
+  		  	    console.log('AJAX unable to parse JSON response');
+  		  	    console.log(xhr.responseText);
+  		  	  }
+  		    }
+  		  }
+  		  else {
+  	      cb(xhr.responseText);
+  		  }
   		}
 	};
 	xhr.send();
 }
-
 
 function AttrLink() {
   this.background = null;
@@ -135,7 +155,7 @@ FItemRow.prototype.getDiv=function(i,fn) {
   html += '<div class="padded-container" style="display:flex;">';
   html += '<div><i class="material-icons">'+iname+'</i></div>';
   html += '<div class="spacer"></div>';
-  html += '<a class="name" href="javascript:'+fn+'('+i+');">'+(this.json.name_attr ? this.json.name_attr : this.json.wiki_name)+'</a>';
+  html += '<a class="name" href="javascript:'+fn+'('+i+');">'+(this.json.name_attr ? this.json.name_attr : this.json.item_id)+'</a>';
   html += '<div class="spacer"></div>';
   html += '<div class="elapsed">'+this.getElapsedTime(modify)+'</div>';
   html += '</div>';
@@ -148,11 +168,11 @@ function FItem(json,isParsed) {
 }
 
 FItem.prototype.toString=function() {
-  return '{FItem name='+this.json.wiki_name+' json='+JSON.stringify(this.json)+'}';
+  return '{FItem name='+this.json.item_id+' json='+JSON.stringify(this.json)+'}';
 };
 
 FItem.get=function(name,cb) {
-  ajax('https://yangw-2.appspot.com/v4/?op=get_item&wiki_name='+name,function(json) {
+  ajax('https://yangw-2.appspot.com/v4/?op=get_item&item_id='+name,function(json) {
     console.log('got '+json);
     fitem = new FItem(json);
     cb(fitem);
@@ -214,7 +234,7 @@ FItem.prototype.getMDIcon=function() {
 
 FItem.prototype.getUserHTML=function(user,readOnly) {
   if (!user) return '';
-  var link = (new AttrLink()).setAttrType('user-link').setImageURL(user.image_url).setLeft(user.name_attr,'showNextPage(\''+user.wiki_name+'\')');
+  var link = (new AttrLink()).setAttrType('user-link').setImageURL(user.image_url).setLeft(user.name_attr,'showNextPage(\''+user.item_id+'\')');
   if (!readOnly) link.setRight('+','showOptions(\'user\')'); else link.setBackground('white');
   return link.render();
 };
@@ -231,20 +251,20 @@ FItem.prototype.addLinks=function(html) {
     var target = this.json.markdown.substring(i+2,j);
     var name = target.substring(0,target.indexOf(':'));
     var inline = this.json.markdown_inline_values[target];
-    if (name == 'wiki') {
-      html = html.replace('[['+target+']]','<a class="internal-link" href="javascript:showNextPage(\''+inline.wiki_name+'\');">'+inline.name_attr+'</a>');
-    }
-    else if (name == 'commenton') {
-      html = html.replace('[['+target+']]','<div class="comment-on-div"><i>comment-on:</i> <a class="internal-link" href="javascript:showNextPage(\''+inline.wiki_name+'\');">'+inline.name_attr+'</a></div>');
+    if (name == 'ref') {
+      var a = inline.item_id ? '<a class="internal-link" href="javascript:showNextPage(\''+inline.item_id+'\');">'+inline.name_attr+'</a>' :
+        '<a target="_blank" href="javascript:onAction(\'new-page:'+target.substring(4)+'\');">'+target.substring(4)+' [create]</a>';
+      html = html.replace('[['+target+']]',a);
     }
     else if (name == 'parent') {
-      html = html.replace('[['+target+']]','<div class="parent-div"><i>parent:</i> <a class="internal-link" href="javascript:showNextPage(\''+inline.wiki_name+'\');">'+inline.name_attr+'</a></div>');
+      html = html.replace('[['+target+']]','<div class="parent-div"><i>parent:</i> <a class="internal-link" href="javascript:showNextPage(\''+inline.item_id+'\');">'+inline.name_attr+'</a></div>');
     }
     else if (name == 'http' || name == 'https') {
       html = html.replace('[['+target+']]','<a target="_blank" class="external-link" href="'+target+'">'+target+'</a>');
     }
     else if (name == 'tag') {
-      var a = (new AttrLink()).setLeft(inline.name_attr,'showNextPage(\''+inline.wiki_name+'\')').setRight('+','showOptions(\'tag\')').render();
+      var a = inline.item_id ? (new AttrLink()).setLeft(inline.name_attr,'showNextPage(\''+inline.item_id+'\')').setRight('+','showOptions(\'tag\')').render() :
+        '<a target="_blank" href="javascript:onAction(\'new-tag:'+target.substring(4)+'\');">#'+target.substring(4)+' [create]</a>';
       html = html.replace('[['+target+']]',a);
     }
     else if (name == 'user') {
@@ -270,20 +290,54 @@ FItem.prototype.getHTML=function() {
    //html = converter.makeHtml(this.json.markdown);
    //console.log('using showdown\n\n'+html);
    html = this.addLinks(html);
-   html += '<div class="wiki-name-div"><i>wiki-name:</i> <span class="wiki-name-span">'+this.json.wiki_name+'</span></div>';
    return html;
 };
 
+FItem.prototype.getAttrsHTML=function() {
+  var html = '<br/><div class="wiki-name-div"><i>item-id:</i> <span class="wiki-name-span">'+this.json.item_id+'</span></div>';
+  var attrs = this.json.attrs_text;
+  if (attrs) {
+    var j = -1;
+    for (;;) {
+      var i = (j == -1) ? attrs.indexOf('[[') : attrs.indexOf('[[',j);
+      if (i == -1) break;
+      var j = attrs.indexOf(']]',i);
+      if (j == -1) break;
+      var attr = attrs.substring(i+2,j);
+      var k = attr.indexOf(':');
+      html += ' <div class="wiki-name-div"><i>'+attr.substring(0,k)+':</i> <span class="wiki-name-span">'+attr.substring(k+1)+'</span></div>';;
+    }
+  }
+  return html;
+};
+
 FItem.addComment=function(name,markdown,cb) {
-  ajax('https://yangw-2.appspot.com/v4/?op=add_comment&wiki_name='+name+'&markdown='+encodeURIComponent(markdown),function(jsonStr) {
-    cb(JSON.parse(jsonStr).wiki_name);
+  ajax('https://yangw-2.appspot.com/v4/?op=add_comment&attrs=[[parent:'+name+']]&markdown='+encodeURIComponent(markdown),function(jsonStr) {
+    cb(JSON.parse(jsonStr).item_id);
   });
 };
 
-FItem.addChild=function(name,name_attr,markdown,cb) {
-  ajax('https://yangw-2.appspot.com/v4/?op=add_child&wiki_name='+name+'&name_attr='+name_attr+'&markdown='+encodeURIComponent(markdown),function(jsonStr) {
-    cb(JSON.parse(jsonStr).wiki_name);
+FItem.addChild=function(parent_id,name_attr,markdown,cb) {
+  ajax('https://yangw-2.appspot.com/v4/?op=add_child&parent_id='+parent_id+'&name_attr='+name_attr+'&markdown='+encodeURIComponent(markdown),function(jsonStr) {
+    cb(JSON.parse(jsonStr).item_id);
   });
+};
+
+FItem.addTag=function(name_attr,markdown,cb) {
+  ajax('https://yangw-2.appspot.com/v4/?op=add_tag&attrs=[[name:'+name_attr+']]&markdown='+encodeURIComponent(markdown),function(json) {
+    cb(json.item_id);
+  },true);
+};
+
+FItem.addPage=function(item_id,name_attr,markdown,cb) {
+  var url = 'https://yangw-2.appspot.com/v4/?op=new_item';
+  url += '&item_type=Page';
+  if (item_id) url += '&item_id='+item_id;
+  url += '&name_attr='+name_attr;
+  url += '&markdown='+encodeURIComponent(markdown);
+  ajax(url,function(json) {
+    cb(json.item_id);
+  },true);
 };
 
 FItem.getRecent=function(cb) {
@@ -292,11 +346,12 @@ FItem.getRecent=function(cb) {
   });
 };
 
-FItem.getLinkedItems=function(wikiName,attrType,cb) {
-  ajax('https://yangw-2.appspot.com/v4/?op=get_linked_items&wiki_name='+wikiName+'&attr_type='+attrType,function(jsonStr) {
+FItem.getLinkedItems=function(fromItemType,attrType,toItemId,cb) {
+  var url = 'https://yangw-2.appspot.com/v4/?op=get_linked_items&item_id='+toItemId;
+  if (fromItemType) url += '&from_item_type='+fromItemType;
+  url += '&attr_type='+attrType;
+  ajax(url,function(jsonStr) {
     cb(JSON.parse(jsonStr));
   });
 };
 
-
-              

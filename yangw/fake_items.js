@@ -1,10 +1,10 @@
 var _itemTitles = ['An Introduction to Items',
               'Everything you wanted to know about items but were afraid to ask',
               'Well Known Item Types'];
-              
-              
-              
-              
+
+
+
+
 function ajax(url,cb,checkJson) {
   console.log('AJAX make request url='+url);
   var xhr = new XMLHttpRequest();
@@ -19,7 +19,7 @@ function ajax(url,cb,checkJson) {
   		      if (!json.ok)
   		        console.log('AJAX got msg "'+json.msg+'"');
   		      else {
-  		        console.log('AJAX got response');
+  		        console.log('AJAX got a response');
   		    	  cb(json);
   		      }
   		    } catch (ex) {
@@ -89,11 +89,11 @@ AttrLink.prototype.render=function() {
   s += '<div class="attr-link">';
   // use flex layout for a set of divs
   s += '<div class="attr-link-container">';
- 
+
   var styles = this.background ? 'background:'+this.background : null;
   if (this.imageUrl)
     s += this.newDivStr(styles,'img-circle')+'<img class="img-circle" src="'+this.imageUrl+'" /></div>';
-  
+
   if (this.left) s += this.newDivStr(styles)+'<a href="javascript:'+this.left.action+';">'+this.left.label+'</a></div>';
   if (this.left && this.right) s += this.newDivStr(styles,'divider')+'</div>';
   if (this.right) s += this.newDivStr(styles)+'<a href="javascript:'+this.right.action+';">'+this.right.label+'</a></div>';
@@ -238,7 +238,7 @@ FItem.prototype.getUserHTML=function(user,readOnly) {
   if (!readOnly) link.setRight('+','showOptions(\'user\')'); else link.setBackground('white');
   return link.render();
 };
-  
+
 FItem.prototype.addLinks=function(html) {
   if (!html) return null;
   var i = 0;
@@ -294,7 +294,7 @@ FItem.prototype.getHTML=function() {
 };
 
 FItem.prototype.getAttrsHTML=function() {
-  var html = '<br/><div class="wiki-name-div"><i>item-id:</i> <span class="wiki-name-span">'+this.json.item_id+'</span></div>';
+  var html = '<br/><div class="wiki-name-div"><i>id:</i> <span class="wiki-name-span">'+this.json.item_id+'</span></div>';
   var attrs = this.json.attrs_text;
   if (attrs) {
     var j = -1;
@@ -305,7 +305,16 @@ FItem.prototype.getAttrsHTML=function() {
       if (j == -1) break;
       var attr = attrs.substring(i+2,j);
       var k = attr.indexOf(':');
-      html += ' <div class="wiki-name-div"><i>'+attr.substring(0,k)+':</i> <span class="wiki-name-span">'+attr.substring(k+1)+'</span></div>';;
+      var name = attr.substring(0,k);
+      var val = attr.substring(k+1);
+      if (name != 'name') {
+        if (name == 'parent') {
+            html += ' <div class="wiki-name-div"><i>'+name+':</i> <a href="javascript:showNextPage(\''+val+'\');"<span class="wiki-name-span">'+val+'</span></a></div>';
+        }
+        else {
+          html += ' <div class="wiki-name-div"><i>'+name+':</i> <span class="wiki-name-span">'+val+'</span></div>';
+        }
+      }
     }
   }
   return html;
@@ -354,4 +363,3 @@ FItem.getLinkedItems=function(fromItemType,attrType,toItemId,cb) {
     cb(JSON.parse(jsonStr));
   });
 };
-

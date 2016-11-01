@@ -281,10 +281,14 @@ FItem.prototype.addLinks=function(html) {
 };
 
 FItem.prototype.getHTML=function() {
-   var renderer = new marked.Renderer();
-   // do not convert links
-   renderer.link = function(href, title, text) { return href; };
-   var html = marked(this.json.markdown,{ renderer: renderer });
+   var html = '';
+   var md = this.json.markdown;
+   if (md) {
+     var renderer = new marked.Renderer();
+     // do not convert links
+     renderer.link = function(href, title, text) { return href; };
+     html += marked(md,{ renderer: renderer });
+   }
    //console.log('using marked\n\n'+html);
    //var converter = new showdown.Converter();
    //html = converter.makeHtml(this.json.markdown);
@@ -304,12 +308,18 @@ FItem.prototype.getAttrsHTML=function() {
       var j = attrs.indexOf(']]',i);
       if (j == -1) break;
       var attr = attrs.substring(i+2,j);
+
+      var details = this.json.markdown_inline_values[attr];
+      if (details) {
+        console.log('found details for [['+attr+']]\n'+JSON.stringify(details));
+      }
+
       var k = attr.indexOf(':');
       var name = attr.substring(0,k);
       var val = attr.substring(k+1);
       if (name != 'name') {
         if (name == 'parent') {
-            html += ' <div class="wiki-name-div"><i>'+name+':</i> <a href="javascript:showNextPage(\''+val+'\');"<span class="wiki-name-span">'+val+'</span></a></div>';
+          html += ' <div class="wiki-name-div"><i>'+name+':</i> <a href="javascript:showNextPage(\''+val+'\');"<span class="wiki-name-span">'+val+'</span></a></div>';
         }
         else {
           html += ' <div class="wiki-name-div"><i>'+name+':</i> <span class="wiki-name-span">'+val+'</span></div>';
@@ -327,7 +337,7 @@ FItem.addComment=function(name,markdown,cb) {
 };
 
 FItem.addChild=function(parent_id,name_attr,markdown,cb) {
-  ajax('https://yangw-2.appspot.com/v4/?op=add_child&parent_id='+parent_id+'&name_attr='+name_attr+'&markdown='+encodeURIComponent(markdown),function(jsonStr) {
+  ajax('https://yangw-2.appspot.com/v4/?op=add_page&attrs=[[parent:'+parent_id+']][[name:'+name_attr+']]&markdown='+encodeURIComponent(markdown),function(jsonStr) {
     cb(JSON.parse(jsonStr).item_id);
   });
 };
@@ -342,7 +352,7 @@ FItem.addPage=function(item_id,name_attr,markdown,cb) {
   var url = 'https://yangw-2.appspot.com/v4/?op=new_item';
   url += '&item_type=Page';
   if (item_id) url += '&item_id='+item_id;
-  url += '&name_attr='+name_attr;
+  url += '&attrs=[[name:'+name_attr+']]';
   url += '&markdown='+encodeURIComponent(markdown);
   ajax(url,function(json) {
     cb(json.item_id);

@@ -12,6 +12,11 @@ body {
    color: #00695c;
 }
 
+div.item-markdown {
+  max-height: 52px;
+  overflow: hidden;
+}
+
 img {
   max-width: 100%;
   height: auto;
@@ -23,7 +28,7 @@ div#show-item-content {
 
 #edit-item-content {
   border: solid 1px red;
-  
+
 }
 
 #edit-item-header {
@@ -35,6 +40,34 @@ div#show-item-content {
 
 #item-title-div, #item-types-div {
   position: relative;
+}
+
+#item-title-div .left-content {
+  border: solid 1px green;
+  width: 90%;
+}
+
+.right-control {
+  color:gray;
+  background:rgba(255,255,255,0.6);
+  -webkit-border-radius:24px;
+  position:absolute;
+  right:0px;
+  top:0px;
+  cursor:pointer;
+}
+
+#item-title-div .right-controls {
+  border: solid 1px green;
+  width: 10%;
+}
+
+#item-title-div .left {
+  float:none;
+}
+
+#item-title-div .right {
+  float:none;
 }
 
 div.show-item-footer {
@@ -233,7 +266,7 @@ div.attr-link-container div {
   padding-right: 8px;
   height: 36px;
   line-height: 36px;
- 
+
 }
 
 div.attr-link-container div.img-circle {
@@ -264,7 +297,7 @@ a.external-link:after, a.external-link:after {
   content: url(http://upload.wikimedia.org/wikipedia/commons/6/64/Icon_External_Link.png);
   margin: 0 0 0 3px;
 }
-  
+
 .body-content {
   height: 200px;
   overflow: hidden;
@@ -298,6 +331,10 @@ textarea#edit-item-markdown, textarea#edit-body-content, input#edit-item-name, i
   font-size: 1.0em;
   line-height: 1.4em;
   outline: none;
+}
+
+textarea#edit-item-markdown {
+  border: solid 1px white;
 }
 
 input#edit-item-wiki-name {

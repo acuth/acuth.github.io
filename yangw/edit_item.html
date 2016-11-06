@@ -46,7 +46,11 @@
 			    _awac.openPage('edit-markdown','edit_markdown.html',{'markdown':_fitem.json.markdown});
 				else if ('edit:title' == action) {
 					$('#item-title-div').find('.item-title').find('.right-control').remove();
-					var t = $('#item-title-div').find('.item-title');//.find('.title-edit-div');
+					var t = $('#item-title-div').find('.item-title');
+					var ph = t.find('.title-placeholder');
+					if (ph) {
+						ph.remove();
+					}
 					t.attr('contenteditable',true).focus();
 					placeCaretAtEnd(t.get(0));
 				}
@@ -71,19 +75,6 @@
           span.html('<i class="material-icons">'+action+'</i>');
           span.on('click',function(){onAction(action+':'+name);});
           return span;
-			}
-
-			function appendEditControls2(c,name,actions) {
-			  if (actions)
-          for (var i=0;i<actions.length;i++)
-            getActionSpan(name,actions[i]).appendTo(c);
-			}
-
-			function getEditControl1(icon_name,action) {
-				var div = newDiv('padded-container right-control');
-				div.html('<i class="material-icons">'+icon_name+'</i>');
-				div.on('click',function(){ console.log(action); onAction(action); });
-				return div;
 			}
 
 			function getEditControl(iconName,action) {
@@ -114,15 +105,6 @@
 			  c.html(html);
 			}
 
-			function appendClearBoth(c) {
-			    var d = newDiv();
-			    d.css('clear','both');
-			    //d.html('-clear-both-');
-			    d.appendTo(c);
-			}
-
-
-
 			function renderItem(fitem) {
 			   console.log('edit_item.renderItem()');
 			   console.log(JSON.stringify(fitem));
@@ -132,36 +114,27 @@
 
 			    var titleDiv = $('#item-title-div');
 			    titleDiv.html('');
-					//var h = '<div class="title-edit-div">'+fitem.json.name_attr+'</div>';
-			    var t = newDiv('padded-container item-title').html(fitem.json.name_attr);
-					getEditControl('edit','edit:title').appendTo(t);
+					var icon = 'add';
+					var title = '<span class="title-placeholder">add a title</span>';
+					if (fitem.json.name_attr) {
+						title = fitem.json.name_attr;
+						icon = 'edit';
+					}
+			    var t = newDiv('padded-container item-title').html(title);
+					getEditControl(icon,'edit:title').appendTo(t);
 					t.appendTo(titleDiv);
 
 			    var typesDiv = $('#item-types-div');
 			    typesDiv.html('');
-			    t = newDiv('left-content left');
-			    newDiv('padded-container').css('display','flex').html('<div class="item-type"><i class="material-icons">'+iname+'</i></div>'+
-
-			                '<div class="padded-container">'+fitem.json.item_type_name+'</div>').appendTo(t);
-			    t.appendTo(typesDiv);
-			    c = newDiv('right-controls edit-controls right');
-			    p = newDiv('padded-container');
-			    appendEditControls2(p,'type',['info']);
-			    p.appendTo(c);
-			    c.appendTo(typesDiv);
-			    appendClearBoth(typesDiv);
+					t = newDiv('padded-container').css('display','flex').html('<div class="item-type"><i class="material-icons">'+iname+'</i></div>');
+					getEditControl('edit','edit:type').appendTo(t);
+					t.appendTo(typesDiv);
 
 			    var markdownDiv = $('#item-markdown-div');
 			    markdownDiv.html('');
-			    t = newDiv('left-content left');
-			    newDiv('padded-container').html('<div class="item-markdown">'+fitem.json.markdown+'</div>').appendTo(t);
+			    t = newDiv('padded-container item-markdown').css('position','relative').html(fitem.json.markdown);
+					getEditControl('edit','edit:markdown').appendTo(t);
 			    t.appendTo(markdownDiv);
-			    c = newDiv('right-controls edit-controls right');
-			    p = newDiv('padded-container');
-			    appendEditControls2(p,'markdown',['edit']);
-			    p.appendTo(c);
-			    c.appendTo(markdownDiv);
-			    appendClearBoth(markdownDiv);
 
 			    startPage();
 

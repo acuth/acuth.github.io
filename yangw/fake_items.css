@@ -49,12 +49,17 @@ div#show-item-content {
 
 .right-control {
   color2:gray;
-  background2:rgba(255,255,255,0.6);
+  background:rgba(255,255,255,0.6);
   -webkit-border-radius2:24px;
   position:absolute;
   right:0px;
   top:0px;
   cursor2:pointer;
+}
+
+.title-placeholder {
+  color: #aaa;
+  font-style: italic;
 }
 
 #item-title-div .right-controls {
@@ -92,7 +97,8 @@ div.show-item-footer {
 }
 
 #item-title, .item-title {
-  font-size: 1.6em;
+  font-size: 2.0em;
+  line-height: 2.0em;
   color: #F57C00;
 }
 

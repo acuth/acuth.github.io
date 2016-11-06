@@ -26,11 +26,6 @@ div#show-item-content {
   width: 100%;
 }
 
-#edit-item-content {
-  border: solid 1px red;
-
-}
-
 #edit-item-header {
    position: absolute;
    top: 0px;
@@ -98,7 +93,7 @@ div.show-item-footer {
 
 #item-title, .item-title {
   font-size: 2.0em;
-  line-height: 2.0em;
+  line-height2: 2.0em;
   color: #F57C00;
 }
 

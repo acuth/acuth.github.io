@@ -234,9 +234,13 @@ FItem.prototype.getMDIcon=function() {
 
 FItem.prototype.getUserHTML=function(user,readOnly) {
   if (!user) return '';
-  var link = (new AttrLink()).setAttrType('user-link').setImageURL(user.image_url).setLeft(user.name_attr,'showNextPage(\''+user.item_id+'\')');
-  if (!readOnly) link.setRight('+','showOptions(\'user\')'); else link.setBackground('white');
-  return link.render();
+
+  var html = '<button type="button" class="mdl-chip mdl-chip--contact" onclick="showNextPage(\''+user.item_id+'\');">';
+  html += '<img class="mdl-chip__contact" src="'+user.image_url+'"></img>';
+  html += '<span class="mdl-chip__text">'+user.name_attr+'</span>';
+  html += '</button>';
+
+  return html;
 };
 
 FItem.prototype.addLinks=function(html) {

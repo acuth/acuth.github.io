@@ -15,6 +15,11 @@
 			var _awac = null;
 			var _fitem = null;
 
+			function startPage() {
+				var styleUrl = 'https://code.getmdl.io/1.1.1/material.orange-indigo.min.css';
+				_awac.startMdlPage('toplevel',styleUrl);
+			}
+
 			function placeCaretAtEnd(el) {
 			    if (typeof window.getSelection != "undefined"
 			            && typeof document.createRange != "undefined") {
@@ -130,13 +135,7 @@
 					//var h = '<div class="title-edit-div">'+fitem.json.name_attr+'</div>';
 			    var t = newDiv('padded-container item-title').html(fitem.json.name_attr);
 					getEditControl('edit','edit:title').appendTo(t);
-
-					//var tdiv = t.get();
-					//console.log('found '+tdiv);
-					//componentHandler.upgradeElement(tdiv);
-
 					t.appendTo(titleDiv);
-					//componentHandler.upgradeDom();
 
 			    var typesDiv = $('#item-types-div');
 			    typesDiv.html('');
@@ -164,11 +163,7 @@
 			    c.appendTo(markdownDiv);
 			    appendClearBoth(markdownDiv);
 
-			    //$('#edit-body-content').text(fitem.json.markdown).prop('readonly', true);
-			    //$('#edit-body-content-control').click(function(event) { onAction('edit-markdown'); });
-			    //_awac.startPage();
-					var styleUrl = 'https://code.getmdl.io/1.1.1/material.blue-green.min.css';
-					_awac.startMdlPage('toplevel',styleUrl);
+			    startPage();
 
 			    _fitem = fitem;
 			    setTimeout(fixEditLayout,60);

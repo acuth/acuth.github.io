@@ -243,6 +243,23 @@ FItem.prototype.getUserHTML=function(user,readOnly) {
   return html;
 };
 
+FItem.prototype.getTagHTML=function(tag) {
+  if (!tag) return '';
+
+  console.log('getTagHTML() tag='+JSON.stringify(tag));
+
+  var html = '<span class="mdl-chip mdl-chip--contact mdl-chip--deletable">';
+  html += '<span class="mdl-chip__contact mdl-color--gray mdl-color-text--dark-orange">';
+  html += '<i style="color:teal;font-size:18px;line-height:32px;" class="material-icons">label_outline</i>';
+  html += '</span>';
+  html += '<span class="mdl-chip__text">'+tag.name_attr+'</span>';
+  html += '<a onclick="showNextPage(\''+tag.item_id+'\');" class="mdl-chip__action"><i class="material-icons">add</i></a>';
+  html += '</span>';
+
+  return html;
+};
+
+
 FItem.prototype.addLinks=function(html) {
   if (!html) return null;
   var i = 0;
@@ -267,9 +284,9 @@ FItem.prototype.addLinks=function(html) {
       html = html.replace('[['+target+']]','<a target="_blank" class="external-link" href="'+target+'">'+target+'</a>');
     }
     else if (name == 'tag') {
-      var a = inline.item_id ? (new AttrLink()).setLeft(inline.name_attr,'showNextPage(\''+inline.item_id+'\')').setRight('+','showOptions(\'tag\')').render() :
-        '<a target="_blank" href="javascript:onAction(\'new-tag:'+target.substring(4)+'\');">#'+target.substring(4)+' [create]</a>';
-      html = html.replace('[['+target+']]',a);
+      //var a = inline.item_id ? (new AttrLink()).setLeft(inline.name_attr,'showNextPage(\''+inline.item_id+'\')').setRight('+','showOptions(\'tag\')').render() :
+      //  '<a target="_blank" href="javascript:onAction(\'new-tag:'+target.substring(4)+'\');">#'+target.substring(4)+' [create]</a>';
+      html = html.replace('[['+target+']]',this.getTagHTML(inline));
     }
     else if (name == 'user') {
       html = html.replace('[['+target+']]',this.getUserHTML(inline,false));

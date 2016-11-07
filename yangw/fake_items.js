@@ -246,14 +246,20 @@ FItem.prototype.getUserHTML=function(user,readOnly) {
 FItem.prototype.getTagHTML=function(tag) {
   if (!tag) return '';
 
-  console.log('getTagHTML() tag='+JSON.stringify(tag));
-
   var html = '<span class="mdl-chip mdl-chip--contact mdl-chip--deletable">';
   html += '<span class="mdl-chip__contact mdl-color--gray mdl-color-text--dark-orange">';
   html += '<i style="color:teal;font-size:18px;line-height:32px;" class="material-icons">label_outline</i>';
   html += '</span>';
   html += '<span class="mdl-chip__text">'+tag.name_attr+'</span>';
   html += '<a onclick="showNextPage(\''+tag.item_id+'\');" class="mdl-chip__action"><i class="material-icons">add</i></a>';
+  html += '</span>';
+
+  html = '<span class="mdl-chip mdl-chip--deletable">';
+  //html += '<span class="mdl-chip__contact mdl-color--gray mdl-color-text--dark-orange">';
+  //html += '<i style="color:teal;font-size:18px;line-height:32px;" class="material-icons">label_outline</i>';
+  //html += '</span>';
+  html += '<span class="mdl-chip__text">'+tag.name_attr+'</span>';
+  html += '<a onclick="showNextPage(\''+tag.item_id+'\');" class="mdl-chip__action mdl-color-text--teal"><i class="material-icons">label_outline</i></a>';
   html += '</span>';
 
   return html;

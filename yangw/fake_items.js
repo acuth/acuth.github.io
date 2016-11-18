@@ -231,29 +231,53 @@ FItem.prototype.getMDIcon=function() {
 	return iname;
 };
 
+function needToCreate() {
+  _awac.alert('Need to create');
+}
 
-FItem.prototype.getUserHTML=function(user,readOnly) {
+FItem.getChipHTML=function(onclick,text,imgUrl,icon,color) {
+    var html = '<button type="button" class="mdl-chip mdl-chip--contact" onclick="'+onclick+'">';
+    if (imgUrl)
+      html += '<img class="mdl-chip__contact" src="'+imgUrl+'"></img>';
+    if (icon)
+      html += '<span class="mdl-chip__contact mdl-color--gray mdl-color-text--dark-orange" style="margin-right:0px;"><i style="color:'+color+';font-size:18px;line-height:32px;" class="material-icons">'+icon+'</i></span>';
+    html += '<span class="mdl-chip__text">'+text+'</span>';
+    html += '</button>';
+    return html;
+};
+
+FItem.prototype.getUserHTML=function(target,user) {
   if (!user) return '';
 
-  var html = '<button type="button" class="mdl-chip mdl-chip--contact" onclick="showNextPage(\''+user.item_id+'\');">';
-  html += '<img class="mdl-chip__contact" src="'+user.image_url+'"></img>';
-  html += '<span class="mdl-chip__text">'+user.name_attr+'</span>';
-  html += '</button>';
-
-  return html;
+  if (user.item_id) {
+    return FItem.getChipHTML('showNextPage(\''+user.item_id+'\');',user.name_attr,user.image_url,null,null);
+  }
+  else {
+    var onclick = 'needToCreate();';
+    return FItem.getChipHTML(onclick,target.substring(5),null,'person','red');
+  }
 };
 
-FItem.prototype.getTagHTML=function(tag) {
+FItem.prototype.getTagHTML=function(target,tag) {
   if (!tag) return '';
 
-  var html = '<button type="button" class="mdl-chip mdl-chip--contact" onclick="showNextPage(\''+tag.item_id+'\');">';
-  html += '<span class="mdl-chip__contact mdl-color--gray mdl-color-text--dark-orange" style="margin-right:0px;"><i style="color:teal;font-size:18px;line-height:32px;" class="material-icons">label_outline</i></span>';
-  html += '<span class="mdl-chip__text">'+tag.name_attr+'</span>';
-  html += '</button>';
-
-  return html;
+  if (tag.item_id) {
+    return FItem.getChipHTML('showNextPage(\''+tag.item_id+'\');',tag.name_attr,null,'label_outline','teal');
+  }
+  else {
+    var onclick = 'needToCreate();';
+    return FItem.getChipHTML(onclick,target.substring(4),null,'label_outline','red');
+  }
 };
 
+FItem.prototype.getRefHTML=function(target,inline) {
+    if (inline.item_id) {
+      return '<a class="internal-link" href="javascript:showNextPage(\''+inline.item_id+'\');">'+inline.name_attr+'</a>';
+    }
+
+    var onclick = 'onAction(\'new-page:'+target.substring(4)+'\');';
+    return FItem.getChipHTML(onclick,target.substring(4),null,'subject','red');
+}
 
 FItem.prototype.addLinks=function(html) {
   if (!html) return null;
@@ -267,25 +291,18 @@ FItem.prototype.addLinks=function(html) {
     var target = this.json.markdown.substring(i+2,j);
     var name = target.substring(0,target.indexOf(':'));
     var inline = this.json.markdown_inline_values[target];
-    if (name == 'ref') {
-      var a = inline.item_id ? '<a class="internal-link" href="javascript:showNextPage(\''+inline.item_id+'\');">'+inline.name_attr+'</a>' :
-        '<a target="_blank" href="javascript:onAction(\'new-page:'+target.substring(4)+'\');">'+target.substring(4)+' [create]</a>';
-      html = html.replace('[['+target+']]',a);
-    }
-    else if (name == 'parent') {
+
+    if (name == 'ref')
+      html = html.replace('[['+target+']]',this.getRefHTML(target,inline));
+    else if (name == 'parent')
       html = html.replace('[['+target+']]','<div class="parent-div"><i>parent:</i> <a class="internal-link" href="javascript:showNextPage(\''+inline.item_id+'\');">'+inline.name_attr+'</a></div>');
-    }
-    else if (name == 'http' || name == 'https') {
+    else if (name == 'http' || name == 'https')
       html = html.replace('[['+target+']]','<a target="_blank" class="external-link" href="'+target+'">'+target+'</a>');
-    }
-    else if (name == 'tag') {
-      //var a = inline.item_id ? (new AttrLink()).setLeft(inline.name_attr,'showNextPage(\''+inline.item_id+'\')').setRight('+','showOptions(\'tag\')').render() :
-      //  '<a target="_blank" href="javascript:onAction(\'new-tag:'+target.substring(4)+'\');">#'+target.substring(4)+' [create]</a>';
-      html = html.replace('[['+target+']]',this.getTagHTML(inline));
-    }
-    else if (name == 'user') {
-      html = html.replace('[['+target+']]',this.getUserHTML(inline,false));
-    }
+    else if (name == 'tag')
+      html = html.replace('[['+target+']]',this.getTagHTML(target,inline));
+    else if (name == 'user')
+      html = html.replace('[['+target+']]',this.getUserHTML(target,inline));
+      
     if (inline) {
       console.log(target+'='+JSON.stringify(inline));
     }

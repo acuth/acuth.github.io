@@ -314,7 +314,7 @@
 			  FItem.get(_itemId,function(fitem) {
 			    _fitem = fitem;
 			    var iname = fitem.getMDIcon();
-			    var a = fitem.getUserHTML(fitem.json.author,true);
+			    var a = fitem.getUserHTML(null,fitem.json.author,true);
 			    if (fitem.json.image_url) {
 			      $('#item-title-div').html(
 			        '<div class="img-container"><img src="'+fitem.json.image_url+'"/>'+

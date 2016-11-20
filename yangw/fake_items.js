@@ -153,7 +153,6 @@ FItemRow.prototype.getDiv=function(i,fn) {
   console.log('now='+now+' modify='+modify);
   var name = this.json.name_attr ? this.json.name_attr : this.json.item_id;
 
-
   var html = '<tr onclick="'+fn+'('+i+');">';
   html += '<td class="mdl-data-table__cell--non-numeric"><i class="material-icons mdl-color--white">'+iname+'</i></td>';
   html += '<td class="mdl-data-table__cell--non-numeric">'+name+'</td>';

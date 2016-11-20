@@ -7,6 +7,7 @@
 		<style type="text/css">
 		</style>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js" type="text/javascript"></script>
 		<script src="http://acuth.github.io/awac/awac.js" type="text/javascript"></script>
 		<script src="https://storage.googleapis.com/code.getmdl.io/1.2.1/material.min.js" type="text/javascript"></script>
 		<script src="fake_items.js" type="text/javascript"></script>
@@ -19,6 +20,27 @@
 				var styleUrl = 'https://code.getmdl.io/1.2.1/material.orange-indigo.min.css';
 				_awac.startMdlPage('toplevel',styleUrl);
 			}
+
+
+			function placeCaretAtEnd(el) {
+					if (typeof window.getSelection != "undefined"
+									&& typeof document.createRange != "undefined") {
+							var range = document.createRange();
+							range.selectNodeContents(el);
+							range.collapse(false);
+							var sel = window.getSelection();
+							sel.removeAllRanges();
+							sel.addRange(range);
+					} else if (typeof document.body.createTextRange != "undefined") {
+							var textRange = document.body.createTextRange();
+							textRange.moveToElementText(el);
+							textRange.collapse(false);
+							textRange.select();
+					}
+			}
+
+
+
 
 			function onAction(action) {
 			  if ('back' == action)
@@ -35,11 +57,8 @@
 			     }
 			     var item_id = null;
 			     if (_include_item_id) {
-			        item_id = $('#edit-item-id').val();
-			        if (!item_id) {
-			          _awac.alert('Need to supply an item-id');
-			          return;
-			        }
+						  _awac.alert('Need to supply an item-id');
+			        return;
 			     }
 			     var outp = null;
 			     if (_include_name || _include_item_id) {
@@ -53,7 +72,26 @@
 			     }
 			     _awac.endPage(outp);
 			  }
-			  else
+			  else if ('edit:title' == action) {
+					console.log('get rid of control');
+					var t = $('#display-item-title').find('.item-title');
+					t.find('.right-control').remove();
+
+					//t.remove();//html('Fred');
+					console.log('found t='+t);
+
+					var ph = t.find('.title-placeholder');
+					if (ph) {
+						console.log('Found placeholder so remove it');
+						ph.remove();
+					}
+					t.attr('contenteditable',true).focus();
+
+					placeCaretAtEnd(t.get(0));
+					componentHandler.upgradeDom();
+					console.log('add done');
+				}
+				else
 			    _awac.alert('action '+action+' NYI');
 			}
 
@@ -99,6 +137,17 @@ new function($) {
 			  return result;
 			}
 
+			function getEditControl(iconName,action) {
+				var div = document.createElement('div');
+				div.setAttribute('class','padded-container right-control');
+				var btn = document.createElement('button');
+				btn.setAttribute('class','mdl-button mdl-js-button mdl-button--icon');
+				btn.innerHTML = '<i class="material-icons mdl-color-text--blue-grey-400">'+iconName+'</i>';
+				btn.addEventListener('click',function() { onAction(action); });
+				div.appendChild(btn);
+				return $(div);
+			}
+
 			$(document).ready(function() {
 			  _awac = new Awac('_awac');
 			  var initp = _awac.getInitParam();
@@ -109,18 +158,30 @@ new function($) {
  			  _default_name = initp.name;
  			  _default_item_id = initp.item_id;
  			  if (_default_item_id && !_default_name) _default_name = extractDefaultName(_default_item_id);
-			  if (!_include_name) {
-			    $('#edit-item-name').hide();
-			  }
-			  else {
-			    if (_default_name) $('#edit-item-name').val(_default_name);
-			  }
-			  if (!_include_item_id) {
-			    $('#edit-item-id').hide();
-			  }
-			  else {
-			    if (_default_item_id) $('#edit-item-id').val(_default_item_id);
-			  }
+
+				var div = $('#display-item-title');
+			  if (_include_name) {
+					var name = _default_name;
+					var icon = 'edit';
+					if (!name) {
+						name = '<span class="title-placeholder">add a title</span>';
+						icon = 'add';
+					}
+					div.html('');
+					var t = $(document.createElement('div'));
+					t.addClass('padded-container item-title');
+					t.html(name);
+					getEditControl(icon,'edit:title').appendTo(t);
+					t.appendTo(div);
+				}
+				else
+					div.hide();
+
+				div = $('#display-item-id');
+			  if (_include_item_id && _default_item_id)
+					div.html('<div class="wiki-name-div"><i>id:</i> <span class="wiki-name-span">'+_default_item_id+'</span></div>');
+				else
+					div.hide();
 
 			  _awac.setOnAction(onAction);
 			  _awac.setOnBackPressed(function() { onAction('back'); });
@@ -141,13 +202,11 @@ new function($) {
 	</head>
 	<body>
 		<div id="toplevel" class="mdl-layout mdl-js-layout">
-
-	  <div class="padded-container">
-	  <input id="edit-item-name" type="text" placeholder="Page Title" />
-	  <input id="edit-item-id" type="text" placeholder="Page Id" />
-    <textarea id="edit-item-markdown" placeholder="Add a description/comment here..."></textarea>
-    </div>
-
-	</div> <!-- toplevel -->
+  	  <div id="display-item-title">item name goes here</div>
+	    <div class="padded-container">
+        <textarea id="edit-item-markdown" placeholder="Add a description/comment here..."></textarea>
+				<div id="display-item-id">item-id goes here</div>
+			</div>
+	  </div> <!-- toplevel -->
 	</body>
 </html>

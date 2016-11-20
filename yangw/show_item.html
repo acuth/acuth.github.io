@@ -35,6 +35,16 @@
 
 		    html += '<hr/>Date <input type="date"/><br/>Time <input type="time"/>';
 
+				html = '<table style="width:100%;" class="mdl-data-table mdl-js-data-table">';
+				html += '<tbody>';
+				html += '<tr onclick="_awac.alert(\'Fred\');"><td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td><td>25</td><td>$2.90</td></tr>';
+						html += '<tr><td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td><td>25</td><td>$2.90</td></tr>';
+								html += '<tr><td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td><td>25</td><td>$2.90</td></tr>';
+				html += '</tbody>';
+				html += '</table>';
+
+
+
 				document.getElementById('test-area').innerHTML = html;
 				componentHandler.upgradeDom();
 			}
@@ -167,12 +177,13 @@
 			  if (_fitem.json.item_type_name == 'Page') hdr = 'Child Pages';
 			  else if (_fitem.json.item_type_name == 'Tag') hdr = 'Tagged Items';
 			  _linkedItems = json;
-			  var html = '';
+			  var html = '<table style="width:100%;" class="mdl-data-table mdl-js-data-table"><tbody>';
 			  var found = false;
 			  for (var i=0;i<json.length;i++) {
 			    html += (new FItemRow(json[i])).getDiv(i,'selectLinked');
 			    found = true;
 			  }
+				html += '</tbody></table>';
 			  if (found)
 			    document.getElementById('linked-items').innerHTML = '<div class="padded-container"><h4>'+hdr+'</h4></div>'+html;
 			}
@@ -188,12 +199,13 @@
 			function onGetCommentItems(json) {
 			  var hdr = 'Comments';
 			  _commentItems = json;
-			  var html = '';
+			  var html = '<table style="width:100%;" class="mdl-data-table mdl-js-data-table"><tbody>';
 			  var found = false;
 			  for (var i=0;i<json.length;i++) {
 			    html += (new FItemRow(json[i])).getDiv(i,'selectComment');
 			    found = true;
 			  }
+				html += '</tbody></table>';
 			  if (found)
 			    document.getElementById('comment-items').innerHTML = '<div class="padded-container"><h4>'+hdr+'</h4></div>'+html;
 			}

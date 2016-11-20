@@ -151,7 +151,27 @@ FItemRow.prototype.getDiv=function(i,fn) {
   var modify = new Date(this.json.modify*1000);
   var now = (new Date()).getTime();
   console.log('now='+now+' modify='+modify);
-  var html = '<div class="item-row">';
+  var name = this.json.name_attr ? this.json.name_attr : this.json.item_id;
+
+
+  var html = '<tr onclick="'+fn+'('+i+');">';
+  html += '<td class="mdl-data-table__cell--non-numeric"><i class="material-icons mdl-color--white">'+iname+'</i></td>';
+  html += '<td class="mdl-data-table__cell--non-numeric">'+name+'</td>';
+  html += '<td class="mdl-data-table__cell--non-numeric">'+this.getElapsedTime(modify)+'</td>';
+  html += '</tr>';
+  return html;
+
+
+  html = '<div class="mdl-list__item" style="padding-top:0px;">';
+  html += '<span class="mdl-list__item-primary-content">';
+  html += '<i class="material-icons mdl-list__item-avatar mdl-color--red">'+iname+'</i>';
+  html += '<span>'+name+'</span>';
+  html += '</span>';
+    //<a class="mdl-list__item-secondary-action" href="#"><i class="material-icons">star</i></a>
+  html += '</div>';
+  if (true) return html;
+
+  html = '<div class="item-row">';
   html += '<div class="padded-container" style="display:flex;">';
   html += '<div><i class="material-icons">'+iname+'</i></div>';
   html += '<div class="spacer"></div>';
@@ -302,7 +322,7 @@ FItem.prototype.addLinks=function(html) {
       html = html.replace('[['+target+']]',this.getTagHTML(target,inline));
     else if (name == 'user')
       html = html.replace('[['+target+']]',this.getUserHTML(target,inline));
-      
+
     if (inline) {
       console.log(target+'='+JSON.stringify(inline));
     }
@@ -329,6 +349,8 @@ FItem.prototype.getHTML=function() {
    html = this.addLinks(html);
    return html;
 };
+
+
 
 FItem.prototype.getAttrsHTML=function() {
   var html = '<br/><div class="wiki-name-div"><i>id:</i> <span class="wiki-name-span">'+this.json.item_id+'</span></div>';

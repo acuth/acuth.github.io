@@ -11,6 +11,7 @@
 		<script src="https://acuth.github.io/awac/awac.js" type="text/javascript"></script>
 		<script src="https://storage.googleapis.com/code.getmdl.io/1.2.1/material.min.js" type="text/javascript"></script>
 		<script src="fake_items.js" type="text/javascript"></script>
+		<script src="edit.js" type="text/javascript"></script>
 		<script type="text/javascript">
 			var _awac = null;
 			var _fitem = null;
@@ -20,37 +21,13 @@
 				_awac.startMdlPage('toplevel',styleUrl);
 			}
 
-			function placeCaretAtEnd(el) {
-			    if (typeof window.getSelection != "undefined"
-			            && typeof document.createRange != "undefined") {
-			        var range = document.createRange();
-			        range.selectNodeContents(el);
-			        range.collapse(false);
-			        var sel = window.getSelection();
-			        sel.removeAllRanges();
-			        sel.addRange(range);
-			    } else if (typeof document.body.createTextRange != "undefined") {
-			        var textRange = document.body.createTextRange();
-			        textRange.moveToElementText(el);
-			        textRange.collapse(false);
-			        textRange.select();
-			    }
-			}
-
 			function onAction(action) {
 			  if ('back' == action)
 			    _awac.endPage();
 			  else if ('edit:markdown' == action)
 			    _awac.openPage('edit-markdown','edit_markdown.html',{'markdown':_fitem.json.markdown});
 				else if ('edit:title' == action) {
-					$('#item-title-div').find('.item-title').find('.right-control').remove();
-					var t = $('#item-title-div').find('.item-title');
-					var ph = t.find('.title-placeholder');
-					if (ph) {
-						ph.remove();
-					}
-					t.attr('contenteditable',true).focus();
-					placeCaretAtEnd(t.get(0));
+					editItemTitle();
 				}
 				else
 			    _awac.alert('action '+action+' NYI');
@@ -110,17 +87,7 @@
 				  console.log('iname='+iname);
 				  var a = fitem.getUserHTML(null,fitem.json.author,true);
 
-			    var titleDiv = $('#item-title-div');
-			    titleDiv.html('');
-					var icon = 'add';
-					var title = '<span class="title-placeholder">add a title</span>';
-					if (fitem.json.name_attr) {
-						title = fitem.json.name_attr;
-						icon = 'edit';
-					}
-			    var t = newDiv('padded-container item-title').html(title);
-					getEditControl(icon,'edit:title').appendTo(t);
-					t.appendTo(titleDiv);
+					showItemTitle(fitem.json.name_attr);
 
 			    var typesDiv = $('#item-types-div');
 			    typesDiv.html('');
@@ -145,11 +112,11 @@
 			  var fitem = new FItem(initp.json,true);
 			  console.log('got fitem='+fitem);
 
-			 var colors = _awac.getColors();
-			 if (colors) {
-			    $('#edit-item-header').css('background',colors.primary_dark);
-			    $('#item-title').css('color',colors.text_primary);
-			 }
+			 //var colors = _awac.getColors();
+			 //if (colors) {
+			//    $('#edit-item-header').css('background',colors.primary_dark);
+			//    $('#item-title').css('color',colors.text_primary);
+			 //}
 
 			  _awac.setOnAction(onAction);
 			  _awac.setOnBackPressed(function() { onAction('back'); });

@@ -335,15 +335,15 @@ textarea#edit-item-markdown, textarea#edit-body-content, input#edit-item-name, i
 }
 
 textarea#edit-item-markdown {
-  border: solid 1px white;
+  border: solid 1px blue;
+  height: 50%;
+  margin-top: 4px;
+  font-family: "Helvetica","Arial",sans-serif;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 input#edit-item-wiki-name {
-  margin-top: 4px;
-}
-
-textarea#edit-item-markdown {
-  height: 50%;
   margin-top: 4px;
 }
 

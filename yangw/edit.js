@@ -18,8 +18,12 @@ function placeCaretAtEnd(el) {
 function getItemTitle() {
   console.log('getTitleValeu()');
   var name = $('#item-title-div').find('.item-title').html();
-  var i = name.indexOf('<div ');
-  if (i != -1) name = name.substring(0,i);
+  var i = name.indexOf("<span ");
+  if (i == 0) name = null;
+  if (name) {
+    i = name.indexOf('<div ');
+    if (i != -1) name = name.substring(0,i);
+  }
   console.log(' - name='+name);
   return name;
 }

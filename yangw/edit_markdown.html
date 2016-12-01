@@ -10,7 +10,7 @@
   flex-wrap: nowrap;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-	background: #FFd5d5;
+	background2: #FFd5d5;
 }
 
 .hscroll::-webkit-scrollbar {
@@ -21,9 +21,7 @@
 
 .hitem {
 	flex: 0 0 auto;
-	padding: 10px;
-	color: gray;
-
+	padding: 4px;
 }
 		</style>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
@@ -179,13 +177,13 @@ new function($) {
 		<div id="toplevel" class="mdl-layout mdl-js-layout">
   	  <div id="item-title-div">-item-title-goes-here-</div>
 			<div class="hscroll">
-				<div class="hitem">Adrian</div>
-				<div class="hitem">Bruce</div>
-					<div class="hitem">Cuthbert</div>
-						<div class="hitem">Donald</div>
-							<div class="hitem">Emerald</div>
-								<div class="hitem">Forest</div>
-									<div class="hitem">Game of Thrones</div>
+				<div class="hitem"><span class="mdl-chip"><span class="mdl-chip__text">Adrian</span></span></div>
+				<div class="hitem"><span class="mdl-chip"><span class="mdl-chip__text">Bruce</span></span></div>
+				<div class="hitem"><span class="mdl-chip"><span class="mdl-chip__text">Cuthbert</span></span></div>
+				<div class="hitem"><span class="mdl-chip"><span class="mdl-chip__text">Donald</span></span></div>
+				<div class="hitem"><span class="mdl-chip"><span class="mdl-chip__text">Emerald</span></span></div>
+				<div class="hitem"><span class="mdl-chip"><span class="mdl-chip__text">Forest</span></span></div>
+				<div class="hitem"><span class="mdl-chip"><span class="mdl-chip__text">Game of Thrones</span></span></div>
 			</div>
 	    <div class="padded-container" style="background: #FFF4F4;">
         <textarea id="edit-item-markdown" placeholder="Add a description/comment here..."></textarea>

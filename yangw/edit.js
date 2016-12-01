@@ -15,6 +15,50 @@ function placeCaretAtEnd(el) {
     }
 }
 
+function insertAtCaret(jqTxtarea, text) {
+		if (!jqTxtarea) return;
+    var txtvalue = jqTxtarea.val();
+    console.log('txtvalue='+txtvalue);
+    var txtarea = jqTxtarea.get();
+    console.log('txtarea='+txtarea);
+
+		var scrollPos = txtarea.scrollTop;
+		var strPos = 0;
+		var br = ((txtarea.selectionStart || txtarea.selectionStart == '0') ?
+			"ff" : (document.selection ? "ie" : false ) );
+		if (br == "ie") {
+			txtarea.focus();
+			var range = document.selection.createRange();
+			range.moveStart ('character', -txtarea.value.length);
+			strPos = range.text.length;
+		} else if (br == "ff") {
+			strPos = txtarea.selectionStart;
+		}
+
+    console.log('txtarea='+txtarea.value);
+
+		var front = (txtvalue).substring(0, strPos);
+		var back = (txtvalue).substring(strPos, txtvalue.length);
+		txtvalue = front + text + back;
+		strPos = strPos + text.length;
+    jqTxtarea.val(txtvalue);
+
+		if (br == "ie") {
+			txtarea.focus();
+			var ieRange = document.selection.createRange();
+			ieRange.moveStart ('character', -txtvalue.length);
+			ieRange.moveStart ('character', strPos);
+			ieRange.moveEnd ('character', 0);
+			ieRange.select();
+		} else if (br == "ff") {
+			txtarea.selectionStart = strPos;
+			txtarea.selectionEnd = strPos;
+			txtarea.focus();
+		}
+
+		txtarea.scrollTop = scrollPos;
+	}
+
 function getItemTitle() {
   console.log('getTitleValeu()');
   var name = $('#item-title-div').find('.item-title').html();

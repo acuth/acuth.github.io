@@ -177,7 +177,24 @@ new function($) {
 		<div id="toplevel" class="mdl-layout mdl-js-layout">
   	  <div id="item-title-div">-item-title-goes-here-</div>
 			<div class="hscroll">
-				<div class="hitem"><span class="mdl-chip"><span class="mdl-chip__text">Adrian</span></span></div>
+				<div class="hitem">
+					<button type="button" class="mdl-chip mdl-chip--contact" onclick="onAction('add:ref');">
+						<span class="mdl-chip__contact mdl-color--gray mdl-color-text--dark-orange" style="margin-right:0px;"><i style="color:teal;font-size:18px;line-height:32px;" class="material-icons">link</i></span>
+						<span class="mdl-chip__text">ref</span>
+					</button>
+				</div>
+				<div class="hitem">
+					<button type="button" class="mdl-chip mdl-chip--contact" onclick="onAction('add:tag');">
+						<span class="mdl-chip__contact mdl-color--gray mdl-color-text--dark-orange" style="margin-right:0px;"><i style="color:teal;font-size:18px;line-height:32px;" class="material-icons">label_outline</i></span>
+						<span class="mdl-chip__text">tag</span>
+					</button>
+				</div>
+				<div class="hitem">
+					<button type="button" class="mdl-chip mdl-chip--contact" onclick="onAction('add:person');">
+						<span class="mdl-chip__contact mdl-color--gray mdl-color-text--dark-orange" style="margin-right:0px;"><i style="color:teal;font-size:18px;line-height:32px;" class="material-icons">person_outline</i></span>
+						<span class="mdl-chip__text">user</span>
+					</button>
+				</div>
 				<div class="hitem"><span class="mdl-chip"><span class="mdl-chip__text">Bruce</span></span></div>
 				<div class="hitem"><span class="mdl-chip"><span class="mdl-chip__text">Cuthbert</span></span></div>
 				<div class="hitem"><span class="mdl-chip"><span class="mdl-chip__text">Donald</span></span></div>

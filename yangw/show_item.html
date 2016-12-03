@@ -85,8 +85,11 @@
 
 			function onPageClose(tag,ok,result) {
 			  if (ok && result) {
-  			  if (tag == 'edit-comment-markdown') {
-	  		    FItem.addComment(_itemId,result,showNextPage);
+  			  if (tag == 'add-comment') {
+						if (result.markdown)
+	  		    	FItem.addComment(_itemId,result.markdown,showNextPage);
+						else
+							console.log('no markdown so did not create comment item');
 			    }
 			    else if (tag == 'edit-child-markdown') {
 	  		    FItem.addChild(_itemId,result.name_attr,result.markdown,showNextPage);
@@ -94,7 +97,7 @@
 			    else if (tag == 'new-tag-markdown') {
 	  		    FItem.addTag(result.name_attr,result.markdown,showNextPage);
 			    }
-			    else if (tag == 'new-page-markdown') {
+			    else if (tag == 'new-page') {
 	  		    FItem.addPage(result.item_id,result.name_attr,result.markdown,showNextPage);
 			    }
 			    else if (tag == 'recent') {
@@ -131,22 +134,27 @@
 			  });
 			}
 
+			// note that tagName may be empty
 			function doNewTag(tagName) {
-			  _awac.openPage('new-tag-markdown','edit_markdown.html',{include_name:true,name:tagName,markdown:''});
+			  _awac.openPage('new-tag-markdown','edit_name.html',{name:tagName});
 			}
 
 			function doNewPage(itemId) {
-				var includeItemId = false;
-				if (itemId) includeItemId = true;
-			  _awac.openPage('new-page-markdown','edit_markdown.html',{include_name:true,include_item_id:includeItemId,item_id:itemId,markdown:''});
+				var initp = {};
+				initp.show_markdown = true;
+				if (itemId) {
+					initp.show_item_id = true;
+					initp.item_id = itemId;
+				}
+			  _awac.openPage('new-page','edit_name.html',initp);
 			}
 
 			function doAddComment() {
-			  _awac.openPage('edit-comment-markdown','edit_markdown.html',{'include_name':false,'markdown':''});
+			  _awac.openPage('add-comment','edit_markdown.html',{'include_name':false,'markdown':''});
 			}
 
 			function doAddChild() {
-			  _awac.openPage('edit-child-markdown','edit_markdown.html',{'include_name':true,'markdown':''});
+			  _awac.openPage('edit-child-markdown','edit_name.html',{'show_markdown':true});
 			}
 
 			function showRecentItems() {

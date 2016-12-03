@@ -1,0 +1,121 @@
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+		<link type="text/css" rel="stylesheet" href="fake_items.css" />
+		<style type="text/css">
+
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js" type="text/javascript"></script>
+		<script src="http://acuth.github.io/awac/awac.js" type="text/javascript"></script>
+		<script src="https://storage.googleapis.com/code.getmdl.io/1.2.1/material.min.js" type="text/javascript"></script>
+		<script src="fake_items.js" type="text/javascript"></script>
+		<script src="edit.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			var _awac = null;
+			var _name = null;
+      var _markdown = null;
+      var _itemId = -1
+      var _include_item_id = false;
+
+			function startPage() {
+				var styleUrl = 'https://code.getmdl.io/1.2.1/material.orange-indigo.min.css';
+				_awac.startMdlPage('toplevel',styleUrl);
+			}
+
+			function onAction(action) {
+			  if ('back' == action) {
+			    _awac.endPage();
+        }
+			  else if ('save' == action) {
+             var outp = {};
+			       outp.name_attr = getItemTitle();
+						 if (!outp.name_attr) {
+						   _awac.alert('You need to supply a title');
+							 return;
+						 }
+             outp.markdown = _markdown;
+			       _awac.endPage(outp);
+			  }
+			  else if ('edit:title' == action) {
+					editItemTitle();
+					componentHandler.upgradeDom();
+				}
+        else if ('edit:markdown' == action) {
+          _awac.openPage('edit-new-item-markdown','edit_markdown.html',{'markdown':_markdown});
+        }
+				else
+			    _awac.alert('action '+action+' NYI');
+       }
+
+			function extractDefaultName(item_id) {
+			  var result = '';
+			  var addSpace = true;
+			  for (var i=0;i<item_id.length;i++) {
+			    var char = item_id.substring(i,i+1);
+			    if (i != 0 && char >= 'A' && char <= 'Z') result += ' ';
+			    result += char;
+			  }
+			  return result;
+			}
+
+      function onPageClose(tag,ok,result) {
+        console.log('got result from '+tag+' ok='+ok+' result='+JSON.stringify(result));
+        if (tag == 'edit-new-item-markdown') {
+            if (ok && result) {
+              _markdown = result.markdown;
+              showItemMarkdown(_markdown);
+            }
+        }
+        else {
+          console.log('got result from '+tag+' ok='+ok+' result='+result);
+        }
+      }
+
+			$(document).ready(function() {
+			  _awac = new Awac('_awac');
+			  var initp = _awac.getInitParam();
+ 			  _include_item_id = initp.show_item_id;
+ 			  _name = initp.name;
+        _markdown = initp.markdown;
+ 			  _item_id = initp.item_id;
+ 			  if (_item_id && !_name) _name = extractDefaultName(_item_id);
+				showItemTitle(_name);
+
+        // for the moment we don't have markdown
+        var div = $('#item-markdown-div');
+        if (initp.show_markdown) {
+          showItemMarkdown(_markdown);
+        }
+        else
+          div.hide();
+
+				div = $('#display-item-id');
+			  if (_include_item_id && _item_id)
+					div.html('<div class="wiki-name-div"><i>id:</i> <span class="wiki-name-span">'+_item_id+'</span></div>');
+				else
+					div.hide();
+
+        _awac.setOnPageClose(onPageClose);
+			  _awac.setOnAction(onAction);
+			  _awac.setOnBackPressed(function() { onAction('back'); });
+			  _awac.setHomeItem({'label':'Back','icon':'close','action':'back'});
+			  _awac.addActionBarItem({'label':'SAVE','action':'save'});
+
+				console.log('starting page');
+	  		startPage();
+			});
+			</script>
+	</head>
+	<body>
+		<div id="toplevel" class="mdl-layout mdl-js-layout">
+  	  <div id="item-title-div">-item-title-goes-here-</div>
+      <div id="item-markdown-div">-item-markdown-goes-here-</div>
+			<div class="padded-container">
+				<div id="display-item-id">item-id goes here</div>
+			</div>
+	  </div> <!-- toplevel -->
+	</body>
+</html>

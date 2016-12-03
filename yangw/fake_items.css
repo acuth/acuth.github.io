@@ -33,11 +33,17 @@ div#show-item-content {
    width: 100%;
 }
 
-#item-title-div {
+#item-title-div, #item-markdown-div {
   /* required because want to position edit control using absolute */
   position: relative;
   /* border: solid 1px green; */
   /* margin-bottom: 4px; */
+}
+
+.item-markdown {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .item-title {
@@ -68,7 +74,7 @@ div#show-item-content {
   cursor2:pointer;
 }
 
-.title-placeholder {
+.title-placeholder, .markdown-placeholder  {
   color: #aaa;
   font-style: italic;
 }
@@ -337,7 +343,7 @@ textarea#edit-body-content, input#edit-item-name, input#edit-item-wiki-name {
 }
 
 textarea#edit-item-markdown {
-  background: #FFF4F4;
+  background2: #FFF4F4;
   color: black;
   width: 100%;
   height: 50%;

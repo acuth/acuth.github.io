@@ -15,6 +15,8 @@
 		<script type="text/javascript">
 			var _awac = null;
 			var _fitem = null;
+			var _markdown = null;
+			var _title = null;
 
 			function startPage() {
 				var styleUrl = 'https://code.getmdl.io/1.2.1/material.orange-indigo.min.css';
@@ -25,7 +27,7 @@
 			  if ('back' == action)
 			    _awac.endPage();
 			  else if ('edit:markdown' == action)
-			    _awac.openPage('edit-markdown','edit_markdown.html',{'markdown':_fitem.json.markdown});
+			    _awac.openPage('edit-item-markdown','edit_markdown.html',{'markdown':_markdown});
 				else if ('edit:title' == action) {
 					editItemTitle();
 				}
@@ -52,21 +54,13 @@
           return span;
 			}
 
-			function fixEditLayout() {
-			  var header = $('#edit-item-header');
-			  var content = $('#edit-item-content');
-			  var top = header.height()+'px';
-			  var height = (_awac.getDims().height-header.height())+'px';
-			  console.log('top '+top);
-			  console.log('height '+height);
-			  content.show().css('top',top).css('height',height);
-			}
-
 			function appendEditControls(c) {
 			  var html = '<span class="edit-control-span"><i class="material-icons">delete</i></span>' +
 			    '<span class="edit-control-span"><i class="material-icons">edit</i></span>';
 			  c.html(html);
 			}
+
+
 
 			function renderItem(fitem) {
 			   console.log('edit_item.renderItem()');
@@ -75,7 +69,10 @@
 				  console.log('iname='+iname);
 				  var a = fitem.getUserHTML(null,fitem.json.author,true);
 
-					showItemTitle(fitem.json.name_attr);
+					_markdown = fitem.json.markdown;
+					_title = fitem.json.name_attr;
+
+					showItemTitle(_title);
 
 			    var typesDiv = $('#item-types-div');
 			    typesDiv.html('');
@@ -83,15 +80,19 @@
 					getEditControl('edit','edit:type').appendTo(t);
 					t.appendTo(typesDiv);
 
-			    var markdownDiv = $('#item-markdown-div');
-			    markdownDiv.html('');
-			    t = newDiv('padded-container item-markdown').css('position','relative').html(fitem.json.markdown);
-					getEditControl('edit','edit:markdown').appendTo(t);
-			    t.appendTo(markdownDiv);
+			    showItemMarkdown(_markdown);
+			}
 
-			    startPage();
-
-			    _fitem = fitem;
+			function onPageClose(tag,ok,result) {
+				if (tag == 'edit-item-markdown') {
+						if (ok && result) {
+							_markdown = result.markdown;
+							showItemMarkdown(_markdown);
+						}
+				}
+				else {
+					console.log('got result from '+tag+' ok='+ok+' result='+result);
+				}
 			}
 
 			$(document).ready(function() {
@@ -100,14 +101,16 @@
 			  var fitem = new FItem(initp.json,true);
 			  console.log('got fitem='+fitem);
 
+  		  _awac.setOnPageClose(onPageClose);
 			  _awac.setOnAction(onAction);
 			  _awac.setOnBackPressed(function() { onAction('back'); });
 			  _awac.setHomeItem({'label':'Back','icon':'close','action':'back'});
-
-			  //_awac.addActionBarItem({'label':'DELETE','action':'delete'});
 			  _awac.addActionBarItem({'label':'SAVE','action':'save'});
 
 			  renderItem(fitem);
+
+				startPage();
+				_fitem = fitem;
 			});
 			</script>
 	</head>

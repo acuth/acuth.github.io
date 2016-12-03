@@ -407,7 +407,7 @@ FItem.addPage=function(item_id,name_attr,markdown,cb) {
   url += '&item_type=Page';
   if (item_id) url += '&item_id='+item_id;
   url += '&attrs=[[name:'+name_attr+']]';
-  url += '&markdown='+encodeURIComponent(markdown);
+  if (markdown) url += '&markdown='+encodeURIComponent(markdown);
   ajax(url,function(json) {
     cb(json.item_id);
   },true);

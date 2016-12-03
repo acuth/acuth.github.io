@@ -133,10 +133,8 @@ function setCaretToPos (input, pos) {
       };
   }
 
-
-
 function getItemTitle() {
-  console.log('getTitleValeu()');
+  console.log('getItemTitle()');
   var name = $('#item-title-div').find('.item-title').html();
   var i = name.indexOf("<span ");
   if (i == 0) name = null;
@@ -178,7 +176,7 @@ function showItemTitle(name) {
   var div = $('#item-title-div');
   var icon = 'edit';
   if (!name) {
-    name = '<span class="title-placeholder">add a title</span>';
+    name = '<span onclick="onAction(\'edit:title\');" class="title-placeholder">add a title</span>';
     icon = 'add';
   }
   div.html('');
@@ -186,6 +184,21 @@ function showItemTitle(name) {
   t.addClass('padded-container item-title');
   t.html(name);
   getEditControl(icon,'edit:title').appendTo(t);
+  t.appendTo(div);
+}
+
+function showItemMarkdown(md) {
+  var div = $('#item-markdown-div');
+  var icon = 'edit';
+  if (!md) {
+    md = '<span onclick="onAction(\'edit:markdown\');" class="markdown-placeholder">add a description/comment</span>';
+    icon = 'add';
+  }
+  div.html('');
+  var t = $(document.createElement('div'));
+  t.addClass('padded-container item-markdown');
+  t.html(md);
+  getEditControl(icon,'edit:markdown').appendTo(t);
   t.appendTo(div);
 }
 

@@ -35,10 +35,8 @@ function insertAtCaret(jqTxtarea, text) {
 			strPos = txtarea.selectionStart;
 		}
 
-    console.log('txtarea='+txtarea.value);
-
-		var front = (txtvalue).substring(0, strPos);
-		var back = (txtvalue).substring(strPos, txtvalue.length);
+		var front = txtvalue.substring(0, strPos);
+		var back = txtvalue.substring(strPos, txtvalue.length);
 		txtvalue = front + text + back;
 		strPos = strPos + text.length;
     jqTxtarea.val(txtvalue);
@@ -58,6 +56,84 @@ function insertAtCaret(jqTxtarea, text) {
 
 		txtarea.scrollTop = scrollPos;
 	}
+
+
+  function setSelectionRange(input, selectionStart, selectionEnd) {
+    console.log('setSelectionRange(input='+input+')');
+  if (input.setSelectionRange) {
+    console.log(' - 1');
+    input.focus();
+    input.setSelectionRange(selectionStart, selectionEnd);
+  }
+  else if (input.createTextRange) {
+      console.log(' - 2');
+    var range = input.createTextRange();
+    range.collapse(true);
+    range.moveEnd('character', selectionEnd);
+    range.moveStart('character', selectionStart);
+    range.select();
+  }
+}
+
+function setCaretToPos (input, pos) {
+  setSelectionRange(input, pos, pos);
+}
+
+
+  /**
+   * Return an object with the selection range or cursor position (if both have the same value)
+   * @param {DOMElement} el A dom element of a textarea or input text.
+   * @return {Object} reference Object with 2 properties (start and end) with the identifier of the location of the cursor and selected text.
+   **/
+  function getInputSelection(el) {
+    console.log('getInputSelect(el='+el+')');
+      var start = 0, end = 0, normalizedValue, range, textInputRange, len, endRange;
+
+      if (typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
+          console.log(' - get from selection');
+          start = el.selectionStart;
+          end = el.selectionEnd;
+      } else {
+          console.log('document.selection='+document.selection);
+          range = document.selection.createRange();
+
+          if (range && range.parentElement() == el) {
+              len = el.value.length;
+              normalizedValue = el.value.replace(/\r\n/g, "\n");
+
+              // Create a working TextRange that lives only in the input
+              textInputRange = el.createTextRange();
+              textInputRange.moveToBookmark(range.getBookmark());
+
+              // Check if the start and end of the selection are at the very end
+              // of the input, since moveStart/moveEnd doesn't return what we want
+              // in those cases
+              endRange = el.createTextRange();
+              endRange.collapse(false);
+
+              if (textInputRange.compareEndPoints("StartToEnd", endRange) > -1) {
+                  start = end = len;
+              } else {
+                  start = -textInputRange.moveStart("character", -len);
+                  start += normalizedValue.slice(0, start).split("\n").length - 1;
+
+                  if (textInputRange.compareEndPoints("EndToEnd", endRange) > -1) {
+                      end = len;
+                  } else {
+                      end = -textInputRange.moveEnd("character", -len);
+                      end += normalizedValue.slice(0, end).split("\n").length - 1;
+                  }
+              }
+          }
+      }
+
+      return {
+          start: start,
+          end: end
+      };
+  }
+
+
 
 function getItemTitle() {
   console.log('getTitleValeu()');

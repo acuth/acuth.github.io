@@ -43,9 +43,6 @@
 			function onAction(action) {
 			  if ('back' == action)
 			    _awac.endPage();
-				else if ('link' == action) {
-						insertAtCaret($('#edit-item-markdown'),'[[ref:]]');
-				}
 			  else if ('save' == action) {
 			     var md = $('#edit-item-markdown').val();
 					 console.log(' - markdown='+md);
@@ -81,6 +78,14 @@
 			     }
 			     _awac.endPage(outp);
 			  }
+				else if (action.indexOf("add:") == 0) {
+					  var el = document.getElementById('edit-item-markdown');
+						var result = getInputSelection(el);
+						var insert = '[['+action.substring(4)+':]]';
+						var text = el.value;
+						el.value = text.substring(0,result.start)+insert+text.substring(result.start);
+						setCaretToPos(el,result.start + insert.length);
+				}
 			  else if ('edit:title' == action) {
 					editItemTitle();
 					componentHandler.upgradeDom();
@@ -178,29 +183,23 @@ new function($) {
   	  <div id="item-title-div">-item-title-goes-here-</div>
 			<div class="hscroll">
 				<div class="hitem">
-					<button type="button" class="mdl-chip mdl-chip--contact" onclick="onAction('add:ref');">
+					<span class="mdl-chip mdl-chip--contact" onclick="onAction('add:ref');">
 						<span class="mdl-chip__contact mdl-color--gray mdl-color-text--dark-orange" style="margin-right:0px;"><i style="color:teal;font-size:18px;line-height:32px;" class="material-icons">link</i></span>
 						<span class="mdl-chip__text">ref</span>
-					</button>
+					</span>
 				</div>
 				<div class="hitem">
-					<button type="button" class="mdl-chip mdl-chip--contact" onclick="onAction('add:tag');">
+					<span class="mdl-chip mdl-chip--contact" onclick="onAction('add:tag');">
 						<span class="mdl-chip__contact mdl-color--gray mdl-color-text--dark-orange" style="margin-right:0px;"><i style="color:teal;font-size:18px;line-height:32px;" class="material-icons">label_outline</i></span>
 						<span class="mdl-chip__text">tag</span>
-					</button>
+					</span>
 				</div>
 				<div class="hitem">
-					<button type="button" class="mdl-chip mdl-chip--contact" onclick="onAction('add:person');">
+					<span class="mdl-chip mdl-chip--contact" onclick="onAction('add:person');">
 						<span class="mdl-chip__contact mdl-color--gray mdl-color-text--dark-orange" style="margin-right:0px;"><i style="color:teal;font-size:18px;line-height:32px;" class="material-icons">person_outline</i></span>
 						<span class="mdl-chip__text">user</span>
-					</button>
+					</span>
 				</div>
-				<div class="hitem"><span class="mdl-chip"><span class="mdl-chip__text">Bruce</span></span></div>
-				<div class="hitem"><span class="mdl-chip"><span class="mdl-chip__text">Cuthbert</span></span></div>
-				<div class="hitem"><span class="mdl-chip"><span class="mdl-chip__text">Donald</span></span></div>
-				<div class="hitem"><span class="mdl-chip"><span class="mdl-chip__text">Emerald</span></span></div>
-				<div class="hitem"><span class="mdl-chip"><span class="mdl-chip__text">Forest</span></span></div>
-				<div class="hitem"><span class="mdl-chip"><span class="mdl-chip__text">Game of Thrones</span></span></div>
 			</div>
 	    <div class="padded-container" style="background: #FFF4F4;">
         <textarea id="edit-item-markdown" placeholder="Add a description/comment here..."></textarea>

@@ -50,16 +50,7 @@
 			    _awac.alert('action '+action+' NYI');
        }
 
-			function extractDefaultName(item_id) {
-			  var result = '';
-			  var addSpace = true;
-			  for (var i=0;i<item_id.length;i++) {
-			    var char = item_id.substring(i,i+1);
-			    if (i != 0 && char >= 'A' && char <= 'Z') result += ' ';
-			    result += char;
-			  }
-			  return result;
-			}
+
 
       function onPageClose(tag,ok,result) {
         console.log('got result from '+tag+' ok='+ok+' result='+JSON.stringify(result));
@@ -81,12 +72,12 @@
  			  _name = initp.name;
         _markdown = initp.markdown;
  			  _item_id = initp.item_id;
- 			  if (_item_id && !_name) _name = extractDefaultName(_item_id);
+ 			  if (_item_id && !_name) _name = getItemNameFromId(_item_id);
 				showItemTitle(_name);
 
         // for the moment we don't have markdown
         var div = $('#item-markdown-div');
-        if (initp.show_markdown) {
+        if (true || initp.show_markdown) {
           showItemMarkdown(_markdown);
         }
         else

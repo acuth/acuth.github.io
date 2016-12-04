@@ -39,6 +39,29 @@
 				_awac.startMdlPage('toplevel',styleUrl);
 			}
 
+			function insertAttr(action) {
+				var el = document.getElementById('edit-item-markdown');
+				var result = getInputSelection(el);
+				var text = el.value;
+				var head = $.trim(text.substring(0,result.start));
+				var tail = $.trim(text.substring(result.end));
+				var select = $.trim(text.substring(result.start,result.end));
+				var tag = action.substring(4);
+				var insert = null;
+				if (select) {
+					if (tag == 'ref') select = getItemIdFromName(select);
+				  insert = '[['+tag+':'+select+']]';
+				}
+				else {
+					insert = '[['+tag+':';
+					tail = ']]'+tail;
+				}
+				if (head != '') insert = ' ' + insert;
+				if (tail != '') insert = insert + ' ';
+				el.value = head+insert+tail;
+				setCaretToPos(el,head.length + insert.length);
+			}
+
 			function onAction(action) {
 			  if ('back' == action) {
 			    _awac.endPage();
@@ -49,12 +72,7 @@
 			     _awac.endPage(outp);
 			  }
 				else if (action.indexOf("add:") == 0) {
-					  var el = document.getElementById('edit-item-markdown');
-						var result = getInputSelection(el);
-						var insert = '[['+action.substring(4)+':]]';
-						var text = el.value;
-						el.value = text.substring(0,result.start)+insert+text.substring(result.start);
-						setCaretToPos(el,result.start + insert.length);
+					  insertAttr(action);
 				}
 				else {
 			    _awac.alert('action '+action+' NYI');

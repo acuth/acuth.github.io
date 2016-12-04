@@ -284,8 +284,9 @@ FItem.prototype.getTagHTML=function(target,tag) {
     return FItem.getChipHTML('showNextPage(\''+tag.item_id+'\');',tag.name_attr,null,'label_outline','teal');
   }
   else {
-    var onclick = 'needToCreate();';
-    return FItem.getChipHTML(onclick,target.substring(4),null,'label_outline','red');
+    var name = target.substring(4);
+    var onclick = 'onAction(\'new-tag:'+name+'\');';
+    return FItem.getChipHTML(onclick,name,null,'label_outline','red');
   }
 };
 

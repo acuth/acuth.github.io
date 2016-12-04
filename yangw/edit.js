@@ -205,3 +205,31 @@ function showItemMarkdown(md) {
 function hideItemTitle() {
   $('#item-title-div').hide();
 }
+
+
+function getItemNameFromId(itemId) {
+  var result = '';
+  var addSpace = true;
+  for (var i=0;i<itemId.length;i++) {
+    var char = itemId.substring(i,i+1);
+    if (i != 0 && char >= 'A' && char <= 'Z') result += ' ';
+    result += char;
+  }
+  return result;
+}
+
+function getItemIdFromName(itemName) {
+  var result = '';
+  var upper = true;
+  for (var i=0;i<itemName.length;i++) {
+    var char = itemName.substring(i,i+1);
+    var add = char != ' ' && char != '\n';
+    if (add) {
+      result += upper ? char.toUpperCase() : char.toLowerCase();
+      upper = false;
+    }
+    else
+      upper = true;
+  }
+  return result;
+}

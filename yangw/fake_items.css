@@ -38,6 +38,7 @@ div#show-item-content {
   position: relative;
   /* border: solid 1px green; */
   /* margin-bottom: 4px; */
+  width: 100%;
 }
 
 .item-markdown {

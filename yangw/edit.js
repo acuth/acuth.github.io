@@ -187,18 +187,33 @@ function showItemTitle(name) {
   t.appendTo(div);
 }
 
-function showItemMarkdown(md) {
+function showItemMarkdown(newMd,oldMd) {
   var div = $('#item-markdown-div');
   var icon = 'edit';
+
+  var md = newMd;
   if (!md) {
     md = '<span onclick="onAction(\'edit:markdown\');" class="markdown-placeholder">add a description/comment</span>';
     icon = 'add';
   }
+
   div.html('');
   var t = $(document.createElement('div'));
   t.addClass('padded-container item-markdown');
   t.html(md);
   getEditControl(icon,'edit:markdown').appendTo(t);
+  t.appendTo(div);
+
+  var msg = '-unknown-';
+  if (newMd) {
+      msg = oldMd ? ((oldMd == newMd) ? '' : 'description to be modified') : 'description to be added';
+  }
+  else {
+      msg = oldMd ? 'description to be removed' : '';
+  }
+  t = $(document.createElement('div'));
+  t.addClass('item-markdown-status');
+  t.html(msg);
   t.appendTo(div);
 }
 

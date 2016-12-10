@@ -50,14 +50,12 @@
 			    _awac.alert('action '+action+' NYI');
        }
 
-
-
       function onPageClose(tag,ok,result) {
         console.log('got result from '+tag+' ok='+ok+' result='+JSON.stringify(result));
         if (tag == 'edit-new-item-markdown') {
             if (ok && result) {
               _markdown = result.markdown;
-              showItemMarkdown(_markdown);
+              showItemMarkdown(_markdown,_awac.getInitParam().markdown);
             }
         }
         else {
@@ -77,8 +75,8 @@
 
         // for the moment we don't have markdown
         var div = $('#item-markdown-div');
-        if (true || initp.show_markdown) {
-          showItemMarkdown(_markdown);
+        if (initp.show_markdown) {
+          showItemMarkdown(_markdown,_markdown);
         }
         else
           div.hide();

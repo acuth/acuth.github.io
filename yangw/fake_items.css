@@ -41,6 +41,16 @@ div#show-item-content {
   width: 100%;
 }
 
+#item-markdown-div2 {
+  border: solid 1px gray;
+}
+
+.item-markdown-status {
+  padding-left: 10px;
+  font-style: italic;
+  color: teal;
+}
+
 .item-markdown {
   text-overflow: ellipsis;
   white-space: nowrap;

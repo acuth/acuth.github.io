@@ -15,6 +15,7 @@
 		<script type="text/javascript">
 			var _awac = null;
 			var _fitem = null;
+			var _item_markdown = null;
 			var _markdown = null;
 			var _title = null;
 
@@ -60,8 +61,6 @@
 			  c.html(html);
 			}
 
-
-
 			function renderItem(fitem) {
 			   console.log('edit_item.renderItem()');
 			   console.log(JSON.stringify(fitem));
@@ -69,7 +68,8 @@
 				  console.log('iname='+iname);
 				  var a = fitem.getUserHTML(null,fitem.json.author,true);
 
-					_markdown = fitem.json.markdown;
+					_item_markdown = fitem.json.markdown;
+					_markdown = _item_markdown;
 					_title = fitem.json.name_attr;
 
 					showItemTitle(_title);
@@ -80,14 +80,14 @@
 					getEditControl('edit','edit:type').appendTo(t);
 					t.appendTo(typesDiv);
 
-			    showItemMarkdown(_markdown);
+			    showItemMarkdown(_markdown,_item_markdown);
 			}
 
 			function onPageClose(tag,ok,result) {
 				if (tag == 'edit-item-markdown') {
 						if (ok && result) {
 							_markdown = result.markdown;
-							showItemMarkdown(_markdown);
+							showItemMarkdown(_markdown,_item_markdown);
 						}
 				}
 				else {

@@ -75,7 +75,7 @@
 			    doNewPage(action.substring(9));
 			  else if ('edit' == action) {
 			    console.log('edit '+_itemId);
-			    _awac.openPage('edit','edit_item.html',{'json':_fitem.json,'item_id':_itemId});
+			    _awac.openPage('edit-item','edit_item.html',{'json':_fitem.json,'item_id':_itemId});
 			  }
 			  else if ('add' == action)
 			    displayAddList();
@@ -91,6 +91,14 @@
 						else
 							console.log('no markdown so did not create comment item');
 			    }
+					else if (tag == 'edit-item') {
+						if (result && result.updated) {
+							FItem.get(_itemId,function(fitem) {
+								renderItem(fitem);
+								_fitem = fitem;
+							});
+						}
+					}
 			    else if (tag == 'edit-child-markdown') {
 	  		    FItem.addChild(_itemId,result.name_attr,result.markdown,showNextPage);
 			    }
@@ -297,6 +305,24 @@
   			   _awac.replacePage('root','app_login.html',null,false);
 			}
 
+      function renderItem(fitem) {
+				var iname = fitem.getMDIcon();
+				var a = fitem.getUserHTML(null,fitem.json.author,true);
+				if (fitem.json.image_url) {
+					$('#item-title-div').html(
+						'<div class="img-container"><img src="'+fitem.json.image_url+'"/>'+
+									'<div class="top"><div class="item-type-inner"><div class="item-type"><i class="material-icons">'+iname+'</i></div></div></div>'+
+									'<div class="img-title"><div class="img-title-inner">'+fitem.json.name_attr+'</div></div>'+
+						'</div>');
+						$('#show-item-type').remove();
+				}
+				else {
+					renderItemHeader(fitem,iname,a);
+				}
+
+				$('#show-item-markdown').html(fitem.getHTML());
+				$('#show-item-attrs').html(fitem.getAttrsHTML());
+			}
 
 			$(document).ready(function() {
 			  _awac = new Awac('_awac');
@@ -325,30 +351,14 @@
 
 			  _awac.setOnBackPressed(function() { onAction('back'); });
 
-
-			  new AttrType('name');
-			  new AttrType('type');
-			  var at = AttrType.get('name');
-			  console.log('got at='+at);
+			  //new AttrType('name');
+			  //new AttrType('type');
+			  //var at = AttrType.get('name');
+			  //console.log('got at='+at);
 
 			  FItem.get(_itemId,function(fitem) {
-			    _fitem = fitem;
-			    var iname = fitem.getMDIcon();
-			    var a = fitem.getUserHTML(null,fitem.json.author,true);
-			    if (fitem.json.image_url) {
-			      $('#item-title-div').html(
-			        '<div class="img-container"><img src="'+fitem.json.image_url+'"/>'+
-			              '<div class="top"><div class="item-type-inner"><div class="item-type"><i class="material-icons">'+iname+'</i></div></div></div>'+
-			              '<div class="img-title"><div class="img-title-inner">'+fitem.json.name_attr+'</div></div>'+
-			        '</div>');
-			        $('#show-item-type').remove();
-			    }
-			    else {
-			      renderItemHeader(fitem,iname,a);
-			    }
-
-			    $('#show-item-markdown').html(fitem.getHTML());
-			    $('#show-item-attrs').html(fitem.getAttrsHTML());
+					renderItem(fitem);
+  				_fitem = fitem;
 
 			    if (_fitem.json.item_type_name == 'Page')
 			      FItem.getLinkedItems('Page','parent',_fitem.json.item_id,onGetLinkedItems);

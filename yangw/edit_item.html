@@ -24,16 +24,27 @@
 				_awac.startMdlPage('toplevel',styleUrl);
 			}
 
+			function saveItem() {
+				var itemId = _fitem.json.item_id;
+				var title = getItemTitle();
+				_fitem.update(title,_markdown,function(itemId) {
+					var outp = {};
+					outp.updated = true;
+					_awac.endPage(outp);
+				});
+			}
+
 			function onAction(action) {
 			  if ('back' == action)
 			    _awac.endPage();
 			  else if ('edit:markdown' == action)
 			    _awac.openPage('edit-item-markdown','edit_markdown.html',{'markdown':_markdown});
-				else if ('edit:title' == action) {
+				else if ('edit:title' == action)
 					editItemTitle();
-				}
+				else if ('save' == action)
+				  saveItem();
 				else
-			    _awac.alert('action '+action+' NYI');
+			    _awac.alert('edit_item.html action "'+action+'" NYI');
 			}
 
 			function newSpan(classes) {

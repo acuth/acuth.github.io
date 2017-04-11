@@ -403,6 +403,13 @@ FItem.addTag=function(name_attr,markdown,cb) {
   },true);
 };
 
+FItem.prototype.update=function(name_attr,markdown,cb) {
+  var itemId = this.json.item_id;
+  ajax('https://yangw-2.appspot.com/v4/?op=update_item&item_id='+itemId+'&attrs=[[name:'+name_attr+']]&markdown='+encodeURIComponent(markdown),function() {
+    cb(itemId);
+  },true);
+};
+
 FItem.addPage=function(item_id,name_attr,markdown,cb) {
   var url = 'https://yangw-2.appspot.com/v4/?op=new_item';
   url += '&item_type=Page';

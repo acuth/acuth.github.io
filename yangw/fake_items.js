@@ -41,89 +41,6 @@ function ajax(url,cb,checkJson) {
 	xhr.send();
 }
 
-function AttrLink() {
-  this.background = null;
-  this.imageUrl = null;
-  this.attrType = null;
-  this.left = null;
-  this.right = null;
-}
-
-AttrLink.prototype.setBackground=function(background) {
-  this.background = background;
-  return this;
-};
-
-AttrLink.prototype.setAttrType=function(attrType) {
-  this.attrType = attrType;
-  return this;
-};
-
-AttrLink.prototype.setImageURL=function(imageUrl) {
-  this.imageUrl = imageUrl;
-  return this;
-};
-
-AttrLink.prototype.setLeft=function(label,action) {
-  this.left = {};
-  this.left.label = label;
-  this.left.action = action;
-  return this;
-};
-
-AttrLink.prototype.setRight=function(label,action) {
-  this.right = {};
-  this.right.label = label;
-  this.right.action = action;
-  return this;
-};
-
-AttrLink.prototype.newDivStr=function(styles,classes) {
-  var s = '<div';
-  if (styles) s += ' style="'+styles+'"';
-  if (classes) s += ' class="'+classes+'"';
-  s += '>';
-  return s;
-};
-
-
-AttrLink.prototype.render=function() {
-  var s = '';
-  // make sure it is inline
-  s += '<div class="attr-link">';
-  // use flex layout for a set of divs
-  s += '<div class="attr-link-container">';
-
-  var styles = this.background ? 'background:'+this.background : null;
-  if (this.imageUrl)
-    s += this.newDivStr(styles,'img-circle')+'<img class="img-circle" src="'+this.imageUrl+'" /></div>';
-
-  if (this.left) s += this.newDivStr(styles)+'<a href="javascript:'+this.left.action+';">'+this.left.label+'</a></div>';
-  if (this.left && this.right) s += this.newDivStr(styles,'divider')+'</div>';
-  if (this.right) s += this.newDivStr(styles)+'<a href="javascript:'+this.right.action+';">'+this.right.label+'</a></div>';
-
-  s += '</div>';
-  s += '</div>';
-  return s;
-};
-
-
-function AttrType(name) {
-  this.name = name;
-  AttrType.types[name] = this;
-}
-
-AttrType.prototype.toString=function() {
-  return '{AttrType name='+this.name+'}';
-};
-
-AttrType.types = [];
-
-AttrType.get=function(name) {
-  return AttrType.types[name];
-};
-
-
 function FItemRow(json) {
   this.json = json;
 }
@@ -136,8 +53,8 @@ FItemRow.prototype.getMDIcon=function() {
 	return iname;
 };
 
-FItemRow.prototype.getElapsedTime=function(dt) {
-  var ms = (new Date()).getTime()-dt.getTime();
+FItemRow.getElapsedTime=function(time) {
+  var ms = (new Date()).getTime()-time;
   var s = Math.round(ms/1000);
   var m = Math.round(s/60);
   if (m < 60) return m+'m';
@@ -160,10 +77,9 @@ FItemRow.prototype.getDiv=function(i,fn) {
   var html = '<tr onclick="'+fn+'('+i+');">';
   html += '<td class="mdl-data-table__cell--non-numeric"><i class="material-icons mdl-color--white">'+iname+'</i></td>';
   html += '<td class="mdl-data-table__cell--non-numeric">'+name+'</td>';
-  html += '<td class="mdl-data-table__cell--non-numeric">'+this.getElapsedTime(modify)+'</td>';
+  html += '<td class="mdl-data-table__cell--non-numeric">'+FItemRow.getElapsedTime(modify.getTime())+'</td>';
   html += '</tr>';
   return html;
-
 
   html = '<div class="mdl-list__item" style="padding-top:0px;">';
   html += '<span class="mdl-list__item-primary-content">';
@@ -180,7 +96,7 @@ FItemRow.prototype.getDiv=function(i,fn) {
   html += '<div class="spacer"></div>';
   html += '<a class="name" href="javascript:'+fn+'('+i+');">'+(this.json.name_attr ? this.json.name_attr : this.json.item_id)+'</a>';
   html += '<div class="spacer"></div>';
-  html += '<div class="elapsed">'+this.getElapsedTime(modify)+'</div>';
+  html += '<div class="elapsed">'+FItemRow.getElapsedTime(modify.getTime())+'</div>';
   html += '</div>';
   html += '</div>';
   return html;
@@ -258,52 +174,11 @@ function needToCreate() {
   _awac.alert('Need to create');
 }
 
-FItem.getChipHTML=function(onclick,text,imgUrl,icon,color) {
-    var html = '<button type="button" class="mdl-chip mdl-chip--contact" onclick="'+onclick+'">';
-    if (imgUrl)
-      html += '<img class="mdl-chip__contact" src="'+imgUrl+'"></img>';
-    if (icon)
-      html += '<span class="mdl-chip__contact mdl-color--gray mdl-color-text--dark-orange" style="margin-right:0px;"><i style="color:'+color+';font-size:18px;line-height:32px;" class="material-icons">'+icon+'</i></span>';
-    html += '<span class="mdl-chip__text">'+text+'</span>';
-    html += '</button>';
-    return html;
+FItem.prototype.getUserHTML=function() {
+  return AttrType.get('user').getHTML(null,this.json.author);
 };
 
-FItem.prototype.getUserHTML=function(target,user) {
-  if (!user) return '';
-
-  if (user.item_id) {
-    return FItem.getChipHTML('showNextPage(\''+user.item_id+'\');',user.name_attr,user.image_url,null,null);
-  }
-  else {
-    var onclick = 'needToCreate();';
-    return FItem.getChipHTML(onclick,target.substring(5),null,'person','red');
-  }
-};
-
-FItem.prototype.getTagHTML=function(target,tag) {
-  if (!tag) return '';
-
-  if (tag.item_id) {
-    return FItem.getChipHTML('showNextPage(\''+tag.item_id+'\');',tag.name_attr,null,'label_outline','teal');
-  }
-  else {
-    var name = target.substring(4);
-    var onclick = 'onAction(\'new-tag:'+name+'\');';
-    return FItem.getChipHTML(onclick,name,null,'label_outline','red');
-  }
-};
-
-FItem.prototype.getRefHTML=function(target,inline) {
-    if (inline.item_id) {
-      return '<a class="internal-link" href="javascript:showNextPage(\''+inline.item_id+'\');">'+inline.name_attr+'</a>';
-    }
-
-    var onclick = 'onAction(\'new-page:'+target.substring(4)+'\');';
-    return FItem.getChipHTML(onclick,target.substring(4),null,'subject','red');
-}
-
-FItem.prototype.addLinks=function(html) {
+FItem.prototype.fixupAttributes=function(html) {
   if (!html) return null;
   var i = 0;
   var j = 0;
@@ -316,20 +191,10 @@ FItem.prototype.addLinks=function(html) {
     var name = target.substring(0,target.indexOf(':'));
     var inline = this.json.markdown_inline_values[target];
 
-    if (name == 'ref')
-      html = html.replace('[['+target+']]',this.getRefHTML(target,inline));
-    else if (name == 'parent')
-      html = html.replace('[['+target+']]','<div class="parent-div"><i>parent:</i> <a class="internal-link" href="javascript:showNextPage(\''+inline.item_id+'\');">'+inline.name_attr+'</a></div>');
-    else if (name == 'http' || name == 'https')
-      html = html.replace('[['+target+']]','<a target="_blank" class="external-link" href="'+target+'">'+target+'</a>');
-    else if (name == 'tag')
-      html = html.replace('[['+target+']]',this.getTagHTML(target,inline));
-    else if (name == 'user')
-      html = html.replace('[['+target+']]',this.getUserHTML(target,inline));
+    var at = AttrType.get(name);
+    if (at)
+        html = html.replace('[['+target+']]',at.getHTML(target,inline));
 
-    if (inline) {
-      console.log(target+'='+JSON.stringify(inline));
-    }
     i = j;
   }
   console.log('addLinks html='+html);
@@ -337,7 +202,7 @@ FItem.prototype.addLinks=function(html) {
   return html;
 };
 
-FItem.prototype.getHTML=function() {
+FItem.prototype.getMarkdownHTML=function() {
    var html = '';
    var md = this.json.markdown;
    if (md) {
@@ -346,19 +211,20 @@ FItem.prototype.getHTML=function() {
      renderer.link = function(href, title, text) { return href; };
      html += marked(md,{ renderer: renderer });
    }
-   //console.log('using marked\n\n'+html);
-   //var converter = new showdown.Converter();
-   //html = converter.makeHtml(this.json.markdown);
-   //console.log('using showdown\n\n'+html);
-   html = this.addLinks(html);
+   html = this.fixupAttributes(html);
    return html;
 };
 
-
+FItem.prototype.getMetaHTML=function() {
+  var modify = FItemRow.getElapsedTime(this.json.modify*1000);
+  var html = '<div class="wiki-name-div"><i>id:</i> <span class="wiki-name-span">'+this.json.item_id+'</span></div> '+modify;
+  return html;
+};
 
 FItem.prototype.getAttrsHTML=function() {
-  var html = '<br/><div class="wiki-name-div"><i>id:</i> <span class="wiki-name-span">'+this.json.item_id+'</span></div>';
+  var html = '';
   var attrs = this.json.attrs_text;
+  var first = true;
   if (attrs) {
     var j = -1;
     for (;;) {
@@ -367,22 +233,16 @@ FItem.prototype.getAttrsHTML=function() {
       var j = attrs.indexOf(']]',i);
       if (j == -1) break;
       var attr = attrs.substring(i+2,j);
-
       var details = this.json.markdown_inline_values[attr];
-      if (details) {
-        console.log('found details for [['+attr+']]\n'+JSON.stringify(details));
-      }
-
       var k = attr.indexOf(':');
       var name = attr.substring(0,k);
-      var val = attr.substring(k+1);
-      if (name != 'name') {
-        if (name == 'parent') {
-          html += ' <div class="wiki-name-div"><i>'+name+':</i> <a href="javascript:showNextPage(\''+val+'\');"<span class="wiki-name-span">'+val+'</span></a></div>';
+      var at = AttrType.get(name);
+      if (at) {
+        if (first) {
+          first = false;
+          html += '<hr/><br/>';
         }
-        else {
-          html += ' <div class="wiki-name-div"><i>'+name+':</i> <span class="wiki-name-span">'+val+'</span></div>';
-        }
+        html += at.getHTML(attr,details);
       }
     }
   }

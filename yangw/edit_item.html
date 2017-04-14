@@ -141,6 +141,7 @@
 			$(document).ready(function() {
 			  _awac = new Awac('_awac');
 			  var initp = _awac.getInitParam();
+				if (initp.title) _awac.setTitle(initp.title);
 			  var fitem = new FItem(initp.json,true);
 			  console.log('got fitem='+fitem);
 

@@ -73,10 +73,8 @@
 			    doNewTag(action.substring(8));
 			  else if (action.indexOf('new-page:') == 0)
 			    doNewPage(action.substring(9));
-			  else if ('edit' == action) {
-			    console.log('edit '+_itemId);
-			    _awac.openPage('edit-item','edit_item.html',{'json':_fitem.json,'item_id':_itemId});
-			  }
+			  else if ('edit' == action)
+			    doEditItem();
 			  else if ('add' == action)
 			    displayAddList();
 			  else
@@ -164,6 +162,10 @@
 
 			function doAddChild() {
 			  _awac.openPage('edit-child-markdown','edit_name.html',{show_markdown:true,title:'new child page'});
+			}
+
+			function doEditItem() {
+				_awac.openPage('edit-item','edit_item.html',{json:_fitem.json,item_id:_itemId,title:'edit '+_fitem.json.item_type_name.toLowerCase()});
 			}
 
 			function showRecentItems() {

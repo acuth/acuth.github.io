@@ -144,7 +144,7 @@
 
 			// note that tagName may be empty
 			function doNewTag(tagName) {
-			  _awac.openPage('new-tag-markdown','edit_name.html',{name:tagName,show_markdown:true});
+			  _awac.openPage('new-tag-markdown','edit_name.html',{name:tagName,show_markdown:true,title:'new tag'});
 			}
 
 			function doNewPage(itemId) {
@@ -154,15 +154,16 @@
 					initp.show_item_id = true;
 					initp.item_id = itemId;
 				}
+				initp.title='new page';
 			  _awac.openPage('new-page','edit_name.html',initp);
 			}
 
 			function doAddComment() {
-			  _awac.openPage('add-comment','edit_markdown.html',{'include_name':false,'markdown':''});
+			  _awac.openPage('add-comment','edit_markdown.html',{include_name:false,markdown:'',title:'new comment'});
 			}
 
 			function doAddChild() {
-			  _awac.openPage('edit-child-markdown','edit_name.html',{'show_markdown':true});
+			  _awac.openPage('edit-child-markdown','edit_name.html',{show_markdown:true,title:'new child page'});
 			}
 
 			function showRecentItems() {

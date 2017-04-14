@@ -409,7 +409,7 @@ FItem.addTag=function(name_attr,markdown,cb) {
 
 FItem.prototype.update=function(attrs_text,markdown,cb) {
   var itemId = this.json.item_id;
-  ajax('https://yangw-2.appspot.com/v4/?op=update_item&item_id='+itemId+'&attrs='+encodeURIComponent(attrs_text)+'&markdown='+encodeURIComponent(markdown),function() {
+  ajax('https://yangw-2.appspot.com/v4/?op=update_item&item_id='+itemId+'&item_last_modified='+this.json.modify+'&attrs='+encodeURIComponent(attrs_text)+'&markdown='+encodeURIComponent(markdown),function() {
     cb(itemId);
   },true);
 };

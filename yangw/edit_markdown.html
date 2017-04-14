@@ -112,6 +112,7 @@ new function($) {
 			  _markdown = initp.markdown;
  			  console.log('_markdown='+_markdown);
 
+				if (initp.title) _awac.setTitle(initp.title);
 			  _awac.setOnAction(onAction);
 			  _awac.setOnBackPressed(function() { onAction('back'); });
 			  _awac.setHomeItem({'label':'Back','icon':'close','action':'back'});

@@ -24,10 +24,42 @@
 				_awac.startMdlPage('toplevel',styleUrl);
 			}
 
+
+			function removeAttribute(text,name) {
+				if (!text) return text;
+				var target = '[['+name+':';
+				var i = text.indexOf(target);
+				if (i != -1) {
+					var j = text.indexOf(']]',i);
+					if (j != -1) {
+						return text.substring(0,i)+text.substring(j+2);
+					}
+				}
+				return text;
+			}
+
+			function addAttribute(text,name,value) {
+				if (!value) return text;
+				if (!text) text = '';
+				text += '[['+name+':'+value+']]';
+				return text;
+			}
+
+			function getAttrsText() {
+				// get title from edit UI
+				var title = getItemTitle();
+				var attrsText = _fitem.json.attrs_text;
+				console.log('old attrs_text:'+attrsText);
+				attrsText = removeAttribute(attrsText,'name');
+				attrsText = addAttribute(attrsText,'name',title);
+				console.log('new attrs_text:'+attrsText);
+				return attrsText;
+			}
+
 			function saveItem() {
 				var itemId = _fitem.json.item_id;
-				var title = getItemTitle();
-				_fitem.update(title,_markdown,function(itemId) {
+				var attrsText = getAttrsText();
+				_fitem.update(attrsText,_markdown,function(itemId) {
 					var outp = {};
 					outp.updated = true;
 					_awac.endPage(outp);

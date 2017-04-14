@@ -16,8 +16,12 @@ function ajax(url,cb,checkJson) {
     		  try {
   	  	    var json = JSON.parse(xhr.responseText);
   		      parsed = true;
-  		      if (!json.ok)
+  		      if (!json.ok) {
   		        console.log('AJAX got msg "'+json.msg+'"');
+              try {
+                _awac.alert(json.msg);
+              } catch (e) {}
+            }
   		      else {
   		        console.log('AJAX got a response');
   		    	  cb(json);
@@ -403,9 +407,9 @@ FItem.addTag=function(name_attr,markdown,cb) {
   },true);
 };
 
-FItem.prototype.update=function(name_attr,markdown,cb) {
+FItem.prototype.update=function(attrs_text,markdown,cb) {
   var itemId = this.json.item_id;
-  ajax('https://yangw-2.appspot.com/v4/?op=update_item&item_id='+itemId+'&attrs=[[name:'+name_attr+']]&markdown='+encodeURIComponent(markdown),function() {
+  ajax('https://yangw-2.appspot.com/v4/?op=update_item&item_id='+itemId+'&attrs='+encodeURIComponent(attrs_text)+'&markdown='+encodeURIComponent(markdown),function() {
     cb(itemId);
   },true);
 };

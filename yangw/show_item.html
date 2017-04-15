@@ -29,22 +29,20 @@
 
 			function doTest() {
 		   var html ='<span class="mdl-chip mdl-chip--deletable">'+
-    //'<span class="mdl-chip__contact mdl-color--gray mdl-color-text--dark-orange"><i style="color:teal;font-size:18px;line-height:32px;" class="material-icons">label_outline</i></span>'+
-    '<span class="mdl-chip__text">Contact Chip</span>'+
-		'<a href="#" class="mdl-chip__action mdl-color-text--teal"><i class="material-icons">label_outline</i></a>'+
-		'</span>';
+    	//'<span class="mdl-chip__contact mdl-color--gray mdl-color-text--dark-orange"><i style="color:teal;font-size:18px;line-height:32px;" class="material-icons">label_outline</i></span>'+
+    					'<span class="mdl-chip__text">Contact Chip</span>'+
+							'<a href="#" class="mdl-chip__action mdl-color-text--teal"><i class="material-icons">label_outline</i></a>'+
+							'</span>';
 
 		    html += '<hr/>Date <input type="date"/><br/>Time <input type="time"/>';
 
 				html = '<table style="width:100%;" class="mdl-data-table mdl-js-data-table">';
 				html += '<tbody>';
 				html += '<tr onclick="_awac.alert(\'Fred\');"><td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td><td>25</td><td>$2.90</td></tr>';
-						html += '<tr><td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td><td>25</td><td>$2.90</td></tr>';
-								html += '<tr><td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td><td>25</td><td>$2.90</td></tr>';
+				html += '<tr><td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td><td>25</td><td>$2.90</td></tr>';
+				html += '<tr><td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td><td>25</td><td>$2.90</td></tr>';
 				html += '</tbody>';
 				html += '</table>';
-
-
 
 				document.getElementById('test-area').innerHTML = html;
 				componentHandler.upgradeDom();
@@ -171,7 +169,7 @@
 				_awac.openPage('edit-item','edit_item.html',{json:_fitem.json,item_id:_itemId,title:'edit '+_fitem.json.item_type_name.toLowerCase()});
 			}
 
-			function doToggleAttr(aname) {
+			function doToggleAttrArchive(aname) {
 				var attrsText = new Attrs(_fitem.json.attrs_text);
 				var markdown = new Attrs(_fitem.json.markdown);
 				var inAt = attrsText.contains(aname);
@@ -182,11 +180,40 @@
 					var newval = oldval.toLowerCase() == 'true' ? 'false' : 'true';
 					at.update(aname,oldval,newval);
 					var itemId = _fitem.json.item_id;
+					var t0 = (new Date()).getTime();
 					_fitem.update(attrsText.getText(),markdown.getText(),function(itemId) {
+						var t1 = (new Date()).getTime();
+						console.log('item.update() '+(t1-t0)+'ms');
 						FItem.get(itemId,function(fitem) {
+							var t2 = (new Date()).getTime();
+							console.log('FItem.get() '+(t2-t1)+'ms');
 							renderItem(fitem);
 							_fitem = fitem;
 						});
+					});
+				}
+			}
+
+			function doToggleAttr(aname) {
+				var attrsText = new Attrs(_fitem.json.attrs_text);
+				var markdown = new Attrs(_fitem.json.markdown);
+				if (attrsText.contains(aname) || markdown.contains(aname)) {
+					var oldVal = attrsText.contains(aname) ? attrsText.getValue(aname) : markdown.getValue(aname);
+					var newVal = oldVal.toLowerCase() == 'true' ? 'false' : 'true';
+					var itemId = _fitem.json.item_id;
+					var t0 = (new Date()).getTime();
+					_fitem.update_attr(aname,newVal,function(json) {
+						var t1 = (new Date()).getTime();
+						console.log('item.update_attr() '+(t1-t0)+'ms');
+						if (attrsText.contains(aname)) {
+							attrsText.update(aname,oldVal,newVal);
+							_fitem.json.attrs_text = attrsText.getText();
+						}
+						else {
+							markdown.update(aname,oldVal,newVal);
+							_fitem.json.markdown = markdown.getText();
+						}
+						renderItem(_fitem);
 					});
 				}
 			}
@@ -252,7 +279,6 @@
 			    document.getElementById('comment-items').innerHTML = '<div class="padded-container"><h4>'+hdr+'</h4></div>'+html;
 			}
 
-
 			function showHistory() {
 			  _awac.replacePage('history','show_history.html',null,true);
 			}
@@ -293,18 +319,6 @@
 		  function renderItemHeader(fitem,iname,author) {
 		      var titleDiv = $('#item-title-div');
 
-					//<div class="padded-container item-title" style="position:relative;">
-				 	//	A NEw Page With A Very Long Title
-				 	// <div class="padded-container right-control">
-				 	//	 <i class="material-icons">edit</i>
-				 	// </div>
-				  //</div>
-
-
-
-
-
-
 			    titleDiv.html('');
 			    newDiv('padded-container item-title').html(fitem.json.name_attr).appendTo(titleDiv);
 
@@ -315,11 +329,7 @@
 			      '<div class="spacer"></div>' +
 			      '<div>'+author+'</div>').appendTo(t);
 			    t.appendTo(typesDiv);
-			    //c = newDiv('right-controls edit-controls right');
-			    //p = newDiv('padded-container');
-			    //appendEditControls(p);
-			    //p.appendTo(c);
-			    //c.appendTo(typesDiv);
+
 			    appendClearBoth(typesDiv);
 		  }
 
@@ -417,7 +427,7 @@
 		 <div class="padded-container">
 		   <div id="show-item-meta">-item-metadata-go-here-</div>
 		 </div>
-		 
+
 		 <div id="test-area"></div>
 
      <div class="show-item-footer padded-container">

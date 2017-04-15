@@ -270,7 +270,13 @@ FItem.addTag=function(name_attr,markdown,cb) {
 FItem.prototype.update=function(attrs_text,markdown,cb) {
   var itemId = this.json.item_id;
   ajax('https://yangw-2.appspot.com/v4/?op=update_item&item_id='+itemId+'&item_last_modified='+this.json.modify+'&attrs='+encodeURIComponent(attrs_text)+'&markdown='+encodeURIComponent(markdown),function() {
-    cb(itemId);
+    cb(json);
+  },true);
+};
+
+FItem.prototype.update_attr=function(name,value,cb) {
+  ajax('https://yangw-2.appspot.com/v4/?op=update_item_attr&item_id='+this.json.item_id+'&item_last_modified='+this.json.modify+'&name='+encodeURIComponent(name)+'&value='+encodeURIComponent(value),function(json) {
+    cb(json);
   },true);
 };
 

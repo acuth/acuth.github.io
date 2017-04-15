@@ -168,32 +168,7 @@
 			function doEditItem() {
 				_awac.openPage('edit-item','edit_item.html',{json:_fitem.json,item_id:_itemId,title:'edit '+_fitem.json.item_type_name.toLowerCase()});
 			}
-
-			function doToggleAttrArchive(aname) {
-				var attrsText = new Attrs(_fitem.json.attrs_text);
-				var markdown = new Attrs(_fitem.json.markdown);
-				var inAt = attrsText.contains(aname);
-				var inMd = markdown.contains(aname);
-				if (inAt || inMd) {
-					var at = inAt ? attrsText : markdown;
-					var oldval = at.getValue(aname);
-					var newval = oldval.toLowerCase() == 'true' ? 'false' : 'true';
-					at.update(aname,oldval,newval);
-					var itemId = _fitem.json.item_id;
-					var t0 = (new Date()).getTime();
-					_fitem.update(attrsText.getText(),markdown.getText(),function(itemId) {
-						var t1 = (new Date()).getTime();
-						console.log('item.update() '+(t1-t0)+'ms');
-						FItem.get(itemId,function(fitem) {
-							var t2 = (new Date()).getTime();
-							console.log('FItem.get() '+(t2-t1)+'ms');
-							renderItem(fitem);
-							_fitem = fitem;
-						});
-					});
-				}
-			}
-
+			
 			function doToggleAttr(aname) {
 				var attrsText = new Attrs(_fitem.json.attrs_text);
 				var markdown = new Attrs(_fitem.json.markdown);
@@ -213,6 +188,7 @@
 							markdown.update(aname,oldVal,newVal);
 							_fitem.json.markdown = markdown.getText();
 						}
+						_fitem.json.modify = json.modify;
 						renderItem(_fitem);
 					});
 				}

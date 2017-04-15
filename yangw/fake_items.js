@@ -5,7 +5,7 @@ var _itemTitles = ['An Introduction to Items',
 
 
 
-function ajax(url,cb,checkJson) {
+function ajax(url,cb,checkJson,logJson) {
   console.log('AJAX make request url='+url);
   var xhr = new XMLHttpRequest();
 	xhr.open("GET",url,true);
@@ -16,14 +16,15 @@ function ajax(url,cb,checkJson) {
     		  try {
   	  	    var json = JSON.parse(xhr.responseText);
   		      parsed = true;
-  		      if (!json.ok) {
-  		        console.log('AJAX got msg "'+json.msg+'"');
+            console.log('AJAX got a valid JSON response');
+  		      if (logJson) console.log(' - '+JSON.stringify(json));
+            if (!json.ok) {
+  		        console.log('AJAX got ok=false msg "'+json.msg+'"');
               try {
                 _awac.alert(json.msg);
               } catch (e) {}
             }
   		      else {
-  		        console.log('AJAX got a response');
   		    	  cb(json);
   		      }
   		    } catch (ex) {
@@ -110,9 +111,10 @@ FItem.prototype.toString=function() {
   return '{FItem name='+this.json.item_id+' json='+JSON.stringify(this.json)+'}';
 };
 
+FItem.apiUrl = 'https://yangw-2.appspot.com/v4/?';
+
 FItem.get=function(name,cb) {
-  ajax('https://yangw-2.appspot.com/v4/?op=get_item&item_id='+name,function(json) {
-    console.log('got '+json);
+  ajax(FItem.apiUrl+'op=get_item&item_id='+name,function(json) {
     fitem = new FItem(json);
     cb(fitem);
   });
@@ -250,45 +252,51 @@ FItem.prototype.getAttrsHTML=function() {
 };
 
 FItem.addComment=function(name,markdown,cb) {
-  ajax('https://yangw-2.appspot.com/v4/?op=add_comment&attrs=[[parent:'+name+']]&markdown='+encodeURIComponent(markdown),function(jsonStr) {
-    cb(JSON.parse(jsonStr).item_id);
-  });
+  var url = FItem.apiUrl+'op=add_comment&attrs=[[parent:'+name+']]&markdown='+encodeURIComponent(markdown);
+  ajax(url,function(json) {
+    cb(JSON.parse(json).item_id);
+  },true);
 };
 
 FItem.addChild=function(parent_id,name_attr,markdown,cb) {
-  ajax('https://yangw-2.appspot.com/v4/?op=add_page&attrs=[[parent:'+parent_id+']][[name:'+name_attr+']]&markdown='+encodeURIComponent(markdown),function(jsonStr) {
-    cb(JSON.parse(jsonStr).item_id);
-  });
+  var url = FItem.apiUrl+'op=add_page&attrs=[[parent:'+parent_id+']][[name:'+name_attr+']]&markdown='+encodeURIComponent(markdown);
+  ajax(url,function(json) {
+    cb(JSON.parse(json).item_id);
+  },true);
 };
 
 FItem.addTag=function(name_attr,markdown,cb) {
-  ajax('https://yangw-2.appspot.com/v4/?op=add_tag&attrs=[[name:'+name_attr+']]&markdown='+encodeURIComponent(markdown),function(json) {
-    cb(json.item_id);
+  var url = FItem.apiUrl+'op=add_tag&attrs=[[name:'+name_attr+']]&markdown='+encodeURIComponent(markdown);
+  ajax(url,function(json) {
+    cb(JSON.parse(json).item_id);
   },true);
 };
 
 FItem.prototype.update=function(attrs_text,markdown,cb) {
-  var itemId = this.json.item_id;
-  ajax('https://yangw-2.appspot.com/v4/?op=update_item&item_id='+itemId+'&item_last_modified='+this.json.modify+'&attrs='+encodeURIComponent(attrs_text)+'&markdown='+encodeURIComponent(markdown),function() {
+  var url = FItem.apiUrl+'op=update_item&item_id='+this.json.item_id+'&item_last_modified='+this.json.modify
+                +'&attrs='+encodeURIComponent(attrs_text)+'&markdown='+encodeURIComponent(markdown);
+  ajax(url,function(json) {
     cb(json);
-  },true);
+  },true,true);
 };
 
 FItem.prototype.update_attr=function(name,value,cb) {
-  ajax('https://yangw-2.appspot.com/v4/?op=update_item_attr&item_id='+this.json.item_id+'&item_last_modified='+this.json.modify+'&name='+encodeURIComponent(name)+'&value='+encodeURIComponent(value),function(json) {
+  var url = FItem.apiUrl + 'op=update_item_attr&item_id='+this.json.item_id+'&item_last_modified='+this.json.modify
+                +'&name='+encodeURIComponent(name)+'&value='+encodeURIComponent(value);
+  ajax(url,function(json) {
     cb(json);
-  },true);
+  },true,true);
 };
 
 FItem.addPage=function(item_id,name_attr,markdown,cb) {
-  var url = 'https://yangw-2.appspot.com/v4/?op=new_item';
+  var url = FItem.apiUrl+'op=new_item';
   url += '&item_type=Page';
   if (item_id) url += '&item_id='+item_id;
   url += '&attrs=[[name:'+name_attr+']]';
   if (markdown) url += '&markdown='+encodeURIComponent(markdown);
   ajax(url,function(json) {
-    cb(json.item_id);
-  },true);
+    cb(JSON.parse(json).item_id);
+  },true,true);
 };
 
 FItem.getRecent=function(cb) {

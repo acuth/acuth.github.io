@@ -22,8 +22,6 @@ AttrType.getChipHTML=function(onclick,text,imgUrl,icon,color) {
 };
 
 AttrType.initialise=function() {
-  console.log('\n\n\nAttrType initialised');
-
   var at = new AttrType('done');
   at.getHTML = function(attrtext,inline) {
     var icon = attrtext.toLowerCase() == 'done:true' ? 'check_box' : 'check_box_outline_blank';
@@ -92,7 +90,6 @@ AttrType.initialise=function() {
 
 AttrType.get=function(name) {
   if (!AttrType.init) AttrType.initialise();
-  console.log('!!!!!!!!! get AttrType '+name);
   var at = AttrType.types[name];
   return at;
 };

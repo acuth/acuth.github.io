@@ -60,7 +60,7 @@
 			function saveItem() {
 				var itemId = _fitem.json.item_id;
 				var attrsText = getAttrsText();
-				_fitem.update(attrsText,_markdown,function(itemId) {
+				_fitem.update(attrsText,_markdown,function(json) {
 					var outp = {};
 					outp.updated = true;
 					_awac.endPage(outp);

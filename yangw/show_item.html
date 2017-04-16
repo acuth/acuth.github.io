@@ -15,6 +15,7 @@
 		<!--script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.3.0/showdown.min.js" type="text/javascript"></script-->
 		<script src="https://storage.googleapis.com/code.getmdl.io/1.2.1/material.min.js" type="text/javascript"></script>
 		<script src="fake_attrs.js" type="text/javascript"></script>
+		<script src="fake_item_types.js" type="text/javascript"></script>
 		<script src="fake_items.js" type="text/javascript"></script>
 		<script type="text/javascript">
 			var _awac = null;
@@ -67,7 +68,9 @@
 			  else if ('+comment' == action)
 			    doAddComment();
 			  else if ('+child' == action)
-			    doAddChild();
+			    doAddChildPage();
+				else if ('+task' == action)
+					doAddChildTask();
 			  else if (action.indexOf('new-tag:') == 0)
 			    doNewTag(action.substring(8));
 			  else if (action.indexOf('new-page:') == 0)
@@ -99,8 +102,11 @@
 						}
 					}
 			    else if (tag == 'edit-child-markdown') {
-	  		    FItem.addChild(_itemId,result.name_attr,result.markdown,showNextPage);
+	  		    FItem.addChildPage(_itemId,result.name_attr,result.markdown,showNextPage);
 			    }
+					else if (tag == 'edit-task-title') {
+						FItem.addChildTask(_itemId,result.name_attr,null,showNextPage);
+					}
 			    else if (tag == 'new-tag-markdown') {
 	  		    FItem.addTag(result.name_attr,result.markdown,showNextPage);
 			    }
@@ -112,7 +118,7 @@
 			      //showNextPage(item_id);
 			    }
 			    else {
-			      console.log('page with tag '+tag+' has closed');
+			      _awac.alert('page with tag '+tag+' has closed');
 			    }
 			  }
 			}
@@ -121,8 +127,8 @@
 			  // cannot add child posts to comments
 			  // cannot add child items to users unless you are the user
 
-			  var labels = ['new page','new tag','add comment','add child post','add next post'];
-			  var actions = ['new-page:','new-tag:','+comment','+child','+next'];
+			  var labels = ['new page','new tag','add comment','add child page','add child task','add next page'];
+			  var actions = ['new-page:','new-tag:','+comment','+child','+task','+next'];
 			  var items = new Array();
 			  for (var i=0;i<labels.length;i++) {
 			      var item = new Object();
@@ -133,7 +139,7 @@
 			  _awac.list(items,function(n) {
 			    if (n != -1) {
 			        var newAction = items[n].action;
-			        if (newAction == '+comment' || newAction == '+child' || newAction.indexOf('new-page:') == 0 || newAction.indexOf('new-tag:') == 0)
+			        if (newAction == '+comment' || newAction == '+child' || newAction == '+task' || newAction.indexOf('new-page:') == 0 || newAction.indexOf('new-tag:') == 0)
 			          onAction(newAction);
 			        else
 			          _awac.alert('selected '+newAction);
@@ -161,25 +167,25 @@
 			  _awac.openPage('add-comment','edit_markdown.html',{include_name:false,markdown:'',title:'new comment'});
 			}
 
-			function doAddChild() {
+			function doAddChildPage() {
 			  _awac.openPage('edit-child-markdown','edit_name.html',{show_markdown:true,title:'new child page'});
 			}
 
-			function doEditItem() {
-				_awac.openPage('edit-item','edit_item.html',{json:_fitem.json,item_id:_itemId,title:'edit '+_fitem.json.item_type_name.toLowerCase()});
+			function doAddChildTask() {
+				_awac.openPage('edit-task-title','edit_name.html',{show_markdown:false,title:'new child task'});
 			}
-			
+
+			function doEditItem() {
+				_awac.openPage('edit-item','edit_item.html',{json:_fitem.json,item_id:_itemId,title:'edit '+_fitem.itemType.name.toLowerCase()});
+			}
+
 			function doToggleAttr(aname) {
 				var attrsText = new Attrs(_fitem.json.attrs_text);
 				var markdown = new Attrs(_fitem.json.markdown);
 				if (attrsText.contains(aname) || markdown.contains(aname)) {
 					var oldVal = attrsText.contains(aname) ? attrsText.getValue(aname) : markdown.getValue(aname);
 					var newVal = oldVal.toLowerCase() == 'true' ? 'false' : 'true';
-					var itemId = _fitem.json.item_id;
-					var t0 = (new Date()).getTime();
 					_fitem.update_attr(aname,newVal,function(json) {
-						var t1 = (new Date()).getTime();
-						console.log('item.update_attr() '+(t1-t0)+'ms');
 						if (attrsText.contains(aname)) {
 							attrsText.update(aname,oldVal,newVal);
 							_fitem.json.attrs_text = attrsText.getText();
@@ -209,7 +215,7 @@
 			  _awac.replacePage('recent','recent_items.html',initp,true);
 			}
 
-			var _linkedItems = null;
+			var _linkedItems = [];
 
 			function selectLinked(i) {
 			  var id = _linkedItems[i].item_id;
@@ -217,20 +223,24 @@
 			  _awac.replacePage('show','show_item.html',{'item_id':id},true);
 			}
 
-			function onGetLinkedItems(json) {
-			  var hdr = 'Linked Items';
-			  if (_fitem.json.item_type_name == 'Page') hdr = 'Child Pages';
-			  else if (_fitem.json.item_type_name == 'Tag') hdr = 'Tagged Items';
-			  _linkedItems = json;
+			function onGetLinkedItems(json,params) {
+				console.log('onGetLinkedItems() params='+JSON.stringify(params));
+
+			  var hdr = params.hdr;
 			  var html = '<table style="width:100%;" class="mdl-data-table mdl-js-data-table"><tbody>';
 			  var found = false;
 			  for (var i=0;i<json.length;i++) {
-			    html += (new FItemRow(json[i])).getDiv(i,'selectLinked');
+					var index = _linkedItems.length;
+					_linkedItems[index] = json[i];
+			    html += (new FItemRow(json[i])).getDiv(index,'selectLinked');
 			    found = true;
 			  }
 				html += '</tbody></table>';
-			  if (found)
-			    document.getElementById('linked-items').innerHTML = '<div class="padded-container"><h4>'+hdr+'</h4></div>'+html;
+			  if (found) {
+					var div = document.getElementById(params.divId);
+					div.style.display = 'block';
+			    div.innerHTML = '<div class="padded-container"><h4>'+hdr+'</h4></div>'+html;
+				}
 			}
 
 			var _commentItems = null;
@@ -241,7 +251,8 @@
 			  _awac.replacePage('show','show_item.html',{'item_id':id},true);
 			}
 
-			function onGetCommentItems(json) {
+			function onGetCommentItems(json,params) {
+				console.log('onGetCommentItems params='+JSON.stringify(params));
 			  var hdr = 'Comments';
 			  _commentItems = json;
 			  var html = '<table style="width:100%;" class="mdl-data-table mdl-js-data-table"><tbody>';
@@ -251,8 +262,11 @@
 			    found = true;
 			  }
 				html += '</tbody></table>';
-			  if (found)
-			    document.getElementById('comment-items').innerHTML = '<div class="padded-container"><h4>'+hdr+'</h4></div>'+html;
+			  if (found) {
+					var div = document.getElementById('comment-items-div');
+					div.style.display = 'block';
+			    div.innerHTML = '<div class="padded-container"><h4>'+hdr+'</h4></div>'+html;
+				}
 			}
 
 			function showHistory() {
@@ -373,12 +387,15 @@
 					renderItem(fitem);
   				_fitem = fitem;
 
-			    if (_fitem.json.item_type_name == 'Page')
-			      FItem.getLinkedItems('Page','parent',_fitem.json.item_id,onGetLinkedItems);
-			    else if (_fitem.json.item_type_name == 'Tag')
-			      FItem.getLinkedItems(null,'tag',_fitem.json.item_id,onGetLinkedItems);
+  				FItem.getLinkedItems('Task','parent',_fitem.json.item_id,onGetLinkedItems,{hdr:'Tasks',divId:'task-items-div'});
 
-			    FItem.getLinkedItems('Comment','parent',_fitem.json.item_id,onGetCommentItems);
+			    if (_fitem.itemType.name == 'Page')
+			      FItem.getLinkedItems('Page','parent',_fitem.json.item_id,onGetLinkedItems,{hdr:'Child Pages',divId:'child-pages-div'});
+			    else if (_fitem.itemType.name == 'Tag')
+			      FItem.getLinkedItems(null,'tag',_fitem.json.item_id,onGetLinkedItems,{hdr:'Tagged Items',divId:'tagged-items-div'});
+
+
+			    FItem.getLinkedItems('Comment','parent',_fitem.json.item_id,onGetCommentItems,{name:'Comments'});
 
 					startPage();
 			  });
@@ -397,8 +414,10 @@
        </div>
      </div>
 
-     <div id="linked-items"></div>
-     <div id="comment-items"></div>
+   	 <div id="task-items-div" style="display:none;">-task-items-go-here-</div>
+     <div id="child-pages-div" style="display:none;">-child-pages-go-here-</div>
+		 <div id="tagged-items-div" style="display:none;">-tagged-items-go-here-</div>
+     <div id="comment-items-div" style="display:none;">-comment-items-go-here-</div>
 
 		 <div class="padded-container">
 		   <div id="show-item-meta">-item-metadata-go-here-</div>

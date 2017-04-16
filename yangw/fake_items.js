@@ -44,14 +44,11 @@ function ajax(url,cb,checkJson,logJson) {
 
 function FItemRow(json) {
   this.json = json;
+  this.itemType = ItemType.get(this.json.item_type_name);
 }
 
 FItemRow.prototype.getMDIcon=function() {
-  var iname = 'subject';
-	if (this.json.item_type_name == 'User') iname = 'person';
-	else if (this.json.item_type_name == 'Tag') iname = 'label';
-	else if (this.json.item_type_name == 'Comment') iname = 'comment';
-	return iname;
+  return this.itemType.getMDIcon();
 };
 
 FItemRow.getElapsedTime=function(time) {
@@ -105,6 +102,7 @@ FItemRow.prototype.getDiv=function(i,fn) {
 
 function FItem(json,isParsed) {
   this.json = isParsed ? json : JSON.parse(json);
+  this.itemType = ItemType.get(this.json.item_type_name);
 }
 
 FItem.prototype.toString=function() {
@@ -165,11 +163,7 @@ FItem.prototype.addLink=function(html,pageName,pageTitle) {
 };
 
 FItem.prototype.getMDIcon=function() {
-  var iname = 'subject';
-	if (this.json.item_type_name == 'User') iname = 'person';
-	else if (this.json.item_type_name == 'Tag') iname = 'label';
-	else if (this.json.item_type_name == 'Comment') iname = 'comment';
-	return iname;
+  return this.itemType.getMDIcon();
 };
 
 function needToCreate() {
@@ -258,8 +252,15 @@ FItem.addComment=function(name,markdown,cb) {
   },true);
 };
 
-FItem.addChild=function(parent_id,name_attr,markdown,cb) {
+FItem.addChildPage=function(parent_id,name_attr,markdown,cb) {
   var url = FItem.apiUrl+'op=add_page&attrs=[[parent:'+parent_id+']][[name:'+name_attr+']]&markdown='+encodeURIComponent(markdown);
+  ajax(url,function(json) {
+    cb(JSON.parse(json).item_id);
+  },true);
+};
+
+FItem.addChildTask=function(parent_id,name_attr,cb) {
+  var url = FItem.apiUrl+'op=new_item&item_type=Task&attrs=[[parent:'+parent_id+']][[name:'+encodeURIComponent(name_attr)+']][[done:false]]';
   ajax(url,function(json) {
     cb(JSON.parse(json).item_id);
   },true);
@@ -305,11 +306,12 @@ FItem.getRecent=function(cb) {
   });
 };
 
-FItem.getLinkedItems=function(fromItemType,attrType,toItemId,cb) {
+FItem.getLinkedItems=function(fromItemType,attrType,toItemId,cb,params) {
+  console.log('FItem.getLinkedItems() params='+JSON.stringify(params));
   var url = 'https://yangw-2.appspot.com/v4/?op=get_linked_items&item_id='+toItemId;
   if (fromItemType) url += '&from_item_type='+fromItemType;
   url += '&attr_type='+attrType;
-  ajax(url,function(jsonStr) {
-    cb(JSON.parse(jsonStr));
+  ajax(url,function(json) {
+    cb(JSON.parse(json),params);
   });
 };

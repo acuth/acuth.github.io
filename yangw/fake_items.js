@@ -48,6 +48,10 @@ function FItemRow(json) {
 }
 
 FItemRow.prototype.getMDIcon=function() {
+  if (this.itemType.name == 'Task') {
+    if (this.json.attrs_text.indexOf('done:true') == -1)
+      return 'check_box_outline_blank';
+  }
   return this.itemType.getMDIcon();
 };
 
@@ -69,7 +73,6 @@ FItemRow.prototype.getDiv=function(i,fn) {
   var iname = this.getMDIcon();
   var modify = new Date(this.json.modify*1000);
   var now = (new Date()).getTime();
-  console.log('now='+now+' modify='+modify);
   var name = this.json.name_attr ? this.json.name_attr : this.json.item_id;
 
   var html = '<tr onclick="'+fn+'('+i+');">';
@@ -163,6 +166,10 @@ FItem.prototype.addLink=function(html,pageName,pageTitle) {
 };
 
 FItem.prototype.getMDIcon=function() {
+  if (this.itemType.name == 'Task') {
+    if (this.json.attrs_text.indexOf('done:true') == -1)
+      return 'check_box_outline_blank';
+  }
   return this.itemType.getMDIcon();
 };
 
@@ -248,29 +255,31 @@ FItem.prototype.getAttrsHTML=function() {
 FItem.addComment=function(name,markdown,cb) {
   var url = FItem.apiUrl+'op=add_comment&attrs=[[parent:'+name+']]&markdown='+encodeURIComponent(markdown);
   ajax(url,function(json) {
-    cb(JSON.parse(json).item_id);
-  },true);
+    cb(json.item_id);
+  },true,true);
 };
 
 FItem.addChildPage=function(parent_id,name_attr,markdown,cb) {
   var url = FItem.apiUrl+'op=add_page&attrs=[[parent:'+parent_id+']][[name:'+name_attr+']]&markdown='+encodeURIComponent(markdown);
   ajax(url,function(json) {
-    cb(JSON.parse(json).item_id);
-  },true);
+    cb(json.item_id);
+  },true,true);
 };
 
-FItem.addChildTask=function(parent_id,name_attr,cb) {
+FItem.addChildTask=function(parent_id,name_attr,markdown,cb) {
+  console.log('FItem.addChildTask()');
   var url = FItem.apiUrl+'op=new_item&item_type=Task&attrs=[[parent:'+parent_id+']][[name:'+encodeURIComponent(name_attr)+']][[done:false]]';
+  if (markdown) url += '&markdown='+encodeURIComponent(markdown);
   ajax(url,function(json) {
-    cb(JSON.parse(json).item_id);
-  },true);
+    cb(json.item_id);
+  },true,true);
 };
 
 FItem.addTag=function(name_attr,markdown,cb) {
   var url = FItem.apiUrl+'op=add_tag&attrs=[[name:'+name_attr+']]&markdown='+encodeURIComponent(markdown);
   ajax(url,function(json) {
-    cb(JSON.parse(json).item_id);
-  },true);
+    cb(json.item_id);
+  },true,true);
 };
 
 FItem.prototype.update=function(attrs_text,markdown,cb) {
@@ -296,7 +305,7 @@ FItem.addPage=function(item_id,name_attr,markdown,cb) {
   url += '&attrs=[[name:'+name_attr+']]';
   if (markdown) url += '&markdown='+encodeURIComponent(markdown);
   ajax(url,function(json) {
-    cb(JSON.parse(json).item_id);
+    cb(json.item_id);
   },true,true);
 };
 

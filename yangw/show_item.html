@@ -105,7 +105,7 @@
 	  		    FItem.addChildPage(_itemId,result.name_attr,result.markdown,showNextPage);
 			    }
 					else if (tag == 'edit-task-title') {
-						FItem.addChildTask(_itemId,result.name_attr,null,showNextPage);
+						FItem.addChildTask(_itemId,result.name_attr,null,refreshTaskList);
 					}
 			    else if (tag == 'new-tag-markdown') {
 	  		    FItem.addTag(result.name_attr,result.markdown,showNextPage);
@@ -251,24 +251,6 @@
 			  _awac.replacePage('show','show_item.html',{'item_id':id},true);
 			}
 
-			function onGetCommentItems(json,params) {
-				console.log('onGetCommentItems params='+JSON.stringify(params));
-			  var hdr = 'Comments';
-			  _commentItems = json;
-			  var html = '<table style="width:100%;" class="mdl-data-table mdl-js-data-table"><tbody>';
-			  var found = false;
-			  for (var i=0;i<json.length;i++) {
-			    html += (new FItemRow(json[i])).getDiv(i,'selectComment');
-			    found = true;
-			  }
-				html += '</tbody></table>';
-			  if (found) {
-					var div = document.getElementById('comment-items-div');
-					div.style.display = 'block';
-			    div.innerHTML = '<div class="padded-container"><h4>'+hdr+'</h4></div>'+html;
-				}
-			}
-
 			function showHistory() {
 			  _awac.replacePage('history','show_history.html',null,true);
 			}
@@ -277,6 +259,11 @@
 			  FItem.historyPush(_awac,itemId);
 			  _awac.replacePage('show','show_item.html',{'item_id':itemId},true);
 			}
+
+			function refreshTaskList(newTaskItemId) {
+				console.log('refreshTaskList()');
+				FItem.getLinkedItems('Task','parent',_fitem.json.item_id,onGetLinkedItems,{hdr:'Tasks',divId:'task-items-div'});
+			};
 
 			function showOptions(attr_name) {
 			  _awac.alert('show options for attr '+attr_name);
@@ -378,24 +365,16 @@
 
 			  _awac.setOnBackPressed(function() { onAction('back'); });
 
-			  //new AttrType('name');
-			  //new AttrType('type');
-			  //var at = AttrType.get('name');
-			  //console.log('got at='+at);
-
 			  FItem.get(_itemId,function(fitem) {
 					renderItem(fitem);
   				_fitem = fitem;
 
   				FItem.getLinkedItems('Task','parent',_fitem.json.item_id,onGetLinkedItems,{hdr:'Tasks',divId:'task-items-div'});
+			    FItem.getLinkedItems('Page','parent',_fitem.json.item_id,onGetLinkedItems,{hdr:'Child Pages',divId:'child-pages-div'});
+			    FItem.getLinkedItems('Comment','parent',_fitem.json.item_id,onGetLinkedItems,{hdr:'Comments',divId:'comment-items-div'});
 
-			    if (_fitem.itemType.name == 'Page')
-			      FItem.getLinkedItems('Page','parent',_fitem.json.item_id,onGetLinkedItems,{hdr:'Child Pages',divId:'child-pages-div'});
-			    else if (_fitem.itemType.name == 'Tag')
-			      FItem.getLinkedItems(null,'tag',_fitem.json.item_id,onGetLinkedItems,{hdr:'Tagged Items',divId:'tagged-items-div'});
-
-
-			    FItem.getLinkedItems('Comment','parent',_fitem.json.item_id,onGetCommentItems,{name:'Comments'});
+					if (_fitem.itemType.name == 'Tag')
+						FItem.getLinkedItems(null,'tag',_fitem.json.item_id,onGetLinkedItems,{hdr:'Tagged Items',divId:'tagged-items-div'});
 
 					startPage();
 			  });

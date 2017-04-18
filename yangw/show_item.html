@@ -105,7 +105,7 @@
 	  		    FItem.addChildPage(_itemId,result.name_attr,result.markdown,showNextPage);
 			    }
 					else if (tag == 'edit-task-title') {
-						FItem.addChildTask(_itemId,result.name_attr,null,refreshTaskList);
+						FItem.addChildTask(_itemId,result.name_attr,null,newChildTask);
 					}
 			    else if (tag == 'new-tag-markdown') {
 	  		    FItem.addTag(result.name_attr,result.markdown,showNextPage);
@@ -223,6 +223,23 @@
 			  _awac.replacePage('show','show_item.html',{'item_id':id},true);
 			}
 
+			function addLinkedItem(json,params) {
+				console.log('addLinkedItem()');
+				var div = document.getElementById(params.divId);
+				console.log(' - '+params.divId+'.style.display='+div.style.display);
+				if (div.style.display != 'block') {
+					refreshTaskList();
+					return;
+				}
+
+				var index = _linkedItems.length;
+				_linkedItems[index] = json;
+
+				var html = div.innerHTML;
+				var i = html.indexOf('<tbody>');
+				div.innerHTML = html.substring(0,i) + (new FItemRow(json)).getDiv(index,'selectLinked') + html .substring(i+7);
+			}
+
 			function onGetLinkedItems(json,params) {
 				console.log('onGetLinkedItems() params='+JSON.stringify(params));
 
@@ -260,7 +277,13 @@
 			  _awac.replacePage('show','show_item.html',{'item_id':itemId},true);
 			}
 
-			function refreshTaskList(newTaskItemId) {
+			function newChildTask(itemJson) {
+				console.log('newChildTask()');
+				addLinkedItem(itemJson,{hdr:'Tasks',divId:'task-items-div'});
+			}
+
+			function refreshTaskList() {
+				console.log('refreshTaskList()');
 				FItem.getLinkedItems('Task','parent',_fitem.json.item_id,onGetLinkedItems,{hdr:'Tasks',divId:'task-items-div'});
 			}
 

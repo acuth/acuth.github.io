@@ -268,10 +268,11 @@ FItem.addChildPage=function(parent_id,name_attr,markdown,cb) {
 
 FItem.addChildTask=function(parent_id,name_attr,markdown,cb) {
   console.log('FItem.addChildTask()');
-  var url = FItem.apiUrl+'op=new_item&item_type=Task&attrs=[[parent:'+parent_id+']][[name:'+encodeURIComponent(name_attr)+']][[done:false]]';
+  var url = FItem.apiUrl+'op=new_item&item_type=Task&attrs=[[parent:'+parent_id+']][[name:'+encodeURIComponent(name_attr)+']][[done:false]]&row=true';
   if (markdown) url += '&markdown='+encodeURIComponent(markdown);
   ajax(url,function(json) {
-    cb(json.item_id);
+    //console.log(' - '+JSON.stringify(json));
+    cb(json.item);
   },true,true);
 };
 

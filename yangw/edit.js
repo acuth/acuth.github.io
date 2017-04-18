@@ -146,7 +146,7 @@ function getItemTitle() {
   return name;
 }
 
-function editItemTitle() {
+function editItemTitle(cb) {
   console.log('editItemTitle()');
   var t = $('#item-title-div').find('.item-title');
   t.find('.right-control').remove();
@@ -158,6 +158,15 @@ function editItemTitle() {
   }
   t.attr('contenteditable',true).focus();
   placeCaretAtEnd(t.get(0));
+  if (cb) {
+    t.on('keydown', function (e) {
+        if (e.keyCode == 13) {
+          cb();
+          return false;
+        }
+        return true;
+    });
+  }
   console.log(' - done');
 }
 

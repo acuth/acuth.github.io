@@ -89,7 +89,7 @@
 			  if (ok && result) {
   			  if (tag == 'add-comment') {
 						if (result.markdown)
-	  		    	FItem.addComment(_itemId,result.markdown,showNextPage);
+	  		    	FItem.addComment(_itemId,result.markdown,refreshCommentList);
 						else
 							console.log('no markdown so did not create comment item');
 			    }
@@ -261,9 +261,12 @@
 			}
 
 			function refreshTaskList(newTaskItemId) {
-				console.log('refreshTaskList()');
 				FItem.getLinkedItems('Task','parent',_fitem.json.item_id,onGetLinkedItems,{hdr:'Tasks',divId:'task-items-div'});
-			};
+			}
+
+			function refreshCommentList() {
+				FItem.getLinkedItems('Comment','parent',_fitem.json.item_id,onGetLinkedItems,{hdr:'Comments',divId:'comment-items-div'});
+			}
 
 			function showOptions(attr_name) {
 			  _awac.alert('show options for attr '+attr_name);
@@ -369,10 +372,9 @@
 					renderItem(fitem);
   				_fitem = fitem;
 
-  				FItem.getLinkedItems('Task','parent',_fitem.json.item_id,onGetLinkedItems,{hdr:'Tasks',divId:'task-items-div'});
+  				refreshTaskList();
+					refreshCommentList();
 			    FItem.getLinkedItems('Page','parent',_fitem.json.item_id,onGetLinkedItems,{hdr:'Child Pages',divId:'child-pages-div'});
-			    FItem.getLinkedItems('Comment','parent',_fitem.json.item_id,onGetLinkedItems,{hdr:'Comments',divId:'comment-items-div'});
-
 					if (_fitem.itemType.name == 'Tag')
 						FItem.getLinkedItems(null,'tag',_fitem.json.item_id,onGetLinkedItems,{hdr:'Tagged Items',divId:'tagged-items-div'});
 

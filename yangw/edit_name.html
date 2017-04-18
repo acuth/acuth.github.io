@@ -96,6 +96,10 @@
 
 				console.log('starting page');
 	  		startPage();
+				if (!initp.show_markdown) {
+					editItemTitle(function() { onAction('save'); });
+					componentHandler.upgradeDom();
+				}
 			});
 			</script>
 	</head>

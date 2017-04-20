@@ -323,7 +323,7 @@
 		      var titleDiv = $('#item-title-div');
 
 			    titleDiv.html('');
-			    newDiv('padded-container item-title').html(fitem.json.name_attr).appendTo(titleDiv);
+			    newDiv('padded-container item-title').html(fitem.getTitleHTML()).appendTo(titleDiv);
 
 			    var typesDiv = $('#item-types-div');
 			    typesDiv.html('');
@@ -351,7 +351,7 @@
 					$('#item-title-div').html(
 						'<div class="img-container"><img src="'+fitem.json.image_url+'"/>'+
 									'<div class="top"><div class="item-type-inner"><div class="item-type"><i class="material-icons">'+iname+'</i></div></div></div>'+
-									'<div class="img-title"><div class="img-title-inner">'+fitem.json.name_attr+'</div></div>'+
+									'<div class="img-title"><div class="img-title-inner">'+fitem.getTitleHTML()+'</div></div>'+
 						'</div>');
 						$('#show-item-type').remove();
 				}

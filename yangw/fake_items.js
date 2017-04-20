@@ -181,6 +181,14 @@ FItem.prototype.getUserHTML=function() {
   return AttrType.get('user').getHTML(null,this.json.author);
 };
 
+FItem.prototype.getTitleHTML=function() {
+  if (this.itemType.name == 'Task') {
+    if (this.json.attrs_text.indexOf('done:true') != -1)
+      return '<span style="text-decoration:line-through;">'+this.json.name_attr+'<span>';
+  }
+  return this.json.name_attr;
+};
+
 FItem.prototype.fixupAttributes=function(html) {
   if (!html) return null;
   var i = 0;

@@ -42,24 +42,39 @@ function ajax(url,cb,checkJson,logJson) {
 	xhr.send();
 }
 
+/* supports a set of static methods that should work with both FItem and FItemRow objects */
+function FItemUtil() {
+}
+
+FItemUtil.getItemTitleHTML=function(item) {
+  if (item.itemType.name == 'Task') {
+    if (item.json.attrs_text.indexOf('done:true') != -1)
+      return '<span style="text-decoration:line-through;">'+item.json.name_attr+'<span>';
+  }
+  return item.json.name_attr ? item.json.name_attr : item.json.item_id;
+};
+
+FItemUtil.getItemMDIcon=function(item) {
+  if (item.itemType.name == 'Task') {
+    if (item.json.attrs_text.indexOf('done:true') == -1)
+      return 'check_box_outline_blank';
+  }
+  return item.itemType.getMDIcon();
+};
+
 function FItemRow(json) {
   this.json = json;
   this.itemType = ItemType.get(this.json.item_type_name);
 }
 
-FItemRow.prototype.getMDIcon=function() {
-  if (this.itemType.name == 'Task') {
-    if (this.json.attrs_text.indexOf('done:true') == -1)
-      return 'check_box_outline_blank';
-  }
-  return this.itemType.getMDIcon();
-};
-
 FItemRow.getElapsedTime=function(time) {
   var ms = (new Date()).getTime()-time;
   var s = Math.round(ms/1000);
   var m = Math.round(s/60);
-  if (m < 60) return m+'m';
+  if (m < 60) {
+    if (m == 0) return 'Just now';
+    return m+'m';
+  }
   var h = Math.round(m/60);
   if (h < 24) return h+'h';
   var d = Math.round(h/24);
@@ -68,39 +83,37 @@ FItemRow.getElapsedTime=function(time) {
   return w+'w';
 };
 
-FItemRow.prototype.getDiv=function(i,fn) {
-  if (!fn) fn = 'select';
+
+
+FItemRow.prototype.getMDIcon=function() {
+  return FItemUtil.getItemMDIcon(this);
+};
+
+FItemRow.prototype.getTitleHTML=function() {
+  return FItemUtil.getItemTitleHTML(this);
+};
+
+FItemRow.prototype.getDiv=function(i,rowFn,iconFn) {
   var iname = this.getMDIcon();
   var modify = new Date(this.json.modify*1000);
-  var now = (new Date()).getTime();
-  var name = this.json.name_attr ? this.json.name_attr : this.json.item_id;
+  var titleHtml = this.getTitleHTML();
 
-  var html = '<tr onclick="'+fn+'('+i+');">';
-  html += '<td class="mdl-data-table__cell--non-numeric"><i class="material-icons mdl-color--white">'+iname+'</i></td>';
-  html += '<td class="mdl-data-table__cell--non-numeric">'+name+'</td>';
-  html += '<td class="mdl-data-table__cell--non-numeric">'+FItemRow.getElapsedTime(modify.getTime())+'</td>';
+  var onclick = rowFn ? ' onclick="'+rowFn+'(event,'+i+');"' : '';
+  var html = '<tr'+onclick+'>';
+  onclick = iconFn ? ' onclick="'+iconFn+'(event,'+i+');" style="cursor:pointer;"' : '';
+  html += '<td style="width:15%;" class="item-row mdl-data-table__cell--non-numeric"'+onclick+'><i class="material-icons mdl-color--white">'+iname+'</i></td>';
+  html += '<td style="width:60%;" class="item-row mdl-data-table__cell--non-numeric">'+titleHtml+'</td>';
+  html += '<td style="width:25%;text-align:center;" class="item-row mdl-data-table__cell--non-numeric">'+FItemRow.getElapsedTime(modify.getTime())+'</td>';
   html += '</tr>';
   return html;
+};
 
-  html = '<div class="mdl-list__item" style="padding-top:0px;">';
-  html += '<span class="mdl-list__item-primary-content">';
-  html += '<i class="material-icons mdl-list__item-avatar mdl-color--red">'+iname+'</i>';
-  html += '<span>'+name+'</span>';
-  html += '</span>';
-    //<a class="mdl-list__item-secondary-action" href="#"><i class="material-icons">star</i></a>
-  html += '</div>';
-  if (true) return html;
-
-  html = '<div class="item-row">';
-  html += '<div class="padded-container" style="display:flex;">';
-  html += '<div><i class="material-icons">'+iname+'</i></div>';
-  html += '<div class="spacer"></div>';
-  html += '<a class="name" href="javascript:'+fn+'('+i+');">'+(this.json.name_attr ? this.json.name_attr : this.json.item_id)+'</a>';
-  html += '<div class="spacer"></div>';
-  html += '<div class="elapsed">'+FItemRow.getElapsedTime(modify.getTime())+'</div>';
-  html += '</div>';
-  html += '</div>';
-  return html;
+FItemRow.prototype.update_attr=function(name,value,cb) {
+  var url = FItem.apiUrl + 'op=update_item_attr&item_id='+this.json.item_id+'&item_last_modified='+this.json.modify
+                +'&name='+encodeURIComponent(name)+'&value='+encodeURIComponent(value);
+  ajax(url,function(json) {
+    cb(json);
+  },true,true);
 };
 
 function FItem(json,isParsed) {
@@ -165,28 +178,16 @@ FItem.prototype.addLink=function(html,pageName,pageTitle) {
   return html;
 };
 
-FItem.prototype.getMDIcon=function() {
-  if (this.itemType.name == 'Task') {
-    if (this.json.attrs_text.indexOf('done:true') == -1)
-      return 'check_box_outline_blank';
-  }
-  return this.itemType.getMDIcon();
-};
-
-function needToCreate() {
-  _awac.alert('Need to create');
-}
-
 FItem.prototype.getUserHTML=function() {
   return AttrType.get('user').getHTML(null,this.json.author);
 };
 
 FItem.prototype.getTitleHTML=function() {
-  if (this.itemType.name == 'Task') {
-    if (this.json.attrs_text.indexOf('done:true') != -1)
-      return '<span style="text-decoration:line-through;">'+this.json.name_attr+'<span>';
-  }
-  return this.json.name_attr;
+  return FItemUtil.getItemTitleHTML(this);
+};
+
+FItem.prototype.getMDIcon=function() {
+  return FItemUtil.getItemMDIcon(this);
 };
 
 FItem.prototype.fixupAttributes=function(html) {

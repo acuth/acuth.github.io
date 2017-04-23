@@ -419,3 +419,16 @@ div.right {
   border2: solid 1px gray;
   background2: #FFe5e5;
 }
+
+.mdl-data-table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+td.item-row {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+}

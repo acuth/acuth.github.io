@@ -36,7 +36,7 @@
 			    _awac.alert('action '+action+' NYI');
 			}
 
-			function select(i) {
+			function selectRow(event,i) {
 			  var id = _items[i].item_id;
 			  FItem.historyPush(_awac,id);
 			  _awac.replacePage('show','show_item.html',{'item_id':id},true);
@@ -47,7 +47,7 @@
 			  var html = '';
 				html += '<table style="width:100%;" class="mdl-data-table mdl-js-data-table"><tbody>';
 			  for (var i=0;i<json.length;i++) {
-			    html += (new FItemRow(json[i])).getDiv(i);
+			    html += (new FItemRow(json[i])).getDiv(i,'selectRow');
 			  }
 				html == '</tbody></table>';
 			  document.getElementById('items').innerHTML = html;

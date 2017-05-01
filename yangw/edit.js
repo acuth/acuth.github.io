@@ -156,7 +156,9 @@ function editItemTitle(cb) {
     console.log('Found placeholder so remove it');
     ph.remove();
   }
-  t.attr('contenteditable',true).focus();
+  t.attr('contenteditable',true);
+  return;
+  t.focus();
   placeCaretAtEnd(t.get(0));
   if (cb) {
     t.on('keydown', function (e) {

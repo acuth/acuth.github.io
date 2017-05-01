@@ -119,7 +119,9 @@ new function($) {
 			  _awac.addActionBarItem({'label':'SAVE','action':'save'});
 
 				try {
-  			  $('#edit-item-markdown').text(_markdown).focus();
+					var md = $('#edit-item-markdown');
+  			  md.text(_markdown);
+					//md.focus();
 				} catch (err) {
 				  console.log('got err='+err);
 				}

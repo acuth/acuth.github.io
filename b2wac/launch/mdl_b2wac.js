@@ -25,11 +25,17 @@ Frame.prototype.showPage=function() {
   // set title of page
 };
 
+Frame.prototype.debugIFrame=function() {
+  var e = this.iframe.get(0);
+  return '{IFrame width:'+this.iframe.width()+'}';
+};
+
 Frame.prototype.toString=function() {
   var i = this.url.lastIndexOf('/');
-  return '{Frame id='+this.id+' url='+this.url.substring(i)+'}';
+  var j = this.url.indexOf('?r=');
+  return '{Frame id='+this.id+' url='+this.url.substring(i,j)+' iframe='+this.debugIFrame()+'}';
 };
-  
+
 function B2wac(pageDiv,href,pageUrl,fbConfig) {
   console.log('B2wac()\n - pageDiv='+pageDiv+'\n - href='+href+'\n - pageUrl='+pageUrl);
   var i = href.indexOf('#');
@@ -63,22 +69,22 @@ function B2wac(pageDiv,href,pageUrl,fbConfig) {
     pageUrl = '../../test/index.html';
     console.log('using default value for pageUrl\n - pageUrl='+pageUrl);
   }
-  
+
   this.initFirebase(fbConfig);
-  
+
   var b2wac = this;
   //window.onbeforeunload = function() { alert('onbeforeunload'); b2wac.back(); };
   document.addEventListener('backbutton',function() { alert('backbutton'); b2wac.back(); });
-  
+
   this.prepareDialog();
   this.prepareModalList();
   this.prepareNavDrawer();
-  
+
   window.onhashchange=function(){b2wac.onHashChange();};
-  
+
   window.location.hash="first-home";
   window.location.hash="home";//again because google chrome don't insert first hash into history
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> set window.location.hash=#home');
+  //console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> set window.location.hash=#home');
   this.openPage(null,pageUrl,null);
 }
 
@@ -110,12 +116,12 @@ B2wac.prototype.stringify = function(x) {
 };
 
 B2wac.prototype.onHashChange=function() {
-  console.log('>>>>>>>>>>>>>>>>>>>>>>> B2wac.onHashChange()');
+  //console.log('>>>>>>>>>>>>>>>>>>>>>>> B2wac.onHashChange()');
   var pageHash = window.location.hash;
   if (pageHash) pageHash = pageHash.substring(1);
-  console.log(' - page-hash='+pageHash);
+  //console.log(' - page-hash='+pageHash);
   var frameHash = this.frameStack[this.nFrame-1].getHash();
-  console.log(' - frame-hash='+frameHash);
+  //console.log(' - frame-hash='+frameHash);
   if (pageHash != 'home' && pageHash != frameHash) {
     console.log(' - go back');
     this.back();
@@ -146,7 +152,7 @@ B2wac.prototype.prepareNavDrawer=function() {
   if (!dialog.showModal) {
     dialogPolyfill.registerDialog(dialog);
   }
-}; 
+};
 
 B2wac.prototype.prepareModalList=function() {
   var dialog = document.createElement('dialog');
@@ -157,13 +163,13 @@ B2wac.prototype.prepareModalList=function() {
   if (!dialog.showModal) {
     dialogPolyfill.registerDialog(dialog);
   }
-}; 
+};
 
 B2wac.prototype.prepareDialog=function() {
   var dialog = document.createElement('dialog');
   dialog.setAttribute('id','app-dialog');
   dialog.setAttribute('class','mdl-dialog');
-  dialog.innerHTML = 
+  dialog.innerHTML =
         '<div id="app-dialog-content" class="mdl-dialog__content">-content-</div>'+
         '<div class="mdl-dialog__actions">'+
           '<button type="button" id="app-dialog-yes-btn" class="mdl-button mdl-button--primary">-yes-</button>'+
@@ -173,8 +179,8 @@ B2wac.prototype.prepareDialog=function() {
   if (!dialog.showModal) {
     dialogPolyfill.registerDialog(dialog);
   }
-  
-  
+
+
   var b2wac = this;
   //var dialog = document.getElementById('app-dialog');
   document.getElementById('app-dialog-yes-btn').addEventListener('click', function() {
@@ -189,7 +195,7 @@ B2wac.prototype.prepareDialog=function() {
 
 B2wac.prototype.getContainer=function(awac) {
   return this.frameStack[this.nFrame-1].newContainer(this,awac);
-}; 
+};
 
 B2wac.prototype.resetTransition=function() {
   this.comcealFrame = null;
@@ -202,126 +208,149 @@ B2wac.prototype.hideFrame=function(frame,remove) {
   frame.iframe.css('display','none');
   if (remove) {
     console.log('removing '+frame);
-    frame.iframe.remove(); 
+    frame.iframe.remove();
   }
 };
 
-B2wac.prototype.upDownTransition=function(dirn) {
-    var concealFrame = this.concealFrame;
-    var removeFrame = this.removeConcealedFrame;
-    var transFrame = null;
-    var revealClass = null;
-    var transClass = null;
+B2wac.prototype.upDownTransition=function(dirn,frameWidth,frameHeight,mainWidth,mainHeight) {
+    console.log('>>>>> upDownTranstion('+dirn+')');
     if (dirn == B2wac.UP) {
-      transFrame = this.revealFrame;
-      revealClass = 'reveal-start-down';
-      transClass = 'reveal-trans-up';
+      var tf = this.revealFrame;
+      var ts = tf.iframe.get(0).style;
+      ts.position = 'absolute';
+      ts.top = mainHeight+'px';
+      tf.iframe.css('width',frameWidth+'px');
+      tf.iframe.css('height',frameHeight+'px');
+      ts.display = 'block';
+      window.setTimeout(function() {
+        tf.iframe.addClass('trans-ease-out');
+        ts.transform = 'translate3d(0,-'+mainHeight+'px,0)';
+      },50);
+      window.setTimeout(function() {
+        tf.iframe.removeClass('trans-ease-out');
+        ts.transform = '';
+        ts.top = '0px';
+      },B2wac.TRANSITION_TIME+50);
     }
     else if (dirn == B2wac.DOWN) {
-      transFrame = this.concealFrame;
-      revealClass = 'reveal-start-up';
-      transClass = 'reveal-trans-down';
+      var tf = this.concealFrame;
+      var ts = tf.iframe.get(0).style;
+      window.setTimeout(function() {
+        tf.iframe.addClass('trans-ease-in');
+        ts.transform = 'translate3d(0,'+mainHeight+'px,0)';
+      },50);
+      var b2wac = this;
+      window.setTimeout(function() {
+        tf.iframe.removeClass('trans-ease-in');
+        ts.display = 'none';
+        ts.transform = '';
+        b2wac.hideFrame(tf,true);
+      },B2wac.TRANSITION_TIME+50);
     }
-    transFrame.iframe.addClass(revealClass);
-    window.setTimeout(function() {
-      console.log('start of transition');
-      transFrame.iframe.addClass(transClass);
-    },50);
-    var b2wac = this;
-    window.setTimeout(function() {
-      console.log('end of transition');
-      transFrame.iframe.removeClass(revealClass+' '+transClass);
-      b2wac.hideFrame(concealFrame,removeFrame);
-    },B2wac.TRANSITION_TIME+50);
 };
 
+B2wac.prototype.leftRightCleanUp=function(rf,rs,cf,cs,delta) {
+  rf.iframe.removeClass('trans-ease');
+  rs.transform = '';
+  rs.left = delta+'px';
+  cs.display = 'none';
+  cf.iframe.removeClass('trans-ease');
+  cs.transform = '';
+  this.hideFrame(cf,true);
+};
 
-B2wac.prototype.leftRightTransition=function(dirn) {
-    var concealFrame = this.concealFrame;
-    var removeFrame = this.removeConcealedFrame;
-    var leftFrame = null;
-    var rightFrame = null;
-    var leftStartClass = null;
-    var rightStartClass = null;
-    var leftTransClass = null;
-    var rightTransClass = null;
+B2wac.prototype.leftRightTransition=function(dirn,frameWidth,frameHeight,mainWidth,mainHeight) {
+    console.log('>>>>> leftRightTranstion('+dirn+')');
+    var delta = (mainWidth - frameWidth)/2;
+    console.log(' - delta='+delta);
+
+    var rf = this.revealFrame;
+    var cf = this.concealFrame;
+    var rs = rf.iframe.get(0).style;
+    var cs = cf.iframe.get(0).style;
+    rs.position = 'absolute';
+    rs.top = '0px';
+    rf.iframe.css('width',frameWidth+'px');
+    rf.iframe.css('height',frameHeight+'px');
+
     if (dirn == B2wac.NEXT) {
-      leftFrame = this.concealFrame;
-      rightFrame = this.revealFrame;
-      leftStartClass = 'reveal-start-none';
-      rightStartClass = 'reveal-start-to-right';
-      leftTransClass = 'reveal-trans-to-left';
-      rightTransClass = 'reveal-trans-to-left';
+      rs.left = mainWidth+'px';
+      rs.display = 'block';
+      var translate = 'translate3d(-'+(mainWidth-delta)+'px,0,0)'
+      window.setTimeout(function() {
+        rf.iframe.addClass('trans-ease');
+        cf.iframe.addClass('trans-ease');
+        rs.transform = translate;
+        cs.transform = translate;
+      },50);
+      var b2wac = this;
+      window.setTimeout(function() {
+        b2wac.leftRightCleanUp(rf,rs,cf,cs,delta);
+      },B2wac.TRANSITION_TIME+50);
     }
     else if (dirn == B2wac.PREV) {
-      leftFrame = this.revealFrame;
-      rightFrame = this.concealFrame;
-      leftStartClass = 'reveal-start-to-left';
-      rightStartClass = 'reveal-start-none';
-      leftTransClass = 'reveal-trans-to-right';
-      rightTransClass = 'reveal-trans-to-right';
+      rs.left = '-'+frameWidth+'px';
+      rs.display = 'block';
+      var translate = 'translate3d('+(mainWidth-delta)+'px,0,0)'
+      window.setTimeout(function() {
+        rf.iframe.addClass('trans-ease');
+        cf.iframe.addClass('trans-ease');
+        rs.transform = translate;
+        cs.transform = translate;
+      },50);
+      var b2wac = this;
+      window.setTimeout(function() {
+        b2wac.leftRightCleanUp(rf,rs,cf,cs,delta);
+      },B2wac.TRANSITION_TIME+50);
     }
-    leftFrame.iframe.addClass(leftStartClass);
-    rightFrame.iframe.addClass(rightStartClass);
-    window.setTimeout(function() {
-      console.log('start of transition');
-      leftFrame.iframe.addClass(leftTransClass);
-      rightFrame.iframe.addClass(rightTransClass);
-    },50);
-    var b2wac = this;
-    window.setTimeout(function() {
-      console.log('end of transition');
-      leftFrame.iframe.removeClass(leftStartClass+' '+leftTransClass);
-      rightFrame.iframe.removeClass(rightStartClass+' '+rightTransClass);
-      b2wac.hideFrame(concealFrame,removeFrame);
-    },B2wac.TRANSITION_TIME+50);
+    console.log(' - finished');
 };
 
 B2wac.prototype.transitionFrames=function() {
-  console.log('>>>>>>>>>>>>>>>>>>>>>>> B2wac.transitionFrames()');
-  console.log(' - reveal-type='+this.revealType);
-  console.log(' - remove-concealed-frame='+this.removeConcealedFrame);
-  console.log(' - conceal '+this.concealFrame);
-  console.log(' - reveal '+this.revealFrame);
-  
+  //console.log('>>>>>>>>>>>>>>>>>>>>>>> B2wac.transitionFrames()');
+  //console.log(' - reveal-type='+this.revealType);
+  //console.log(' - remove-concealed-frame='+this.removeConcealedFrame);
+  //console.log(' - conceal '+this.concealFrame);
+  //console.log(' - reveal '+this.revealFrame);
+
   var dirn = this.revealType;
   //if (dirn == B2wac.NEXT) dirn = B2wac.UP;
   //if (dirn == B2wac.PREV) dirn = B2wac.DOWN;
-  
+
   var removeFrame = this.removeConcealedFrame;
   var concealFrame = this.concealFrame;
   var revealFrame = this.revealFrame;
-  
+
   var hash = revealFrame.getHash();
   window.location.hash=hash;
   revealFrame.container.updateHeader();
-  
+
 
   if (!concealFrame) {
-     console.log('simple reveal');
-     revealFrame.iframe.css('display','block');  
+     //console.log('simple reveal');
+     revealFrame.iframe.css('display','block');
      this.resetTransition();
      return;
   }
-  
-  console.log('complex reveal');
-      
-  var width = concealFrame.iframe.width()+'px';
-  console.log(' - width='+width);
-  
-  var header = $('#header').css('width',width);
-  concealFrame.iframe.css('width',width);
-  revealFrame.iframe.css('width',width);
-  
-  concealFrame.iframe.css('display','block');
-  revealFrame.iframe.css('display','block');
-    
-  if (dirn == B2wac.UP || dirn == B2wac.DOWN)
-    this.upDownTransition(dirn);
-  else 
-    this.leftRightTransition(dirn);
-  
-  this.resetTransition();
+
+  // we will make the frame being revealed the same size as the frame being concealed
+  var frameWidth = concealFrame.iframe.width();
+  var frameHeight = concealFrame.iframe.height();
+
+  var main = document.getElementById('main');
+  var mainWidth = main.offsetWidth;
+  var mainHeight = main.offsetHeight;
+
+  if (dirn == B2wac.UP || dirn == B2wac.DOWN) {
+    this.upDownTransition(dirn,frameWidth,frameHeight,mainWidth,mainHeight);
+    this.resetTransition();
+  }
+  else {
+    this.leftRightTransition(dirn,frameWidth,frameHeight,mainWidth,mainHeight);
+    this.resetTransition();
+  }
+
+
 };
 
 B2wac.prototype.startPage=function() {
@@ -361,13 +390,19 @@ B2wac.joinUrl=function(url0,url1) {
 B2wac.prototype.resolvePageUrl=function(currentUrl,pageUrl) {
   var url = B2wac.joinUrl(currentUrl,pageUrl);
   console.log('resolved-url='+url);
-  return url;  
+  return url;
 };
 
 B2wac.prototype.newFrame=function(currentUrl,tag,pageUrl,value) {
   pageUrl = this.resolvePageUrl(currentUrl,pageUrl);
   pageUrl += '?r='+Math.random();
-  var iframe = $(document.createElement('iframe')).appendTo($('#'+this.pageDiv));
+
+  var page = $('#'+this.pageDiv);
+  console.log('About to append an iframe to '+page.get(0));
+  console.log(' - width='+page.width());
+  //console.log(' - offset-width='+page.get(0).offsetWidth);
+
+  var iframe = $(document.createElement('iframe')).addClass('fun').appendTo(page);
   var frame = new Frame(tag,pageUrl,value,iframe);
   iframe.attr('id','iframe-'+frame.id);
   this.frameStack[this.nFrame-1] = frame;
@@ -392,7 +427,7 @@ B2wac.prototype.replacePage=function(tag,pageUrl,value,next) {
   var frame = this.frameStack[this.nFrame-1];
   this.concealFrame = frame;
   this.removeConcealedFrame = true;
-  this.revealType = next ? B2wac.NEXT : B2wac.PREV; 
+  this.revealType = next ? B2wac.NEXT : B2wac.PREV;
   this.newFrame(frame.url,tag,pageUrl,value);
 };
 
@@ -406,7 +441,7 @@ B2wac.prototype.endPage=function(tag,ok,value) {
   this.frameStack[this.nFrame-1] = null;
   this.nFrame--;
   if (this.nFrame === 0) {
-    window.close(); 
+    window.close();
   }
   else {
     frame = this.frameStack[this.nFrame-1];
@@ -443,7 +478,7 @@ B2wac.prototype.back=function() {
   else if (this.nFrame > 1) {
     console.log('default back() behaviour');
     this.endPage(false,null);
-  }  
+  }
   else {
     console.log('last frame');
     this.alert('You cannot go back from here');
@@ -524,13 +559,13 @@ B2wac.prototype.updateHeader=function(title,showNavDrawer,homeItem,actionBarItem
     btn.setAttribute('class','mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon');
     btn.setAttribute('id','hdrbtn');
     btn.innerHTML = '<i class="material-icons">more_vert</i>';
-    
+
     var menu = document.createElement('ul');
     menu.setAttribute('class','mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right');
     menu.setAttribute('for','hdrbtn');
     menu.setAttribute('id','hdrmenu');
-    
-    for (var i=0;i<optionsMenuItems.length;i++) 
+
+    for (var i=0;i<optionsMenuItems.length;i++)
       menu.appendChild(getMenuControl(optionsMenuItems[i]));
     div.appendChild(btn);
     div.appendChild(menu);
@@ -606,7 +641,7 @@ B2wac.prototype.showNavDrawer = function() {
   var div = document.createElement('div');
   div.setAttribute('class','mdl-dialog__actions mdl-dialog__actions--full-width');
   //var ul = document.createElement('ul');
-  for (var i=0;i<this.navDrawerItems.length;i++) 
+  for (var i=0;i<this.navDrawerItems.length;i++)
     div.appendChild(this.getModalControl(false,this.navDrawerItems[i],i));
   var e = document.getElementById('app-nav-drawer-content');
   e.innerHTML = null;
@@ -621,7 +656,7 @@ B2wac.prototype.showList = function(items) {
   items = JSON.parse(items);
   var div = document.createElement('div');
   div.setAttribute('class','mdl-dialog__actions mdl-dialog__actions--full-width');
-  for (var i=0;i<items.length;i++) 
+  for (var i=0;i<items.length;i++)
     div.appendChild(this.getModalControl(true,items[i],i));
   var e = document.getElementById('app-modal-list-content');
   e.innerHTML = null;
@@ -658,17 +693,17 @@ B2wac.prototype.getUser=function() {
 B2wac.prototype.onFBAuthStateChanged=function(user) {
   console.log('onFBAuthStateChanged(user='+user+')');
   this.fbUser = user;
-  
+
   if (user) {
     //console.log('\n\n\n ----------- load data for /users/'+user.uid+'\n\n\n');
     var b2wac = this;
     this.fbdatabase.ref('/users/'+user.uid).once('value').then(function(snapshot) { b2wac.recordUserSignIn(snapshot); });
   }
-  
+
   var frame = this.frameStack[this.nFrame-1];
   frame.container.awac.fireSignInOut(this.getUser());
 };
-  
+
 B2wac.prototype.signIn=function() {
   console.log('B2wac.signIn()');
   var provider = new firebase.auth.GoogleAuthProvider();
@@ -683,8 +718,8 @@ B2wac.prototype.signOut=function() {
 };
 
 B2wac.prototype.getDims = function() {
-   var e = document.getElementById('main');
-   console.log('main='+e.offsetWidth);
+   var e = document.getElementById(this.pageDiv);
+   //console.log('page.offsetWidth='+e.offsetWidth);
    var dims = {};
    dims.width = e.offsetWidth;
    dims.height = e.offsetHeight;
@@ -724,5 +759,3 @@ B2wac.prototype.initFirebase=function(fbConfig) {
 B2wac.prototype.getFBDatabase=function() {
   return this.fbdatabase;
 };
-
-

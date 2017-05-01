@@ -295,18 +295,18 @@ B2wacContainer.prototype.makeFBDBRequest = function(msgId,once,key) {
   var fbdb = this.b2wac.getFBDatabase();
   if (this.debug) console.log(this.varName+'.makeFBDBRequest(msgId='+msgId+',once='+once+',key='+key+')');
   var container = this;
-  if (once) 
-    fbdb.ref(key).once('value').then(function(snapshot) { 
+  if (once)
+    fbdb.ref(key).once('value').then(function(snapshot) {
       container.awac.fireFBDBResponse(msgId,snapshot.val());
     });
-  else 
-    fbdb.ref(key).on('value',function(snapshot) { 
+  else
+    fbdb.ref(key).on('value',function(snapshot) {
       container.awac.fireFBDBResponse(msgId,snapshot.val());
     });
 };
 
 B2wacContainer.prototype.setFBDB = function(key,val) {
   var fbdb = this.b2wac.getFBDatabase();
-  if (this.debug) console.log(this.varName+'.setFBDB(key='+key+',val='+JSON.stringify(val)+')'); 
+  if (this.debug) console.log(this.varName+'.setFBDB(key='+key+',val='+JSON.stringify(val)+')');
   fbdb.ref(key).set(val);
 };

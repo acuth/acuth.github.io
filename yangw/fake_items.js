@@ -3,15 +3,7 @@ var _itemTitles = ['An Introduction to Items',
               'Well Known Item Types'];
 
 
-              Awac.prototype.getDims = function() {
-                var result = JSON.parse(this.container.getDims());
-                console.log(' - fixup getDims() result');
-                var w = $(window).width();
-                //result.height = result.height*w/result.width;
-                //result.width = w;
-                return result;
-              };
-
+            
 
 function ajax(url,cb,checkJson,logJson) {
   console.log('AJAX make request url='+url);

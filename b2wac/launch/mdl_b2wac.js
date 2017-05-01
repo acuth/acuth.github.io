@@ -212,6 +212,12 @@ B2wac.prototype.hideFrame=function(frame,remove) {
   }
 };
 
+B2wac.prototype.invokeTransitionEnd=function() {
+  console.log('invokeTransitionEnd()');
+  var frame = this.frameStack[this.nFrame-1];
+  frame.container.awac.fireTransitionEnd();
+};
+
 B2wac.prototype.upDownTransition=function(dirn,frameWidth,frameHeight,mainWidth,mainHeight) {
     console.log('>>>>> upDownTranstion('+dirn+')');
     if (dirn == B2wac.UP) {
@@ -226,10 +232,12 @@ B2wac.prototype.upDownTransition=function(dirn,frameWidth,frameHeight,mainWidth,
         tf.iframe.addClass('trans-ease-out');
         ts.transform = 'translate3d(0,-'+mainHeight+'px,0)';
       },50);
+      var b2wac = this;
       window.setTimeout(function() {
         tf.iframe.removeClass('trans-ease-out');
         ts.transform = '';
         ts.top = '0px';
+        b2wac.invokeTransitionEnd();
       },B2wac.TRANSITION_TIME+50);
     }
     else if (dirn == B2wac.DOWN) {
@@ -245,6 +253,7 @@ B2wac.prototype.upDownTransition=function(dirn,frameWidth,frameHeight,mainWidth,
         ts.display = 'none';
         ts.transform = '';
         b2wac.hideFrame(tf,true);
+        //b2wac.invokeTransitionEnd();
       },B2wac.TRANSITION_TIME+50);
     }
 };
@@ -257,6 +266,7 @@ B2wac.prototype.leftRightCleanUp=function(rf,rs,cf,cs,delta) {
   cf.iframe.removeClass('trans-ease');
   cs.transform = '';
   this.hideFrame(cf,true);
+  this.invokeTransitionEnd();
 };
 
 B2wac.prototype.leftRightTransition=function(dirn,frameWidth,frameHeight,mainWidth,mainHeight) {

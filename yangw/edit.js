@@ -146,6 +146,13 @@ function getItemTitle() {
   return name;
 }
 
+function focusOnItemTitle() {
+    console.log('focusOnItemTitle()');
+    var t = $('#item-title-div').find('.item-title');
+    t.focus();
+    placeCaretAtEnd(t.get(0));
+}
+
 function editItemTitle(cb) {
   console.log('editItemTitle()');
   var t = $('#item-title-div').find('.item-title');
@@ -157,9 +164,6 @@ function editItemTitle(cb) {
     ph.remove();
   }
   t.attr('contenteditable',true);
-  return;
-  t.focus();
-  placeCaretAtEnd(t.get(0));
   if (cb) {
     t.on('keydown', function (e) {
         if (e.keyCode == 13) {

@@ -220,39 +220,45 @@ B2wac.prototype.invokeTransitionEnd=function() {
 
 B2wac.prototype.upDownTransition=function(dirn,frameWidth,frameHeight,mainWidth,mainHeight) {
     console.log('>>>>> upDownTranstion('+dirn+')');
+
+    var rf = this.revealFrame;
+    var cf = this.concealFrame;
+    var rs = rf.iframe.get(0).style;
+    var cs = cf.iframe.get(0).style;
+
     if (dirn == B2wac.UP) {
-      var tf = this.revealFrame;
-      var ts = tf.iframe.get(0).style;
-      ts.position = 'absolute';
-      ts.top = mainHeight+'px';
-      tf.iframe.css('width',frameWidth+'px');
-      tf.iframe.css('height',frameHeight+'px');
-      ts.display = 'block';
+      console.log(' - up');
+      rs.position = 'absolute';
+      rs.top = mainHeight+'px';
+      rf.iframe.css('width',frameWidth+'px');
+      rf.iframe.css('height',frameHeight+'px');
+      rs.display = 'block';
       window.setTimeout(function() {
-        tf.iframe.addClass('trans-ease-out');
-        ts.transform = 'translate3d(0,-'+mainHeight+'px,0)';
+        rf.iframe.addClass('trans-ease-out');
+        rs.transform = 'translate3d(0,-'+mainHeight+'px,0)';
       },50);
       var b2wac = this;
       window.setTimeout(function() {
-        tf.iframe.removeClass('trans-ease-out');
-        ts.transform = '';
-        ts.top = '0px';
+        cs.display = 'none';
+        rf.iframe.removeClass('trans-ease-out');
+        rs.transform = '';
+        rs.top = '0px';
         b2wac.invokeTransitionEnd();
       },B2wac.TRANSITION_TIME+50);
     }
     else if (dirn == B2wac.DOWN) {
-      var tf = this.concealFrame;
-      var ts = tf.iframe.get(0).style;
+      console.log(' - down');
       window.setTimeout(function() {
-        tf.iframe.addClass('trans-ease-in');
-        ts.transform = 'translate3d(0,'+mainHeight+'px,0)';
+        rs.display = 'block';
+        cf.iframe.addClass('trans-ease-in');
+        cs.transform = 'translate3d(0,'+mainHeight+'px,0)';
       },50);
       var b2wac = this;
       window.setTimeout(function() {
-        tf.iframe.removeClass('trans-ease-in');
-        ts.display = 'none';
-        ts.transform = '';
-        b2wac.hideFrame(tf,true);
+        cf.iframe.removeClass('trans-ease-in');
+        cs.display = 'none';
+        cs.transform = '';
+        b2wac.hideFrame(cf,true);
         //b2wac.invokeTransitionEnd();
       },B2wac.TRANSITION_TIME+50);
     }
@@ -278,12 +284,14 @@ B2wac.prototype.leftRightTransition=function(dirn,frameWidth,frameHeight,mainWid
     var cf = this.concealFrame;
     var rs = rf.iframe.get(0).style;
     var cs = cf.iframe.get(0).style;
+
     rs.position = 'absolute';
     rs.top = '0px';
     rf.iframe.css('width',frameWidth+'px');
     rf.iframe.css('height',frameHeight+'px');
 
     if (dirn == B2wac.NEXT) {
+      console.log(' - next');
       rs.left = mainWidth+'px';
       rs.display = 'block';
       var translate = 'translate3d(-'+(mainWidth-delta)+'px,0,0)'
@@ -299,6 +307,7 @@ B2wac.prototype.leftRightTransition=function(dirn,frameWidth,frameHeight,mainWid
       },B2wac.TRANSITION_TIME+50);
     }
     else if (dirn == B2wac.PREV) {
+      console.log(' - prev');
       rs.left = '-'+frameWidth+'px';
       rs.display = 'block';
       var translate = 'translate3d('+(mainWidth-delta)+'px,0,0)'

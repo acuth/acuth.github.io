@@ -108,24 +108,20 @@ div.action-icon a {
 }
 
 #main {
-  background: #FF9800;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to top, #EDDE5D, #FF9800);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to top, #EDDE5D, #FF9800); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: gray;
 }
 
 div#page {
   z-index: 100;
   height: calc(100% - 56px);
-  backgroundw: white;
   overflow: hidden;
 }
 
-	@media screen and (min-width: 1025px) {
-    div#page {
-      height: calc(100% - 120px);
-    }
+@media screen and (min-width: 1025px) {
+  div#page {
+    height: calc(100% - 120px);
   }
-
+}
 
 
 div.app-progress {

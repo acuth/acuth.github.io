@@ -73,8 +73,10 @@
 			    _awac.endPage();
 			  else if ('edit:markdown' == action)
 			    _awac.openPage('edit-item-markdown','edit_markdown.html',{'markdown':_markdown});
-				else if ('edit:title' == action)
+				else if ('edit:title' == action) {
 					editItemTitle();
+					focusOnItemTitle();
+				}
 				else if ('save' == action)
 				  saveItem();
 				else

@@ -3,7 +3,7 @@ var _itemTitles = ['An Introduction to Items',
               'Well Known Item Types'];
 
 
-            
+
 
 function ajax(url,cb,checkJson,logJson) {
   console.log('AJAX make request url='+url);
@@ -209,8 +209,8 @@ FItem.prototype.fixupAttributes=function(html) {
 
     i = j;
   }
-  console.log('addLinks html='+html);
-  html = html.replace('<p>','<div>').replace('</p>','</div>');
+  //console.log('addLinks html='+html);
+  //html = html.replace('<p>','<div>').replace('</p>','</div>');
   return html;
 };
 

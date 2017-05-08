@@ -98,6 +98,10 @@ B2wacContainer.prototype.getColors = function() {
   return null;
 };
 
+B2wacContainer.prototype.getMdlCssUrl = function() {
+  return this.b2wac.mdlCssUrl;
+}
+
 B2wacContainer.prototype.setHomeItem = function(json) {
   if (this.debug) console.log(this.varName+'.setHomeItem('+json+')');
   this.homeItem = json;

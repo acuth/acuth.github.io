@@ -244,7 +244,7 @@ MockContainer.prototype.getFBDatabase = function(key) {
 function Awac(varName) {
   this.varName = varName ? varName : 'x';
   //console.log(this.varName+' = new Awac('+_awac_+')');
-  
+
   var container = null;
   container = _awac_;
   if (container) {
@@ -259,11 +259,11 @@ function Awac(varName) {
       console.log('Using MockContainer');
     }
   }
-  
+
   this.container = container;
   this.container.setVarName(this.varName);
   //console.log(' - this.container='+this.container);
-  this.ondialog = null; 
+  this.ondialog = null;
   this.onlist = null;
   this.onrefresh = null;
   this.onresult = null;
@@ -331,7 +331,7 @@ Awac.prototype.parse = function(s) {
     var s2 = s.substring(i+1);
     //console.log('type='+t+' value-'+s2);
     if (t == 'string') {
-      var result = decodeURIComponent(s2); 
+      var result = decodeURIComponent(s2);
       //console.log('string value='+result);
       return result;
     }
@@ -378,7 +378,7 @@ Awac.prototype.setPageColors = function(obj) {
   this.container.setPageColors(JSON.stringify(obj));
 };
 
-Awac.prototype.getColors = function() { 
+Awac.prototype.getColors = function() {
   var colors = JSON.parse(this.container.getColors());
   return colors;
 };
@@ -470,11 +470,11 @@ Awac.prototype.setMdlCss = function(containerId,mdlCssUrl) {
     setTimeout(function() { awac.setMdlCss(containerId,mdlCssUrl); },50);
     return;
   }
-  
+
   var e = document.getElementById(containerId);
   e.style.width = dims.width+'px';
   e.style.height = dims.height+'px';
- 
+
   var urls = mdlCssUrl.split(',');
   for (var i=0;i<urls.length;i++) {
     var link = document.createElement( 'link' );
@@ -483,16 +483,18 @@ Awac.prototype.setMdlCss = function(containerId,mdlCssUrl) {
     link.rel = 'stylesheet';
     document.getElementsByTagName( 'head' )[0].appendChild( link );
   }
-  // tell MDL component handler to upgrade the page 
+  // tell MDL component handler to upgrade the page
   componentHandler.upgradeDom();
 };
-    
+
 /* Call this to make the web page visible which uses Material Design Lite */
 Awac.prototype.startMdlPage = function(containerId,mdlCssUrl) {
+  if (!mdlCssUrl) mdlCssUrl = this.container.getMdlCssUrl();
+  console.log(' mdlCssUrl='+mdlCssUrl);
   this.startPage();
   var awac = this;
   setTimeout(function() { awac.setMdlCss(containerId,mdlCssUrl); },50);
-};      
+};
 
 /* End displaying the page and pop it off the stack */
 Awac.prototype.endPage = function(value) {

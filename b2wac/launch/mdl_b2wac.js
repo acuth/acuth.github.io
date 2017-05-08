@@ -36,14 +36,15 @@ Frame.prototype.toString=function() {
   return '{Frame id='+this.id+' url='+this.url.substring(i,j)+' iframe='+this.debugIFrame()+'}';
 };
 
-function B2wac(pageDiv,href,pageUrl,fbConfig) {
-  console.log('B2wac()\n - pageDiv='+pageDiv+'\n - href='+href+'\n - pageUrl='+pageUrl);
+function B2wac(pageDiv,href,pageUrl,fbConfig,mdlCssUrl) {
+  console.log('B2wac()\n - pageDiv='+pageDiv+'\n - href='+href+'\n - pageUrl='+pageUrl+'\n - mdlCssUrl='+mdlCssUrl);
   var i = href.indexOf('#');
   if (i != -1) href = href.substring(0,i);
   this.href = href;
   i = href.indexOf('?');
   this.rootUrl = i == -1 ? href : href.substring(0,i);
   this.pageDiv = pageDiv;
+  this.mdlCssUrl = mdlCssUrl;
   this.frameStack = [];
   this.nFrame = 0;
   this.values = {};

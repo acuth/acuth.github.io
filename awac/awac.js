@@ -490,7 +490,7 @@ Awac.prototype.setMdlCss = function(containerId,mdlCssUrl) {
 /* Call this to make the web page visible which uses Material Design Lite */
 Awac.prototype.startMdlPage = function(containerId,mdlCssUrl) {
   if (!mdlCssUrl) mdlCssUrl = this.container.getMdlCssUrl();
-  console.log(' mdlCssUrl='+mdlCssUrl);
+  console.log('Awac.startMdlPage()\n - mdlCssUrl='+mdlCssUrl);
   this.startPage();
   var awac = this;
   setTimeout(function() { awac.setMdlCss(containerId,mdlCssUrl); },50);

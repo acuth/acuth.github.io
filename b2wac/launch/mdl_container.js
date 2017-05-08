@@ -99,7 +99,10 @@ B2wacContainer.prototype.getColors = function() {
 };
 
 B2wacContainer.prototype.getMdlCssUrl = function() {
-  return this.b2wac.mdlCssUrl;
+  console.log('B2wacContainer.getMdlCssUrl()');
+  var url = this.b2wac.mdlCssUrl;
+  console.log(' - url='+url);
+  return url;
 }
 
 B2wacContainer.prototype.setHomeItem = function(json) {

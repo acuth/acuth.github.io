@@ -33,6 +33,12 @@ div#show-item-lists {
 }
 }
 
+div#show-item-markdown img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto}
+}
+
 .box {
 	width: 100px;
 	height: 100px;
@@ -242,14 +248,14 @@ div#show-item-lists {
 			}
 
 			function toggleTaskItem(itemJson) {
-				  _awac.startRefresh();
+				  //_awac.startRefresh();
 				  console.log('toggleTaskItem() item='+JSON.stringify(itemJson));
 					var item = new FItemRow(itemJson);
 					var newVal = item.json.attrs_text.indexOf('done:true') == -1 ? 'true' : 'false';
 					item.update_attr('done',newVal,function(json) {
 						console.log('updated child Task item');
-						refreshTaskList();
-						_awac.endRefresh();
+						refreshTaskList(true);
+						//_awac.endRefresh();
 					});
 			}
 
@@ -324,11 +330,16 @@ div#show-item-lists {
 				div.innerHTML = html.substring(0,i) + (new FItemRow(json)).getDiv(index,'selectLinked','iconClick') + html .substring(i+7);
 			}
 
+			var _tableIndex = 0;
+
 			function onGetLinkedItems(json,params) {
 				console.log('onGetLinkedItems() params='+JSON.stringify(params));
 
+				_tableIndex++;
+				var id = "linked-items-"+_tableIndex;
 			  var hdr = params.hdr;
-			  var html = '<table style="width:100%;" class="mdl-data-table mdl-js-data-table"><tbody>';
+				var display = params.noAnim ? '' : 'display:none;';
+			  var html = '<table id="'+id+'" style="'+display+'width:100%;" class="mdl-data-table mdl-js-data-table"><tbody>';
 			  var found = false;
 			  for (var i=0;i<json.length;i++) {
 					var index = _linkedItems.length;
@@ -341,6 +352,7 @@ div#show-item-lists {
 					var div = document.getElementById(params.divId);
 					div.style.display = 'block';
 			    div.innerHTML = '<div class="padded-container"><h4>'+hdr+'</h4></div>'+html;
+					if (!params.noAnim) $('#'+id).show(250);
 				}
 			}
 
@@ -366,9 +378,9 @@ div#show-item-lists {
 				addLinkedItem(itemJson,{hdr:'Tasks',divId:'task-items-div'});
 			}
 
-			function refreshTaskList() {
-				console.log('refreshTaskList()');
-				FItem.getLinkedItems('Task','parent',_fitem.json.item_id,onGetLinkedItems,{hdr:'Tasks',divId:'task-items-div'});
+			function refreshTaskList(noAnim) {
+				console.log('refreshTaskList(noAnim='+noAnim+')');
+				FItem.getLinkedItems('Task','parent',_fitem.json.item_id,onGetLinkedItems,{hdr:'Tasks',divId:'task-items-div',noAnim:noAnim});
 			}
 
 			function refreshCommentList() {

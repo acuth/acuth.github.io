@@ -429,6 +429,9 @@ td.item-row {
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
+}
+
+td.item-row-label {
   text-overflow: ellipsis;
   -o-text-overflow: ellipsis;
 }

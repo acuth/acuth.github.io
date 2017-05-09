@@ -102,7 +102,7 @@ FItemRow.prototype.getDiv=function(i,rowFn,iconFn) {
   var html = '<tr'+onclick+'>';
   onclick = iconFn ? ' onclick="'+iconFn+'(event,'+i+');" style="cursor:pointer;"' : '';
   html += '<td style="width:15%;" class="item-row mdl-data-table__cell--non-numeric"'+onclick+'><i class="material-icons mdl-color--white">'+iname+'</i></td>';
-  html += '<td style="width:60%;" class="item-row mdl-data-table__cell--non-numeric">'+titleHtml+'</td>';
+  html += '<td style="width:60%;" class="item-row item-row-label mdl-data-table__cell--non-numeric">'+titleHtml+'</td>';
   html += '<td style="width:25%;text-align:center;" class="item-row mdl-data-table__cell--non-numeric">'+FItemRow.getElapsedTime(modify.getTime())+'</td>';
   html += '</tr>';
   return html;

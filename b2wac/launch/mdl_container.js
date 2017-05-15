@@ -13,6 +13,7 @@ function B2wacContainer(b2wac,awac,tag,url,iparam) {
   this.homeItem = null;
   this.actionBarItems = [];
   this.showNavDrawer = false;
+  this.mdlCssUrl = null;
 }
 
 B2wacContainer.prototype.addAction = function(header,i) {
@@ -98,18 +99,56 @@ B2wacContainer.prototype.getColors = function() {
   return null;
 };
 
+B2wacContainer.prototype.setMdlCssUrl = function(url) {
+  this.mdlCssUrl = url;
+};
+
+// retrieve the Mdl CSS url, not this may be specified on the container or inherited from
+// a parent container or from the app level itself
 B2wacContainer.prototype.getMdlCssUrl = function() {
-  console.log('B2wacContainer.getMdlCssUrl()');
-  var url = this.b2wac.mdlCssUrl;
-  console.log(' - url='+url);
+  var url = this.mdlCssUrl;
+  if (!url) {
+    var prevContainer = this.b2wac.getPrevContainer(this);
+    url = (prevContainer == null) ? this.b2wac.getMdlCssUrl() : prevContainer.getMdlCssUrl();
+  }
   return url;
-}
+};
+
+// apply the specified Mdl CSS url to the page the container is holding
+B2wacContainer.prototype.applyMdlCssUrl = function(headElem,url) {
+  console.log('!!!!!!!!!!!!!!!!!!!!! B2wacContainer.applyMdlCssUrl()\n - url = '+url);
+  var link = document.createElement('link');
+  link.id = 'iframe-mdl-css';
+  link.rel = 'stylesheet';
+  link.href = url;
+  headElem.appendChild(link);
+};
+
+
+B2wacContainer.prototype.setMdlPageCss = function(headElem,containerElem,dims,mdlCssUrl) {
+  //console.log('\n\n\n!!!!!!!!!!!!!!!!!!!!! B2wacContainer.setMdlPageCss()');
+  this.setMdlCssUrl(mdlCssUrl);
+
+  containerElem.style.width = dims.width+'px';
+  containerElem.style.height = dims.height+'px';
+
+  var url = this.getMdlCssUrl();
+  this.b2wac.applyMdlCssUrl(url);
+  this.applyMdlCssUrl(headElem,url);
+};
+
+// NOte this can be used when a covered page is revealed
+B2wacContainer.prototype.updateMdlPageCss = function() {
+  //console.log('\n\n\n!!!!!!!!!!!!!!!!!!!!! B2wacContainer.updateMdlPageCss()');
+  var url = this.getMdlCssUrl();
+  this.b2wac.applyMdlCssUrl(url);
+};
+
 
 B2wacContainer.prototype.setHomeItem = function(json) {
   if (this.debug) console.log(this.varName+'.setHomeItem('+json+')');
   this.homeItem = json;
 };
-
 
 B2wacContainer.prototype.unlockNavDrawer = function() {
   if (this.debug) console.log(this.varName+'.unlockNavDrawer()');
@@ -253,7 +292,7 @@ B2wacContainer.prototype.getStackDepth = function() {
 B2wacContainer.prototype.getDims = function() {
   var dims = this.b2wac.getDims();
   var result = JSON.stringify(dims);
-  if (this.debug) console.log(this.varName+'.getDims()='+result);
+  //if (this.debug) console.log(this.varName+'.getDims()='+result);
   return result;
 };
 

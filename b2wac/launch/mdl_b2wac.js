@@ -44,7 +44,6 @@ function B2wac(pageDiv,href,pageUrl,fbConfig,mdlCssUrl) {
   i = href.indexOf('?');
   this.rootUrl = i == -1 ? href : href.substring(0,i);
   this.pageDiv = pageDiv;
-  this.mdlCssUrl = mdlCssUrl;
   this.frameStack = [];
   this.nFrame = 0;
   this.values = {};
@@ -71,6 +70,9 @@ function B2wac(pageDiv,href,pageUrl,fbConfig,mdlCssUrl) {
     console.log('using default value for pageUrl\n - pageUrl='+pageUrl);
   }
 
+  this.setMdlCssUrl(mdlCssUrl);
+  this.applyMdlCssUrl(mdlCssUrl);
+
   this.initFirebase(fbConfig);
 
   var b2wac = this;
@@ -88,6 +90,25 @@ function B2wac(pageDiv,href,pageUrl,fbConfig,mdlCssUrl) {
   //console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> set window.location.hash=#home');
   this.openPage(null,pageUrl,null);
 }
+
+B2wac.prototype.setMdlCssUrl = function(mdlCssUrl) {
+  //console.log('B2wac.setMdlCssUrl('+mdlCssUrl+')');
+  this.mdlCssUrl = mdlCssUrl;
+};
+
+B2wac.prototype.getMdlCssUrl = function() {
+  var url = this.mdlCssUrl;
+  //console.log('B2wac.getMdlCssUrl() = '+url);
+  return url;
+};
+
+B2wac.prototype.applyMdlCssUrl = function(url) {
+    var link = document.getElementById('mdl-css-link');
+    if (link.href != url) {
+      console.log('\n\n\n!!!!!!!!!!!!!!!!!!!!! B2wac.applyMdlCssUrl()\n - url = '+url);
+      link.href = url;
+    }
+};
 
 B2wac.UP = 1;
 B2wac.DOWN = 2;
@@ -343,8 +364,8 @@ B2wac.prototype.transitionFrames=function() {
 
   var hash = revealFrame.getHash();
   window.location.hash=hash;
+  revealFrame.container.updateMdlPageCss();
   revealFrame.container.updateHeader();
-
 
   if (!concealFrame) {
      //console.log('simple reveal');
@@ -371,6 +392,17 @@ B2wac.prototype.transitionFrames=function() {
   }
 
 
+};
+
+B2wac.prototype.getPrevContainer=function(container) {
+  //console.log('getPrevContainer() nFrame='+this.nFrame);
+  for (var i = this.nFrame-1;i>=0;i--) {
+    if (this.frameStack[i].container == container) {
+      return (i == 0) ? null : this.frameStack[i-1].container;
+    }
+  }
+  console.log('Unable to find frame !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+  return null;
 };
 
 B2wac.prototype.startPage=function() {
@@ -743,7 +775,7 @@ B2wac.prototype.getDims = function() {
    var dims = {};
    dims.width = e.offsetWidth;
    dims.height = e.offsetHeight;
-   console.log('B2wac.getDims()='+JSON.stringify(dims));
+   //console.log('B2wac.getDims()='+JSON.stringify(dims));
    return dims;
 };
 

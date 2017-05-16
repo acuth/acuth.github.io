@@ -102,11 +102,22 @@ B2wac.prototype.getMdlCssUrl = function() {
   return url;
 };
 
+B2wac.lastMdlName = null;
+
 B2wac.prototype.applyMdlCssUrl = function(url) {
     var link = document.getElementById('mdl-css-link');
     if (link.href != url) {
+      var i = url.lastIndexOf('/material.');
+      var j = url.indexOf('.min.css');
+      var name = url.substring(i+10,j);
       console.log('\n\n\n!!!!!!!!!!!!!!!!!!!!! B2wac.applyMdlCssUrl()\n - url = '+url);
       link.href = url;
+      //
+      // now put something in place for our CSS to work with
+      var main = $('#main');
+      if (B2wac.lastMdlName) main.removeClass(B2wac.lastMdlName);
+      B2wac.lastMdlName = 'mdl-css-'+name;
+      main.addClass(B2wac.lastMdlName);
     }
 };
 

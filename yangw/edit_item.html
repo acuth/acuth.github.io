@@ -46,11 +46,11 @@
 			function getAttrsText() {
 				// get title from edit UI
 				var title = getItemTitle();
-				var attrsText = _fitem.json.attrs_text;
-				console.log('old attrs_text:'+attrsText);
+				// get attrs text - this may have been edited
+				var attrsText = _fitem.getAttrsText();
+				// swap the name attr
 				attrsText = removeAttribute(attrsText,'name');
 				attrsText = addAttribute(attrsText,'name',title);
-				console.log('new attrs_text:'+attrsText);
 				return attrsText;
 			}
 
@@ -64,15 +64,69 @@
 				});
 			}
 
-			function onAction(action) {
+			function editAttr(attr,event) {
+				console.log('editAttr('+attr+')');
+			}
+
+			function deleteAttr(attr,event) {
+				console.log('deleteAttr('+attr+')');
+				event.stopPropagation();
+			}
+
+			function doSelectItem(at) {
+				var initp = {};
+				if (at == 'ref') {
+					initp.title = 'select a page to link to';
+				}
+				else if (at == 'parent') {
+					initp.title = 'select a parent page';
+					initp.item_type = 'Page';
+				}
+				else if (at == 'user') {
+				  initp.title = 'select a user';
+					initp.item_type = 'User';
+				}
+				else if (at == 'tag') {
+					initp.title = 'select a tag';
+					initp.item_type = 'Tag';
+				}
+				else {
+					_awac.alert('add attribute type='+at);
+					return;
+				}
+				_awac.openPage('add-attr-link:'+at,'select_item.html',initp);
+			}
+
+			function onAction(action,event) {
+				if (event) event.stopPropagation();
+				if (!action) return;
+
 			  if ('back' == action)
 			    _awac.endPage();
+				//else if (action.indexOf('edit-attr:')==0)
+				//	editAttr(action.substring(10),event);
+				//else if (action.indexOf('delete-attr:')==0)
+				//	deleteAttr(action.substring(12),event);
 			  else if ('edit:markdown' == action)
 			    _awac.openPage('edit-item-markdown','edit_markdown.html',{'markdown':_markdown});
 				else if ('edit:title' == action) {
 					editItemTitle();
 					focusOnItemTitle();
 				}
+				else if ('add-attr:tag' == action || 'add-attr:user' == action)
+					doSelectItem(action.substring(9));
+				else if (action.indexOf('remove-attr:tag:') == 0)
+					doRemoveAttrLink(action.substring(16));
+				else if (action.indexOf('remove-ref:') == 0)
+					doRemoveAttrLink(action.substring(11));
+				else if (action.indexOf('remove-parent:') == 0)
+					doRemoveAttrLink(action.substring(14));
+				else if (action.indexOf('remove-attr:user:') == 0)
+					doRemoveAttrLink(action.substring(17));
+				else if ('add-ref' == action)
+					doSelectItem('ref');
+				else if ('add-parent' == action)
+					doSelectItem('parent');
 				else if ('save' == action)
 				  saveItem();
 				else
@@ -104,38 +158,126 @@
 			  c.html(html);
 			}
 
+			function showItemType(fitem) {
+				var iname = fitem.getMDIcon();
+				var t = newDiv('padded-container').css('display','flex').html('<div class="item-type"><i class="material-icons">'+iname+'</i></div>');
+				getEditControl('edit','edit:type').appendTo(t);
+
+				var typesDiv = $('#item-types-div');
+				typesDiv.html('');
+				t.appendTo(typesDiv);
+			}
+
+			function EditAttrsListener() {
+				this.first = true;
+				this.names = '';
+				this.html = '';
+				this.lastAttrType = null;
+			}
+
+			EditAttrsListener.prototype.onAttr=function(a) {
+				if (this.first) {
+					this.first = false;
+					this.html += '<hr/><br/>';
+				}
+				var name = '['+a.at.name+']';
+				if (this.names.indexOf(name) == -1) {
+					this.names += name;
+					if (this.lastAttrType) this.html += ' ' + this.lastAttrType.getAdditionalHTML() + '<br/>';
+				}
+
+				console.log('remove '+a);
+				if (a.details) {
+					var tmp = a.at.getDeleteableHTML(a.index,a.details.name_attr);
+					if (tmp) this.html += ' ' +tmp;
+				}
+
+				this.lastAttrType = a.at;
+			};
+
+			EditAttrsListener.prototype.getHTML=function() {
+					if (this.lastAttrType) this.html += ' ' + this.lastAttrType.getAdditionalHTML() + '<br/>';
+
+					var ahtml = '';
+					for (var name in AttrType.types) {
+						if (this.names.indexOf('['+name+']') == -1) {
+							var tmp = AttrType.types[name].getAdditionalHTML();
+							if (tmp) ahtml += ' ' + tmp;
+						}
+					}
+
+					if (ahtml != '') {
+						ahtml = '<br/>'+ahtml.substring(1);
+					}
+
+
+					return this.html + ahtml;
+			};
+
+			getEditAttrsHTML=function(fitem) {
+				var listener = new EditAttrsListener();
+				fitem.traverseAttrs(listener);
+				return listener.getHTML();
+			};
+
+			function showItemAttrs(fitem) {
+				var html = getEditAttrsHTML(fitem);
+				var t = newDiv('padded-container').html(html);
+				var attrsDiv = $('#item-attrs-div');
+				attrsDiv.html('');
+				t.appendTo(attrsDiv);
+			}
+
 			function renderItem(fitem) {
 			   console.log('edit_item.renderItem()');
 			   console.log(JSON.stringify(fitem));
-				  var iname = fitem.getMDIcon();
-				  console.log('iname='+iname);
-				  //var a = fitem.getUserHTML(null,fitem.json.author,true);
 
+				 // store these as variables because they may be edited to differe from fitem version
 					_item_markdown = fitem.json.markdown;
 					_markdown = _item_markdown;
 					_title = fitem.json.name_attr;
 
 					showItemTitle(_title);
-
-			    var typesDiv = $('#item-types-div');
-			    typesDiv.html('');
-					t = newDiv('padded-container').css('display','flex').html('<div class="item-type"><i class="material-icons">'+iname+'</i></div>');
-					getEditControl('edit','edit:type').appendTo(t);
-					t.appendTo(typesDiv);
-
+			    showItemType(fitem);
 			    showItemMarkdown(_markdown,_item_markdown);
+					showItemAttrs(fitem);
+			}
+
+			function doAddAttrLink(name,outp) {
+				console.log('doAddAttrLink() name='+name+' outp='+JSON.stringify(outp));
+				var item = outp.item;
+				var at = AttrType.get(name);
+
+				var details = {};
+				details.item_type_name = 'Tag';
+				details.item_id = item.item_id;
+				details.name_attr = item.name_attr;
+				var text = name+':'+(at.useLinkName?item.name_attr:item.item_id);
+
+				console.log('\n\n\nat='+at+' text='+text);
+				_fitem.addToAttrsArray(at,text,details);
+				showItemAttrs(_fitem);
+			}
+
+			function doRemoveAttrLink(text) {
+				console.log('doRemoveAttrLink() text='+text);
+				_fitem.removeFromAttrsArray(text);
+				showItemAttrs(_fitem);
 			}
 
 			function onPageClose(tag,ok,result) {
-				if (tag == 'edit-item-markdown') {
-						if (ok && result) {
-							_markdown = result.markdown;
-							showItemMarkdown(_markdown,_item_markdown);
-						}
+				if (ok && result) {
+					if (tag && tag.indexOf('add-attr-link:') == 0) {
+						doAddAttrLink(tag.substring(14),result);
+						return;
+					}
+					if (tag == 'edit-item-markdown') {
+						_markdown = result.markdown;
+						showItemMarkdown(_markdown,_item_markdown);
+						return;
+					}
 				}
-				else {
-					console.log('got result from '+tag+' ok='+ok+' result='+result);
-				}
+				console.log('got result from '+tag+' ok='+ok+' result='+result);
 			}
 
 			$(document).ready(function() {
@@ -163,6 +305,8 @@
       <div id="item-title-div">-item-title-goes-here-</div>
       <div id="item-types-div">-item-types-go-here-</div>
       <div id="item-markdown-div">-item-markdown-goes-here-</div>
+			<div id="item-attrs-div">-item-attrs-go-here-</div>
+			<div id="extras"></div>
 	  </div> <!-- toplevel -->
 	</body>
 </html>

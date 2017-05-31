@@ -46,6 +46,10 @@ function ajax(url,cb,checkJson,logJson) {
 function FItemUtil() {
 }
 
+FItemUtil.getItemName=function(item) {
+  return item.json.name_attr;
+};
+
 FItemUtil.getItemTitleHTML=function(item) {
   if (item.itemType.name == 'Task') {
     if (item.json.attrs_text.indexOf('done:true') != -1)
@@ -82,8 +86,6 @@ FItemRow.getElapsedTime=function(time) {
   var w = Math.round(d/7);
   return w+'w';
 };
-
-
 
 FItemRow.prototype.getMDIcon=function() {
   return FItemUtil.getItemMDIcon(this);
@@ -186,6 +188,17 @@ FItem.prototype.getTitleHTML=function() {
   return FItemUtil.getItemTitleHTML(this);
 };
 
+FItem.prototype.getAttrsText=function() {
+  console.log('FItem.getAttrsText()');
+  var result = this.json.attrs_text;
+  console.log(' - old attrs_text:'+result);
+  if (this.attrsArray) {
+    result = this.getAttrsArrayText();
+    console.log(' - attrsArray='+result);
+  }
+  return result;
+};
+
 FItem.prototype.getMDIcon=function() {
   return FItemUtil.getItemMDIcon(this);
 };
@@ -233,10 +246,35 @@ FItem.prototype.getMetaHTML=function() {
   return html;
 };
 
-FItem.prototype.getAttrsHTML=function() {
-  var html = '';
+function Attr(at,text,details) {
+  this.index = Attr._index++;
+  this.at = at;
+  this.text = text;
+  this.details = details;
+}
+
+Attr._index = 0;
+
+Attr.prototype.toString = function() {
+  return '{Attr index:'+this.index+' at:'+this.at.name+' text:'+this.text+'}';
+}
+
+FItem.prototype.getAttrsArrayText=function() {
+  if (!this.attrsArray) return '';
+  var result = '';
+  for (var i=0;i<this.attrsArrayLen;i++) {
+    var attr = this.attrsArray[i];
+    result += '[['+attr.text+']]';
+  }
+  return result;
+};
+
+FItem.prototype.loadAttrsArray=function() {
+  if (this.attrsArray) return;
+  this.attrsArray = [];
+  this.attrsArrayLen = 0;
   var attrs = this.json.attrs_text;
-  var first = true;
+  console.log('loadAttrsArray() text='+attrs);
   if (attrs) {
     var j = -1;
     for (;;) {
@@ -250,16 +288,72 @@ FItem.prototype.getAttrsHTML=function() {
       var name = attr.substring(0,k);
       var at = AttrType.get(name);
       if (at) {
-        if (first) {
-          first = false;
-          html += '<hr/><br/>';
-        }
-        html += at.getHTML(attr,details);
+        var a = new Attr(at,attr,details);;
+        this.attrsArray[this.attrsArrayLen] = a;
+        this.attrsArrayLen++;
+        console.log('new attr='+a);
       }
     }
   }
-  return html;
+}
+
+FItem.prototype.addToAttrsArray=function(at,attr,details) {
+  this.loadAttrsArray();
+  var a = new Attr(at,attr,details);
+  this.attrsArray[this.attrsArrayLen] = a;
+  this.attrsArrayLen++;
+  console.log('added '+a);
 };
+
+FItem.prototype.removeFromAttrsArray=function(index) {
+  this.loadAttrsArray();
+  index = parseInt(index);
+  var found = -1;
+  for (var i=0;i<this.attrsArrayLen;i++) {
+    if (this.attrsArray[i].index == index) {
+      found = i;
+      break;
+    }
+  }
+  if (found != -1) {
+    for (var i=found+1;i<this.attrsArrayLen;i++) {
+      this.attrsArray[i-1] = this.attrsArray[i];
+    }
+    this.attrsArrayLen--;
+  }
+};
+
+FItem.prototype.traverseAttrs=function(listener) {
+  console.log('traverseAttrs()');
+  this.loadAttrsArray();
+  for (var name in AttrType.types) {
+    console.log(' - '+name);
+    var at = AttrType.types[name];
+    for (var i=0;i<this.attrsArrayLen;i++) {
+      var a = this.attrsArray[i];
+      if (a.at == at) {
+        console.log(' - - call listener '+a.text+' '+JSON.stringify(a.details));
+        listener.onAttr(a);
+      }
+    }
+  }
+};
+
+function LogListener() {
+  console.log('\n\nLogListener()');
+}
+
+LogListener.prototype.onAttr=function(at,attrtext,details) {
+  console.log(' - '+at+' [['+attrtext+']] '+JSON.stringify(details));
+};
+
+function ShowAttrListener(op) {
+  this.op = op;
+  this.first = true;
+  this.html = '';
+  this.names = '';
+  this.lastAttrType = null;
+}
 
 FItem.addComment=function(name,markdown,cb) {
   var url = FItem.apiUrl+'op=add_comment&attrs=[[parent:'+name+']]&markdown='+encodeURIComponent(markdown);
@@ -319,8 +413,10 @@ FItem.addPage=function(item_id,name_attr,markdown,cb) {
   },true,true);
 };
 
-FItem.getRecent=function(cb) {
-  ajax('https://yangw-2.appspot.com/v4/?op=show_recent',function(jsonStr) {
+FItem.getRecent=function(cb,item_type_name) {
+  var url = FItem.apiUrl+'op=show_recent';
+  if (item_type_name) url += '&item_type='+item_type_name;
+  ajax(url,function(jsonStr) {
     cb(JSON.parse(jsonStr));
   });
 };

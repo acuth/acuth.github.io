@@ -1,88 +1,183 @@
-function AttrType(name) {
+function AttrType(name,isLink,useLinkName) {
   this.name = name;
+  this.isLink = isLink;
+  this.useLinkName = useLinkName;
+
   AttrType.types[name] = this;
 }
 
 AttrType.prototype.toString=function() {
-  return '{AttrType name='+this.name+'}';
+  return '{AttrType name='+this.name+' is-link:'+this.isLink+' use-link-name:'+this.useLinkName+'}';
 };
 
 AttrType.init = false;
 AttrType.types = [];
 
-AttrType.getChipHTML=function(onclick,text,imgUrl,icon,color) {
-    var html = '<button type="button" class="mdl-chip mdl-chip--contact" onclick="'+onclick+'">';
+
+
+AttrType.onChipAction=function(event,action) {
+  event.stopPropagation();
+  onAction(action);
+};
+
+
+AttrType.getChipOnClick=function(op,action) {
+  var onclick = 'AttrType.onChipAction(event,';
+  onclick += '\'';
+  if (op) onclick += op+'-';
+  onclick += action+'\'';
+  onclick += ')';
+  return onclick;
+};
+
+AttrType.SELECT = 1;
+AttrType.ADD = 2;
+AttrType.EDIT = 3;
+AttrType.REMOVE = 4;
+
+
+AttrType.getChipOpPrefix=function(op) {
+  if (op == AttrType.ADD) return 'add';
+  if (op == AttrType.EDIT) return 'edit';
+  if (op == AttrType.REMOVE) return 'remove';
+  return 'show';
+}
+
+AttrType.getChipDeletableIcon=function(op) {
+  if (op == AttrType.ADD) return 'add_circle_outline';
+  if (op == AttrType.EDIT) return 'edit';
+  if (op == AttrType.REMOVE) return 'cancel';
+  return null;
+}
+
+// op is one of
+AttrType.getChipHTML=function(op,action,text,imgUrl,icon,color) {
+    var isShow = op == AttrType.SHOW;
+    var prefix = AttrType.getChipOpPrefix(op);
+    var onclick = this.getChipOnClick(prefix,action);
+    var delIcon = this.getChipDeletableIcon(op);
+    //
+    var style = '';
+    if (op == AttrType.ADD) style = ' style="background-color:white;border:solid 1px gray;"';
+
+    var html = isShow ?
+      '<button type="button" class="mdl-chip mdl-chip--contact" onclick="'+onclick+'">' :
+      '<span class="mdl-chip mdl-chip--contact mdl-chip--deletable"'+style+' onclick="'+onclick+'">';
     if (imgUrl)
       html += '<img class="mdl-chip__contact" src="'+imgUrl+'"></img>';
     if (icon)
       html += '<span class="mdl-chip__contact mdl-color--gray mdl-color-text--dark-orange" style="margin-right:0px;"><i style="color:'+color+';font-size:18px;line-height:32px;" class="material-icons">'+icon+'</i></span>';
     html += '<span class="mdl-chip__text">'+text+'</span>';
-    html += '</button>';
+    if (delIcon)
+      html += '<a onclick="'+onclick+'" class="mdl-chip__action"><i class="material-icons">'+delIcon+'</i></a>';
+    html += isShow ? '</button>' : '</span>';
     return html;
 };
 
 AttrType.initialise=function() {
-  var at = new AttrType('done');
-  at.getHTML = function(attrtext,inline) {
+  var at = new AttrType('done',false);
+  at.getHTML = function(attrtext,inline,op) {
     var icon = attrtext.toLowerCase() == 'done:true' ? 'check_box' : 'check_box_outline_blank';
-    var onclick = 'onAction(\'toggle-attr:done\');';
-    return AttrType.getChipHTML(onclick,'Done',null,icon,'teal');
+    return AttrType.getChipHTML(null,'toggle-attr:done','Done',null,icon,'teal');
+  };
+  at.getDeleteableHTML=function(itemId,itemName) {
+    return AttrType.getChipHTML(AttrType.REMOVE,'ref:'+itemId,itemName,null,'check_box','teal');
+  };
+  at.getAdditionalHTML=function() {
+    return AttrType.getChipHTML(AttrType.ADD,'done','done',null,'check_box','teal');
   };
 
-  at = new AttrType('ref');
-  at.getHTML = function(attrtext,inline) {
+
+  at = new AttrType('ref',true,false);
+  at.getHTML = function(attrtext,inline,op) {
     if (inline.item_id) {
-      return '<a class="internal-link" href="javascript:showNextPage(\''+inline.item_id+'\');">'+inline.name_attr+'</a>';
+      return '<a class="internal-link" href="javascript:onAction(\'show-item:'+inline.item_id+'\');">'+inline.name_attr+'</a>';
     }
-    var onclick = 'onAction(\'new-page:'+attrtext.substring(4)+'\');';
-    return AttrType.getChipHTML(onclick,attrtext.substring(4),null,'subject','red');
+    var ref = attrtext.substring(4);
+    return AttrType.getChipHTML(op,'new-page:'+ref,ref,null,'subject','red');
+  };
+  at.getDeleteableHTML=function(itemId,itemName) {
+    return AttrType.getChipHTML(AttrType.REMOVE,'ref:'+itemId,itemName,null,'link','teal');
+  };
+  at.getAdditionalHTML=function() {
+    return AttrType.getChipHTML(AttrType.ADD,'ref','ref',null,'link','teal');
   };
 
-  at = new AttrType('parent');
-  at.getHTML = function(attrtext,inline) {
+
+  at = new AttrType('parent',true,false);
+  at.getHTML = function(attrtext,inline,op) {
     if (!inline) return '';
     if (inline.item_id) {
-      return AttrType.getChipHTML('showNextPage(\''+inline.item_id+'\');',inline.name_attr,null,'arrow_drop_up','teal');
+      return AttrType.getChipHTML(op,'attr:'+inline.item_id,inline.name_attr,null,'arrow_drop_up','teal');
     }
     else {
       var name = attrtext.substring(7);
-      return AttrType.getChipHTML(null,name,null,'arrow_drop_up','red');
+      return AttrType.getChipHTML(null,null,name,null,'arrow_drop_up','red');
     }
-  }
+  };
+  at.getDeleteableHTML=function(itemId,itemName) {
+    return AttrType.getChipHTML(AttrType.REMOVE,'parent:'+itemId,itemName,null,'arrow_drop_up','teal');
+  };
+  at.getAdditionalHTML=function() {
+    return AttrType.getChipHTML(AttrType.ADD,'parent','parent',null,'arrow_drop_up','teal');
+  };
 
   at = new AttrType('http');
-  at.getHTML = function(attrtext,inline) {
+  at.getHTML = function(attrtext,inline,op) {
     return '<a target="_blank" class="external-link" href="'+attrtext+'">'+attrtext+'</a>';
+  }
+  at.getDeleteableHTML=function(itemId,itemName) {
+    return '';
+  };
+  at.getAdditionalHTML=function() {
+    return '';
   }
 
   at = new AttrType('https');
-  at.getHTML = function(attrtext,inline) {
+  at.getHTML = function(attrtext,inline,op) {
     return '<a target="_blank" class="external-link" href="'+attrtext+'">'+attrtext+'</a>';
   }
+  at.getDeleteableHTML=function(itemId,itemName) {
+    return '';
+  };
+  at.getAdditionalHTML=function() {
+    return '';
+  }
 
-  at = new AttrType('tag');
-  at.getHTML = function(attrtext,inline) {
+
+  at = new AttrType('tag',true,true);
+  at.getHTML = function(attrtext,inline,op) {
     if (!inline) return '';
     if (inline.item_id) {
-      return AttrType.getChipHTML('showNextPage(\''+inline.item_id+'\');',inline.name_attr,null,'label_outline','teal');
+      return AttrType.getChipHTML(op,'attr:'+inline.item_id,inline.name_attr,null,'label_outline','teal');
     }
     else {
       var name = attrtext.substring(4);
-      var onclick = 'onAction(\'new-tag:'+name+'\');';
-      return AttrType.getChipHTML(onclick,name,null,'label_outline','red');
+      return AttrType.getChipHTML(null,'new-tag:'+name,name,null,'label_outline','red');
     }
   };
+  at.getDeleteableHTML=function(itemId,itemName) {
+    return AttrType.getChipHTML(AttrType.REMOVE,'attr:tag:'+itemId,itemName,null,'label_outline','teal');
+  };
+  at.getAdditionalHTML=function() {
+    return AttrType.getChipHTML(AttrType.ADD,'attr:tag','tag',null,'label_outline','teal');
+  }
 
-  at = new AttrType('user');
-  at.getHTML = function(attrtext,inline) {
+  at = new AttrType('user',true,true);
+  at.getHTML = function(attrtext,inline,op) {
     if (!inline) return '';
     if (inline.item_id) {
-      return AttrType.getChipHTML('showNextPage(\''+inline.item_id+'\');',inline.name_attr,inline.image_url,null,null);
+      return AttrType.getChipHTML(op,'item:'+inline.item_id,inline.name_attr,inline.image_url,null,null);
     }
     else {
-      var onclick = 'needToCreate();';
-      return AttrType.getChipHTML(onclick,attrtext.substring(5),null,'person','red');
+      return AttrType.getChipHTML(op,'item:'+attrText,attrtext.substring(5),null,'person','red');
     }
+  };
+  at.getDeleteableHTML=function(itemId,itemName) {
+    return AttrType.getChipHTML(AttrType.REMOVE,'attr:user:'+itemId,itemName,null,'person_outline','teal');
+  };
+  at.getAdditionalHTML=function() {
+    return AttrType.getChipHTML(AttrType.ADD,'attr:user','user',null,'person_outline','teal');
   };
 
   AttrType.init = true;

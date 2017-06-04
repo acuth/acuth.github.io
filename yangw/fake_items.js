@@ -100,12 +100,21 @@ FItemRow.prototype.getDiv=function(i,rowFn,iconFn) {
   var modify = new Date(this.json.modify*1000);
   var titleHtml = this.getTitleHTML();
 
+  var img = '<i class="material-icons mdl-color--white">'+iname+'</i>';
+
+  var ii = -1;
+  if (this.json.attrs_text2) ii = this.json.attrs_text2.indexOf('[[image:');
+  if (ii != -1) {
+    var j = this.json.attrs_text2.indexOf(']]',ii);
+    var imageUrl = this.json.attrs_text2.substring(ii+8,j);
+    img = '<img style="width:24px;height:24px;" src="'+imageUrl+'" />';
+  }
   var onclick = rowFn ? ' onclick="'+rowFn+'(event,'+i+');"' : '';
   var html = '<tr'+onclick+'>';
   onclick = iconFn ? ' onclick="'+iconFn+'(event,'+i+');" style="cursor:pointer;"' : '';
-  html += '<td style="width:15%;" class="item-row mdl-data-table__cell--non-numeric"'+onclick+'><i class="material-icons mdl-color--white">'+iname+'</i></td>';
+  html += '<td style="width:20%;" class="item-row mdl-data-table__cell--non-numeric"'+onclick+'>'+img+'</td>';
   html += '<td style="width:60%;" class="item-row item-row-label mdl-data-table__cell--non-numeric">'+titleHtml+'</td>';
-  html += '<td style="width:25%;text-align:center;" class="item-row mdl-data-table__cell--non-numeric">'+FItemRow.getElapsedTime(modify.getTime())+'</td>';
+  html += '<td style="width:20%;text-align:center;" class="item-row mdl-data-table__cell--non-numeric">'+FItemRow.getElapsedTime(modify.getTime())+'</td>';
   html += '</tr>';
   return html;
 };
@@ -205,6 +214,7 @@ FItem.prototype.getMDIcon=function() {
 
 FItem.prototype.fixupAttributes=function(html) {
   if (!html) return null;
+  console.log('\n\n\nfixupAttributes()');
   var i = 0;
   var j = 0;
   for (var k=0;k<20;k++) {
@@ -217,8 +227,12 @@ FItem.prototype.fixupAttributes=function(html) {
     var inline = this.json.markdown_inline_values[target];
 
     var at = AttrType.get(name);
-    if (at)
-        html = html.replace('[['+target+']]',at.getHTML(target,inline));
+    var attr = new Attr(at,target,inline);
+
+    console.log(' - get showable '+attr);
+    var tmp = attr.getShowableHTML(true);
+    if (tmp)
+        html = html.replace('[['+target+']]',tmp);
 
     i = j;
   }
@@ -251,13 +265,107 @@ function Attr(at,text,details) {
   this.at = at;
   this.text = text;
   this.details = details;
+  //console.log('new Attr() details='+JSON.stringify(details));
 }
 
 Attr._index = 0;
 
 Attr.prototype.toString = function() {
-  return '{Attr index:'+this.index+' at:'+this.at.name+' text:'+this.text+'}';
+  var s = '{Attr index:'+this.index+' attr-type:'+this.at.name+' text:'+this.text;
+  if (this.details) s += ' details:'+JSON.stringify(this.details);
+  s += '}';
+  return s;
 }
+
+Attr.prototype.getAttr=function(name) {
+  var text = this.details.attrs_text;
+  if (text) {
+    var i = text.indexOf('[['+name+':');
+    if (i != -1) {
+      var j = text.indexOf(']]',i);
+      if (j != -1) {
+        return text.substring(i+name.length+3,j);
+      }
+    }
+  }
+  return null;
+};
+
+Attr.prototype.getLinkNameAttr=function() {
+  if (this.details) {
+    return this.details.name_attr ? this.details.name_attr : this.getAttr('name');
+  }
+  return null;
+};
+
+Attr.prototype.getLinkImageUrl=function() {
+  if (this.at.useImage && this.details) {
+    return this.details.image_url ? this.details.image_url : this.getAttr('image');
+  }
+  return null;
+};
+
+Attr.prototype.getLinkItemId=function() {
+  return this.details ? this.details.item_id : '';
+};
+
+Attr.prototype.getDeleteableHTML=function(index) {
+  if (this.at.name == 'user') console.log('generate chip for '+this);
+  if (this.at.icon) {
+    if (this.at.isLink) {
+      var name = this.getLinkNameAttr();
+      if (name) {
+        var img = this.getLinkImageUrl();
+        var icon = img ? null : this.at.icon;
+        var action = 'remove-attr:'+this.at.name+':'+index;
+        return AttrType.getChipHTML2(action,name,img,icon,'teal',AttrType.REMOVE);
+      }
+    }
+    else {
+      var action = 'remove-attr:'+this.at.name+':'+index;
+      var label = this.text;
+      return AttrType.getChipHTML2(action,label,null,this.at.icon,'teal',AttrType.REMOVE);
+    }
+  }
+  return '';
+};
+
+Attr.prototype.getInlineHTML=function(action,name) {
+  console.log(' - getInlineHTML() at='+this.at.name+' action='+action+' name='+name);
+  var label = name;
+  if (!this.at.inlineNoDecoration) label = this.at.name+':'+name;
+  var icon = '';
+  if (this.at.icon && !this.at.inlineNoDecoration) icon = '<i style="font-size:14px;" class="material-icons">'+this.at.icon+'</i>';
+  console.log(' - - icon = '+icon);
+  return '<a class="yw-'+this.at.name+'-attr" title="'+action+'" href="javascript:onAction(\''+action+'\')">'+label+icon+'</a>';
+}
+
+Attr.prototype.getShowableHTML=function(inline) {
+  if (this.at.icon) {
+    if (this.at.isLink) {
+      var name = this.getLinkNameAttr();
+      if (name) {
+        var img = this.getLinkImageUrl();
+        var icon = img ? null : this.at.icon;
+        var action = 'show-item:'+this.getLinkItemId();
+        return (inline && this.at.inlineNoChip) ?
+          this.getInlineHTML(action,name) :
+          AttrType.getChipHTML2(action,name,img,icon,'teal');
+      }
+    }
+    else {
+      var label = this.text.substring(this.at.name.length+1);
+      var action = this.at.action+'-'+this.text;
+      return (inline && this.at.inlineNoChip) ?
+        this.getInlineHTML(action,label) :
+        AttrType.getChipHTML2(action,this.text,null,this.at.icon,'teal');
+    }
+  }
+  else {
+    return this.text;
+  }
+  return '';
+};
 
 FItem.prototype.getAttrsArrayText=function() {
   if (!this.attrsArray) return '';
@@ -274,7 +382,6 @@ FItem.prototype.loadAttrsArray=function() {
   this.attrsArray = [];
   this.attrsArrayLen = 0;
   var attrs = this.json.attrs_text;
-  console.log('loadAttrsArray() text='+attrs);
   if (attrs) {
     var j = -1;
     for (;;) {
@@ -284,14 +391,11 @@ FItem.prototype.loadAttrsArray=function() {
       if (j == -1) break;
       var attr = attrs.substring(i+2,j);
       var details = this.json.markdown_inline_values[attr];
-      var k = attr.indexOf(':');
-      var name = attr.substring(0,k);
+      var name = attr.substring(0,attr.indexOf(':'));
       var at = AttrType.get(name);
       if (at) {
-        var a = new Attr(at,attr,details);;
-        this.attrsArray[this.attrsArrayLen] = a;
+        this.attrsArray[this.attrsArrayLen] = new Attr(at,attr,details);
         this.attrsArrayLen++;
-        console.log('new attr='+a);
       }
     }
   }
@@ -332,7 +436,7 @@ FItem.prototype.traverseAttrs=function(listener) {
     for (var i=0;i<this.attrsArrayLen;i++) {
       var a = this.attrsArray[i];
       if (a.at == at) {
-        console.log(' - - call listener '+a.text+' '+JSON.stringify(a.details));
+        console.log(' - - '+a);
         listener.onAttr(a);
       }
     }

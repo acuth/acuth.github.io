@@ -202,6 +202,21 @@ function showItemTitle(name) {
   t.appendTo(div);
 }
 
+function showItemTitleValue(name,value,placeholder) {
+  var div = $('#item-title-div');
+  var icon = 'edit';
+  if (!value) {
+    value = '<span onclick="onAction(\'edit:'+name+'\');" class="title-placeholder">'+placeholder+'</span>';
+    icon = 'add';
+  }
+  div.html('');
+  var t = $(document.createElement('div'));
+  t.addClass('padded-container item-title');
+  t.html(value);
+  getEditControl(icon,'edit:'+name).appendTo(t);
+  t.appendTo(div);
+}
+
 function showItemMarkdown(newMd,oldMd) {
   var div = $('#item-markdown-div');
   var icon = 'edit';

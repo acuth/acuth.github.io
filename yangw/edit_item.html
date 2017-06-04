@@ -97,6 +97,23 @@
 				_awac.openPage('add-attr-link:'+at,'select_item.html',initp);
 			}
 
+			function doSelectValue(at) {
+				var initp = {};
+				initp.attr_type_name = at;
+				if (at == 'http' || at == 'https') {
+					initp.title = 'select an external link';
+				}
+				else if (at == 'done') {
+					initp.title = 'select an initial done state';
+				}
+				else {
+					_awac.alert('add attribute type='+at);
+					return;
+				}
+				_awac.openPage('add-attr-value:'+at,'select_value.html',initp);
+			}
+
+
 			function onAction(action,event) {
 				if (event) event.stopPropagation();
 				if (!action) return;
@@ -113,20 +130,13 @@
 					editItemTitle();
 					focusOnItemTitle();
 				}
-				else if ('add-attr:tag' == action || 'add-attr:user' == action)
+
+				else if (action.indexOf('remove-attr:') == 0)
+					doRemoveAttr(action.substring(12));
+				else if (action.indexOf('add-link:') == 0)
 					doSelectItem(action.substring(9));
-				else if (action.indexOf('remove-attr:tag:') == 0)
-					doRemoveAttrLink(action.substring(16));
-				else if (action.indexOf('remove-ref:') == 0)
-					doRemoveAttrLink(action.substring(11));
-				else if (action.indexOf('remove-parent:') == 0)
-					doRemoveAttrLink(action.substring(14));
-				else if (action.indexOf('remove-attr:user:') == 0)
-					doRemoveAttrLink(action.substring(17));
-				else if ('add-ref' == action)
-					doSelectItem('ref');
-				else if ('add-parent' == action)
-					doSelectItem('parent');
+				else if (action.indexOf('add-value:') == 0)
+					doSelectValue(action.substring(10));
 				else if ('save' == action)
 				  saveItem();
 				else
@@ -186,11 +196,9 @@
 					if (this.lastAttrType) this.html += ' ' + this.lastAttrType.getAdditionalHTML() + '<br/>';
 				}
 
-				console.log('remove '+a);
-				if (a.details) {
-					var tmp = a.at.getDeleteableHTML(a.index,a.details.name_attr);
-					if (tmp) this.html += ' ' +tmp;
-				}
+				//console.log('remove '+a);
+				var tmp = a.getDeleteableHTML(a.index);
+				if (tmp) this.html += ' ' +tmp;
 
 				this.lastAttrType = a.at;
 			};
@@ -209,7 +217,6 @@
 					if (ahtml != '') {
 						ahtml = '<br/>'+ahtml.substring(1);
 					}
-
 
 					return this.html + ahtml;
 			};
@@ -244,24 +251,37 @@
 			}
 
 			function doAddAttrLink(name,outp) {
-				console.log('doAddAttrLink() name='+name+' outp='+JSON.stringify(outp));
+				//console.log('doAddAttrLink() name='+name+' outp='+JSON.stringify(outp));
 				var item = outp.item;
 				var at = AttrType.get(name);
 
 				var details = {};
-				details.item_type_name = 'Tag';
+				details.item_type_name = name;
 				details.item_id = item.item_id;
-				details.name_attr = item.name_attr;
+				if (item.attrs_text2)
+					details.attrs_text = item.attrs_text2;
+				else
+					details.name_attr = item.name_attr;
+
 				var text = name+':'+(at.useLinkName?item.name_attr:item.item_id);
 
-				console.log('\n\n\nat='+at+' text='+text);
+				//console.log('\n\n\nat='+at+' text='+text);
 				_fitem.addToAttrsArray(at,text,details);
 				showItemAttrs(_fitem);
 			}
 
-			function doRemoveAttrLink(text) {
-				console.log('doRemoveAttrLink() text='+text);
-				_fitem.removeFromAttrsArray(text);
+			function doRemoveAttr(nameIndex) {
+				console.log('doRemoveAttr('+nameIndex+')');
+				var index = parseInt(nameIndex.substring(nameIndex.indexOf(':')+1));
+				_fitem.removeFromAttrsArray(index);
+				showItemAttrs(_fitem);
+			}
+
+			function doAddAttrValue(name,outp) {
+				console.log('doAddAttrValue() '+name+' '+outp.value);
+				var at = AttrType.get(name);
+				var text = name+':'+outp.value;
+				_fitem.addToAttrsArray(at,text);
 				showItemAttrs(_fitem);
 			}
 
@@ -269,6 +289,10 @@
 				if (ok && result) {
 					if (tag && tag.indexOf('add-attr-link:') == 0) {
 						doAddAttrLink(tag.substring(14),result);
+						return;
+					}
+					if (tag && tag.indexOf('add-attr-value:') == 0) {
+						doAddAttrValue(tag.substring(15),result);
 						return;
 					}
 					if (tag == 'edit-item-markdown') {

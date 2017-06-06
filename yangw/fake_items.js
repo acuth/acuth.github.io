@@ -127,6 +127,123 @@ FItemRow.prototype.update_attr=function(name,value,cb) {
   },true,true);
 };
 
+
+function Attr(at,text,details) {
+  this.index = Attr._index++;
+  this.at = at;
+  this.text = text;
+  this.details = details;
+  //console.log('new Attr() details='+JSON.stringify(details));
+}
+
+Attr._index = 0;
+
+Attr.prototype.toString = function() {
+  var s = '{Attr index:'+this.index+' attr-type:'+this.at.name+' text:'+this.text;
+  if (this.details) s += ' details:'+JSON.stringify(this.details);
+  s += '}';
+  return s;
+}
+
+Attr.prototype.getAttr=function(name) {
+  var text = this.details.attrs_text;
+  if (text) {
+    var i = text.indexOf('[['+name+':');
+    if (i != -1) {
+      var j = text.indexOf(']]',i);
+      if (j != -1) {
+        return text.substring(i+name.length+3,j);
+      }
+    }
+  }
+  return null;
+};
+
+Attr.prototype.getMDIcon=function() {
+  return this.at.iconMap ?
+    this.at.iconMap[this.text.substring(this.at.name.length+1)] :
+    this.at.icon;
+}
+
+Attr.prototype.getLinkNameAttr=function() {
+  if (this.details) {
+    return this.details.name_attr ? this.details.name_attr : this.getAttr('name');
+  }
+  return null;
+};
+
+Attr.prototype.getLinkImageUrl=function() {
+  if (this.at.useImage && this.details) {
+    return this.details.image_url ? this.details.image_url : this.getAttr('image');
+  }
+  return null;
+};
+
+Attr.prototype.getLinkItemId=function() {
+  return this.details ? this.details.item_id : '';
+};
+
+Attr.prototype.getDeleteableHTML=function(index) {
+  if (this.at.name == 'user') console.log('generate chip for '+this);
+  var mdIcon = this.getMDIcon();
+  if (mdIcon) {
+    if (this.at.isLink) {
+      var name = this.getLinkNameAttr();
+      if (name) {
+        var img = this.getLinkImageUrl();
+        var icon = img ? null : mdIcon;
+        var action = 'remove-attr:'+this.at.name+':'+index;
+        return AttrType.getChipHTML2(action,name,img,null,'teal',AttrType.REMOVE);
+      }
+    }
+    else {
+      var action = 'remove-attr:'+this.at.name+':'+index;
+      var label = this.text;
+      return AttrType.getChipHTML2(action,label,null,null,'teal',AttrType.REMOVE);
+    }
+  }
+  return '';
+};
+
+Attr.prototype.getInlineHTML=function(action,name) {
+  console.log(' - getInlineHTML() at='+this.at.name+' action='+action+' name='+name);
+  var label = name;
+  if (!this.at.inlineNoDecoration) label = this.at.name+':'+name;
+  var icon = '';
+  var mdIcon = this.getMDIcon();
+  if (mdIcon && !this.at.inlineNoDecoration) icon = '<i style="font-size:14px;" class="material-icons">'+mdIcon+'</i>';
+  return '<a class="yw-'+this.at.name+'-attr" title="'+action+'" href="javascript:onAction(\''+action+'\')">'+label+icon+'</a>';
+}
+
+Attr.prototype.getShowableHTML=function(inline) {
+  var mdIcon = this.getMDIcon();
+  if (mdIcon) {
+    if (this.at.isLink) {
+      var name = this.getLinkNameAttr();
+      if (name) {
+        var img = this.getLinkImageUrl();
+        var icon = img ? null : mdIcon;
+        var action = 'show-item:'+this.getLinkItemId();
+        return (inline && this.at.inlineNoChip) ?
+          this.getInlineHTML(action,name) :
+          AttrType.getChipHTML2(action,name,img,icon,'teal');
+      }
+    }
+    else {
+      var label = this.text.substring(this.at.name.length+1);
+      var action = this.at.action+'-'+this.text;
+      return (inline && this.at.inlineNoChip) ?
+        this.getInlineHTML(action,label) :
+        AttrType.getChipHTML2(action,this.text,null,mdIcon,'teal');
+    }
+  }
+  else {
+    return this.text;
+  }
+  return '';
+};
+
+
 function FItem(json,isParsed) {
   this.json = isParsed ? json : JSON.parse(json);
   this.itemType = ItemType.get(this.json.item_type_name);
@@ -190,7 +307,8 @@ FItem.prototype.addLink=function(html,pageName,pageTitle) {
 };
 
 FItem.prototype.getUserHTML=function() {
-  return AttrType.get('user').getHTML(null,this.json.author);
+  var attr = new Attr(AttrType.get('user'),null,this.json.author);
+  return attr.getShowableHTML();
 };
 
 FItem.prototype.getTitleHTML=function() {
@@ -260,112 +378,6 @@ FItem.prototype.getMetaHTML=function() {
   return html;
 };
 
-function Attr(at,text,details) {
-  this.index = Attr._index++;
-  this.at = at;
-  this.text = text;
-  this.details = details;
-  //console.log('new Attr() details='+JSON.stringify(details));
-}
-
-Attr._index = 0;
-
-Attr.prototype.toString = function() {
-  var s = '{Attr index:'+this.index+' attr-type:'+this.at.name+' text:'+this.text;
-  if (this.details) s += ' details:'+JSON.stringify(this.details);
-  s += '}';
-  return s;
-}
-
-Attr.prototype.getAttr=function(name) {
-  var text = this.details.attrs_text;
-  if (text) {
-    var i = text.indexOf('[['+name+':');
-    if (i != -1) {
-      var j = text.indexOf(']]',i);
-      if (j != -1) {
-        return text.substring(i+name.length+3,j);
-      }
-    }
-  }
-  return null;
-};
-
-Attr.prototype.getLinkNameAttr=function() {
-  if (this.details) {
-    return this.details.name_attr ? this.details.name_attr : this.getAttr('name');
-  }
-  return null;
-};
-
-Attr.prototype.getLinkImageUrl=function() {
-  if (this.at.useImage && this.details) {
-    return this.details.image_url ? this.details.image_url : this.getAttr('image');
-  }
-  return null;
-};
-
-Attr.prototype.getLinkItemId=function() {
-  return this.details ? this.details.item_id : '';
-};
-
-Attr.prototype.getDeleteableHTML=function(index) {
-  if (this.at.name == 'user') console.log('generate chip for '+this);
-  if (this.at.icon) {
-    if (this.at.isLink) {
-      var name = this.getLinkNameAttr();
-      if (name) {
-        var img = this.getLinkImageUrl();
-        var icon = img ? null : this.at.icon;
-        var action = 'remove-attr:'+this.at.name+':'+index;
-        return AttrType.getChipHTML2(action,name,img,icon,'teal',AttrType.REMOVE);
-      }
-    }
-    else {
-      var action = 'remove-attr:'+this.at.name+':'+index;
-      var label = this.text;
-      return AttrType.getChipHTML2(action,label,null,this.at.icon,'teal',AttrType.REMOVE);
-    }
-  }
-  return '';
-};
-
-Attr.prototype.getInlineHTML=function(action,name) {
-  console.log(' - getInlineHTML() at='+this.at.name+' action='+action+' name='+name);
-  var label = name;
-  if (!this.at.inlineNoDecoration) label = this.at.name+':'+name;
-  var icon = '';
-  if (this.at.icon && !this.at.inlineNoDecoration) icon = '<i style="font-size:14px;" class="material-icons">'+this.at.icon+'</i>';
-  console.log(' - - icon = '+icon);
-  return '<a class="yw-'+this.at.name+'-attr" title="'+action+'" href="javascript:onAction(\''+action+'\')">'+label+icon+'</a>';
-}
-
-Attr.prototype.getShowableHTML=function(inline) {
-  if (this.at.icon) {
-    if (this.at.isLink) {
-      var name = this.getLinkNameAttr();
-      if (name) {
-        var img = this.getLinkImageUrl();
-        var icon = img ? null : this.at.icon;
-        var action = 'show-item:'+this.getLinkItemId();
-        return (inline && this.at.inlineNoChip) ?
-          this.getInlineHTML(action,name) :
-          AttrType.getChipHTML2(action,name,img,icon,'teal');
-      }
-    }
-    else {
-      var label = this.text.substring(this.at.name.length+1);
-      var action = this.at.action+'-'+this.text;
-      return (inline && this.at.inlineNoChip) ?
-        this.getInlineHTML(action,label) :
-        AttrType.getChipHTML2(action,this.text,null,this.at.icon,'teal');
-    }
-  }
-  else {
-    return this.text;
-  }
-  return '';
-};
 
 FItem.prototype.getAttrsArrayText=function() {
   if (!this.attrsArray) return '';

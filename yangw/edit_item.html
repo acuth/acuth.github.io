@@ -73,28 +73,17 @@
 				event.stopPropagation();
 			}
 
-			function doSelectItem(at) {
+			function doSelectItem(atName) {
+				var at = AttrType.get(atName);
 				var initp = {};
-				if (at == 'ref') {
-					initp.title = 'select a page to link to';
-				}
-				else if (at == 'parent') {
-					initp.title = 'select a parent page';
-					initp.item_type = 'Page';
-				}
-				else if (at == 'user') {
-				  initp.title = 'select a user';
-					initp.item_type = 'User';
-				}
-				else if (at == 'tag') {
-					initp.title = 'select a tag';
-					initp.item_type = 'Tag';
+				if (at.linkItemType) {
+					initp.title = 'select item of type '+at.linkItemType;
+					initp.item_type = at.linkItemType;
 				}
 				else {
-					_awac.alert('add attribute type='+at);
-					return;
+					initp.title = 'select item';
 				}
-				_awac.openPage('add-attr-link:'+at,'select_item.html',initp);
+				_awac.openPage('add-attr-link:'+atName,'select_item.html',initp);
 			}
 
 			function doSelectValue(at) {
@@ -185,15 +174,24 @@
 				this.lastAttrType = null;
 			}
 
+			EditAttrsListener.prototype.startAttrType=function(at) {
+				this.html += '<hr/>';
+				if (at.icon) this.html += '<i style="pading-top:4px;color:teal;" class="material-icons">'+at.icon+'</i><br/>';
+				//this.html += '<br/>';
+			};
+
+			EditAttrsListener.prototype.endAttrType=function(at) {
+				this.html += ' ' + at.getAdditionalHTML();
+			};
+
 			EditAttrsListener.prototype.onAttr=function(a) {
-				if (this.first) {
-					this.first = false;
-					this.html += '<hr/><br/>';
-				}
 				var name = '['+a.at.name+']';
+
+				// if this is a new attr
 				if (this.names.indexOf(name) == -1) {
 					this.names += name;
-					if (this.lastAttrType) this.html += ' ' + this.lastAttrType.getAdditionalHTML() + '<br/>';
+					if (this.lastAttrType) this.endAttrType(this.lastAttrType);
+					this.startAttrType(a.at);
 				}
 
 				//console.log('remove '+a);
@@ -204,7 +202,7 @@
 			};
 
 			EditAttrsListener.prototype.getHTML=function() {
-					if (this.lastAttrType) this.html += ' ' + this.lastAttrType.getAdditionalHTML() + '<br/>';
+					if (this.lastAttrType) this.endAttrType(this.lastAttrType);
 
 					var ahtml = '';
 					for (var name in AttrType.types) {
@@ -215,7 +213,7 @@
 					}
 
 					if (ahtml != '') {
-						ahtml = '<br/>'+ahtml.substring(1);
+						ahtml = '<hr/>'+ahtml.substring(1);
 					}
 
 					return this.html + ahtml;
@@ -251,7 +249,7 @@
 			}
 
 			function doAddAttrLink(name,outp) {
-				//console.log('doAddAttrLink() name='+name+' outp='+JSON.stringify(outp));
+				console.log('doAddAttrLink() name='+name+' outp='+JSON.stringify(outp));
 				var item = outp.item;
 				var at = AttrType.get(name);
 
@@ -286,6 +284,7 @@
 			}
 
 			function onPageClose(tag,ok,result) {
+				console.log('onPageClose() tag='+tag);
 				if (ok && result) {
 					if (tag && tag.indexOf('add-attr-link:') == 0) {
 						doAddAttrLink(tag.substring(14),result);

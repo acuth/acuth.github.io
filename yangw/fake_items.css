@@ -160,7 +160,7 @@ img.img-circle {
   padding: 2px;
   width: 28px;
   height: 28px;
-  border: solid 2px gray;
+  border: solid 2px transparent;
   border-radius: 4px;
   color: gray;
 }

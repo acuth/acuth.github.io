@@ -4,6 +4,7 @@ function AttrType(name,icon,action) {
   this.iconMap = null;
   this.action = action;
 
+  this.single = false;
   this.isLink = false;
   this.useLinkName = false;
   this.linkItemType = null;
@@ -23,6 +24,12 @@ AttrType.prototype.getAdditionalHTML=function() {
   return AttrType.getChipHTML2(action+':'+this.name,this.name,null,null,'teal',AttrType.ADD);
 };
 
+AttrType.prototype.getEditableHTML=function() {
+  var action = this.isLink ? 'edit-link' : 'edit-value';
+  return AttrType.getChipHTML2(action+':'+this.name,this.name,null,null,'teal',AttrType.EDIT);
+};
+
+
 AttrType.init = false;
 AttrType.types = [];
 
@@ -41,19 +48,6 @@ AttrType.getChipOnClick=function(op,action) {
   return onclick;
 };
 
-AttrType.SELECT = 1;
-AttrType.ADD = 2;
-AttrType.EDIT = 3;
-AttrType.REMOVE = 4;
-AttrType.NONE = 5;
-
-AttrType.getChipDeletableIcon=function(op) {
-  if (op == AttrType.ADD) return 'add';
-  if (op == AttrType.EDIT) return 'edit';
-  if (op == AttrType.REMOVE) return 'close';
-  return null;
-}
-
 AttrType.getChipHTML2=function(action,text,imgUrl,icon,color,op) {
     var isShow = true;
     if (op) isShow = false;
@@ -62,7 +56,7 @@ AttrType.getChipHTML2=function(action,text,imgUrl,icon,color,op) {
     var delIcon = this.getChipDeletableIcon(op);
     //
     var style = '';
-    if (op == AttrType.ADD) style = ' style="background-color:white;border:solid 1px gray;"';
+    if (op == AttrType.ADD || op == AttrType.EDIT) style = ' style="background-color:white;border:solid 1px gray;"';
 
     var contact = '';
     if (icon || imgUrl) contact = ' mdl-chip--contact';
@@ -80,23 +74,29 @@ AttrType.getChipHTML2=function(action,text,imgUrl,icon,color,op) {
     return html;
 };
 
+AttrType.SELECT = 1;
+AttrType.ADD = 2;
+AttrType.EDIT = 3;
+AttrType.REMOVE = 4;
+AttrType.NONE = 5;
+
+AttrType.getChipDeletableIcon=function(op) {
+  if (op == AttrType.ADD) return 'add';
+  if (op == AttrType.EDIT) return 'edit';
+  if (op == AttrType.REMOVE) return 'close';
+  return null;
+}
+
+
+
 AttrType.initialise=function() {
   var at = new AttrType('done','check_box','toggle');
   at.iconMap = {'true':'check_box','false':'check_box_outline_blank'};
-
-  at = new AttrType('ref','link');
-  at.isLink = true;
-  at.inlineNoChip = true;
-  at.inlineNoDecoration = true;
+  at.single = true;
 
   at = new AttrType('parent','arrow_upward');
   at.isLink = true;
-
-  at = new AttrType('http','launch','show');
-  at.inlineNoChip = true;
-
-  at = new AttrType('https','launch','show');
-  at.inlineNoChip = true;
+  at.single = true;
 
   at = new AttrType('tag','label_outline');
   at.isLink = true;
@@ -112,6 +112,17 @@ AttrType.initialise=function() {
   at.linkItemType = 'User';
   at.useLinkName = true;
   at.useImage = true;
+
+  at = new AttrType('ref','link');
+  at.isLink = true;
+  at.inlineNoChip = true;
+  at.inlineNoDecoration = true;
+
+  at = new AttrType('http','launch','show');
+  at.inlineNoChip = true;
+
+  at = new AttrType('https','launch','show');
+  at.inlineNoChip = true;
 
   AttrType.init = true;
 }

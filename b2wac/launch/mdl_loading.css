@@ -1,0 +1,84 @@
+@keyframes "loading" {
+  0% {
+    width: 0%; }
+  100% {
+    width: 100%; } }
+
+@-moz-keyframes loading {
+  0% {
+    width: 0%; }
+  100% {
+    width: 100%; } }
+
+@-webkit-keyframes "loading" {
+  0% {
+    width: 0%; }
+  100% {
+    width: 100%; } }
+
+@-ms-keyframes "loading" {
+  0% {
+    width: 0%; }
+  100% {
+    width: 100%; } }
+
+@-o-keyframes "loading" {
+  0% {
+    width: 0%; }
+  100% {
+    width: 100%; } }@keyframes "loading" {
+0% {
+width: 0%; }
+100% {
+width: 100%; } }
+
+@-moz-keyframes loading {
+0% {
+width: 0%; }
+100% {
+width: 100%; } }
+
+@-webkit-keyframes "loading" {
+0% {
+width: 0%; }
+100% {
+width: 100%; } }
+
+@-ms-keyframes "loading" {
+0% {
+width: 0%; }
+100% {
+width: 100%; } }
+
+@-o-keyframes "loading" {
+0% {
+width: 0%; }
+100% {
+width: 100%; } }
+
+#app-loading {
+    display: block;
+    background: transparent;
+    height: 1px;
+    width: 100%;
+    position: relative;
+    margin: 0;
+    overflow2: hidden;
+}
+
+.loading__bar {
+-webkit-animation-duration: 1s;
+animation-duration: 1s;
+-webkit-animation-fill-mode: both;
+animation-fill-mode: both;
+-webkit-animation-name: loading;
+animation-name: loading;
+animation-iteration-count: infinite;
+background: rgba(255,255,255,0.5);
+box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+position: absolute;
+top: 0;
+left: 0;
+height: 4px;
+width: 1%;
+}

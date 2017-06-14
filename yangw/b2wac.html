@@ -13,6 +13,7 @@
     <link rel="apple-touch-icon" sizes="256x256" href="yangw-logo-256x256.png">
 
     <link rel="stylesheet" href="../b2wac/launch/mdl_b2wac.css" />
+    <link rel="stylesheet" href="../b2wac/launch/mdl_loading.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
     <link rel="stylesheet" href="orange.css" />
@@ -42,15 +43,15 @@ B2wac.TRANSITION_TIME = 350;
      <div id="layout" class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 
       <header id="app-header" class="mdl-layout__header mdl-layout__header--seamed">
+        <div id="app-loading">
+          <div class="loading__bar2"></div>
+        </div>
         <div id="app-home-icon" class="mdl-layout-icon"></div>
         <div id="header-row" class="mdl-layout__header-row">
           <span id="title" class="mdl-layout-title">YANG-Wiki</span>
           <div class="mdl-layout-spacer"></div>
           <div id="app-action-bar-links" class="mdl-navigation"></div>
           <div id="app-options-menu"></div>
-        </div>
-        <div id="app-progress-area">
-          <div class="app-progress"></div>
         </div>
       </header>
 

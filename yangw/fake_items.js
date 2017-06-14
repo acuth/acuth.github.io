@@ -184,7 +184,6 @@ Attr.prototype.getLinkItemId=function() {
 };
 
 Attr.prototype.getDeleteableHTML=function(index) {
-  if (this.at.name == 'user') console.log('generate chip for '+this);
   var mdIcon = this.getMDIcon();
   if (mdIcon) {
     if (this.at.isLink) {
@@ -206,7 +205,7 @@ Attr.prototype.getDeleteableHTML=function(index) {
 };
 
 Attr.prototype.getInlineHTML=function(action,name) {
-  console.log(' - getInlineHTML() at='+this.at.name+' action='+action+' name='+name);
+  //console.log(' - getInlineHTML() at='+this.at.name+' action='+action+' name='+name);
   var label = name;
   if (!this.at.inlineNoDecoration) label = this.at.name+':'+name;
   var icon = '';
@@ -439,16 +438,18 @@ FItem.prototype.removeFromAttrsArray=function(index) {
   }
 };
 
+FItem.debug = false;
+
 FItem.prototype.traverseAttrs=function(listener) {
-  console.log('traverseAttrs()');
+  if (FItem.debug) console.log('traverseAttrs()');
   this.loadAttrsArray();
   for (var name in AttrType.types) {
-    console.log(' - '+name);
+    if (FItem.debug) console.log(' - '+name);
     var at = AttrType.types[name];
     for (var i=0;i<this.attrsArrayLen;i++) {
       var a = this.attrsArray[i];
       if (a.at == at) {
-        console.log(' - - '+a);
+        if (FItem.debug) console.log(' - - '+a);
         listener.onAttr(a);
       }
     }

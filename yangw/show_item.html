@@ -69,7 +69,13 @@ a.yw-ref-attr:hover, a.yw-http-attr:hover, a.yw-https-attr:hover {
 			var _fitem = null;
 			var _left = true;
 
+			var _refreshOn = false;
+
 			function doTest() {
+				if (_refreshOn) _awac.endRefresh(); else _awac.startRefresh();
+				_refreshOn = !_refreshOn;
+				return;
+
 		   	var html ='<span class="mdl-chip mdl-chip--deletable">'+
     	//'<span class="mdl-chip__contact mdl-color--gray mdl-color-text--dark-orange"><i style="color:teal;font-size:18px;line-height:32px;" class="material-icons">label_outline</i></span>'+
     					'<span class="mdl-chip__text">Contact Chip</span>'+

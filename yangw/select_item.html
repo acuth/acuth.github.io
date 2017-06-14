@@ -31,6 +31,7 @@
 			}
 
 			function onGotRecent(json) {
+				_awac.endRefresh();
 			  _items = json;
 
 			  var html = '';
@@ -40,8 +41,7 @@
 			  }
 				html == '</tbody></table>';
 			  document.getElementById('items').innerHTML = html;
-
-        _awac.startMdlPage('toplevel','https://code.getmdl.io/1.3.0/material.pink-blue.min.css');
+				componentHandler.upgradeDom();
 			}
 
 			$(document).ready(function() {
@@ -51,13 +51,18 @@
 			  _awac.setOnAction(onAction);
 			  _awac.setOnBackPressed(function() { onAction('back'); });
 			  _awac.setHomeItem({'label':'Back','icon':'close','action':'back'});
+
+				_awac.startMdlPage('toplevel','https://code.getmdl.io/1.3.0/material.pink-blue.min.css');
+				_awac.startRefresh();
   			FItem.getRecent(onGotRecent,initp.item_type);
 			});
 			</script>
 	</head>
 	<body>
 	  <div id="toplevel" class="mdl-layout mdl-js-layout">
-			<div id="items">-items-go-here-</div>
+			<div id="items">
+				<div style="width:100%;text-align:center;padding-top:20px;color:gray;font-style:italic">loading items...</div>
+			</div>
     </div>
 	</body>
 </html>

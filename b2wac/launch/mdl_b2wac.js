@@ -458,11 +458,11 @@ B2wac.prototype.resolvePageUrl=function(currentUrl,pageUrl) {
 
 B2wac.prototype.newFrame=function(currentUrl,tag,pageUrl,value) {
   pageUrl = this.resolvePageUrl(currentUrl,pageUrl);
-  pageUrl += '?r='+Math.random();
+  if (pageUrl.indexOf('localhost') != -1) pageUrl += '?r='+Math.random();
 
   var page = $('#'+this.pageDiv);
-  console.log('About to append an iframe to '+page.get(0));
-  console.log(' - width='+page.width());
+  console.log('About to append an iframe for '+pageUrl+' to '+page.get(0));
+  //console.log(' - width='+page.width());
   //console.log(' - offset-width='+page.get(0).offsetWidth);
 
   var iframe = $(document.createElement('iframe')).addClass('fun').appendTo(page);
@@ -637,15 +637,16 @@ B2wac.prototype.updateHeader=function(title,showNavDrawer,homeItem,actionBarItem
 };
 
 B2wac.prototype.startRefresh=function() {
-  var html = '<div class="app-progress mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>';
-  document.getElementById('app-progress-area').innerHTML = html;
-  componentHandler.upgradeDom();
+  var html = '<div class="loading__bar"></div>';
+  //var html = '<div class="app-progress mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>';
+  document.getElementById('app-loading').innerHTML = html;
+  //componentHandler.upgradeDom();
 };
 
 B2wac.prototype.endRefresh=function() {
-  var html = '<div class="app-progress mdl-progress mdl-js-progress"></div>';
-  document.getElementById('app-progress-area').innerHTML = html;
-  componentHandler.upgradeDom();
+  var html = '<div class="loading__bar2"></div>';
+  document.getElementById('app-loading').innerHTML = html;
+  //componentHandler.upgradeDom();
 };
 
 B2wac.prototype.alert=function(msg) {

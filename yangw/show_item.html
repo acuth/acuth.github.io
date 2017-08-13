@@ -12,20 +12,25 @@
 		width: 60%;
 		float: left;
 	}
+
+	div#show-item-lists {
+		width: 40%;
+		margin-left: 60%;
+	}
+
+	div#show-item-content div.padded-container {
+		padding: 40px;
+	}
+
+	table.yw-linked-items-table {
+		width:96%;
+	}
 }
 
-div#show-item-content div.padded-container {
-	padding: 40px;
-}
+
 
 div#show-item-markdown p {
 	line-height: 20px;
-}
-
-div#show-item-lists {
-	border: solid 0px blue;
-	width: 40%;
-	margin-left: 60%;
 }
 
 :not(.mdl-chip__contact) #show-item-markdown2  img {
@@ -452,7 +457,7 @@ div.yw-css-guardian2 button {
 				var id = "linked-items-"+_tableIndex;
 			  var hdr = params.hdr;
 				var display = params.noAnim ? '' : 'display:none;';
-			  var html = '<table id="'+id+'" style="'+display+'width:100%;" class="mdl-data-table mdl-js-data-table"><tbody>';
+			  var html = '<table id="'+id+'" style="'+display+'" class="mdl-data-table mdl-js-data-table yw-linked-items-table"><tbody>';
 			  var found = false;
 			  for (var i=0;i<json.length;i++) {
 					var index = _linkedItems.length;
@@ -707,6 +712,8 @@ div.yw-css-guardian2 button {
 				$('#show-item-markdown').html(fitem.getMarkdownHTML());
 				$('#show-item-attrs').html(getShowAttrsHTML(fitem));
 				$('#show-item-meta').html(fitem.getMetaHTML());
+
+				return themeItem;
 			}
 
 			$(document).ready(function() {
@@ -738,7 +745,7 @@ div.yw-css-guardian2 button {
 			  _awac.setOnBackPressed(function() { onAction('back'); });
 
 			  FItem.get(_itemId,function(fitem) {
-					renderItem(fitem);
+					var themeItem = renderItem(fitem);
   				_fitem = fitem;
 
   				refreshTaskList();
@@ -747,7 +754,11 @@ div.yw-css-guardian2 button {
 					if (_fitem.itemType.name == 'Tag')
 						FItem.getLinkedItems(null,'tag',_fitem.json.item_id,onGetLinkedItems,{hdr:'Tagged Items',divId:'tagged-items-div'});
 
-					_awac.startMdlPage('toplevel');
+					var mdlName = themeItem == null ? null : themeItem.getAttrText('mdl_name');
+					var mdlUrl = mdlName ? 'https://code.getmdl.io/1.3.0/material.'+mdlName+'.min.css' : null;
+					console.log('> > > > > > > '+mdlUrl);
+
+					_awac.startMdlPage('toplevel',mdlUrl);
 					setTimeout(function(){console.log('MDL component handler update DOM');componentHandler.upgradeDom();},10000);
 			  });
 			});

@@ -157,7 +157,7 @@ AttrType.initialise=function() {
   at.inlineNoChip = true;
   at.single = true;
 
-  at = new AttrType('mdl_name','format_paint','show');
+  at = new AttrType('mdl_name','format_color_fill','show');
   at.inlineNoChip = true;
 
   AttrType.init = true;

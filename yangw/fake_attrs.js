@@ -87,7 +87,19 @@ AttrType.getChipDeletableIcon=function(op) {
   return null;
 }
 
+AttrType.prototype.getCardHTML=function() {
+  var text = this.isLink ? 'A link to ' : 'A value.';
+  if (this.isLink) {
+    text += this.linkItemType ? 'an item of type '+this.linkItemType+'.' : 'another item.';
+    if (this.single) text += ' Only one attribute of this type per item.'
+  }
 
+  var html = '<div class="mdl-card mdl-cell mdl-cell--4-col mdl-shadow--2dp">';
+  html += '<div class="mdl-card__title"><i style="color:teal;padding-right:12px;" class="material-icons">'+this.icon+'</i>'+this.name+'</div>';
+  html += '<div class="mdl-card__supporting-text">'+text+'</div>';
+  html += '</div>';
+  return html;
+}
 
 AttrType.initialise=function() {
   var at = new AttrType('done','check_box','toggle');
@@ -118,10 +130,34 @@ AttrType.initialise=function() {
   at.inlineNoChip = true;
   at.inlineNoDecoration = true;
 
+  at = new AttrType('theme','color_lens');
+  at.isLink = true;
+  at.linkItemType = 'Theme';
+  at.useLinkName = true;
+  at.single = true;
+
   at = new AttrType('http','launch','show');
   at.inlineNoChip = true;
 
   at = new AttrType('https','launch','show');
+  at.inlineNoChip = true;
+
+  at = new AttrType('summary','vertical_align_center','show');
+  at.inlineNoChip = true;
+
+  at = new AttrType('css_name','format_color_fill','show');
+  at.inlineNoChip = true;
+  at.single = true;
+
+  at = new AttrType('component_order','filter_list','show');
+  at.inlineNoChip = true;
+  at.single = true;
+
+  at = new AttrType('key_image','image','show');
+  at.inlineNoChip = true;
+  at.single = true;
+
+  at = new AttrType('mdl_name','format_paint','show');
   at.inlineNoChip = true;
 
   AttrType.init = true;

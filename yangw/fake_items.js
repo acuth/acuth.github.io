@@ -50,11 +50,12 @@ FItemUtil.getItemName=function(item) {
   return item.json.name_attr;
 };
 
-FItemUtil.getItemTitleHTML=function(item) {
+FItemUtil.getItemTitleHTML=function(item,allowNull) {
   if (item.itemType.name == 'Task') {
     if (item.json.attrs_text.indexOf('done:true') != -1)
       return '<span style="text-decoration:line-through;">'+item.json.name_attr+'<span>';
   }
+  if (allowNull) return item.json.name_attr;
   return item.json.name_attr ? item.json.name_attr : item.json.item_id;
 };
 
@@ -92,7 +93,7 @@ FItemRow.prototype.getMDIcon=function() {
 };
 
 FItemRow.prototype.getTitleHTML=function() {
-  return FItemUtil.getItemTitleHTML(this);
+  return FItemUtil.getItemTitleHTML(this,false);
 };
 
 FItemRow.prototype.getDiv=function(i,rowFn,iconFn) {
@@ -215,6 +216,8 @@ Attr.prototype.getInlineHTML=function(action,name) {
 }
 
 Attr.prototype.getShowableHTML=function(inline) {
+  var attrType = this.at.name;
+  if (attrType == 'key_image' || attrType == 'summary' || attrType == 'theme') return '';
   var mdIcon = this.getMDIcon();
   if (mdIcon) {
     if (this.at.isLink) {
@@ -311,7 +314,7 @@ FItem.prototype.getUserHTML=function() {
 };
 
 FItem.prototype.getTitleHTML=function() {
-  return FItemUtil.getItemTitleHTML(this);
+  return FItemUtil.getItemTitleHTML(this,true);
 };
 
 FItem.prototype.getAttrsText=function() {
@@ -323,6 +326,35 @@ FItem.prototype.getAttrsText=function() {
     console.log(' - attrsArray='+result);
   }
   return result;
+};
+
+FItem.prototype.getAttrText=function(name) {
+  this.loadAttrsArray();
+  //console.log('FItem.getAttrText('+name+')');
+  name += ':';
+  if (this.attrsArray) {
+    for (var i=0;i<this.attrsArrayLen;i++) {
+      var attr = this.attrsArray[i];
+      if (attr.text.indexOf(name) == 0) {
+        //console.log(' - found '+attr.text);
+        return attr.text.substring(name.length);
+      }
+    }
+  }
+  return null;
+};
+
+FItem.prototype.getAttr=function(nameValue) {
+  this.loadAttrsArray();
+  if (this.attrsArray) {
+    for (var i=0;i<this.attrsArrayLen;i++) {
+      var attr = this.attrsArray[i];
+      if (attr.text == nameValue) {
+        return attr;
+      }
+    }
+  }
+  return null;
 };
 
 FItem.prototype.getMDIcon=function() {
@@ -393,6 +425,9 @@ FItem.prototype.loadAttrsArray=function() {
   this.attrsArray = [];
   this.attrsArrayLen = 0;
   var attrs = this.json.attrs_text;
+  var obj = this.json.markdown_inline_values;
+  var n = obj == null ? 0 : Object.keys(obj).length;
+  console.log(' - found '+n+' inline values');
   if (attrs) {
     var j = -1;
     for (;;) {
@@ -401,12 +436,21 @@ FItem.prototype.loadAttrsArray=function() {
       var j = attrs.indexOf(']]',i);
       if (j == -1) break;
       var attr = attrs.substring(i+2,j);
-      var details = this.json.markdown_inline_values[attr];
-      var name = attr.substring(0,attr.indexOf(':'));
-      var at = AttrType.get(name);
-      if (at) {
-        this.attrsArray[this.attrsArrayLen] = new Attr(at,attr,details);
-        this.attrsArrayLen++;
+      try {
+        var details = this.json.markdown_inline_values[attr];
+        var name = attr.substring(0,attr.indexOf(':'));
+        var at = AttrType.get(name);
+        if (at) {
+          console.log(' - OK with '+attr);
+          this.attrsArray[this.attrsArrayLen] = new Attr(at,attr,details);
+          this.attrsArrayLen++;
+        }
+        else {
+            console.log(' - no AttrType for '+attr);
+        }
+      } catch (err) {
+        console.log(' - problem with '+attr);
+        //console.log(err);
       }
     }
   }
@@ -503,6 +547,13 @@ FItem.addTag=function(name_attr,markdown,cb) {
   },true,true);
 };
 
+FItem.newItem=function(itemType,itemId,nameAttr,markdown,cb) {
+  var url = FItem.apiUrl+'op=new_item&item_type='+itemType+'&item_id='+itemId+'&attrs=[[name:'+nameAttr+']]&markdown='+encodeURIComponent(markdown);
+  ajax(url,function(json) {
+    cb(json.item_id);
+  },true,true);
+};
+
 FItem.prototype.update=function(attrs_text,markdown,cb) {
   var url = FItem.apiUrl+'op=update_item&item_id='+this.json.item_id+'&item_last_modified='+this.json.modify
                 +'&attrs='+encodeURIComponent(attrs_text)+'&markdown='+encodeURIComponent(markdown);
@@ -545,5 +596,12 @@ FItem.getLinkedItems=function(fromItemType,attrType,toItemId,cb,params) {
   url += '&attr_type='+attrType;
   ajax(url,function(json) {
     cb(JSON.parse(json),params);
+  });
+};
+
+FItem.getSchema=function(cb) {
+  var url = FItem.apiUrl+'op=get_schema';
+  ajax(url,function(jsonStr) {
+    cb(JSON.parse(jsonStr));
   });
 };

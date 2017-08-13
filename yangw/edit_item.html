@@ -119,8 +119,23 @@
 				if (at == 'http' || at == 'https') {
 					initp.title = 'select an external link';
 				}
+				else if (at == 'summary') {
+					initp.title = 'write a short summary';
+				}
 				else if (at == 'done') {
 					initp.title = 'select an initial done state';
+				}
+				else if (at == 'css_name') {
+					initp.title = 'write a CSS name';
+				}
+				else if (at == 'component_order') {
+					initp.title = 'select the ordering of components';
+				}
+				else if (at == 'key_image') {
+					initp.title = 'supply the image URL';
+				}
+				else if (at == 'mdl_name') {
+					initp.title = 'write a MDL name e.g. red_blue';
 				}
 				else {
 					_awac.alert('add attribute type='+at);

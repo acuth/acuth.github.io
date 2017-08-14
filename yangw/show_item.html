@@ -71,7 +71,6 @@ div.yw-css-guardian1 div#item-title-div {
 
 div.yw-css-guardian1 div.item-title {
 	color: white;
-	font-family: Georgia,serif;
 	border-bottom: solid 2px #615b52;
 }
 
@@ -79,11 +78,19 @@ div.yw-css-guardian1 div#item-types-div, div.guardian div#item-types-div button 
 	background: white;
 }
 
+div.yw-css-guardian1 div.item-title, div.yw-css-guardian1 .img-container div.img-title {
+	font-family: Georgia,serif;
+	font-size: 32px;
+}
+
+div.yw-css-guardian1 div#item-summary-div {
+	font-family: Georgia,serif;
+	font-size: 20px;
+}
+
 div.yw-css-guardian1 div#item-summary-div {
 	background: #7d7569;
-	font-family: Georgia,serif;
 	color: white;
-	font-size: 100%;
 }
 
 div.yw-css-guardian1 div#item-summary-div div.padded-container {
@@ -534,8 +541,9 @@ div.yw-css-guardian2 button {
 			  return d;
 			}
 
-			function getComponentOrder(themeItem) {
-				var componentOrder = themeItem ? themeItem.getAttrText('component_order') : null;
+			function getComponentOrder(thisItem,themeItem) {
+				var componentOrder = thisItem.itemType.name != 'Theme' ? thisItem.getAttrText('component_order') : null;
+				if (!componentOrder) componentOrder = themeItem ? themeItem.getAttrText('component_order') : null;
 				if (!componentOrder) componentOrder= 'image|name|author|summary';
 				var order = [];
 				for(;;) {
@@ -548,9 +556,10 @@ div.yw-css-guardian2 button {
 					componentOrder = componentOrder.substring(i+1);
 				}
 
-				for (var i=0;i<order.length;i++) {
-					//console.log(order[i]);
-				}
+				//console.log('getComponentOrder()');
+				//for (var i=0;i<order.length;i++) {
+				//	console.log(order[i]);
+				//}
 
 				return order;
 			}
@@ -559,7 +568,7 @@ div.yw-css-guardian2 button {
 				  console.log('renderItemHeader()');
 					var iname = fitem.getMDIcon();
 					var author = fitem.getUserHTML();
-					var order = getComponentOrder(themeItem);
+					var order = getComponentOrder(fitem,themeItem);
 
 					var headerDiv = $('#item-header-div');
 					headerDiv.html('');

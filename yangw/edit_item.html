@@ -110,54 +110,28 @@
 				else {
 					initp.title = 'select item';
 				}
-				_awac.openPage('update-attr-link:'+atName,'select_item.html',initp);
+				_awac.openPage('edit-attr-link:'+atName,'select_item.html',initp);
 			}
 
-			function doSelectValue(at) {
-				var initp = {};
-				initp.attr_type_name = at;
-				if (at == 'http' || at == 'https') {
-					initp.title = 'select an external link';
-				}
-				else if (at == 'summary') {
-					initp.title = 'write a short summary';
-				}
-				else if (at == 'done') {
-					initp.title = 'select an initial done state';
-				}
-				else if (at == 'css_name') {
-					initp.title = 'write a CSS name';
-				}
-				else if (at == 'component_order') {
-					initp.title = 'select the ordering of components';
-				}
-				else if (at == 'key_image') {
-					initp.title = 'supply the image URL';
-				}
-				else if (at == 'mdl_name') {
-					initp.title = 'write a MDL name e.g. red_blue';
-				}
-				else {
-					_awac.alert('add attribute type='+at);
-					return;
-				}
-				_awac.openPage('add-attr-value:'+at,'select_value.html',initp);
-			}
-
-			function doEditAttrValue(atName) {
-				console.log('doEditAttrValue('+atName+')');
+			function doSelectValue(atName) {
+				console.log('doSelectValue('+atName+')');
+				var at = AttrType.get(atName);
 				var initp = {};
 				initp.attr_type_name = atName;
-				if (atName == 'done') {
-					initp.title = 'select an initial done state';
-				}
-				else {
-					_awac.alert('update attribute type='+atName);
-					return;
-				}
-				_awac.openPage('update-attr-value:'+atName,'select_value.html',initp);
+				initp.title = at.addAttrTitle;
+				_awac.openPage('add-attr-value:'+atName,'select_value.html',initp);
 			}
 
+			function doEditValue(atName) {
+				console.log('doEditValue('+atName+')');
+				var at = AttrType.get(atName);
+				var a = _fitem.getFromAttrsArray(at);
+				var initp = {};
+				initp.attr_type_name = atName;
+				initp.title = at.editAttrTitle;
+				initp.value = a.text.substring(at.name.length+1);
+				_awac.openPage('edit-attr-value:'+atName,'select_value.html',initp)
+			}
 
 			function onAction(action,event) {
 				if (event) event.stopPropagation();
@@ -182,7 +156,7 @@
 				else if (op == 'add-link') doSelectItem(val);
 				else if (op == 'add-value') doSelectValue(val);
 				else if (op == 'edit-link') doEditLink(val);
-				else if (op == 'edit-value') doEditAttrValue(val);
+				else if (op == 'edit-value') doEditValue(val);
 				else if ('save' == action) saveItem();
 				else _awac.alert('edit_item.html action "'+action+'" NYI');
 			}
@@ -307,31 +281,41 @@
 					showItemAttrs(fitem);
 			}
 
-
-
 			function doRemoveAttr(nameIndex) {
 				console.log('doRemoveAttr('+nameIndex+')');
 				var index = parseInt(nameIndex.substring(nameIndex.indexOf(':')+1));
-				_fitem.removeFromAttrsArray(index);
+				_fitem.removeFromAttrsArrayByIndex(index);
 				showItemAttrs(_fitem);
+			}
+
+			function getDetails(atName,item) {
+				var details = {};
+				details.item_type_name = atName;
+				details.item_id = item.item_id;
+				if (item.attrs_text2)
+					details.attrs_text = item.attrs_text2;
+				else
+					details.name_attr = item.name_attr;
+				return details;
 			}
 
 			function doAddAttrLink(name,outp) {
 				console.log('doAddAttrLink() name='+name+' outp='+JSON.stringify(outp));
 				var item = outp.item;
 				var at = AttrType.get(name);
-
-				var details = {};
-				details.item_type_name = name;
-				details.item_id = item.item_id;
-				if (item.attrs_text2)
-					details.attrs_text = item.attrs_text2;
-				else
-					details.name_attr = item.name_attr;
-
+				var details = getDetails(name,item);
 				var text = name+':'+(at.useLinkName?item.name_attr:item.item_id);
+				_fitem.addToAttrsArray(at,text,details);
+				showItemAttrs(_fitem);
+			}
 
-				//console.log('\n\n\nat='+at+' text='+text);
+			function doEditAttrLink(name,outp) {
+				console.log('doEditAttrLink() '+name+' '+JSON.stringify(outp));
+				var item = outp.item;
+				var at = AttrType.get(name);
+				var details = getDetails(name,item);
+				var text = name+':'+(at.useLinkName?item.name_attr:item.item_id);
+				_fitem.removeFromAttrsArrayByType(at);
 				_fitem.addToAttrsArray(at,text,details);
 				showItemAttrs(_fitem);
 			}
@@ -344,38 +328,44 @@
 				showItemAttrs(_fitem);
 			}
 
-			function doUpdateAttrValue(name,outp) {
-				console.log('doUpdateAttrValue() '+name+' '+outp.value);
+			function doEditAttrValue(name,outp) {
+				console.log('doEditAttrValue() '+name+' '+outp.value);
 				var at = AttrType.get(name);
-				//var text = name+':'+outp.value;
-				//_fitem.addToAttrsArray(at,text);
+				var text = name+':'+outp.value;
+				_fitem.removeFromAttrsArrayByType(at);
+				_fitem.addToAttrsArray(at,text);
 				showItemAttrs(_fitem);
 			}
 
-			function onPageClose(tag,ok,result) {
-				console.log('onPageClose() tag='+tag);
-				if (ok && result) {
-					var op = null;
-					var val = null;
-					if (tag) {
-						var i = tag.indexOf(':');
-						if (i != -1) {
-							op = tag.substring(0,i);
-							val = tag.substring(i+1);
-						}
-					}
+			function doEditMarkdown(result) {
+				_markdown = result.markdown;
+				showItemMarkdown(_markdown,_item_markdown);
+			}
 
-					if (op == 'add-attr-link') return doAddAttrLink(val,result);
-					if (op == 'add-attr-value') return doAddAttrValue(val,result);
-					if (op == 'update-attr-link') return doUpdateAttrValue(val,result);
-					if (op == 'update-attr-value') return doUpdateAttrValue(val,result);
-					if (tag == 'edit-item-markdown') {
-						_markdown = result.markdown;
-						showItemMarkdown(_markdown,_item_markdown);
-						return;
+			function onPageClose(tag,ok,result) {
+				console.log('onPageClose() tag='+tag+' ok='+ok);
+				if (!ok || !result) result;
+
+				var op = null;
+				var val = null;
+				if (tag) {
+					var i = tag.indexOf(':');
+					if (i != -1) {
+						op = tag.substring(0,i);
+						val = tag.substring(i+1);
 					}
 				}
-				console.log('onPageClose() got result from '+tag+' ok='+ok+' result='+JSON.stringify(result));
+
+				if (op == 'add-attr-link')
+					return doAddAttrLink(val,result);
+				else if (op == 'add-attr-value')
+					return doAddAttrValue(val,result);
+				else if (op == 'edit-attr-link')
+					return doEditAttrLink(val,result);
+				else if (op == 'edit-attr-value')
+					return doEditAttrValue(val,result);
+				else if (tag == 'edit-item-markdown')
+					return doEditMarkdown(result);
 			}
 
 			$(document).ready(function() {

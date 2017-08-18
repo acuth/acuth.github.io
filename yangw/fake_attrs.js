@@ -12,6 +12,9 @@ function AttrType(name,icon,action) {
   this.inlineNoChip = false;
   this.inlineNoDecoration = false;
 
+  this.addAttrTitle = 'add '+name+' value';
+  this.editAttrTitle = 'edit '+name+' value';
+
   AttrType.types[name] = this;
 }
 
@@ -138,16 +141,25 @@ AttrType.initialise=function() {
 
   at = new AttrType('http','launch','show');
   at.inlineNoChip = true;
+  at.addAttrTitle = 'add an external link';
+  at.editAttrTitle = 'add an external link';
 
   at = new AttrType('https','launch','show');
   at.inlineNoChip = true;
+  at.addAttrTitle = 'add an external link';
+  at.editAttrTitle = 'add an external link';
 
   at = new AttrType('summary','vertical_align_center','show');
   at.inlineNoChip = true;
+  at.single = true;
+  at.addAttrTitle = 'write a short summary';
+  at.editAttrTitle = 'write a short summary';
 
   at = new AttrType('css_name','format_color_fill','show');
   at.inlineNoChip = true;
   at.single = true;
+  at.addAttrTitle = 'write a CSS name';
+  at.editAttrTitle = 'write a CSS name';
 
   at = new AttrType('component_order','filter_list','show');
   at.inlineNoChip = true;
@@ -156,6 +168,8 @@ AttrType.initialise=function() {
   at = new AttrType('key_image','image','show');
   at.inlineNoChip = true;
   at.single = true;
+  at.addAttrTitle = 'supply image URL';
+  at.editAttrTitle = 'supply image URL';
 
   at = new AttrType('mdl_name','format_color_fill','show');
   at.inlineNoChip = true;

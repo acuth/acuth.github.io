@@ -456,29 +456,47 @@ FItem.prototype.loadAttrsArray=function() {
   }
 }
 
+FItem.prototype.getFromAttrsArray=function(at) {
+  this.loadAttrsArray();
+  for (var i=0;i<this.attrsArrayLen;i++) {
+    var a = this.attrsArray[i];
+    if (a.at == at) return a;
+  }
+  return null;
+};
+
 FItem.prototype.addToAttrsArray=function(at,attr,details) {
   this.loadAttrsArray();
   var a = new Attr(at,attr,details);
   this.attrsArray[this.attrsArrayLen] = a;
   this.attrsArrayLen++;
-  console.log('added '+a);
 };
 
-FItem.prototype.removeFromAttrsArray=function(index) {
+FItem.prototype.removeFromAttrsArrayByPosn=function(posn) {
+  for (var i=posn+1;i<this.attrsArrayLen;i++) {
+    this.attrsArray[i-1] = this.attrsArray[i];
+  }
+  this.attrsArrayLen--;
+};
+
+FItem.prototype.removeFromAttrsArrayByType=function(at) {
   this.loadAttrsArray();
-  index = parseInt(index);
-  var found = -1;
   for (var i=0;i<this.attrsArrayLen;i++) {
-    if (this.attrsArray[i].index == index) {
-      found = i;
-      break;
+    if (this.attrsArray[i].at == at) {
+      this.removeFromAttrsArrayByPosn(i);
+      return;
     }
   }
-  if (found != -1) {
-    for (var i=found+1;i<this.attrsArrayLen;i++) {
-      this.attrsArray[i-1] = this.attrsArray[i];
+};
+
+FItem.prototype.removeFromAttrsArrayByIndex=function(index) {
+  this.loadAttrsArray();
+  index = parseInt(index);
+  for (var i=0;i<this.attrsArrayLen;i++) {
+    if (this.attrsArray[i].index == index) {
+      this.removeFromAttrsArrayByPosn(i);
+      return;
     }
-    this.attrsArrayLen--;
   }
 };
 

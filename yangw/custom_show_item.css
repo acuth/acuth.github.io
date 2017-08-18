@@ -1,0 +1,113 @@
+div.yw-css-guardian1 {
+	background: white;
+}
+
+div.yw-css-guardian1 div#item-title-div {
+	background: #615b52;
+	color: white;
+	padding-top: 40px;
+}
+
+div.yw-css-guardian1 div.item-title {
+	color: white;
+	border-bottom: solid 2px #615b52;
+}
+
+div.yw-css-guardian1 div#item-types-div, div.guardian div#item-types-div button {
+	background: white;
+}
+
+div.yw-css-guardian1 div.item-title, div.yw-css-guardian1 .img-container div.img-title {
+	font-family: Georgia,serif;
+	font-size: 32px;
+}
+
+div.yw-css-guardian1 div#item-summary-div {
+	font-family: Georgia,serif;
+	font-size: 20px;
+}
+
+div.yw-css-guardian1 div#item-summary-div {
+	background: #7d7569;
+	color: white;
+}
+
+div.yw-css-guardian1 div#item-summary-div div.padded-container {
+	padding-bottom: 20px;
+}
+
+div.yw-css-guardian1 button {
+	background: #efefec;
+	color: #448aff;
+}
+
+
+
+div.yw-css-guardian2 {
+	background: #e3e1dc;
+}
+
+div.yw-css-guardian2 .img-container {
+	height: 240px;
+}
+
+div.yw-css-guardian2 div#item-title-div {
+	background: white;
+}
+
+div.yw-css-guardian2 div.item-title, div.yw-css-guardian2 .img-container div.img-title {
+	font-family2: Georgia,serif;
+	font-size: 24px;
+}
+
+div.yw-css-guardian2 div#item-summary-div {
+	font-family: Georgia,serif;
+	font-size: 20px;
+}
+
+div.yw-css-guardian2 div.item-title {
+	color: #333;
+}
+
+div.yw-css-guardian2 div#item-types-div {
+	background: white;
+	margin-top: -2px;
+}
+
+div.yw-css-guardian2 div#item-summary-div {
+	background: #e6711b;
+	color: white;
+}
+
+div.yw-css-guardian2 div#item-summary-div div.padded-container {
+	padding-bottom: 20px;
+}
+
+div.yw-css-guardian2 button {
+	background: white;
+	color: #f57c00;
+}
+
+div.yw-css-guardian-dark div.item-title, div.yw-css-guardian-dark .img-container div.img-title {
+	font-size: 32px;
+	line-height: 40px;
+}
+
+div.yw-css-guardian-dark div#item-summary-div {
+	background: #30424c;
+	color: white;
+	font-size: 20px;
+	line-height: 24px;
+}
+
+div.yw-css-guardian-dark div#item-summary-div div.padded-container {
+	padding-bottom: 20px;
+}
+
+div.yw-css-guardian-simple .img-container {
+	height: 240px;
+}
+
+div.yw-css-guardian-simple div#item-summary-div div.padded-container {
+	padding-bottom: 20px;
+}

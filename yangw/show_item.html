@@ -139,6 +139,8 @@ div#item-summary-div {
 					doTest();
 			  else if ('recent' == action)
 			    showRecentItems();
+				else if ('search' == action)
+					showSearch();
 			  else if ('comments' == action)
 			    showCommentItems();
 				else if ('schema' == action)
@@ -174,8 +176,12 @@ div#item-summary-div {
 			}
 
 			function onPageClose(tag,ok,result) {
+				console.log('show_item.html onPageClose() tag='+tag+' ok='+ok+' outp='+JSON.stringify(result));
 			  if (ok && result) {
-  			  if (tag == 'add-comment') {
+					if (tag == 'search') {
+						setTimeout(function() { showNextPage(result.item_id); },100);
+					}
+  			  else if (tag == 'add-comment') {
 						if (result.markdown)
 	  		    	FItem.addComment(_itemId,result.markdown,refreshCommentList);
 						else
@@ -311,6 +317,10 @@ div#item-summary-div {
 
 			function showSchema() {
 				_awac.openPage('schema','show_schema.html');
+			}
+
+			function showSearch() {
+				_awac.openPage('search','show_search.html');
 			}
 
 			function showRecentItems() {
@@ -650,8 +660,9 @@ div#item-summary-div {
 			  _awac.setOnPageClose(onPageClose);
 			  _awac.setOnAction(onAction);
 			  _awac.addNavDrawerItem({'label':'Sign out','action':'signout'});
-			  _awac.addNavDrawerItem({'label':'Most recent','action':'recent'});
-			  _awac.addNavDrawerItem({'label':'Schema','action':'schema'});
+			  _awac.addNavDrawerItem({'label':'Search','action':'search'});
+				_awac.addNavDrawerItem({'label':'Schema','action':'schema'});
+				_awac.addNavDrawerItem({'label':'Most recent','action':'recent'});
 			  _awac.addNavDrawerItem({'label':'History','action':'history'});
 			  _awac.unlockNavDrawer();
 

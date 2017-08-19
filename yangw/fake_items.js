@@ -607,6 +607,13 @@ FItem.getRecent=function(cb,item_type_name) {
   });
 };
 
+FItem.search=function(cb,q) {
+  var url = FItem.apiUrl+'op=search&q='+q;
+  ajax(url,function(jsonStr) {
+    cb(JSON.parse(jsonStr));
+  });
+};
+
 FItem.getLinkedItems=function(fromItemType,attrType,toItemId,cb,params) {
   console.log('FItem.getLinkedItems() params='+JSON.stringify(params));
   var url = 'https://yangw-2.appspot.com/v4/?op=get_linked_items&item_id='+toItemId;

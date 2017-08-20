@@ -320,25 +320,20 @@ FItem.prototype.getTitleHTML=function() {
 };
 
 FItem.prototype.getAttrsText=function() {
-  console.log('FItem.getAttrsText()');
   var result = this.json.attrs_text;
-  console.log(' - old attrs_text:'+result);
   if (this.attrsArray) {
     result = this.getAttrsArrayText();
-    console.log(' - attrsArray='+result);
   }
   return result;
 };
 
 FItem.prototype.getAttrText=function(name) {
   this.loadAttrsArray();
-  //console.log('FItem.getAttrText('+name+')');
   name += ':';
   if (this.attrsArray) {
     for (var i=0;i<this.attrsArrayLen;i++) {
       var attr = this.attrsArray[i];
       if (attr.text.indexOf(name) == 0) {
-        //console.log(' - found '+attr.text);
         return attr.text.substring(name.length);
       }
     }

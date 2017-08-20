@@ -133,6 +133,18 @@ AttrType.initialise=function() {
   at.inlineNoChip = true;
   at.inlineNoDecoration = true;
 
+  at = new AttrType('next','chevron_right');
+  at.isLink = true;
+  at.single = true;
+  //at.inlineNoChip = true;
+  //at.inlineNoDecoration = true;
+
+  at = new AttrType('previous','chevron_left');
+  at.isLink = true;
+  at.single = true;
+  //at.inlineNoChip = true;
+  //at.inlineNoDecoration = true;
+
   at = new AttrType('theme','color_lens');
   at.isLink = true;
   at.linkItemType = 'Theme';

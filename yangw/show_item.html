@@ -40,6 +40,8 @@ div#show-item-markdown {
 	color: gray;
 }
 
+
+
 a.yw-ref-attr, a.yw-http-attr, a.yw-https-attr {
   color2: gray;
 	border-bottom2: 2px solid rgb(68,138,255);
@@ -54,6 +56,15 @@ a.yw-ref-attr:hover, a.yw-http-attr:hover, a.yw-https-attr:hover {
 div#item-summary-div {
 	font-size: 120%;
 }
+
+div.yw-nav-elem {
+	cursor: pointer;
+}
+
+div.yw-nav-elem > a > i {
+	vertical-align: middle !important;
+}
+
 		</style>
 		<link type="text/css" rel="stylesheet" href="custom_show_item.css" />
 
@@ -129,6 +140,16 @@ div#item-summary-div {
 				window.open( action, '_blank' );
 			}
 
+			function gotoNextPage() {
+				var itemId = _fitem.getAttrText('next');
+				showNewPage(itemId);
+			}
+
+			function gotoPrevPage() {
+				var itemId = _fitem.getAttrText('previous');
+				showNewPage(itemId,true);
+			}
+
 			function onAction(action) {
 				console.log('onAction('+action+')');
 				var i = action.indexOf(':');
@@ -139,6 +160,10 @@ div#item-summary-div {
 			  }
 			  else if ('back' == action)
 			    showPrevPage();
+				else if ('next' == action)
+					gotoNextPage();
+				else if ('previous' == action)
+					gotoPrevPage();
 				else if ('test' == action)
 					doTest();
 				else if ('refresh' == action)
@@ -160,9 +185,9 @@ div#item-summary-div {
 				else if ('+task' == action)
 					doAddChildTask();
 				else if ('show-attr' == name)
-					showNextPage(action.substring(name.length+1));
+					showNewPage(action.substring(name.length+1));
 				else if ('show-item' == name)
-					showNextPage(action.substring(name.length+1));
+					showNewPage(action.substring(name.length+1));
 				else if ('show-http' == name || 'show-https' == name)
 					showExternalLink(action);
 			  else if ('new-tag' == name)
@@ -185,7 +210,7 @@ div#item-summary-div {
 				console.log('show_item.html onPageClose() tag='+tag+' ok='+ok+' outp='+JSON.stringify(result));
 			  if (ok && result) {
 					if (tag == 'search') {
-						setTimeout(function() { showNextPage(result.item_id); },100);
+						setTimeout(function() { showNewPage(result.item_id); },100);
 					}
   			  else if (tag == 'add-comment') {
 						if (result.markdown)
@@ -202,24 +227,23 @@ div#item-summary-div {
 						}
 					}
 			    else if (tag == 'edit-child-markdown') {
-	  		    FItem.addChildPage(_itemId,result.name_attr,result.markdown,showNextPage);
+	  		    FItem.addChildPage(_itemId,result.name_attr,result.markdown,showNewPage);
 			    }
 					else if (tag == 'edit-task-title') {
 						FItem.addChildTask(_itemId,result.name_attr,null,newChildTask);
 					}
 			    else if (tag == 'new-tag-markdown') {
-	  		    FItem.addTag(result.name_attr,result.markdown,showNextPage);
+	  		    FItem.addTag(result.name_attr,result.markdown,showNewPage);
 			    }
 					else if (tag == 'new-theme-markdown') {
 						var name = result.name_attr;
-						FItem.newItem('Theme','Th_'+name,name,result.markdown,showNextPage);
+						FItem.newItem('Theme','Th_'+name,name,result.markdown,showNewPage);
 					}
 			    else if (tag == 'new-page') {
-	  		    FItem.addPage(result.item_id,result.name_attr,result.markdown,showNextPage);
+	  		    FItem.addPage(result.item_id,result.name_attr,result.markdown,showNewPage);
 			    }
 			    else if (tag == 'recent') {
 			      console.log('show page '+result);
-			      //showNextPage(item_id);
 			    }
 			    else {
 			      _awac.alert('page with tag '+tag+' has closed');
@@ -417,9 +441,10 @@ div#item-summary-div {
 			  _awac.replacePage('history','show_history.html',null,true);
 			}
 
-			function showNextPage(itemId) {
+			function showNewPage(itemId,backwardsTransition) {
 			  FItem.historyPush(_awac,itemId);
-			  _awac.replacePage('show','show_item.html',{'item_id':itemId},true);
+				var forwardsTransition = !backwardsTransition;
+			  _awac.replacePage('show','show_item.html',{'item_id':itemId},forwardsTransition);
 			}
 
 			function newChildTask(itemJson) {
@@ -468,7 +493,7 @@ div#item-summary-div {
 			function getComponentOrder(thisItem,themeItem) {
 				var componentOrder = thisItem.itemType.name != 'Theme' ? thisItem.getAttrText('component_order') : null;
 				if (!componentOrder) componentOrder = themeItem ? themeItem.getAttrText('component_order') : null;
-				if (!componentOrder) componentOrder= 'image|name|author|summary';
+				if (!componentOrder) componentOrder= 'image|name|author|nav|summary';
 				var order = [];
 				for(;;) {
 					var i = componentOrder.indexOf('|');
@@ -488,88 +513,122 @@ div#item-summary-div {
 				return order;
 			}
 
+			function renderSummary(fitem,state,container) {
+				var summary = fitem.getAttrText('summary');
+				if (summary) {
+					var sumDiv = newDiv(null,'item-summary-div');
+					sumDiv.html('<div class="padded-container">'+summary+'</div>');
+					sumDiv.appendTo(container);
+				}
+				else {
+					console.log(' - - no summary');
+				}
+			}
+
+			function renderAuthor(fitem,state,container) {
+				var author = fitem.getUserHTML();
+				var iname = fitem.getMDIcon();
+				var html = '';
+				if (!state.displayedType) {
+					html += '<div class="item-type"><i class="material-icons">'+iname+'</i></div>';
+					state.displayedType = true;
+				}
+				if (!state.displayedAuthor) {
+					html += '<div class="spacer"></div><div>'+author+'</div>';
+					state.displayedAuthor = true;
+				}
+
+				var typesDiv = newDiv(null,'item-types-div');
+				typesDiv.html('');
+				var t = newDiv('left-content left');
+				newDiv('padded-container').css('display','flex').html(html).appendTo(t);
+				t.appendTo(typesDiv);
+				appendClearBoth(typesDiv);
+				typesDiv.appendTo(container);
+			}
+
+			function renderName(fitem,state,container) {
+				if (state.displayedName) return;
+				var title = fitem.getTitleHTML();
+				if (title) {
+					var titleDiv = newDiv(null,'item-title-div');
+					newDiv('padded-container item-title').html(title).appendTo(titleDiv);
+					titleDiv.appendTo(container);
+				}
+				state.displayedName = true;
+			}
+
+			function renderNavigation(fitem,state,container) {
+				var next = fitem.getAttrText('next');
+				var prev = fitem.getAttrText('previous');
+				if (next || prev) {
+					var html = '<div style="width"100%;">';
+					if (prev) {
+						html += '<div class="yw-nav-elem" style="float:left;"><a class="yw-ref-attr" href="javascript:onAction(\'previous\');"><i class="material-icons">arrow_back</i> '+prev+'</a></div>';
+					}
+					if (next) {
+						html += '<div class="yw-nav-elem" style="float:right;"><a class="yw-ref-attr" href="javascript:onAction(\'next\');">'+next+' <i class="material-icons">arrow_forward</i></a></div>';
+					}
+					html += '</div>';
+					var navDiv = newDiv(null,'item-nav-div');
+
+					var navDiv2 = newDiv('padded-container item-nav').html(html);
+					appendClearBoth(navDiv2);
+					navDiv2.appendTo(navDiv);
+					navDiv.appendTo(container);
+				}
+			}
+
+			function renderImage(fitem,state,container) {
+				var url = fitem.getAttrText('key_image');
+				if (!url) url = fitem.json.image_url;
+				if (url) {
+					var imgDiv = newDiv('img-container');
+					var html = '<img src="'+url+'"/>';
+					if (!state.displayedType) {
+						var iname = fitem.getMDIcon();
+						html += '<div class="top"><div class="item-type-inner"><div class="item-type"><i class="material-icons">'+iname+'</i></div></div></div>';
+						state.displayedType = true;
+					}
+					if (!state.displayedName) {
+						var title = fitem.getTitleHTML();
+						if (title) html += '<div class="img-title"><div class="img-title-inner">'+title+'</div></div>';
+						state.displayedName = true;
+					}
+					imgDiv.html(html);
+					imgDiv.appendTo(container);
+				}
+				else {
+					console.log(' - - no image');
+				}
+			}
+
 		  function renderItemHeader(fitem,themeItem) {
 				  console.log('renderItemHeader()');
-					var iname = fitem.getMDIcon();
-					var author = fitem.getUserHTML();
 					var order = getComponentOrder(fitem,themeItem);
 
 					var headerDiv = $('#item-header-div');
 					headerDiv.html('');
 
-					var displayedName = false;
-					var displayedType = false;
-					var displayedAuthor = false;
+					var state = {};
+					state.displayedName = false;
+					state.displayedType = false;
+					state.displayedAuthor = false;
 
 					for (var i=0;i<order.length;i++) {
 						var comp = order[i];
 						console.log(' processing '+comp);
 
-						if (comp == 'image') {
-							var url = fitem.getAttrText('key_image');
-							if (!url) url = fitem.json.image_url;
-							if (url) {
-								var imgDiv = newDiv('img-container');
-								var html = '<img src="'+url+'"/>';
-								if (!displayedType) {
-									html += '<div class="top"><div class="item-type-inner"><div class="item-type"><i class="material-icons">'+iname+'</i></div></div></div>';
-									displayedType = true;
-								}
-								if (!displayedName) {
-									var title = fitem.getTitleHTML();
-									if (title) html += '<div class="img-title"><div class="img-title-inner">'+title+'</div></div>';
-									displayedName = true;
-								}
-								imgDiv.html(html);
-								imgDiv.appendTo(headerDiv);
-							}
-							else {
-								console.log(' - - no image');
-							}
-						}
-
-						if (comp == 'name' && !displayedName) {
-							var title = fitem.getTitleHTML();
-							if (title) {
-								var titleDiv = newDiv(null,'item-title-div');
-								newDiv('padded-container item-title').html(title).appendTo(titleDiv);
-								titleDiv.appendTo(headerDiv);
-							}
-							displayedName = true;
-						}
-
-						if (comp == 'author') {
-							var html = '';
-							if (!displayedType) {
-								html += '<div class="item-type"><i class="material-icons">'+iname+'</i></div>';
-								displayedType = true;
-							}
-							if (!displayedAuthor) {
-								html += '<div class="spacer"></div><div>'+author+'</div>';
-								displayedAuthor = true;
-							}
-
-							var typesDiv = newDiv(null,'item-types-div');
-						 	typesDiv.html('');
-						 	var t = newDiv('left-content left');
-						 	newDiv('padded-container').css('display','flex').html(html).appendTo(t);
-						 	t.appendTo(typesDiv);
-							appendClearBoth(typesDiv);
-							typesDiv.appendTo(headerDiv);
-						}
-
-						if (comp == 'summary') {
-							var summary = fitem.getAttrText('summary');
-							if (summary) {
-								var sumDiv = newDiv(null,'item-summary-div');
-								sumDiv.html('<div class="padded-container">'+summary+'</div>');
-								sumDiv.appendTo(headerDiv);
-							}
-							else {
-								console.log(' - - no summary');
-							}
-						}
-
+						if (comp == 'image')
+							renderImage(fitem,state,headerDiv);
+						else if (comp == 'name')
+							renderName(fitem,state,headerDiv);
+						else if (comp == 'author')
+							renderAuthor(fitem,state,headerDiv);
+						else if (comp == 'summary')
+							renderSummary(fitem,state,headerDiv);
+						else if (comp == 'nav')
+							renderNavigation(fitem,state,headerDiv);
 					}
 		  }
 

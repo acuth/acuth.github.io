@@ -93,6 +93,10 @@ div#item-summary-div {
 				console.log('\n');
 			}
 
+			function doRefresh() {
+				_fitem.refresh();
+			}
+
 			var _testState = 'none';
 			function doTest() {
 				_testState = _testState == 'none' ? 'block' : 'none';
@@ -137,6 +141,8 @@ div#item-summary-div {
 			    showPrevPage();
 				else if ('test' == action)
 					doTest();
+				else if ('refresh' == action)
+					doRefresh();
 			  else if ('recent' == action)
 			    showRecentItems();
 				else if ('search' == action)
@@ -755,7 +761,7 @@ div#item-summary-div {
 		 </div>
 
      <div class="show-item-footer padded-container">
-        <a href="javascript:onAction('edit');">EDIT</a> |  <a href="javascript:onAction('back');">BACK</a> |  <a href="javascript:onAction('test');">TEST</a>
+        <a href="javascript:onAction('edit');">EDIT</a> |  <a href="javascript:onAction('back');">BACK</a> | <a href="javascript:onAction('refresh');">REFRESH</a> |  <a href="javascript:onAction('test');">TEST</a>
      </div>
 
 	 </div> <!-- toplevel -->

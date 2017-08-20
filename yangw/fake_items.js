@@ -301,6 +301,8 @@ FItem.getHistory=function(awac) {
 	return null;
 };
 
+
+
 FItem.prototype.addLink=function(html,pageName,pageTitle) {
   var link = '[['+pageName+']]';
   var i = html.indexOf(link);
@@ -533,6 +535,13 @@ function ShowAttrListener(op) {
   this.names = '';
   this.lastAttrType = null;
 }
+
+FItem.prototype.refresh=function() {
+  var url = FItem.apiUrl+'op=refresh_item&item_id='+this.json.item_id;
+  ajax(url,function(json) {
+    console.log(json.msg);
+  },true,true);
+};
 
 FItem.addComment=function(name,markdown,cb) {
   var url = FItem.apiUrl+'op=add_comment&attrs=[[parent:'+name+']]&markdown='+encodeURIComponent(markdown);

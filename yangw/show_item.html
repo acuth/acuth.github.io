@@ -41,15 +41,12 @@ div#show-item-markdown {
 }
 
 
-
-a.yw-ref-attr, a.yw-http-attr, a.yw-https-attr {
-  color2: gray;
-	border-bottom2: 2px solid rgb(68,138,255);
+a.yw-ref-attr, a.yw-next-attr, a.yw-prev-attr, a.yw-http-attr, a.yw-https-attr {
 	color: rgb(68,138,255);
   padding-bottom: 1px;
 }
 
-a.yw-ref-attr:hover, a.yw-http-attr:hover, a.yw-https-attr:hover {
+a.yw-ref-attr:hover, a.yw-next-attr:hover, a.yw-prev-attr:hover, a.yw-http-attr:hover, a.yw-https-attr:hover {
 	border-bottom: 2px solid rgb(68,138,255);
 }
 
@@ -57,11 +54,7 @@ div#item-summary-div {
 	font-size: 120%;
 }
 
-div.yw-nav-elem {
-	cursor: pointer;
-}
-
-div.yw-nav-elem > a > i {
+a.yw-next-attr > i, a.yw-prev-attr > i {
 	vertical-align: middle !important;
 }
 
@@ -564,10 +557,10 @@ div.yw-nav-elem > a > i {
 				if (next || prev) {
 					var html = '<div style="width"100%;">';
 					if (prev) {
-						html += '<div class="yw-nav-elem" style="float:left;"><a class="yw-ref-attr" href="javascript:onAction(\'previous\');"><i class="material-icons">arrow_back</i> '+prev+'</a></div>';
+						html += '<div style="float:left;"><a class="yw-prev-attr" href="javascript:onAction(\'previous\');"><i class="material-icons">arrow_back</i> '+prev+'</a></div>';
 					}
 					if (next) {
-						html += '<div class="yw-nav-elem" style="float:right;"><a class="yw-ref-attr" href="javascript:onAction(\'next\');">'+next+' <i class="material-icons">arrow_forward</i></a></div>';
+						html += '<div style="float:right;"><a class="yw-next-attr" href="javascript:onAction(\'next\');">'+next+' <i class="material-icons">arrow_forward</i></a></div>';
 					}
 					html += '</div>';
 					var navDiv = newDiv(null,'item-nav-div');

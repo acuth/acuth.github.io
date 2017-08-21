@@ -701,6 +701,8 @@ a.yw-next-attr > i, a.yw-prev-attr > i {
 				return themeItem;
 			}
 
+			var _loaded = false;
+
 			$(document).ready(function() {
 			  _awac = new Awac('_awac');
 			  var initp = _awac.getInitParam();
@@ -730,7 +732,17 @@ a.yw-next-attr > i, a.yw-prev-attr > i {
 
 			  _awac.setOnBackPressed(function() { onAction('back'); });
 
+				setTimeout(function() {
+					_awac.startMdlPage('toplevel');
+					if (!_loaded) _awac.startRefresh();
+				},200);
+
 			  FItem.get(_itemId,function(fitem) {
+					_loaded = true;
+					_awac.endRefresh();
+
+					document.getElementById('item-loading-div').style.display = 'none';
+
 					var themeItem = renderItem(fitem);
   				_fitem = fitem;
 
@@ -744,7 +756,9 @@ a.yw-next-attr > i, a.yw-prev-attr > i {
 					var mdlUrl = mdlName ? 'https://code.getmdl.io/1.3.0/material.'+mdlName+'.min.css' : null;
 					console.log('> > > > > > > '+mdlUrl);
 
-					_awac.startMdlPage('toplevel',mdlUrl);
+					document.getElementById('item-footer-div').style.display = 'block';
+
+					//_awac.startMdlPage('toplevel',mdlUrl);
 					setTimeout(function(){console.log('MDL component handler update DOM');componentHandler.upgradeDom();},10000);
 			  });
 			});
@@ -752,6 +766,8 @@ a.yw-next-attr > i, a.yw-prev-attr > i {
 	</head>
 	<body>
 		 <div id="toplevel" class="mdl-layout mdl-js-layout">
+
+ 		 <div id="item-loading-div" class="padded-container">Loading item...</div>
 
 	   <div id="item-header-div"></div>
 
@@ -790,29 +806,31 @@ a.yw-next-attr > i, a.yw-prev-attr > i {
 		 </div>
  		</div>
 
+
+
 		 <div id="show-item">
      	<div id="show-item-content">
       	<div class="padded-container">
-        	<div id="show-item-markdown">-item-markup-goes-here-</div>
-         	<div id="show-item-attrs">-item-attrs-go-here-</div>
+        	<div id="show-item-markdown"></div>
+         	<div id="show-item-attrs"></div>
        	</div>
      	</div>
 		 	<div id="show-item-lists">
-   	 		<div id="task-items-div" style="display:none;">-task-items-go-here-</div>
-     		<div id="child-pages-div" style="display:none;">-child-pages-go-here-</div>
-		 		<div id="tagged-items-div" style="display:none;">-tagged-items-go-here-</div>
-     		<div id="comment-items-div" style="display:none;">-comment-items-go-here-</div>
+   	 		<div id="task-items-div" style="display:none;"></div>
+     		<div id="child-pages-div" style="display:none;"></div>
+		 		<div id="tagged-items-div" style="display:none;"></div>
+     		<div id="comment-items-div" style="display:none;"></div>
 	 		</div>
  		</div>
 
 		 <div class="padded-container">
-		   <div id="show-item-meta">-item-metadata-go-here-</div>
+		   <div id="show-item-meta"></div>
 		 </div>
 
 		 <div id="test-area">
 		 </div>
 
-     <div class="show-item-footer padded-container">
+     <div id="item-footer-div" style="display:none;" class="show-item-footer padded-container">
         <a href="javascript:onAction('edit');">EDIT</a> |  <a href="javascript:onAction('back');">BACK</a> | <a href="javascript:onAction('refresh');">REFRESH</a> |  <a href="javascript:onAction('test');">TEST</a>
      </div>
 

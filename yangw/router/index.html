@@ -43,11 +43,16 @@ function signOut() {
 function onFBAuthStateChanged(user) {
   var t1 = (new Date()).getTime();
   var delta = t1 - _t0;
-  console.log('delta='+delta);
-  if (user)
-    console.log('onFBAuthStateChanged(user='+user.displayName+')');
-  else
-    console.log('onFBAuthStateChanged(null)');
+  var html = '';
+  if (!user) {
+    html = 'No user signed in ['+delta+'ms]';
+  }
+  else {
+    html = 'User signed-in ['+delta+'ms]';
+    html += '<br/>'+user.displayName;
+    html += '<br/><img src="'+user.photoURL+'"></img>';
+  }
+  document.getElementById('profile').innerHTML = html;
 }
 
   </script>
@@ -72,6 +77,8 @@ a.link {
 </div>
 
 <div style="padding: 20px;" id="msg"></div>
+
+<div style="padding: 20px;" id="profile">Not yet set</div>
 
 <script>
   var _t0 = (new Date()).getTime();

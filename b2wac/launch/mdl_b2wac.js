@@ -777,8 +777,6 @@ B2wac.prototype.signIn=function() {
 B2wac.prototype.signOut=function() {
   console.log('B2wac.signOut()');
   this.fbauth.signOut();
-  //var frame = this.frameStack[this.nFrame-1];
-  //frame.container.awac.fireSignInOut();
 };
 
 B2wac.prototype.getDims = function() {

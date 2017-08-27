@@ -58,6 +58,16 @@ a.yw-next-attr > i, a.yw-prev-attr > i {
 	vertical-align: middle !important;
 }
 
+img#yw-key-image {
+	background: #e5e5e5;
+	opacity: 1;
+	transition: opacity 0.3s;
+}
+
+img#yw-key-image[data-src] {
+	opacity: 0;
+}
+
 		</style>
 		<link type="text/css" rel="stylesheet" href="custom_show_item.css" />
 
@@ -577,7 +587,7 @@ a.yw-next-attr > i, a.yw-prev-attr > i {
 				if (!url) url = fitem.json.image_url;
 				if (url) {
 					var imgDiv = newDiv('img-container');
-					var html = '<img src="'+url+'"/>';
+					var html = '<img id="yw-key-image" data-src="'+url+'"/>';
 					if (!state.displayedType) {
 						var iname = fitem.getMDIcon();
 						html += '<div class="top"><div class="item-type-inner"><div class="item-type"><i class="material-icons">'+iname+'</i></div></div></div>';
@@ -622,6 +632,17 @@ a.yw-next-attr > i, a.yw-prev-attr > i {
 							renderSummary(fitem,state,headerDiv);
 						else if (comp == 'nav')
 							renderNavigation(fitem,state,headerDiv);
+					}
+
+					var img = document.getElementById('yw-key-image');
+					if (img) {
+						setTimeout(function() {
+							console.log('found img='+img);
+							img.setAttribute('src', img.getAttribute('data-src'));
+							img.onload = function() {
+								img.removeAttribute('data-src');
+							};
+						},20);
 					}
 		  }
 

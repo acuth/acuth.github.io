@@ -31,6 +31,7 @@ iframe.trans-linear, iframe.trans-ease-out, iframe.trans-ease-in, iframe.trans-e
     <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.3/dialog-polyfill.min.css'>
     <link id="mdl-css-link" rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.orange-blue.min.css" />
     <script src='https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.3/dialog-polyfill.min.js'></script>
+    <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
     <script type="text/javascript">
@@ -69,16 +70,23 @@ B2wac.TRANSITION_TIME = 350;
         </div>
       </main>
     </div> <!-- layout -->
-    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
     <script type="text/javascript">
 (function () {
   'use strict';
   var fbConfig = {
+    apiKey: "AIzaSyAvCtR8-JY8ZFIbLxukxZ7MfDmzGBOAawM",
+    authDomain: "myroutertest-fb7a8.firebaseapp.com",
+    databaseURL: "https://myroutertest-fb7a8.firebaseio.com",
+    projectId: "myroutertest-fb7a8",
+    storageBucket: "myroutertest-fb7a8.appspot.com",
+    messagingSenderId: "1084889440026"
+  };
+  /*var fbConfig = {
     apiKey: "AIzaSyAT8Pae5XOfC06g3ZiZhy3Yv_hkXjPTHGM",
     authDomain: "fchat-5a65b.firebaseapp.com",
     databaseURL: "https://fchat-5a65b.firebaseio.com",
     storageBucket: "xxx",
-  };
+  };*/
   var mdlCssUrl = 'https://code.getmdl.io/1.3.0/material.orange-blue.min.css';
   window.b2wac = new B2wac('page',window.location.href,'app_login.html',fbConfig,mdlCssUrl);
 } ());
